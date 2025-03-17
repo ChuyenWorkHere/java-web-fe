@@ -74,7 +74,7 @@
 
  body {
 
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Roboto', sans-serif;
 
 	font-weight: normal;
 
@@ -1042,7 +1042,7 @@ label {
 
 	width: 100%;
 
-	z-index: 99;
+	z-index: 100;
 
 }
 
@@ -3192,9 +3192,9 @@ img.secondary-img {
 
 .subscribe-inner{
 
-	padding-left: 270px;
+	padding-left: 200px;
 
-	padding-right: 270px;
+	padding-right: 200px;
 
 }
 
