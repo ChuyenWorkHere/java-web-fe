@@ -603,11 +603,7 @@ h6 {
   top: 60px;
   left: 0;
   bottom: 0;
-<<<<<<< HEAD
   width: 250px;
-=======
-  width: 230px;
->>>>>>> 6ccffaf (second commit)
   z-index: 996;
   transition: all 0.3s;
   padding: 20px;
@@ -620,11 +616,7 @@ h6 {
 
 @media (max-width: 1199px) {
   .sidebar {
-<<<<<<< HEAD
     left: -250px;
-=======
-    left: -230px;
->>>>>>> 6ccffaf (second commit)
   }
 }
 
@@ -642,11 +634,7 @@ h6 {
 
   #main,
   #footer {
-<<<<<<< HEAD
     margin-left: 250px;
-=======
-    margin-left: 230px;
->>>>>>> 6ccffaf (second commit)
   }
 }
 
@@ -664,11 +652,7 @@ h6 {
   }
 
   .toggle-sidebar .sidebar {
-<<<<<<< HEAD
     left: -250px;
-=======
-    left: -230px;
->>>>>>> 6ccffaf (second commit)
   }
 }
 
