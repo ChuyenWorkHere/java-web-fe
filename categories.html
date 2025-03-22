@@ -15,7 +15,9 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -285,7 +287,7 @@
         <a class="nav-link collapsed" href="categories.html">
           <i class="bi bi-list-task"></i>
           <span>Danh mục</span>
-        </a>   
+        </a>
       </li><!-- End Components Nav -->
 
       <li class="nav-item">
@@ -396,6 +398,7 @@
         <a href="add-category.html">
           <button type="button" class="btn btn-success btn-sm">Thêm danh mục</button>
         </a>
+        
       </nav>
     </div><!-- End Page Title -->
 
@@ -403,7 +406,7 @@
       <div class="row">
         <div class="col-12">
           <!-- Bọc toàn bộ nội dung trong card để có bo cong -->
-          <div class="card shadow-sm pt-3 pe-3 ps-3 rounded-4"> 
+          <div class="card shadow-sm pt-3 pe-3 ps-3 rounded-4">
             <!-- Thanh tìm kiếm và chọn trạng thái -->
             <div class="d-flex justify-content-between flex-wrap align-items-center mb-2">
               <!-- Tìm danh mục -->
@@ -411,122 +414,148 @@
                 <input type="text" class="form-control rounded-2 w-100" placeholder="Tìm danh mục...">
               </div>
               <!-- Chọn trạng thái -->
-              <div class="col-12 col-md-2">
-                <select class="form-select rounded-2 w-100">
-                  <option value="">Tất cả trạng thái</option>
-                  <option value="active">Kích hoạt</option>
-                  <option value="inactive">Tạm dừng</option>
-                </select>
+              <div class="col-12 col-md-2 d-flex justify-content-end">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+                  Thêm Mới
+                </button>
+                <div class="modal fade" id="verticalycentered" tabindex="-1" style="display: none;" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Thêm mới danh mục</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="card mb-0">
+                          <div class="card-body mt-4">
+                            <!-- Floating Labels Form -->
+                            <form class="row g-3">
+                              <div class="col-md-12">
+                                <div class="form-floating">
+                                  <input type="text" class="form-control" id="floatingName" placeholder="Your Name">
+                                  <label for="floatingName">Tên danh mục</label>
+                                </div>
+                              </div>
+                              
+                              <div class="col-12">
+                                <div class="form-floating">
+                                  <textarea class="form-control" placeholder="Address" id="floatingTextarea" style="height: 100px;"></textarea>
+                                  <label for="floatingTextarea">Mô tả</label>
+                                </div>
+                              </div>
+                            </form><!-- End floating Labels Form -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-primary">Thêm mới</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>   
-                            
+            </div>
             <!-- Bảng danh mục -->
             <div class="card">
-              <div class="card-body">              
-                <table class="table">
+              <div class="card-body">
+                <table class="table table-bordered table-striped mt-4">
                   <thead>
-                    <tr>                    
-                      <th scope="col">Tên danh mục</th>
-                      <th scope="col">Số lượng sản phẩm</th>
-                      <th scope="col">Trạng thái</th>
-                      <th scope="col">Chức năng</th>
+                    <tr>
+                      <th scope="col" class="col-1">#</th>
+                      <th scope="col" class="col-2">Danh Mục</th>
+                      <th scope="col" class="col-2">SL. Sản Phẩm</th>
+                      <th scope="col" class="col-5">Mô Tả</th>
+                      <th scope="col" class="col-2">Thao Tác</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
+                      <td>1</td>
                       <td>Unity Pugh</td>
                       <td>9958</td>
-                      <td>Hoạt động</td>
+                      <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod nam voluptatem harum?</td>
                       <td>
-                        <a href="edit-category.html">
-                          <i class="bi bi-pencil-square fs-5 text-primary ms-3 pointer"></i>
-                        </a>
+                        <i class="bi bi-pencil-square fs-5 text-primary  pointer"></i>
                         <i class="bi bi-trash fs-5 text-danger ms-3 pointer"></i>
-                      </td>   
+                      </td>
                     </tr>
                     <tr>
-                      <td>Unity Pugh</td>
-                      <td>9958</td>
-                      <td>Hoạt động</td>
+                      <td>2</td>
+                      <td>Olivia Carter</td>
+                      <td>7823</td>
+                      <td>Temporibus voluptatem magni recusandae, adipisci ab placeat similique?</td>
                       <td>
-                        <a href="edit-category.html">
-                          <i class="bi bi-pencil-square fs-5 text-primary ms-3 pointer"></i>
-                        </a>
+                        <i class="bi bi-pencil-square fs-5 text-primary pointer"></i>
                         <i class="bi bi-trash fs-5 text-danger ms-3 pointer"></i>
-                      </td>   
+                      </td>
                     </tr>
                     <tr>
-                      <td>Unity Pugh</td>
-                      <td>9958</td>
-                      <td>Hoạt động</td>
+                      <td>3</td>
+                      <td>Michael Johnson</td>
+                      <td>10567</td>
+                      <td>Molestiae incidunt blanditiis laudantium aperiam iusto rem?</td>
                       <td>
-                        <a href="edit-category.html">
-                          <i class="bi bi-pencil-square fs-5 text-primary ms-3 pointer"></i>
-                        </a>
+                        <i class="bi bi-pencil-square fs-5 text-primary pointer"></i>
                         <i class="bi bi-trash fs-5 text-danger ms-3 pointer"></i>
-                      </td>   
+                      </td>
                     </tr>
                     <tr>
-                      <td>Unity Pugh</td>
-                      <td>9958</td>
-                      <td>Hoạt động</td>
+                      <td>4</td>
+                      <td>Sophia Bennett</td>
+                      <td>5690</td>
+                      <td>Eligendi optio ipsa excepturi quia impedit repellendus doloremque.</td>
                       <td>
-                        <a href="edit-category.html">
-                          <i class="bi bi-pencil-square fs-5 text-primary ms-3 pointer"></i>
-                        </a>
+                        <i class="bi bi-pencil-square fs-5 text-primary pointer"></i>
                         <i class="bi bi-trash fs-5 text-danger ms-3 pointer"></i>
-                      </td>   
+                      </td>
                     </tr>
                     <tr>
-                      <td>Unity Pugh</td>
-                      <td>9958</td>
-                      <td>Hoạt động</td>
+                      <td>5</td>
+                      <td>James Wilson</td>
+                      <td>4321</td>
+                      <td>Consectetur doloribus reprehenderit odio, provident fugiat animi dignissimos?</td>
                       <td>
-                        <a href="edit-category.html">
-                          <i class="bi bi-pencil-square fs-5 text-primary ms-3 pointer"></i>
-                        </a>
+                        <i class="bi bi-pencil-square fs-5 text-primary pointer"></i>
                         <i class="bi bi-trash fs-5 text-danger ms-3 pointer"></i>
-                      </td>   
+                      </td>
                     </tr>
                     <tr>
-                      <td>Unity Pugh</td>
-                      <td>9958</td>
-                      <td>Hoạt động</td>
+                      <td>6</td>
+                      <td>Emma Watson</td>
+                      <td>9876</td>
+                      <td>Suscipit necessitatibus earum officiis deleniti assumenda deserunt maxime?</td>
                       <td>
-                        <a href="edit-category.html">
-                          <i class="bi bi-pencil-square fs-5 text-primary ms-3 pointer"></i>
-                        </a>
+                        <i class="bi bi-pencil-square fs-5 text-primary pointer"></i>
                         <i class="bi bi-trash fs-5 text-danger ms-3 pointer"></i>
-                      </td>   
+                      </td>
                     </tr>
                     <tr>
-                      <td>Unity Pugh</td>
-                      <td>9958</td>
-                      <td>Hoạt động</td>
+                      <td>7</td>
+                      <td>William Brown</td>
+                      <td>12034</td>
+                      <td>Voluptatem adipisci doloremque quidem rem pariatur esse quas?</td>
                       <td>
-                        <a href="edit-category.html">
-                          <i class="bi bi-pencil-square fs-5 text-primary ms-3 pointer"></i>
-                        </a>
+                        <i class="bi bi-pencil-square fs-5 text-primary pointer"></i>
                         <i class="bi bi-trash fs-5 text-danger ms-3 pointer"></i>
-                      </td>   
+                      </td>
                     </tr>
                     <tr>
-                      <td>Unity Pugh</td>
-                      <td>9958</td>
-                      <td>Hoạt động</td>
+                      <td>8</td>
+                      <td>Ava Martinez</td>
+                      <td>7654</td>
+                      <td>Consequatur at inventore velit fugiat esse? Officia?</td>
                       <td>
-                        <a href="edit-category.html">
-                          <i class="bi bi-pencil-square fs-5 text-primary ms-3 pointer"></i>
-                        </a>
+                        <i class="bi bi-pencil-square fs-5 text-primary pointer"></i>
                         <i class="bi bi-trash fs-5 text-danger ms-3 pointer"></i>
-                      </td>   
+                      </td>
                     </tr>
                   </tbody>
                 </table>
                 <!-- End Default Table Example -->
               </div>
             </div>
-    
+
             <!-- Phân trang căn phải -->
             <nav aria-label="Page navigation">
               <ul class="pagination pagination-sm justify-content-end mt-2">
@@ -549,12 +578,13 @@
         </div>
       </div>
     </section>
-    
+
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
