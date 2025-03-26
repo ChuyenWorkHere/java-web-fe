@@ -275,7 +275,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="index.html">
+        <a class="nav-link collapsed" href="index.html">
           <i class="bi bi-grid"></i>
           <span>Trang chủ</span>
         </a>
@@ -289,7 +289,7 @@
       </li><!-- End Components Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="products.html">
+        <a class="nav-link" href="products.html">
           <i class="bi bi-box-seam"></i>
           <span>Sản phẩm</span>
         </a>
@@ -386,41 +386,64 @@
   </aside><!-- End Sidebar-->
 
   <main id="main" class="main">
-    <div class="pagetitle">
-      <nav class="d-flex justify-content-between align-items-center flex-wrap">
-        <ol class="breadcrumb fs-6">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+    <div class="pagetitle d-flex justify-content-between">
+      <h1>Sản Phẩm</h1>
+      <nav class="d-flex align-items-center" >
+        <ol class="breadcrumb  mb-0">
+          <li class="breadcrumb-item"><a href="index.html"><i class="bi bi-house-fill"></i></a></li>
           <li class="breadcrumb-item active">Sản phẩm</li>
         </ol>
-        <a href="add-product.html">
-          <button type="button" class="btn btn-success btn-sm">Thêm sản phẩm</button>
-        </a>
       </nav>
-    </div>
+    </div><!-- End Page Title -->
   
     <section class="section dashboard">
       <div class="row">
         <div class="col-12">
           <div class="card shadow-sm pt-3 pe-3 ps-3 rounded-4">
             <div class="row d-flex justify-content-between g-2 mb-2">
-              <div class="col-12 col-md-6 col-lg-4">
-                <input type="text" class="form-control rounded-2" placeholder="Tìm sản phẩm...">
+              <!-- Bộ lọc -->
+              <div class="col-12 col-md-4 col-lg-3">
+                <input type="text" class="form-control rounded-2" placeholder="Nhập tên sản phẩm...">
               </div>
-              <div class="col-12 col-md-4 col-lg-2">
+              <div class="col-12 col-md-3 col-lg-2">
                 <select class="form-select rounded-2">
-                  <option value="">Tất cả trạng thái</option>
-                  <option value="active">Kích hoạt</option>
-                  <option value="inactive">Tạm dừng</option>
+                  <option value="">Chọn khoảng giá</option>
+                  <option value="1">Dưới 100K</option>
+                  <option value="2">100K - 500K</option>
+                  <option value="3">500K - 1 Triệu</option>
+                  <option value="4">Trên 1 Triệu</option>
                 </select>
               </div>
+              <div class="col-12 col-md-3 col-lg-2">
+                <select class="form-select rounded-2">
+                  <option value="">Chọn danh mục</option>
+                  <option value="1">Điện thoại</option>
+                  <option value="2">Laptop</option>
+                  <option value="3">Phụ kiện</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-3 col-lg-2">
+                <select class="form-select rounded-2">
+                  <option value="1">Hoạt động</option>
+                  <option value="2">Không hoạt động</option>
+                </select>
+              </div>
+            
+              <!-- Nút thêm mới -->
+              <div class="col-12 col-md-2 d-flex justify-content-end">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+                  Tìm kiếm
+                </button>
+              </div>
             </div>
+            
   
             <div class="card">
               <div class="card-body">
                 <div class="table-responsive">
-                  <table class="table">
-                    <thead>
-                      <tr>
+                <table class="table table-bordered table-striped mt-4">
+                  <thead>
+                    <tr>
                         <th scope="col">Ảnh</th>
                         <th scope="col">Tên sản phẩm</th>
                         <th scope="col">Danh mục</th>
@@ -429,15 +452,15 @@
                         <th scope="col">Giá bán</th>
                         <th scope="col">Trạng thái</th>
                         <th scope="col">Chức năng</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
                         <td class="align-middle"><a href="single-product" class="text-dark text-decoration-none hover-primary">
-                          Unity Pugh
+                          Tủ Sách
                         </a></td>
-                        <td class="align-middle">9958</td>
+                        <td class="align-middle">Nội Thất Phòng Ngủ</td>
                         <td class="align-middle">50</td>
                         <td class="align-middle">300000đ</td>
                         <td class="align-middle">250000đ</td>
@@ -448,63 +471,13 @@
                           </a>
                           <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                         </td>
-                      </tr>
-                      <tr>
-                        <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
                         <td class="align-middle"><a href="single-product" class="text-dark text-decoration-none hover-primary">
-                          Unity Pugh
+                          Giường Gỗ Hương
                         </a></td>
-                        <td class="align-middle">9958</td>
-                        <td class="align-middle">50</td>
-                        <td class="align-middle">300000đ</td>
-                        <td class="align-middle">250000đ</td>
-                        <td class="align-middle">Hoạt động</td>
-                        <td class="align-middle">                          
-                          <a href="edit-product.html">
-                            <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                          </a>
-                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                        <td class="align-middle"><a href="single-product" class="text-dark text-decoration-none hover-primary">
-                          Unity Pugh
-                        </a></td>
-                        <td class="align-middle">9958</td>
-                        <td class="align-middle">50</td>
-                        <td class="align-middle">300000đ</td>
-                        <td class="align-middle">250000đ</td>
-                        <td class="align-middle">Hoạt động</td>
-                        <td class="align-middle">                          
-                          <a href="edit-product.html">
-                            <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                          </a>
-                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                        <td class="align-middle">
-                          <a href="single-product" class="text-dark text-decoration-none hover-primary">
-                          Unity Pugh
-                        </a></td>
-                        <td class="align-middle">9958</td>
-                        <td class="align-middle">50</td>
-                        <td class="align-middle">300000đ</td>
-                        <td class="align-middle">250000đ</td>
-                        <td class="align-middle">Hoạt động</td>
-                        <td class="align-middle">
-                          <a href="edit-product.html">
-                            <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                          </a>
-                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                        <td class="align-middle">Unity Pugh</td>
-                        <td class="align-middle">9958</td>
+                        <td class="align-middle">Nội Thất Phòng Ngủ</td>
                         <td class="align-middle">50</td>
                         <td class="align-middle">300000đ</td>
                         <td class="align-middle">250000đ</td>
@@ -515,29 +488,113 @@
                           </a>
                           <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                         </td>
-                      </tr>
-                      <tr>
-                        <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                        <td class="align-middle">
-                          <a href="single-product" class="text-dark text-decoration-none hover-primary">
-                            Unity Pugh
-                          </a>
-                        </td>
-                        <td class="align-middle">9958</td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
+                        <td class="align-middle"><a href="single-product" class="text-dark text-decoration-none hover-primary">
+                          Giường Gỗ Hương
+                        </a></td>
+                        <td class="align-middle">Nội Thất Phòng Ngủ</td>
                         <td class="align-middle">50</td>
                         <td class="align-middle">300000đ</td>
                         <td class="align-middle">250000đ</td>
                         <td class="align-middle">Hoạt động</td>
-                        <td class="align-middle">
+                        <td class="align-middle">                     
                           <a href="edit-product.html">
                             <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
                           </a>
                           <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                         </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                    </tr>
+                    <tr>
+                      <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
+                        <td class="align-middle"><a href="single-product" class="text-dark text-decoration-none hover-primary">
+                          Đèn Bàn
+                        </a></td>
+                        <td class="align-middle">Nội Thất Phòng Ngủ</td>
+                        <td class="align-middle">50</td>
+                        <td class="align-middle">300000đ</td>
+                        <td class="align-middle">250000đ</td>
+                        <td class="align-middle">Hoạt động</td>
+                        <td class="align-middle">                     
+                          <a href="edit-product.html">
+                            <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
+                          </a>
+                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
+                        <td class="align-middle"><a href="single-product" class="text-dark text-decoration-none hover-primary">
+                          Giường Gỗ Hương
+                        </a></td>
+                        <td class="align-middle">Nội Thất Phòng Ngủ</td>
+                        <td class="align-middle">50</td>
+                        <td class="align-middle">300000đ</td>
+                        <td class="align-middle">250000đ</td>
+                        <td class="align-middle">Hoạt động</td>
+                        <td class="align-middle">                     
+                          <a href="edit-product.html">
+                            <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
+                          </a>
+                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
+                        <td class="align-middle"><a href="single-product" class="text-dark text-decoration-none hover-primary">
+                          Giường Gỗ Hương
+                        </a></td>
+                        <td class="align-middle">Nội Thất Phòng Ngủ</td>
+                        <td class="align-middle">50</td>
+                        <td class="align-middle">300000đ</td>
+                        <td class="align-middle">250000đ</td>
+                        <td class="align-middle">Hoạt động</td>
+                        <td class="align-middle">                     
+                          <a href="edit-product.html">
+                            <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
+                          </a>
+                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
+                        <td class="align-middle"><a href="single-product" class="text-dark text-decoration-none hover-primary">
+                          Giường Gỗ Hương
+                        </a></td>
+                        <td class="align-middle">Nội Thất Phòng Ngủ</td>
+                        <td class="align-middle">50</td>
+                        <td class="align-middle">300000đ</td>
+                        <td class="align-middle">250000đ</td>
+                        <td class="align-middle">Hoạt động</td>
+                        <td class="align-middle">                     
+                          <a href="edit-product.html">
+                            <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
+                          </a>
+                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
+                        <td class="align-middle"><a href="single-product" class="text-dark text-decoration-none hover-primary">
+                          Tủ Sách
+                        </a></td>
+                        <td class="align-middle">Nội Thất Phòng Ngủ</td>
+                        <td class="align-middle">50</td>
+                        <td class="align-middle">300000đ</td>
+                        <td class="align-middle">250000đ</td>
+                        <td class="align-middle">Hoạt động</td>
+                        <td class="align-middle">                     
+                          <a href="edit-product.html">
+                            <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
+                          </a>
+                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                        </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+                <!-- End Default Table Example -->
               </div>
             </div>
   
