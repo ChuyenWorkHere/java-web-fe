@@ -1266,7 +1266,16 @@ h6 {
 .fs-custom{
   font-size: 1.15rem;
 }
-
+/* Đánh giá */
+.feedback-col {
+  max-width: 160px; /* Giới hạn độ rộng tối đa */
+  word-break: break-word;
+  white-space: normal;
+}
+.text-wrap {
+  word-break: break-word;
+  white-space: normal;
+}
 @media (max-width: 576px) {
   .pagetitle nav{
     display: flex;

@@ -315,5 +315,27 @@
       }).observe(mainContainer);
     }, 200);
   }
-
+  
 })();
+function deleteProduct() {
+  if (confirm("Bạn có chắc chắn muốn xóa ?")) {
+      // Xử lý xóa ở đây (gọi API hoặc thực hiện hành động xóa)
+      alert("Xóa thành công!");
+  } else {
+      alert("Đã hủy");
+  }
+}
+// function deleteProduct() {
+//   if (confirm("Bạn có chắc chắn xóa")) {
+//       // Gọi API hoặc thực hiện hành động xóa
+//       if (Notification.permission === "granted") {
+//           new Notification("Xóa thành công");
+//       } else if (Notification.permission !== "denied") {
+//           Notification.requestPermission().then(permission => {
+//               if (permission === "granted") {
+//                   new Notification("Xóa thành công");
+//               }
+//           });
+//       }
+//   }
+// }
