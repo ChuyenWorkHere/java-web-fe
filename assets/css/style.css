@@ -824,6 +824,23 @@ h6 {
   flex-grow: 0;
 }
 
+.dashboard .all-orders-card .card-icon {
+  color: #007bff;
+  background: #cce5ff;
+}
+.dashboard .order-success-card .card-icon {
+  color: #28a745;
+  background: #d4edda;
+}
+.dashboard .order-pending-card .card-icon {
+  color: #ffc107;
+  background: #fff3cd;
+}
+.dashboard .order-failed-card .card-icon {
+  color: #dc3545;
+  background: #f8d7da;
+}
+
 .dashboard .sales-card .card-icon {
   color: #4154f1;
   background: #f6f6fe;
