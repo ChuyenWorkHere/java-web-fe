@@ -219,12 +219,37 @@ h6 {
   border-color: #d3d3d4;
 }
 
+/* Responsive */
+@media (min-width: 992px) {
+  .report-margin{
+    margin-right: -1px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .report-margin{
+    margin-right: -8px;
+    margin-left: -1px;
+  }
+}
+
+@media (max-width: 767px) {
+  .report-margin{
+    margin-right: -1px;
+    margin-left: -1px;
+  }
+}
+
 /* Card */
 .card {
   margin-bottom: 30px;
   border: none;
   border-radius: 5px;
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+}
+
+.report-product-card{
+  margin-bottom: 10px;
 }
 
 .card-header,
@@ -243,6 +268,10 @@ h6 {
   font-family: "Roboto", sans-serif;
 }
 
+.report-product-title{
+  padding: 20px 0 2px 0;
+}
+
 .card-title span {
   color: #899bbd;
   font-size: 14px;
@@ -250,8 +279,11 @@ h6 {
 }
 
 .card-body {
-  
   padding: 0 20px 20px 20px;
+}
+
+.report-product-card-body{
+  padding: 0 20px 10px 20px;
 }
 
 .card-img-overlay {
