@@ -440,50 +440,59 @@
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
-
       <div class="row">                   
         <div class="col-12">
-          <div class="row">
-            <!-- Biểu đồ (bên trái) -->
-            <div class="col-12 col-md-12 col-lg-9">
-              <div class="card report-product-card">
-                  <div class="card-body report-product-card-body">
-                      <h5 class="card-title">Products Received vs Sold (Last 6 Months)</h5>
-                      <canvas id="barChart"></canvas>                                   
-                  </div>
-              </div>
-            </div>
-
-            <!-- Card (bên phải, xếp theo chiều dọc) -->
-            <div class="col-12 col-md-12 col-lg-3">
-              <div class="row report-margin">
-                  <div class="card report-product-card flex-grow-1 col-12 col-md-4 me-2 col-lg-12">
-                    <div class="card-body report-product-card-body">
-                        <h5 class="card-title report-product-title">Total Products Received</h5>
-                        <p class="card-text">1,234</p>
+            <div class="row">
+                <!-- Biểu đồ (bên trái) -->
+                <div class="col-12 col-md-12 col-lg-9">
+                    <div class="card report-product-card">
+                        <div class="card-body report-product-card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-chart-bar"></i> Số lượng nhập & bán (6 tháng gần nhất)
+                            </h5>
+                            <canvas id="barChart"></canvas>                                   
+                        </div>
                     </div>
-                  </div>
-                  <div class="card report-product-card flex-grow-1 col-12 col-md-4 me-2 col-lg-12">
-                      <div class="card-body report-product-card-body">
-                          <h5 class="card-title report-product-title">Total Products Sold</h5>
-                          <p class="card-text">567</p>
-                      </div>
-                  </div>
-                  <div class="card report-product-card flex-grow-1 col-12 col-md-4 me-2 col-lg-12">
-                      <div class="card-body report-product-card-body">
-                          <h5 class="card-title report-product-title">Current Stock</h5>
-                          <p class="card-text">789</p>
-                      </div>
-                  </div>
-                  <div class="card report-product-card flex-grow-1 col-12 col-md-4 me-2 col-lg-12">
-                      <div class="card-body report-product-card-body">
-                          <h5 class="card-title report-product-title">Pending Orders</h5>
-                          <p class="card-text">45</p>
-                      </div>
-                  </div>
-              </div>
+                </div>
+    
+                <!-- Thông tin tổng hợp (bên phải, xếp theo chiều dọc) -->
+                <div class="col-12 col-md-12 col-lg-3">
+                    <div class="row report-margin">
+                        <div class="card report-product-card flex-grow-1 col-12 col-sm-4 col-md-4 me-2 col-lg-12">
+                            <div class="card-body report-product-card-body">
+                                <h5 class="card-title report-product-title">
+                                    <i class="fas fa-box"></i> Tổng sản phẩm nhập
+                                </h5>
+                                <p class="card-text">1,234</p>
+                            </div>
+                        </div>
+                        <div class="card report-product-card flex-grow-1 col-12 col-sm-4 col-md-4 me-2 col-lg-12">
+                            <div class="card-body report-product-card-body">
+                                <h5 class="card-title report-product-title">
+                                    <i class="fas fa-shopping-cart"></i> Tổng sản phẩm bán
+                                </h5>
+                                <p class="card-text">567</p>
+                            </div>
+                        </div>
+                        <div class="card report-product-card flex-grow-1 col-12 col-sm-4 col-md-4 me-2 col-lg-12">
+                            <div class="card-body report-product-card-body">
+                                <h5 class="card-title report-product-title">
+                                    <i class="fas fa-warehouse"></i> Tồn kho hiện tại
+                                </h5>
+                                <p class="card-text">789</p>
+                            </div>
+                        </div>
+                        <div class="card report-product-card flex-grow-1 col-12 col-sm-4 col-md-4 me-2 col-lg-12">
+                            <div class="card-body report-product-card-body">
+                                <h5 class="card-title report-product-title">
+                                    <i class="fas fa-truck-loading"></i> Đơn hàng đang xử lý
+                                </h5>
+                                <p class="card-text">45</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
       </div>          
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
