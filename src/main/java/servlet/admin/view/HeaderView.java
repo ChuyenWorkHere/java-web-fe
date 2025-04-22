@@ -184,7 +184,7 @@ public class HeaderView extends HttpServlet {
 
 		out.append("            <li class=\"message-item\">");
 		out.append("              <a href=\"#\">");
-		out.append("                <img src=\"assets/img/messages-1.jpg\" alt=\"\" class=\"rounded-circle\">");
+		out.append("                <img src=\"img/messages-1.jpg\" alt=\"\" class=\"rounded-circle\">");
 		out.append("                <div>");
 		out.append("                  <h4>Maria Hudson</h4>");
 		out.append("                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>");
@@ -198,7 +198,7 @@ public class HeaderView extends HttpServlet {
 
 		out.append("            <li class=\"message-item\">");
 		out.append("              <a href=\"#\">");
-		out.append("                <img src=\"assets/img/messages-2.jpg\" alt=\"\" class=\"rounded-circle\">");
+		out.append("                <img src=\"img/messages-2.jpg\" alt=\"\" class=\"rounded-circle\">");
 		out.append("                <div>");
 		out.append("                  <h4>Anna Nelson</h4>");
 		out.append("                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>");
@@ -212,7 +212,7 @@ public class HeaderView extends HttpServlet {
 
 		out.append("            <li class=\"message-item\">");
 		out.append("              <a href=\"#\">");
-		out.append("                <img src=\"assets/img/messages-3.jpg\" alt=\"\" class=\"rounded-circle\">");
+		out.append("                <img src=\"img/messages-3.jpg\" alt=\"\" class=\"rounded-circle\">");
 		out.append("                <div>");
 		out.append("                  <h4>David Muldon</h4>");
 		out.append("                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>");
@@ -236,7 +236,7 @@ public class HeaderView extends HttpServlet {
 
 		out.append(
 				"          <a class=\"nav-link nav-profile d-flex align-items-center pe-0\" href=\"#\" data-bs-toggle=\"dropdown\">");
-		out.append("            <img src=\"assets/img/profile-img.jpg\" alt=\"Profile\" class=\"rounded-circle\">");
+		out.append("            <img src=\"img/profile-img.jpg\" alt=\"Profile\" class=\"rounded-circle\">");
 		out.append("          </a><!-- End Profile Iamge Icon -->");
 
 		out.append("          <ul class=\"dropdown-menu dropdown-menu-end dropdown-menu-arrow profile\">");

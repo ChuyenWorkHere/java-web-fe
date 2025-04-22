@@ -98,7 +98,7 @@ public class OrdersView extends HttpServlet {
 	    out.append("                    </thead>");
 	    out.append("                    <tbody>");
 	    out.append("                      <tr>");
-	    out.append("                        <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+	    out.append("                        <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 	    out.append("                        <td class=\"align-middle\">");
 	    out.append("                          <a href=\"single-order.html\" class=\"text-dark fs-6 text-decoration-none hover-primary\">");
 	    out.append("                            FC#1007");
@@ -114,7 +114,7 @@ public class OrdersView extends HttpServlet {
 	    out.append("                        </td>");
 	    out.append("                      </tr>");
 	    out.append("                      <tr>");
-	    out.append("                        <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+	    out.append("                        <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 	    out.append("                        <td class=\"align-middle\">");
 	    out.append("                          <a href=\"single-order.html\" class=\"text-dark fs-6 text-decoration-none hover-primary\">");
 	    out.append("                            FC#1007");
@@ -130,7 +130,7 @@ public class OrdersView extends HttpServlet {
 	    out.append("                        </td>");
 	    out.append("                      </tr>");
 	    out.append("                      <tr>");
-	    out.append("                        <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+	    out.append("                        <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 	    out.append("                        <td class=\"align-middle\">");
 	    out.append("                          <a href=\"single-order.html\" class=\"text-dark fs-6 text-decoration-none hover-primary\">");
 	    out.append("                            FC#1007");
@@ -146,7 +146,7 @@ public class OrdersView extends HttpServlet {
 	    out.append("                        </td>");
 	    out.append("                      </tr>");
 	    out.append("                      <tr>");
-	    out.append("                        <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+	    out.append("                        <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 	    out.append("                        <td class=\"align-middle\">");
 	    out.append("                          <a href=\"single-order.html\" class=\"text-dark fs-6 text-decoration-none hover-primary\">");
 	    out.append("                            FC#1007");
@@ -162,7 +162,7 @@ public class OrdersView extends HttpServlet {
 	    out.append("                        </td>");
 	    out.append("                      </tr>");
 	    out.append("                      <tr>");
-	    out.append("                        <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+	    out.append("                        <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 	    out.append("                        <td class=\"align-middle\">");
 	    out.append("                          <a href=\"single-order.html\" class=\"text-dark fs-6 text-decoration-none hover-primary\">");
 	    out.append("                            FC#1007");
@@ -178,7 +178,7 @@ public class OrdersView extends HttpServlet {
 	    out.append("                        </td>");
 	    out.append("                      </tr>");
 	    out.append("                      <tr>");
-	    out.append("                        <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+	    out.append("                        <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 	    out.append("                        <td class=\"align-middle\">");
 	    out.append("                          <a href=\"single-order.html\" class=\"text-dark fs-6 text-decoration-none hover-primary\">");
 	    out.append("                            FC#1007");
@@ -194,7 +194,7 @@ public class OrdersView extends HttpServlet {
 	    out.append("                        </td>");
 	    out.append("                      </tr>");
 	    out.append("                      <tr>");
-	    out.append("                        <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+	    out.append("                        <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 	    out.append("                        <td class=\"align-middle\">");
 	    out.append("                          <a href=\"single-order.html\" class=\"text-dark fs-6 text-decoration-none hover-primary\">");
 	    out.append("                            FC#1007");

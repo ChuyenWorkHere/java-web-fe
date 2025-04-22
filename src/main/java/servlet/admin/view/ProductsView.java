@@ -103,7 +103,7 @@ public class ProductsView extends HttpServlet {
 		out.append("                  <tbody>");
 		out.append("                    <tr>");
 		out.append(
-				"                      <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+				"                      <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 		out.append(
 				"                        <td class=\"align-middle\"><a href=\"single-product\" class=\"text-dark text-decoration-none hover-primary\">");
 		out.append("                          Tủ Sách");
@@ -122,7 +122,7 @@ public class ProductsView extends HttpServlet {
 		out.append("                    </tr>");
 		out.append("                    <tr>");
 		out.append(
-				"                      <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+				"                      <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 		out.append(
 				"                        <td class=\"align-middle\"><a href=\"single-product\" class=\"text-dark text-decoration-none hover-primary\">");
 		out.append("                          Giường Gỗ Hương");
@@ -141,7 +141,7 @@ public class ProductsView extends HttpServlet {
 		out.append("                    </tr>");
 		out.append("                    <tr>");
 		out.append(
-				"                      <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+				"                      <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 		out.append(
 				"                        <td class=\"align-middle\"><a href=\"single-product\" class=\"text-dark text-decoration-none hover-primary\">");
 		out.append("                          Giường Gỗ Hương");
@@ -160,7 +160,7 @@ public class ProductsView extends HttpServlet {
 		out.append("                    </tr>");
 		out.append("                    <tr>");
 		out.append(
-				"                      <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+				"                      <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 		out.append(
 				"                        <td class=\"align-middle\"><a href=\"single-product\" class=\"text-dark text-decoration-none hover-primary\">");
 		out.append("                          Đèn Bàn");
@@ -179,7 +179,7 @@ public class ProductsView extends HttpServlet {
 		out.append("                    </tr>");
 		out.append("                    <tr>");
 		out.append(
-				"                      <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+				"                      <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 		out.append(
 				"                        <td class=\"align-middle\"><a href=\"single-product\" class=\"text-dark text-decoration-none hover-primary\">");
 		out.append("                          Giường Gỗ Hương");
@@ -198,7 +198,7 @@ public class ProductsView extends HttpServlet {
 		out.append("                    </tr>");
 		out.append("                    <tr>");
 		out.append(
-				"                      <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+				"                      <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 		out.append(
 				"                        <td class=\"align-middle\"><a href=\"single-product\" class=\"text-dark text-decoration-none hover-primary\">");
 		out.append("                          Giường Gỗ Hương");
@@ -217,7 +217,7 @@ public class ProductsView extends HttpServlet {
 		out.append("                    </tr>");
 		out.append("                    <tr>");
 		out.append(
-				"                      <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+				"                      <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 		out.append(
 				"                        <td class=\"align-middle\"><a href=\"single-product\" class=\"text-dark text-decoration-none hover-primary\">");
 		out.append("                          Giường Gỗ Hương");
@@ -236,7 +236,7 @@ public class ProductsView extends HttpServlet {
 		out.append("                    </tr>");
 		out.append("                    <tr>");
 		out.append(
-				"                      <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+				"                      <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 		out.append(
 				"                        <td class=\"align-middle\"><a href=\"single-product\" class=\"text-dark text-decoration-none hover-primary\">");
 		out.append("                          Tủ Sách");

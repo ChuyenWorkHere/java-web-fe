@@ -61,11 +61,6 @@ public class SidebarView extends HttpServlet {
 		out.append("                <i class=\"bi bi-plus-circle-fill\"></i><span>Thêm mới</span>");
 		out.append("            </a>");
 		out.append("          </li>");
-		out.append("          <li>");
-		out.append("            <a href=\"icons-remix.html\">");
-		out.append("                <i class=\"bi bi-bar-chart\"></i><span>Thống kê</span>");
-		out.append("            </a>");
-		out.append("          </li>");
 		out.append("        </ul>");
 		out.append("      </li><!-- End Icons Nav -->");
 
@@ -129,25 +124,12 @@ public class SidebarView extends HttpServlet {
 		out.append("      <li class=\"nav-heading\">Pages</li>");
 
 		out.append("      <li class=\"nav-item\">");
-		out.append("        <a class=\"nav-link collapsed\" href=\"users-profile.html\">");
+		out.append("        <a class=\"nav-link collapsed\" href=\"/Furniture/admin/profile\">");
 		out.append("          <i class=\"bi bi-person\"></i>");
 		out.append("          <span>Hồ sơ</span>");
 		out.append("        </a>");
 		out.append("      </li><!-- End Profile Page Nav -->");
 
-		out.append("      <li class=\"nav-item\">");
-		out.append("        <a class=\"nav-link collapsed\" href=\"pages-faq.html\">");
-		out.append("          <i class=\"bi bi-question-circle\"></i>");
-		out.append("          <span>F.A.Q</span>");
-		out.append("        </a>");
-		out.append("      </li><!-- End F.A.Q Page Nav -->");
-
-		out.append("      <li class=\"nav-item\">");
-		out.append("        <a class=\"nav-link collapsed\" href=\"pages-contact.html\">");
-		out.append("          <i class=\"bi bi-envelope\"></i>");
-		out.append("          <span>Contact</span>");
-		out.append("        </a>");
-		out.append("      </li><!-- End Contact Page Nav -->");
 
 		out.append("      <li class=\"nav-item\">");
 		out.append("        <a class=\"nav-link collapsed\" href=\"pages-register.html\">");
@@ -157,7 +139,7 @@ public class SidebarView extends HttpServlet {
 		out.append("      </li><!-- End Register Page Nav -->");
 
 		out.append("      <li class=\"nav-item\">");
-		out.append("        <a class=\"nav-link collapsed\" href=\"pages-login.html\">");
+		out.append("        <a class=\"nav-link collapsed\" href=\"/Furniture/admin/signin\">");
 		out.append("          <i class=\"bi bi-box-arrow-in-right\"></i>");
 		out.append("          <span>Đăng Nhập</span>");
 		out.append("        </a>");
