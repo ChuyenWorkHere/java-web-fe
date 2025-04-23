@@ -308,26 +308,8 @@
       </li><!-- End Charts Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-star"></i><span>Đánh giá</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="evaluate.html">
-              <i class="bi bi-circle"></i><span>Tất cả đánh giá</span>
-            </a>
-          </li>
-          <li>
-            <a href="responsed.html">
-              <i class="bi bi-circle"></i><span>Đã phản hồi</span>
-            </a>
-          </li>
-          <li>
-            <a href="response.html">
-              <i class="bi bi-circle"></i><span>Chưa phản hồi</span>
-            </a>
-          </li>
-        </ul>
+        <a href="evaluate.html" class="nav-link collapsed">
+          <i class="bi bi-star"></i>Đánh giá</a>
       </li><!-- End Icons Nav -->
 
       <li class="nav-heading">Pages</li>
@@ -408,6 +390,8 @@
                         <option value="inactive">Tiêu cực</option>
                         <option value="inactive">Gần đây nhất</option>
                         <option value="inactive">Cũ nhất</option>
+                        <option value="inactive">Đã đánh giá</option>
+                        <option value="inactive">Chưa đánh giá</option>
                     </select>
                     <!-- <input type="text" class="form-control rounded-2" placeholder="Tìm sản phẩm..."> -->
                   </div>
@@ -426,8 +410,7 @@
                             <th scope="col">Ngày</th>
                             <th scope="col">Ảnh</th>
                             <th scope="col">Tên sản phẩm</th>
-                            <th scope="col">Mã đơn hàng</th>
-                            <th scope="col">Người mua</th>
+                            <th scope="col">Mã sản phẩm</th>
                             <th scope="col">Khách hàng đánh giá</th>
                             <th scope="col">Phản hồi đánh giá</th>
                             <th scope="col">Thao tác</th>
@@ -441,21 +424,139 @@
                               Unity Pugh
                             </a></td>
                             <td class="align-middle">20103</td>
-                            <td class="align-middle ">Nguyễn Văn A</td>
-                            <td class="align-middle text-wrap feedback-col">
+                            
+                            <td class="align-middle ">
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <div class="">
-                                    Sản phẩm đẹp
+                                <div class="text-wrap">
+                                  <div class="modal fade" id="evaluate" tabindex="-1" style="display: none;" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title">Đánh giá khách hàng</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <div class="card mb-0">
+                                            <div class="card-body mt-4">
+                                              Sản phẩm đẹp lắm tôi rất thích
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="evaluate">
+                                    <a href="" class="text-dark" data-bs-toggle="modal" data-bs-target="#evaluate">
+                                      <div class="text-wrap p-0">
+                                        Sản phẩm đẹp lắm tôi rất thích
+                                      </div>
+                                    </a>
+                                  </div>
                                 </div>
                             </td>
-                            <td class="align-middle text-wrap feedback-col">Cảm ơn khách hàng đã tin tưởng</td>
+                            <td class="align-middle">
+                              <div class="modal fade" id="response" tabindex="-1" style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title">Phản hồi khách hàng</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <div class="card mb-0">
+                                        <div class="card-body mt-4">
+                                          Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của chúng tôi! 💖 Chúng tôi rất trân trọng sự ủng hộ của bạn và hy vọng bạn sẽ có trải nghiệm tuyệt vời khi sử dụng sản phẩm. Nếu bạn cần hỗ trợ thêm, đừng ngần ngại liên hệ với chúng tôi nhé! 🌟😊
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="response d-none">
+                                <a href="" class="text-dark" data-bs-toggle="modal" data-bs-target="#response">
+                                  <div class="text-wrap p-0">
+                                    Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của chúng tôi! 💖 Chúng tôi rất trân trọng sự ủng hộ của bạn và hy vọng bạn sẽ có trải nghiệm tuyệt vời khi sử dụng sản phẩm. Nếu bạn cần hỗ trợ thêm, đừng ngần ngại liên hệ với chúng tôi nhé! 🌟😊
+                                  </div>
+                                </a>
+                                <!-- <div class="modal fade" id="response" tabindex="-1" style="display: none;" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title">Phản hồi khách hàng</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div class="card mb-0">
+                                          <div class="card-body mt-4">
+                                            Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của chúng tôi! 💖 Chúng tôi rất trân trọng sự ủng hộ của bạn và hy vọng bạn sẽ có trải nghiệm tuyệt vời khi sử dụng sản phẩm. Nếu bạn cần hỗ trợ thêm, đừng ngần ngại liên hệ với chúng tôi nhé! 🌟😊
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div> -->
+                              </div>
+                            </td>
                             <td class="align-middle">
                                 <button class="btn btn-primary">
+                                
                                     <i class="bi bi-reply-fill"></i>
+                                    <!-- <div class="">
+                                      <a href="" class="text-dark" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+                                        <div class="text-wrap p-0">
+                                          Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của chúng tôi! 💖 Chúng tôi rất trân trọng sự ủng hộ của bạn và hy vọng bạn sẽ có trải nghiệm tuyệt vời khi sử dụng sản phẩm. Nếu bạn cần hỗ trợ thêm, đừng ngần ngại liên hệ với chúng tôi nhé! 🌟😊
+                                        </div>
+                                      </a>
+                                      <div class="modal fade" id="verticalycentered" tabindex="-1" style="display: none;" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title">Đánh giá khách hàng</h5>
+                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                              <div class="card mb-0">
+                                                <div class="card-body mt-4">
+                                                  
+                                                  <form class="row g-3">
+                                                    <div class="col-md-12">
+                                                      <div class="form-floating">
+                                                        <input type="text" class="form-control" id="floatingName" placeholder="Your Name">
+                                                        <label for="floatingName">Tên danh mục</label>
+                                                      </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-12">
+                                                      <div class="form-floating">
+                                                        <textarea class="form-control" placeholder="Address" id="floatingTextarea" style="height: 100px;"></textarea>
+                                                        <label for="floatingTextarea">Mô tả</label>
+                                                      </div>
+                                                    </div>
+                                                  </form>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                              <button type="button" class="btn btn-primary">Thêm mới</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div> -->
                                 </button>                     
                               <i class="bi bi-trash fs-6 text-danger ms-2 pointer" onclick="deleteProduct()"></i>
                             </td>
@@ -467,22 +568,37 @@
                               Unity Pugh
                             </a></td>
                             <td class="align-middle">20103</td>
-                            <td class="align-middle ">Nguyễn Văn A</td>
-                            <td class="align-middle text-wrap feedback-col">
+                            
+                            <td class="align-middle">
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <div class="">
-                                    Sản phẩm đẹp
+                                <div class="text-wrap">
+                                  <div class="evaluate">
+                                    <a href="" class="text-dark" data-bs-toggle="modal" data-bs-target="#evaluate">
+                                      <div class="text-wrap p-0">
+                                        Sản phẩm đẹp lắm tôi rất thích
+                                      </div>
+                                    </a>
+                                  </div>
                                 </div>
                             </td>
-                            <td class="align-middle text-wrap feedback-col">Cảm ơn khách hàng đã tin tưởng</td>
+                            <td class="align-middle">
+                              <div class="response">
+                                <a href="" class="text-dark" data-bs-toggle="modal" data-bs-target="#response">
+                                  <div class="text-wrap p-0">
+                                    Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của chúng tôi! 💖 Chúng tôi rất trân trọng sự ủng hộ của bạn và hy vọng bạn sẽ có trải nghiệm tuyệt vời khi sử dụng sản phẩm. Nếu bạn cần hỗ trợ thêm, đừng ngần ngại liên hệ với chúng tôi nhé! 🌟😊
+                                  </div>
+                                </a>
+                                
+                              </div>
+                            </td>                            
                             <td class="align-middle">                          
-                                <button class="btn btn-primary">
-                                    <i class="bi bi-reply-fill"></i>
-                                </button> 
+                              <span class="btn btn-success disabled">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </span>
                               <i class="bi bi-trash fs-6 text-danger ms-2 pointer" onclick="deleteProduct()"></i>
                             </td>
                           </tr>
@@ -493,22 +609,37 @@
                               Unity Pugh
                             </a></td>
                             <td class="align-middle">20103</td>
-                            <td class="align-middle ">Nguyễn Văn A</td>
-                            <td class="align-middle text-wrap feedback-col">
+                            
+                            <td class="align-middle">
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <div class="">
-                                    Sản phẩm đẹp
+                                <div class="text-wrap">
+                                  <div class="evaluate">
+                                    <a href="" class="text-dark" data-bs-toggle="modal" data-bs-target="#evaluate">
+                                      <div class="text-wrap">
+                                        Sản phẩm đẹp lắm tôi rất thích
+                                      </div>
+                                    </a>
+                                  </div>
                                 </div>
                             </td>
-                            <td class="align-middle text-wrap feedback-col">Cảm ơn khách hàng đã tin tưởng</td>
+                            <td class="align-middle">
+                              <div class="response">
+                                <a href="" class="text-dark" data-bs-toggle="modal" data-bs-target="#response">
+                                  <div class="text-wrap p-0">
+                                    Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của chúng tôi! 💖 Chúng tôi rất trân trọng sự ủng hộ của bạn và hy vọng bạn sẽ có trải nghiệm tuyệt vời khi sử dụng sản phẩm. Nếu bạn cần hỗ trợ thêm, đừng ngần ngại liên hệ với chúng tôi nhé! 🌟😊
+                                  </div>
+                                </a>
+                                
+                              </div>
+                            </td>                            
                             <td class="align-middle">                          
-                                <button class="btn btn-primary">
-                                    <i class="bi bi-reply-fill"></i>
-                                </button> 
+                              <span class="btn btn-success disabled">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </span> 
                               <i class="bi bi-trash fs-6 text-danger ms-2 pointer" onclick="deleteProduct()"></i>
                             </td>
                           </tr>

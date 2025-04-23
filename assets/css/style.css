@@ -1267,14 +1267,14 @@ h6 {
   font-size: 1.15rem;
 }
 /* Đánh giá */
-.feedback-col {
-  max-width: 160px; /* Giới hạn độ rộng tối đa */
-  word-break: break-word;
-  white-space: normal;
-}
+
 .text-wrap {
-  word-break: break-word;
-  white-space: normal;
+  max-width: 160px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 }
 @media (max-width: 576px) {
   .pagetitle nav{
