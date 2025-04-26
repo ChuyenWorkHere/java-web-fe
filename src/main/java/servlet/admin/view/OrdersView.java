@@ -100,7 +100,7 @@ public class OrdersView extends HttpServlet {
 	    out.append("                      <tr>");
 	    out.append("                        <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 	    out.append("                        <td class=\"align-middle\">");
-	    out.append("                          <a href=\"single-order.html\" class=\"text-dark fs-6 text-decoration-none hover-primary\">");
+	    out.append("                          <a href=\"/Furniture/admin/single-order-view\" class=\"text-dark fs-6 text-decoration-none hover-primary\">");
 	    out.append("                            FC#1007");
 	    out.append("                          </a></td>");
 	    out.append("                        <td class=\"align-middle\">Lê Văn Chuyền</td>");
@@ -116,7 +116,7 @@ public class OrdersView extends HttpServlet {
 	    out.append("                      <tr>");
 	    out.append("                        <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 	    out.append("                        <td class=\"align-middle\">");
-	    out.append("                          <a href=\"single-order.html\" class=\"text-dark fs-6 text-decoration-none hover-primary\">");
+	    out.append("                          <a href=\"/Furniture/admin/single-order-view\" class=\"text-dark fs-6 text-decoration-none hover-primary\">");
 	    out.append("                            FC#1007");
 	    out.append("                          </a></td>");
 	    out.append("                        <td class=\"align-middle\">Lê Văn Chuyền</td>");
@@ -132,7 +132,7 @@ public class OrdersView extends HttpServlet {
 	    out.append("                      <tr>");
 	    out.append("                        <td class=\"align-middle\"><img src=\"img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 	    out.append("                        <td class=\"align-middle\">");
-	    out.append("                          <a href=\"single-order.html\" class=\"text-dark fs-6 text-decoration-none hover-primary\">");
+	    out.append("                          <a href=\"/Furniture/admin/single-order-view\" class=\"text-dark fs-6 text-decoration-none hover-primary\">");
 	    out.append("                            FC#1007");
 	    out.append("                          </a></td>");
 	    out.append("                        <td class=\"align-middle\">Lê Văn Chuyền</td>");
