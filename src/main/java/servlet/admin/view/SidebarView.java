@@ -80,25 +80,8 @@ public class SidebarView extends HttpServlet {
 		out.append(
 				"        <a class=\"nav-link collapsed\" data-bs-target=\"#icons-nav\" data-bs-toggle=\"collapse\" href=\"#\">");
 		out.append(
-				"          <i class=\"bi bi-star\"></i><span>Đánh giá</span><i class=\"bi bi-chevron-down ms-auto\"></i>");
+				"          <i class=\"bi bi-star\"></i><span>Đánh giá</span>");
 		out.append("        </a>");
-		out.append("        <ul id=\"icons-nav\" class=\"nav-content collapse \" data-bs-parent=\"#sidebar-nav\">");
-		out.append("          <li>");
-		out.append("            <a href=\"icons-bootstrap.html\">");
-		out.append("              <i class=\"bi bi-circle\"></i><span>Bootstrap Icons</span>");
-		out.append("            </a>");
-		out.append("          </li>");
-		out.append("          <li>");
-		out.append("            <a href=\"icons-remix.html\">");
-		out.append("              <i class=\"bi bi-circle\"></i><span>Remix Icons</span>");
-		out.append("            </a>");
-		out.append("          </li>");
-		out.append("          <li>");
-		out.append("            <a href=\"icons-boxicons.html\">");
-		out.append("              <i class=\"bi bi-circle\"></i><span>Boxicons</span>");
-		out.append("            </a>");
-		out.append("          </li>");
-		out.append("        </ul>");
 		out.append("      </li><!-- End Icons Nav -->");
 
 		out.append("      <li class=\"nav-item\">");
