@@ -24,7 +24,7 @@ public class HomeView extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");		 
 		
 		PrintWriter out = response.getWriter();
-		
+		request.setAttribute("view", "home");
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
 	    headerDispatcher.include(request, response);
 
@@ -594,7 +594,8 @@ public class HomeView extends HttpServlet {
 		out.append("    </section>");
 
 		out.append("  </main><!-- End #main -->");
-
+		
+		
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);
 	}

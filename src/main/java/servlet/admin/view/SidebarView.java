@@ -2,6 +2,8 @@ package servlet.admin.view;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,20 +27,58 @@ public class SidebarView extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 
+		String view = (String) request.getAttribute("view");
+		System.out.println(view);
+		Map<String, String> show = new HashMap<String, String>();
+		Map<String, String> collapse = new HashMap<String, String>();
+		Map<String, String> combination = new HashMap<String, String>();
+		if (view != null) {
+			switch (view) {
+			case "home":
+				collapse.put("home", "");
+				break;
+			case "cate":
+				collapse.put("cate", "");
+				break;
+			case "add":
+				collapse.put("product", "");
+				combination.put("product", "collapse show");
+				show.put("add", "active");
+				break;
+			case "list":
+				collapse.put("product", "");
+				combination.put("product", "collapse show");
+				show.put("list", "active");
+				break;
+			case "order":
+				collapse.put("order", "");
+				break;
+			case "account":
+				collapse.put("account", "");
+				break;
+			case "report":
+				collapse.put("report", "");
+				break;
+			default:
+				break;
+		}
+		}
+		
+
 		out.append("  <!-- ======= Sidebar ======= -->");
 		out.append("  <aside id=\"sidebar\" class=\"sidebar\">");
 
 		out.append("    <ul class=\"sidebar-nav\" id=\"sidebar-nav\">");
 
 		out.append("      <li class=\"nav-item\">");
-		out.append("        <a class=\"nav-link \" href=\"/Furniture/admin/home-view\">");
+		out.append("        <a class=\"nav-link "+collapse.getOrDefault("home", "collapsed")+ "\" href=\"/Furniture/admin/home-view\">");
 		out.append("          <i class=\"bi bi-grid\"></i>");
 		out.append("          <span>Trang chủ</span>");
 		out.append("        </a>");
 		out.append("      </li><!-- End Dashboard Nav -->");
 
 		out.append("      <li class=\"nav-item\">");
-		out.append("        <a class=\"nav-link collapsed\" href=\"/Furniture/admin/categories-view\">");
+		out.append("        <a class=\"nav-link " + collapse.getOrDefault("cate", "collapsed")+"\" href=\"/Furniture/admin/categories-view\">");
 		out.append("            <i class=\"bi bi-folder\"></i>    ");
 		out.append("          <span>Danh mục</span>");
 		out.append("        </a>   ");
@@ -46,18 +86,18 @@ public class SidebarView extends HttpServlet {
 
 		out.append("      <li class=\"nav-item\">");
 		out.append(
-				"        <a class=\"nav-link collapsed\" data-bs-target=\"#product-nav\" data-bs-toggle=\"collapse\" href=\"#\">");
+				"        <a class=\"nav-link "+collapse.getOrDefault("product", "collapsed")+ "\" data-bs-target=\"#product-nav\" data-bs-toggle=\"collapse\" href=\"#\">");
 		out.append(
 				"            <i class=\"bi bi-box-seam\"></i><span>Sản phẩm</span><i class=\"bi bi-chevron-down ms-auto\"></i>");
 		out.append("        </a>");
-		out.append("        <ul id=\"product-nav\" class=\"nav-content collapse \" data-bs-parent=\"#sidebar-nav\">");
+		out.append("        <ul id=\"product-nav\" class=\"nav-content "+combination.getOrDefault("product", "collapse")+" \" data-bs-parent=\"#sidebar-nav\">");
 		out.append("          <li>");
-		out.append("            <a href=\"/Furniture/admin/products-view\">");
+		out.append("            <a class = \" "+show.getOrDefault("list", "")+ " \" href=\"/Furniture/admin/products-view\">");
 		out.append("                <i class=\"bi bi-list-task\"></i><span>Danh Sách</span>");
 		out.append("            </a>");
 		out.append("          </li>");
 		out.append("          <li>");
-		out.append("            <a href=\"add-product.html\">");
+		out.append("            <a class = \" "+show.getOrDefault("add", "")+" \" href=\"/Furniture/admin/products-view\">");
 		out.append("                <i class=\"bi bi-plus-circle-fill\"></i><span>Thêm mới</span>");
 		out.append("            </a>");
 		out.append("          </li>");
@@ -65,32 +105,24 @@ public class SidebarView extends HttpServlet {
 		out.append("      </li><!-- End Icons Nav -->");
 
 		out.append("      <li class=\"nav-item\">");
-		out.append("        <a class=\"nav-link collapsed\" href=\"/Furniture/admin/orders-view\">");
+		out.append("        <a class=\"nav-link "+collapse.getOrDefault("order", "collapsed")+"\" href=\"/Furniture/admin/orders-view\">");
 		out.append("          <i class=\"bi bi-cart\"></i><span>Đơn hàng</span>");
 		out.append("        </a>");
 		out.append("      </li><!-- End Tables Nav -->");
 
 		out.append("      <li class=\"nav-item\">");
-		out.append("        <a class=\"nav-link collapsed\" href=\"/Furniture/admin/accounts-view\">");
+		out.append("        <a class=\"nav-link "+ collapse.getOrDefault("account", "collapsed") +"\" href=\"/Furniture/admin/accounts-view\">");
 		out.append("          <i class=\"bi bi-people\"></i><span>Tài khoản</span>");
 		out.append("        </a>");
 		out.append("      </li><!-- End Charts Nav -->");
 
 		out.append("      <li class=\"nav-item\">");
 		out.append(
-				"        <a class=\"nav-link collapsed\" data-bs-target=\"#icons-nav\" data-bs-toggle=\"collapse\" href=\"#\">");
-		out.append(
-				"          <i class=\"bi bi-star\"></i><span>Đánh giá</span>");
-		out.append("        </a>");
-		out.append("      </li><!-- End Icons Nav -->");
-
-		out.append("      <li class=\"nav-item\">");
-		out.append(
-				"        <a class=\"nav-link collapsed\" data-bs-target=\"#report\" data-bs-toggle=\"collapse\" href=\"#\">");
+				"        <a class=\"nav-link "+collapse.getOrDefault("report", "collapsed")+"\" data-bs-target=\"#report\" data-bs-toggle=\"collapse\" href=\"#\">");
 		out.append(
 				"            <i class=\"bi bi-bar-chart\"></i><span>Thống kê</span><i class=\"bi bi-chevron-down ms-auto\"></i>");
 		out.append("        </a>");
-		out.append("        <ul id=\"report\" class=\"nav-content collapse \" data-bs-parent=\"#sidebar-nav\">");
+		out.append("        <ul id=\"report\" class=\"nav-content "+collapse.getOrDefault("report", "collapse show")+" \" data-bs-parent=\"#sidebar-nav\">");
 		out.append("          <li>");
 		out.append("            <a href=\"/Furniture/admin/products-report\">");
 		out.append("                <i class=\"bi bi-box-seam\"></i><span>Sản phẩm</span>");
@@ -112,7 +144,6 @@ public class SidebarView extends HttpServlet {
 		out.append("          <span>Hồ sơ</span>");
 		out.append("        </a>");
 		out.append("      </li><!-- End Profile Page Nav -->");
-
 
 		out.append("      <li class=\"nav-item\">");
 		out.append("        <a class=\"nav-link collapsed\" href=\"pages-register.html\">");
