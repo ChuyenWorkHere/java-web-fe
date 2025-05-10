@@ -162,6 +162,8 @@ public class SidebarView extends HttpServlet {
 		out.append("    </ul>");
 
 		out.append("  </aside><!-- End Sidebar-->");
+		
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
