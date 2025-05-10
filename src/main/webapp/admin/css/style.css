@@ -821,6 +821,23 @@ h6 {
   flex-grow: 0;
 }
 
+.dashboard .all-orders-card .card-icon {
+  color: #007bff;
+  background: #cce5ff;
+}
+.dashboard .order-success-card .card-icon {
+  color: #28a745;
+  background: #d4edda;
+}
+.dashboard .order-pending-card .card-icon {
+  color: #ffc107;
+  background: #fff3cd;
+}
+.dashboard .order-failed-card .card-icon {
+  color: #dc3545;
+  background: #f8d7da;
+}
+
 .dashboard .sales-card .card-icon {
   color: #4154f1;
   background: #f6f6fe;
@@ -834,6 +851,11 @@ h6 {
 .dashboard .customers-card .card-icon {
   color: #ff771d;
   background: #ffecdf;
+}
+
+.dashboard .rating-card .card-icon {
+  color: #FFC107;
+  background: #FFF8E1;
 }
 
 /* Activity */
@@ -1271,4 +1293,16 @@ h6 {
     font-size: 1rem !important;
     margin-left: 5px !important;
   }
+}
+
+
+/* Form Valid */
+.form-control.is-valid,
+.form-control.is-invalid {
+  background-image: none !important;
+}
+
+#loginForm #loginMessage {
+	color: red;
+	margin: 15px 0 0 0;
 }

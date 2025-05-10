@@ -56,8 +56,15 @@ public class SidebarView extends HttpServlet {
 			case "account":
 				collapse.put("account", "");
 				break;
-			case "report":
+			case "report-product":
 				collapse.put("report", "");
+				combination.put("report", "collapse show");
+				show.put("product", "active");
+				break;
+			case "report-order":
+				collapse.put("report", "");
+				combination.put("report", "collapse show");
+				show.put("order", "active");
 				break;
 			default:
 				break;
@@ -122,14 +129,14 @@ public class SidebarView extends HttpServlet {
 		out.append(
 				"            <i class=\"bi bi-bar-chart\"></i><span>Thống kê</span><i class=\"bi bi-chevron-down ms-auto\"></i>");
 		out.append("        </a>");
-		out.append("        <ul id=\"report\" class=\"nav-content "+collapse.getOrDefault("report", "collapse show")+" \" data-bs-parent=\"#sidebar-nav\">");
+		out.append("        <ul id=\"report\" class=\"nav-content "+combination.getOrDefault("report", "collapse")+" \" data-bs-parent=\"#sidebar-nav\">");
 		out.append("          <li>");
-		out.append("            <a href=\"/Furniture/admin/products-report\">");
+		out.append("            <a class = \" "+show.getOrDefault("product", "")+" \" href=\"/Furniture/admin/products-report\">");
 		out.append("                <i class=\"bi bi-box-seam\"></i><span>Sản phẩm</span>");
 		out.append("            </a>");
 		out.append("          </li>");
 		out.append("          <li>");
-		out.append("            <a href=\"/Furniture/admin/orders-report\">");
+		out.append("            <a class = \" "+ show.getOrDefault("order", "") +" \" href=\"/Furniture/admin/orders-report\">");
 		out.append("                <i class=\"bi bi-cart\"></i><span>Đơn hàng</span>");
 		out.append("            </a>");
 		out.append("          </li>");
