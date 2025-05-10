@@ -1274,6 +1274,24 @@ h6 {
 .product__item-color .color-img-2{
   background-color: gray;
 }
+.product__item-button a{
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+.product__item-button .btn-show{
+  background-color: #3498DB;
+}
+.product__item-button .btn-show:hover{
+  background-color: #0056b3;
+}
+.product__item-button .btn-delete{
+  background-color: #DC3545;
+}
+.product__item-button .btn-delete:hover{
+  background-color: #c82333;
+}
 
 /* evaluate content finish */
 
