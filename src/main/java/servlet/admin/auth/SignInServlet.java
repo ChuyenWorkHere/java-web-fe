@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class LoginServlet
@@ -98,7 +99,7 @@ public class SignInServlet extends HttpServlet {
 				out.append("                    <h5 class=\"card-title text-center pb-0 fs-4\">Đăng Nhập</h5>");
 				out.append("                  </div>");
 				out.append("");
-				out.append("                  <form id = \"loginForm\" action= \"/admin/signin\" method=\"POST\" class=\"row g-3 needs-validation\" novalidate>");
+				out.append("                  <form id = \"loginForm\" action= \"/Furniture/admin/signin\" method=\"POST\" class=\"row g-3 needs-validation\" novalidate>");
 				out.append("					<p id =\"loginMessage\">"+errorMessage+"</p>");
 				out.append("                    <div class=\"col-12\">");
 				out.append("                      <label for=\"yourUsername\" class=\"form-label\">Tài Khoản</label>");
@@ -169,11 +170,21 @@ public class SignInServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String username = request.getParameter("username").trim();
-		String password = request.getParameter("password").trim();
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
 		
-		if( !"".equalsIgnoreCase(username) && !"".equals(password)) {
-			response.sendRedirect("/Furniture/admin/home-view");
+		if( username != null && !"".equalsIgnoreCase(username) 
+				&& password != null && !"".equals(password)) {
+			username = username.trim();
+			password = password.trim();
+			if(username.equalsIgnoreCase("admin@gmail.com") &&
+					password.equals("Abc123456")) {
+				HttpSession session = request.getSession(true);
+				session.setAttribute("userLogined", "ok");
+				
+				response.sendRedirect("/Furniture/admin/home-view");
+			}
+			
 		} else {
 			request.setAttribute("errorMessage", "Tài khoản hoặc mật khẩu không hợp lệ");
 			doGet(request, response);
