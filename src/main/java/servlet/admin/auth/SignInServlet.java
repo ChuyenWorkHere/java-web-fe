@@ -98,7 +98,7 @@ public class SignInServlet extends HttpServlet {
 				out.append("                    <h5 class=\"card-title text-center pb-0 fs-4\">Đăng Nhập</h5>");
 				out.append("                  </div>");
 				out.append("");
-				out.append("                  <form id = \"loginForm\" action= \"/admin/signin\" method=\"POST\" class=\"row g-3 needs-validation\" novalidate>");
+				out.append("                  <form id = \"loginForm\" action= \"/Furniture/admin/signin\" method=\"POST\" class=\"row g-3 needs-validation\" novalidate>");
 				out.append("					<p id =\"loginMessage\">"+errorMessage+"</p>");
 				out.append("                    <div class=\"col-12\">");
 				out.append("                      <label for=\"yourUsername\" class=\"form-label\">Tài Khoản</label>");
@@ -173,7 +173,8 @@ public class SignInServlet extends HttpServlet {
 		String password = request.getParameter("password").trim();
 		
 		if( !"".equalsIgnoreCase(username) && !"".equals(password)) {
-			response.sendRedirect("/Furniture/admin/home-view");
+			System.out.println("1234");
+			response.sendRedirect("../admin/home-view");
 		} else {
 			request.setAttribute("errorMessage", "Tài khoản hoặc mật khẩu không hợp lệ");
 			doGet(request, response);

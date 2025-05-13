@@ -1233,6 +1233,54 @@ h6 {
   }
 }
 
+.product__item{
+  background-color: white;
+  overflow: hidden;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+.product__item-img{
+  background-color: red;
+  width: 100%;
+}
+.product__item-img img{
+  width: 100%;
+  height: auto;
+}
+.product__item-name{
+  font-family: 'Roboto', sans-serif;
+  padding-top: 10px;
+  font-size: 16px;
+  color: #555555;
+  font-weight: 500;
+}
+.product__item-price_old{
+  color: #888888;
+  text-decoration: line-through;
+  font-size: 13px;
+}
+.product__item-price-new{
+  color: #ff0000;
+  font-weight: 600;
+}
+.product__item-li span{
+  color: #000;
+  font-weight: 600;
+}
+.product__item-color .color-img{
+  border: none;
+  outline: none;
+  width: 20px;
+  height: 20px;
+  background-color: bisque;
+  border-radius: 50%;
+}
+.product__item-color .color-img-2{
+  background-color: gray;
+}
+
+
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/

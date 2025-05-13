@@ -68,7 +68,7 @@ public class SidebarView extends HttpServlet {
 				break;
 			default:
 				break;
-		}
+			}
 		}
 		
 
