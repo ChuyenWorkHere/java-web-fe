@@ -3,9 +3,8 @@ package servlet.admin.model;
 import lombok.Data;
 
 @Data
-public class Cart {
-	private int cart_id;
-	private int quantity;
+public class Favorite {
+	private int favorite_id;
 	private int user_id;
 	private int product_id;
 }
