@@ -1285,6 +1285,59 @@ h6 {
   background-color: gray;
 }
 
+.product__item-button a {
+  padding: 7px 1px;
+  border-radius: 10px;
+}
+5
+.product__item-button a i{
+  color: white;
+  padding: 15px;
+}
+
+.product__item-button .view {
+  background-color: #007bff;
+}
+
+.product__item-button .edit {
+  background-color: #ecce6d;
+}
+
+.product__item-button .delete {
+  background-color: red;
+}
+
+.color-select{
+  margin-left: 20px;
+}
+
+.color-container {
+    margin-top: 7px;
+    display: flex;
+    gap: 10px;
+}
+.color-box {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkmark {
+  display: none;
+  font-size: 24px;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+}
+.color-box.selected .checkmark {
+  display: block;
+}
+
 /* evaluate content finish */
 
 

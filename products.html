@@ -420,9 +420,10 @@
                   <button class="color-img ms-3 color-img-1"></button>
                   <button class="color-img ms-2 color-img-2"></button>
                 </div>
-                <div class="product__item-button d-flex justify-content-between">
-                  <a href="#">Xem chi tiết</a>
-                  <a href="#">Xóa</a>
+                <div class="product__item-button d-flex justify-content-center mt-3">
+                  <a href="#" class="view me-2" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
+                  <a href="#" class="edit me-2" title="Sửa"><i class="bi bi-pencil"></i></a>
+                  <a href="#" class="delete me-2" title="Xóa"><i class="bi bi-trash"></i></a>
                 </div>
               </div>
             </div>
@@ -461,9 +462,10 @@
                   <button class="color-img ms-3 color-img-1"></button>
                   <button class="color-img ms-2 color-img-2"></button>
                 </div>
-                <div class="product__item-button d-flex justify-content-between">
-                  <a href="#">Xem chi tiết</a>
-                  <a href="#">Xóa</a>
+                <div class="product__item-button d-flex justify-content-center mt-3">
+                  <a href="#" class="view me-2" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
+                  <a href="#" class="edit me-2" title="Sửa"><i class="bi bi-pencil"></i></a>
+                  <a href="#" class="delete me-2" title="Xóa"><i class="bi bi-trash"></i></a>
                 </div>
               </div>
             </div>
@@ -502,9 +504,10 @@
                   <button class="color-img ms-3 color-img-1"></button>
                   <button class="color-img ms-2 color-img-2"></button>
                 </div>
-                <div class="product__item-button d-flex justify-content-between">
-                  <a href="#">Xem chi tiết</a>
-                  <a href="#">Xóa</a>
+                <div class="product__item-button d-flex justify-content-center mt-3">
+                  <a href="#" class="view me-2" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
+                  <a href="#" class="edit me-2" title="Sửa"><i class="bi bi-pencil"></i></a>
+                  <a href="#" class="delete me-2" title="Xóa"><i class="bi bi-trash"></i></a>
                 </div>
               </div>
             </div>
@@ -543,9 +546,10 @@
                   <button class="color-img ms-3 color-img-1"></button>
                   <button class="color-img ms-2 color-img-2"></button>
                 </div>
-                <div class="product__item-button d-flex justify-content-between">
-                  <a href="#">Xem chi tiết</a>
-                  <a href="#">Xóa</a>
+                <div class="product__item-button d-flex justify-content-center mt-3">
+                  <a href="#" class="view me-2" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
+                  <a href="#" class="edit me-2" title="Sửa"><i class="bi bi-pencil"></i></a>
+                  <a href="#" class="delete me-2" title="Xóa"><i class="bi bi-trash"></i></a>
                 </div>
               </div>
             </div>
@@ -573,11 +577,40 @@
                 <option value="1">Option 1</option>
                 <option value="2">Option 2</option>
               </select>
-              <select class="form-select" aria-label="Màu sắc">
-                <option selected>MÀU SẮC</option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-              </select>
+              <div class="color-select">
+                <span>MÀU SẮC</span>
+                <div class="color-container">
+                  <div class="color-box" data-color="#1A1A2E" style="background-color: #1A1A2E;"
+                    onclick="selectColor(this)">
+                    <span class="checkmark">✔</span>
+                  </div>
+                  <div class="color-box" data-color="#0A2E8F" style="background-color: #0A2E8F;"
+                    onclick="selectColor(this)">
+                    <span class="checkmark">✔</span>
+                  </div>
+                  <div class="color-box" data-color="#6B48FF" style="background-color: #6B48FF;"
+                    onclick="selectColor(this)">
+                    <span class="checkmark">✔</span>
+                  </div>
+                  <div class="color-box" data-color="#00C4B4" style="background-color: #00C4B4;"
+                    onclick="selectColor(this)">
+                    <span class="checkmark">✔</span>
+                  </div>
+                  <div class="color-box" data-color="#00FF00" style="background-color: #00FF00;"
+                    onclick="selectColor(this)">
+                    <span class="checkmark">✔</span>
+                  </div>
+                  <div class="color-box" data-color="#FF4040" style="background-color: #FF4040;"
+                    onclick="selectColor(this)">
+                    <span class="checkmark">✔</span>
+                  </div>
+                  <div class="color-box" data-color="#FFA500" style="background-color: #FFA500;"
+                    onclick="selectColor(this)">
+                    <span class="checkmark">✔</span>
+                  </div>
+                </div>
+              </div>
+
               <select class="form-select" aria-label="Kích thước">
                 <option selected>KÍCH THƯỚC</option>
                 <option value="1">Option 1</option>
@@ -608,7 +641,7 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
+  
 </body>
 
 </html>
