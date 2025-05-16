@@ -53,7 +53,7 @@
                                 <span class="bar3"></span>
                             </div>
                             <div class="logo">
-                                <a href="index.html"><img src="../user/../user/img/logo/logo.png" alt=""></a>
+                                <a href="../public/home"><img src="../user/img/logo/logo.png" alt=""></a>
                             </div>
 
                             <div class="category-menu">
@@ -74,72 +74,10 @@
                                 <nav id="mobile-menu">
                                     <ul>
                                         <li>
-                                            <a href="index.html">Trang Chủ</a>
+                                            <a href="../public/home">Trang Chủ</a>
                                         </li>
                                         <li class="mega-menu">
-                                            <a href="shop.html">Cửa Hàng</a>
-                                            <ul class="submenu ">
-                                                <li>
-                                                    <a href="#">Category View</a>
-                                                    <ul class="submenu  level-1">
-                                                        <li>
-                                                            <a href="shop.html">Shop 2 Column</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-filter.html">Shop Filter Style</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-full.html">Shop Full</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-3-col.html">Shop 3 Column</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-list.html">List View</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Category View</a>
-                                                    <ul class="submenu">
-                                                        <li>
-                                                            <a href="shop-left-sidebar.html">Sidebar Left</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-sidebar-right.html">Sidebar Right</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="cart.html">Shopping Cart</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="checkout.html">Checkout</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="wishlist.html">My Wishlist</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Products Types</a>
-                                                    <ul class="submenu">
-                                                        <li>
-                                                            <a href="product-simple.html">Simple Product</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-variable.html">Variable Product</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-upcoming.html">Product Upcoming</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-up-thumb.html">Thumb Top Product</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-sidebar.html">Product Sidebar</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
+                                            <a href="../public/shop">Cửa Hàng</a>
                                         </li>
                                         <li>
                                             <a href="blog.html">Tin Tức</a>
@@ -216,13 +154,13 @@
                                     <li class="search-btn">
                                         <a class="search-btn nav-search search-trigger" href="#"><i class="fas fa-search"></i></a>
                                     </li>
-                                    <li class="login-btn"><a href="login.html"><i class="far fa-user"></i></a></li>
+                                    <li class="login-btn"><a href="../public/login"><i class="far fa-user"></i></a></li>
                                     <li class="d-shop-cart"><a href="#"><i class="flaticon-shopping-cart"></i> <span class="cart-count">3</span></a>
                                         <ul class="minicart">
                                             <li>
                                                 <div class="cart-img">
                                                     <a href="product-details.html">
-                                                        <img src="../user/../user/img/product/pro1.jpg" alt="" />
+                                                        <img src="../user/img/product/pro1.jpg" alt="" />
                                                     </a>
                                                 </div>
                                                 <div class="cart-content">
@@ -245,7 +183,7 @@
                                             <li>
                                                 <div class="cart-img">
                                                     <a href="product-details.html">
-                                                        <img src="../user/../user/img/product/pro2.jpg" alt="" />
+                                                        <img src="../user/img/product/pro2.jpg" alt="" />
                                                     </a>
                                                 </div>
                                                 <div class="cart-content">
@@ -268,7 +206,7 @@
                                             <li>
                                                 <div class="cart-img">
                                                     <a href="product-details.html">
-                                                        <img src="../user/../user/img/product/pro3.jpg" alt="" />
+                                                        <img src="../user/img/product/pro3.jpg" alt="" />
                                                     </a>
                                                 </div>
                                                 <div class="cart-content">
@@ -296,8 +234,8 @@
                                             </li>
                                             <li>
                                                 <div class="checkout-link">
-                                                    <a href="cart.html">Giỏ Hàng</a>
-                                                    <a class="red-color" href="checkout.html">Thanh Toán</a>
+                                                    <a href="../customer/cart">Giỏ Hàng</a>
+                                                    <a class="red-color" href="../customer/checkout">Thanh Toán</a>
                                                 </div>
                                             </li>
                                         </ul>

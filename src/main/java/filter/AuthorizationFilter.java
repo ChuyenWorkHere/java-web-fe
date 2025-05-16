@@ -37,8 +37,20 @@ public class AuthorizationFilter implements Filter {
 		if(session != null && session.getAttribute("role") != null) {
 			role = (String) session.getAttribute("role");
 		}
-		
-		// Phân quyền dựa trên vai trò và URL
+
+
+
+        // Bỏ qua file tĩnh: .css, .js, .png, .jpg, .ico, .woff, .ttf,...
+        if (uri.matches(".*(\\.css|\\.js|\\.png|\\.jpg|\\.jpeg|\\.gif|\\.ico|\\.woff|\\.ttf)$")) {
+            chain.doFilter(request, response);
+            return;
+        }
+//        if (uri.startsWith(contextPath + "/user/")) {
+//            chain.doFilter(request, response);
+//            return;
+//        }
+
+        // Phân quyền dựa trên vai trò và URL
         if (uri.startsWith(contextPath + "/public/")) {
             chain.doFilter(request, response);
             return;

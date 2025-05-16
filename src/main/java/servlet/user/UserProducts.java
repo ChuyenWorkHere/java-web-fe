@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/public/products")
+@WebServlet("/public/product-detail")
 public class UserProducts extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -21,7 +21,7 @@ public class UserProducts extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-    	request.getRequestDispatcher("/UserProducts.jsp").forward(request, response);
+    	request.getRequestDispatcher("/UserProductDetail.jsp").forward(request, response);
 	}
     
 	
