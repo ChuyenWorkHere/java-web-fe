@@ -355,3 +355,22 @@ function selectColor(element) {
   document.getElementById('selectedColor').value = color;
 }
 
+// Event page Account
+const parentAccount = document.querySelector(".account .inner-list-account");
+
+if(parentAccount) {
+  parentAccount.addEventListener("click", (e) => {
+    if(e.target.closest(".btn-danger")) {
+      const confirmed = confirm("Bạn có chắc muốn xoá không?");
+
+      if(confirmed) {
+        const item = e.target.closest(".col-xl-3");
+        parentAccount.removeChild(item);
+      }
+    }
+  })
+  
+}
+
+// End Event page Account
+
