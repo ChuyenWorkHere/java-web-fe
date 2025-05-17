@@ -106,7 +106,7 @@ public class SidebarView extends HttpServlet {
 		out.append("            </a>");
 		out.append("          </li>");
 		out.append("          <li>");
-		out.append("            <a class = \" "+show.getOrDefault("add", "")+" \" href=\"/Furniture/admin/products-view\">");
+		out.append("            <a class = \" "+show.getOrDefault("add", "")+" \" href=\"/Furniture/admin/add-product-view\">");
 		out.append("                <i class=\"bi bi-plus-circle-fill\"></i><span>Thêm mới</span>");
 		out.append("            </a>");
 		out.append("          </li>");

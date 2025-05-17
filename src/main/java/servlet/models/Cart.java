@@ -1,4 +1,4 @@
-package model;
+package servlet.models;
 
 public class Cart {
 

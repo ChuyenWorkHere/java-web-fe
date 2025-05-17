@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -40,42 +38,34 @@
 	    <version>1.18.38</version>
 	    <scope>provided</scope>
 	</dependency>
+	
+    <!-- Connection Pool -->
+   <!-- 1. C3P0 -->
+   <!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+   <dependency>
+       <groupId>com.mchange</groupId>
+       <artifactId>c3p0</artifactId>
+       <version>0.9.5.4</version>
+   </dependency>
+   
+   <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.17</version>
+        </dependency>
   </dependencies>
 
   <build>
     <finalName>Furniture</finalName>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
-      <plugins>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.4.0</version>
-        </plugin>
-        <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.3.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.13.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.3.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>3.4.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.2</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <plugins>
+    <plugin>
+      <artifactId>maven-war-plugin</artifactId>
+      <version>3.4.0</version>
+      <configuration>
+        <failOnMissingWebXml>false</failOnMissingWebXml> <!-- Nếu không dùng web.xml -->
+      </configuration>
+    </plugin>
+  </plugins>
   </build>
 </project>
