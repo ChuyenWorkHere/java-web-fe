@@ -27,6 +27,10 @@
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <!-- Add Animate.css for smooth animation -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
@@ -393,53 +397,59 @@
                 <span>BỘ LỌC</span>
               </div>
 
-              <form id="orderFilterForm" class="d-flex align-items-end gap-3 flex-wrap">
-                <!-- Khoảng giá -->
-                <div>
-                  <label for="priceRange" class="form-label">Khoảng giá</label>
-                  <select class="form-select" id="priceRange">
-                    <option value="">Tất cả</option>
-                    <option value="low">Dưới 500k</option>
-                    <option value="mid">500k - 1 triệu</option>
-                    <option value="high">Trên 1 triệu</option>
-                  </select>
-                </div>
+              <form id="orderFilterForm" class="container">
+                <div class="row g-3 align-items-end">
+                  <!-- Khoảng giá -->
+                  <div class="col-md-2">
+                    <label for="priceRange" class="form-label">Khoảng giá</label>
+                    <select class="form-select" id="priceRange">
+                      <option value="">Tất cả</option>
+                      <option value="low">Dưới 500k</option>
+                      <option value="mid">500k - 1 triệu</option>
+                      <option value="high">Trên 1 triệu</option>
+                    </select>
+                  </div>
 
-                <!-- Trạng thái -->
-                <div>
-                  <label for="orderStatus" class="form-label">Trạng thái</label>
-                  <select class="form-select" id="orderStatus">
-                    <option value="">Tất cả</option>
-                    <option value="pending">Chờ xác nhận</option>
-                    <option value="shipped">Đã giao</option>
-                    <option value="cancelled">Đã hủy</option>
-                  </select>
-                </div>
+                  <!-- Trạng thái -->
+                  <div class="col-md-2">
+                    <label for="orderStatus" class="form-label">Trạng thái</label>
+                    <select class="form-select" id="orderStatus">
+                      <option value="">Tất cả</option>
+                      <option value="pending">Chờ xác nhận</option>
+                      <option value="shipping">Đang giao</option>
+                      <option value="shipped">Đã giao</option>
+                      <option value="cancelled">Đã hủy</option>
+                    </select>
+                  </div>
 
-                <!-- Phương thức thanh toán -->
-                <div>
-                  <label for="paymentMethod" class="form-label">Thanh toán</label>
-                  <select class="form-select" id="paymentMethod">
-                    <option value="">Tất cả</option>
-                    <option value="cod">COD</option>
-                    <option value="bank">Chuyển khoản</option>
-                  </select>
-                </div>
+                  <!-- Phương thức thanh toán -->
+                  <div class="col-md-2">
+                    <label for="paymentMethod" class="form-label">Thanh toán</label>
+                    <select class="form-select" id="paymentMethod">
+                      <option value="">Tất cả</option>
+                      <option value="cod">COD</option>
+                      <option value="bank">Chuyển khoản</option>
+                    </select>
+                  </div>
 
-                <div>
-                  <label for="paymentMethod" class="form-label">Đơn đặt hàng</label>
-                  <select class="form-select" id="paymentMethod">
-                    <option value="">Tất cả</option>
-                    <option value="cod">Mới Nhất</option>
-                    <option value="bank">Cũ nhất</option>
-                  </select>
-                </div>
+                  <!-- Sắp xếp -->
+                  <div class="col-md-2">
+                    <label for="orderSort" class="form-label">Đơn đặt hàng</label>
+                    <select class="form-select" id="orderSort">
+                      <option value="">Tất cả</option>
+                      <option value="newest">Mới Nhất</option>
+                      <option value="oldest">Cũ nhất</option>
+                    </select>
+                  </div>
 
-                <!-- Nút lọc -->
-                <div>
-                  <button type="button" class="btn btn-primary mt-3" onclick="applyOrderFilter()">Lọc</button>
+                  <!-- Nút lọc -->
+                  <div class="col-md-1">
+                    <button type="button" class="btn btn-primary mt-3 w-100" onclick="applyOrderFilter()">Lọc</button>
+                  </div>
+
                 </div>
               </form>
+
               <!-- Tổng quan số lượng đơn hàng -->
               <div class="my-4">
                 <h5 class="my-3 fw-bold">Tổng quan đơn hàng</h5>
@@ -505,8 +515,7 @@
                       </td>
                       <td class="align-middle">
                         <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
-                        
-                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                        <i class="deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                       </td>
                     </tr>
 
@@ -520,8 +529,7 @@
                       </td>
                       <td class="align-middle">
                         <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
-                        
-                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                        <i class="deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                       </td>
                     </tr>
 
@@ -535,8 +543,8 @@
                       </td>
                       <td class="align-middle">
                         <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
-                        
-                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+
+                        <i class="deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                       </td>
                     </tr>
 
@@ -550,8 +558,8 @@
                       </td>
                       <td class="align-middle">
                         <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
-                        
-                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+
+                        <i class="deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                       </td>
                     </tr>
 
@@ -566,8 +574,8 @@
                       </td>
                       <td class="align-middle">
                         <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
-                        
-                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+
+                        <i class="deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                       </td>
                     </tr>
                     <tr>
@@ -580,8 +588,8 @@
                       </td>
                       <td class="align-middle">
                         <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
-                        
-                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+
+                        <i class="deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                       </td>
                     </tr>
 
@@ -595,8 +603,8 @@
                       </td>
                       <td class="align-middle">
                         <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
-                        
-                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+
+                        <i class="deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                       </td>
                     </tr>
 
@@ -610,8 +618,8 @@
                       </td>
                       <td class="align-middle">
                         <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
-                        
-                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+
+                        <i class="deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                       </td>
                     </tr>
 
@@ -626,8 +634,8 @@
                       </td>
                       <td class="align-middle">
                         <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
-                        
-                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+
+                        <i class="deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                       </td>
                     </tr>
 
@@ -641,8 +649,8 @@
                       </td>
                       <td class="align-middle">
                         <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
-                        
-                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+
+                        <i class="deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                       </td>
                     </tr>
 
@@ -656,8 +664,8 @@
                       </td>
                       <td class="align-middle">
                         <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
-                        
-                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+
+                        <i class="deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                       </td>
                     </tr>
 
@@ -671,8 +679,8 @@
                       </td>
                       <td class="align-middle">
                         <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
-                        
-                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+
+                        <i class="deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                       </td>
                     </tr>
 
@@ -686,8 +694,8 @@
                       </td>
                       <td class="align-middle">
                         <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
-                        
-                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+
+                        <i class="deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                       </td>
                     </tr>
 
@@ -696,7 +704,7 @@
                 <!-- End Table with stripped rows -->
 
               </div>
-              
+
               <!-- Nút Xuất dữ liệu -->
               <div class="d-flex justify-content-end mt-3">
                 <button type="button" class="btn btn-primary">
@@ -710,7 +718,26 @@
         </div>
       </div>
     </section>
-
+    <!-- thông báo -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-sm animate__animated animate__fadeInDown">
+        <div class="modal-content shadow">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmDeleteLabel">Xác nhận xoá</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+          </div>
+          <div class="modal-body">
+            Bạn có chắc chắn muốn xoá mục này không?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Xoá</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end thông báo -->
   </main><!-- End #main -->
 
 
@@ -731,7 +758,7 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
+  <script src="assets/js/jquery.js"></script>
 </body>
 
 </html>
