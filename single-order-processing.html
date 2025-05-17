@@ -15,7 +15,9 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -285,7 +287,7 @@
         <a class="nav-link collapsed" href="categories.html">
           <i class="bi bi-list-task"></i>
           <span>Danh mục</span>
-        </a>   
+        </a>
       </li><!-- End Components Nav -->
 
       <li class="nav-item">
@@ -308,10 +310,26 @@
       </li><!-- End Charts Nav -->
 
       <li class="nav-item">
-        <a href="evaluate.html" class="nav-link collapsed">
-          <i class="bi bi-star"></i>Đánh giá</a>
-      </li><!-- End Profile Page Nav -->
-
+        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-star"></i><span>Đánh giá</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="icons-bootstrap.html">
+              <i class="bi bi-circle"></i><span>Bootstrap Icons</span>
+            </a>
+          </li>
+          <li>
+            <a href="icons-remix.html">
+              <i class="bi bi-circle"></i><span>Remix Icons</span>
+            </a>
+          </li>
+          <li>
+            <a href="icons-boxicons.html">
+              <i class="bi bi-circle"></i><span>Boxicons</span>
+            </a>
+          </li>
+        </ul>
       </li><!-- End Icons Nav -->
 
       <li class="nav-heading">Pages</li>
@@ -370,232 +388,137 @@
   </aside><!-- End Sidebar-->
 
   <main id="main" class="main">
-
     <div class="pagetitle">
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item fs-6"><a href="index.html">Trang chủ</a></li>
-          <li class="breadcrumb-item fs-6">Đơn hàng</li>
+      <nav class="d-flex justify-content-between align-items-center flex-wrap">
+        <ol class="breadcrumb fs-6">
+          <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+          <li class="breadcrumb-item active">Chi tiết đơn hàng</li>
         </ol>
+        <a href="orders.html">
+          <button type="button" class="btn btn-success btn-sm">Trở về đơn hàng</button>
+        </a>
       </nav>
-    </div><!-- End Page Title -->
-
-    <section class="section">
-      <div class="row">
-        <div class="col-lg-12">
-
-          <div class="card mb-3">
-              <div class="card-body">
-  <div class="d-flex align-items-center mt-2 mb-3 filter-label">
-    <i class="bi bi-funnel-fill me-2"></i>
-    <span>BỘ LỌC</span>
-  </div>
-
-  <form id="orderFilterForm" class="d-flex align-items-end gap-3 flex-wrap"> 
-    <!-- Khoảng giá -->
-    <div>
-      <label for="priceRange" class="form-label">Khoảng giá</label>
-      <select class="form-select" id="priceRange">
-        <option value="">Tất cả</option>
-        <option value="low">Dưới 500k</option>
-        <option value="mid">500k - 1 triệu</option>
-        <option value="high">Trên 1 triệu</option>
-      </select>
     </div>
 
-    <!-- Trạng thái -->
-    <div>
-      <label for="orderStatus" class="form-label">Trạng thái</label>
-      <select class="form-select" id="orderStatus">
-        <option value="">Tất cả</option>
-        <option value="pending">Chờ xác nhận</option>
-        <option value="shipped">Đã giao</option>
-        <option value="cancelled">Đã hủy</option>
-      </select>
-    </div>
-
-    <!-- Phương thức thanh toán -->
-    <div>
-      <label for="paymentMethod" class="form-label">Thanh toán</label>
-      <select class="form-select" id="paymentMethod">
-        <option value="">Tất cả</option>
-        <option value="cod">COD</option>
-        <option value="bank">Chuyển khoản</option>
-      </select>
-    </div>
-
-    <div>
-      <label for="paymentMethod" class="form-label">Đơn đặt hàng</label>
-      <select class="form-select" id="paymentMethod">
-        <option value="">Tất cả</option>
-        <option value="cod">Mới Nhất</option>
-        <option value="bank">Cũ nhất</option>
-      </select>
-    </div>
-
-    <!-- Nút lọc -->
-    <div>
-      <button type="button" class="btn btn-primary mt-3" onclick="applyOrderFilter()">Lọc</button>
-    </div>
-  </form>
-</div>
-
+    <section class="section dashboard">
+      <div class="row mb-5">
+        <div class="col-12">
+          <div class="card p-4 rounded-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div>
+                <h2 class="h5 fw-bold">Order ID: <span class="text-dark fw-bold">#FC001</span>
+                  <!-- <span class="badge bg-warning text-dark">Pending</span> -->
+                </h2>
+              </div>
+              <div class="d-flex align-items-center">
+                <button class="btn btn-success">Xác nhận đơn</button>
+              </div>
             </div>
-
-          <div class="card">
-            <div class="card-body">
-              
-              <!-- Table with stripped rows -->
-              <table class="table datatable">
-                <thead>
+            <div class="row mb-4 mx-0 py-4 rounded">
+              <div class="col-md-4">
+                <h3 class="fs-custom text-dark fw-bold mb-3">Chi tiết khách hàng</h3>
+                <p class="fs-6">Đặng Ánh Nhật</p>
+                <p class="fs-6">nhat@gmail.com</p>
+                <p class="fs-6">086431691</p>
+                <a href="#" class="text-success text-decoration-none small">View Profile</a>
+              </div>
+              <div class="col-md-4">
+                <h3 class="fs-custom text-dark fw-bold mb-3">Địa chỉ nhận hàng</h3>
+                <p class="fs-6">số 5 Nguyên Xá</p>
+                <p class="fs-6">Bắc Từ Liêm, Hà Nội, Việt Nam</p>
+              </div>
+              <div class="col-md-4">
+                <h3 class="fs-custom text-dark fw-bold mb-3">Chi tiết hoá đơn</h3>
+                <p class="fs-6">Mã hoá đơn: FC001</p>
+                <p class="fs-6">Thời gian: 12 P.M</p>
+                <p class="fs-6">Ngày đặt hàng: 17/3/2025</p>
+                <p class="fs-6">Tổng số tiền: 850000đ</p>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped datatable table-hover">
+                <thead class="table-light">
                   <tr>
-                    <th>
-                      Mã đơn hàng
-                    </th>
-                    <th>Khách hàng</th>
-                    <th data-type="date" data-format="YYYY/DD/MM">Thời gian</th>
-                    <th>Tổng tiền</th>
-                    <th>Trạng thái</th>
-                    <th>Chức năng</th>
+                    <th scope="col">Ảnh</th>
+                    <th scope="col">Tên sản phẩm</th>
+                    <th scope="col">Giá</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Tổng giá</th>
                   </tr>
                 </thead>
                 <tbody>
-
-                  <tr>   
-                    <td class="align-middle">FC#1007</td>
-                    <td class="align-middle">Lê Văn Chuyền</td>
-                    <td class="align-middle">16/3/2025</td>
-                    <td class="align-middle">350000đ</td>
-                    <td class="align-middle">Thành công</td>
-                    <td class="align-middle">   
-                      <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>                      
-                      <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                      <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                    </td>
+                  <tr>
+                    <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
+                    <td class="align-middle"><a href="single-product"
+                        class="text-dark text-decoration-none hover-primary">
+                        Unity Pugh
+                      </a></td>
+                    <td class="align-middle">250000đ</td>
+                    <td class="align-middle">1</td>
+                    <td class="align-middle">250000đ</td>
                   </tr>
-
-                  <tr>   
-                    <td class="align-middle">FC#1007</td>
-                    <td class="align-middle">Đặng Ánh Nhật</td>
-                    <td class="align-middle">16/3/2025</td>
-                    <td class="align-middle">350000đ</td>
-                    <td class="align-middle">Thành công</td>
-                    <td class="align-middle">   
-                      <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>                      
-                      <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                      <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                    </td>
+                  <tr>
+                    <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
+                    <td class="align-middle"><a href="single-product"
+                        class="text-dark text-decoration-none hover-primary">
+                        Unity Pugh
+                      </a></td>
+                    <td class="align-middle">250000đ</td>
+                    <td class="align-middle">1</td>
+                    <td class="align-middle">250000đ</td>
                   </tr>
-
-                  <tr>   
-                    <td class="align-middle">FC#1007</td>
-                    <td class="align-middle">Đặng Ánh Nhật</td>
-                    <td class="align-middle">16/3/2025</td>
-                    <td class="align-middle">350000đ</td>
-                    <td class="align-middle">Thành công</td>
-                    <td class="align-middle">   
-                      <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>                      
-                      <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                      <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                    </td>
+                  <tr>
+                    <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
+                    <td class="align-middle"><a href="single-product"
+                        class="text-dark text-decoration-none hover-primary">
+                        Unity Pugh
+                      </a></td>
+                    <td class="align-middle">250000đ</td>
+                    <td class="align-middle">1</td>
+                    <td class="align-middle">250000đ</td>
                   </tr>
-
-                  <tr>   
-                    <td class="align-middle">FC#1007</td>
-                    <td class="align-middle">Đặng Ánh Nhật</td>
-                    <td class="align-middle">16/3/2025</td>
-                    <td class="align-middle">350000đ</td>
-                    <td class="align-middle">Thành công</td>
-                    <td class="align-middle">   
-                      <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>                      
-                      <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                      <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                    </td>
-                  </tr>
-
-
-                  <tr>   
-                    <td class="align-middle">FC#1007</td>
-                    <td class="align-middle">Đặng Ánh Nhật</td>
-                    <td class="align-middle">16/3/2025</td>
-                    <td class="align-middle">350000đ</td>
-                    <td class="align-middle">Thành công</td>
-                    <td class="align-middle">   
-                      <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>                      
-                      <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                      <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                    </td>
-                  </tr>
-
-                  <tr>   
-                    <td class="align-middle">FC#1007</td>
-                    <td class="align-middle">Đặng Ánh Nhật</td>
-                    <td class="align-middle">16/3/2025</td>
-                    <td class="align-middle">350000đ</td>
-                    <td class="align-middle">Thành công</td>
-                    <td class="align-middle">   
-                      <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>                      
-                      <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                      <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                    </td>
-                  </tr>
-
-                  <tr>   
-                    <td class="align-middle">FC#1007</td>
-                    <td class="align-middle">Đặng Ánh Nhật</td>
-                    <td class="align-middle">16/3/2025</td>
-                    <td class="align-middle">350000đ</td>
-                    <td class="align-middle">Thành công</td>
-                    <td class="align-middle">   
-                      <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>                      
-                      <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                      <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                    </td>
-                  </tr>
-
-                  <tr>   
-                    <td class="align-middle">FC#1007</td>
-                    <td class="align-middle">Đặng Ánh Nhật</td>
-                    <td class="align-middle">16/3/2025</td>
-                    <td class="align-middle">350000đ</td>
-                    <td class="align-middle">Thành công</td>
-                    <td class="align-middle">   
-                      <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>                      
-                      <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                      <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                    </td>
-                  </tr>
-
-                  <tr>   
-                    <td class="align-middle">FC#1007</td>
-                    <td class="align-middle">Đặng Ánh Nhật</td>
-                    <td class="align-middle">16/3/2025</td>
-                    <td class="align-middle">350000đ</td>
-                    <td class="align-middle">Thành công</td>
-                    <td class="align-middle">   
-                      <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>                      
-                      <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                      <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                    </td>
-                  </tr>
-                  
                 </tbody>
               </table>
-              <!-- End Table with stripped rows -->
+            </div>
 
+            <div class="d-flex justify-content-end mb-4">
+              <div class="w-50">
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Tổng tiền:</span>
+                  <span>750000đ</span>
+                </div>
+                <div class="d-flex justify-content-between border-bottom py-2">
+                  <span>Phí vận chuyển:</span>
+                  <span>30000đ</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 fw-bold">
+                  <span>Tổng cộng:</span>
+                  <span>780000đ</span>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-column flex-md-row justify-content-between">
+              <div class="w-100 w-md-50 pe-md-3">
+                <h3 class="fs-custom text-dark fw-bold">Thông tin thanh toán</h3>
+                <p class="fs-6">Thanh toán khi nhận hàng</p>
+              </div>
+              <div class="w-100 w-md-50">
+                <h3 class="fs-custom text-dark fw-bold">Ghi chú</h3>
+                <textarea class="form-control mb-2" rows="4" placeholder="Viết ghi chú cho đơn hàng"></textarea>
+                <button class="btn btn-success">Lưu ghi chú</button>
+              </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>
+  </main>
 
-  </main><!-- End #main -->
-  
 
   <!-- ======= Footer ======= -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>

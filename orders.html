@@ -372,229 +372,346 @@
   </aside><!-- End Sidebar-->
 
   <main id="main" class="main">
-    <div class="pagetitle mb-0">
-      <nav class="d-flex justify-content-between align-items-center flex-wrap">
-        <ol class="breadcrumb fs-6">
-          <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
-          <li class="breadcrumb-item active">Đơn Hàng</li>
+
+    <div class="pagetitle">
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item fs-6"><a href="index.html">Trang chủ</a></li>
+          <li class="breadcrumb-item fs-6">Đơn hàng</li>
         </ol>
       </nav>
-    </div>
+    </div><!-- End Page Title -->
 
-    <section class="section dashboard">
+    <section class="section">
       <div class="row">
-        <div class="col-12">
-          <div class="card shadow-sm pt-3 pe-3 ps-3 rounded-4">
-            <div class="card mb-3">
-              <div class="card-body">
-                <h5 class="card-title">Bộ lọc đơn hàng</h5>
-                <form id="orderFilterForm" class="row g-3">
-                  <div class="col-md-3">
-                    <label for="orderId" class="form-label">Mã đơn hàng</label>
-                    <input type="text" class="form-control" id="orderId" placeholder="Nhập mã đơn hàng">
-                  </div>
-                  <div class="col-md-3">
-                    <label for="orderStatus" class="form-label">Khoảng giá</label>
-                    <select class="form-select" id="orderStatus">
-                      <option value="">Tất cả</option>
-                      <option value="pending">Chờ xác nhận</option>
-                      <option value="shipped">Đã giao</option>
-                      <option value="cancelled">Đã hủy</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3">
-                    <label for="orderStatus" class="form-label">Trạng thái</label>
-                    <select class="form-select" id="orderStatus">
-                      <option value="">Tất cả</option>
-                      <option value="pending">Chờ xác nhận</option>
-                      <option value="shipped">Đã giao</option>
-                      <option value="cancelled">Đã hủy</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3">
-                    <label for="paymentMethod" class="form-label">Phương thức thanh toán</label>
-                    <select class="form-select" id="paymentMethod">
-                      <option value="">Tất cả</option>
-                      <option value="cod">COD</option>
-                      <option value="bank">Chuyển khoản</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3">
-                    <label for="orderDate" class="form-label">Ngày đặt hàng</label>
-                    <input type="date" class="form-control" id="orderDate">
-                  </div>
-                  <div class="col-md-3 align-self-end">
-                    <button type="button" class="btn btn-primary w-100" onclick="applyOrderFilter()">Lọc</button>
-                  </div>
-                </form>
+        <div class="col-lg-12">
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="d-flex align-items-center mt-2 mb-3 filter-label">
+                <i class="bi bi-funnel-fill me-2"></i>
+                <span>BỘ LỌC</span>
               </div>
-            </div>
 
+              <form id="orderFilterForm" class="d-flex align-items-end gap-3 flex-wrap">
+                <!-- Khoảng giá -->
+                <div>
+                  <label for="priceRange" class="form-label">Khoảng giá</label>
+                  <select class="form-select" id="priceRange">
+                    <option value="">Tất cả</option>
+                    <option value="low">Dưới 500k</option>
+                    <option value="mid">500k - 1 triệu</option>
+                    <option value="high">Trên 1 triệu</option>
+                  </select>
+                </div>
 
-            <div class="card">
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Ảnh</th>
-                        <th scope="col">Tên đơn hàng</th>
-                        <th scope="col">Khách hàng</th>
-                        <th scope="col">Thời gian</th>
-                        <th scope="col">Thanh toán</th>
-                        <th scope="col">Trạng thái</th>
-                        <th scope="col">Tổng tiền</th>
-                        <th scope="col">Chức năng</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                        <td class="align-middle">
-                          <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
-                            FC#1007
-                          </a>
-                        </td>
-                        <td class="align-middle">Lê Văn Chuyền</td>
-                        <td class="align-middle">16/3/2025 (10h30)</td>
-                        <td class="align-middle">Paypal</td>
-                        <td class="align-middle">Thành công</td>
-                        <td class="align-middle">350000đ</td>
-                        <td class="align-middle">
-                          <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                        <td class="align-middle">
-                          <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
-                            FC#1007
-                          </a>
-                        </td>
-                        <td class="align-middle">Lê Văn Chuyền</td>
-                        <td class="align-middle">16/3/2025 (10h30)</td>
-                        <td class="align-middle">Paypal</td>
-                        <td class="align-middle">Thành công</td>
-                        <td class="align-middle">350000đ</td>
-                        <td class="align-middle">
-                          <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                        <td class="align-middle">
-                          <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
-                            FC#1007
-                          </a>
-                        </td>
-                        <td class="align-middle">Lê Văn Chuyền</td>
-                        <td class="align-middle">16/3/2025 (10h30)</td>
-                        <td class="align-middle">Paypal</td>
-                        <td class="align-middle">Thành công</td>
-                        <td class="align-middle">350000đ</td>
-                        <td class="align-middle">
-                          <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                        <td class="align-middle">
-                          <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
-                            FC#1007
-                          </a>
-                        </td>
-                        <td class="align-middle">Lê Văn Chuyền</td>
-                        <td class="align-middle">16/3/2025 (10h30)</td>
-                        <td class="align-middle">Paypal</td>
-                        <td class="align-middle">Thành công</td>
-                        <td class="align-middle">350000đ</td>
-                        <td class="align-middle">
-                          <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                        <td class="align-middle">
-                          <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
-                            FC#1007
-                          </a>
-                        </td>
-                        <td class="align-middle">Hoàng Thu Hằng</td>
-                        <td class="align-middle">16/3/2025 (10h30)</td>
-                        <td class="align-middle">Paypal</td>
-                        <td class="align-middle">Thành công</td>
-                        <td class="align-middle">350000đ</td>
-                        <td class="align-middle">
-                          <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                        <td class="align-middle">
-                          <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
-                            FC#1007
-                          </a>
-                        </td>
-                        <td class="align-middle">Đặng Ánh Nhật</td>
-                        <td class="align-middle">16/3/2025 (10h30)</td>
-                        <td class="align-middle">Paypal</td>
-                        <td class="align-middle">Thành công</td>
-                        <td class="align-middle">350000đ</td>
-                        <td class="align-middle">
-                          <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                        <td class="align-middle">
-                          <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
-                            FC#1007
-                          </a>
-                        </td>
-                        <td class="align-middle">Nguyễn Thế Anh</td>
-                        <td class="align-middle">16/3/2025 (10h30)</td>
-                        <td class="align-middle">Code</td>
-                        <td class="align-middle">Thành công</td>
-                        <td class="align-middle">350000đ</td>
-                        <td class="align-middle">
-                          <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
-                          <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <!-- Trạng thái -->
+                <div>
+                  <label for="orderStatus" class="form-label">Trạng thái</label>
+                  <select class="form-select" id="orderStatus">
+                    <option value="">Tất cả</option>
+                    <option value="pending">Chờ xác nhận</option>
+                    <option value="shipped">Đã giao</option>
+                    <option value="cancelled">Đã hủy</option>
+                  </select>
+                </div>
+
+                <!-- Phương thức thanh toán -->
+                <div>
+                  <label for="paymentMethod" class="form-label">Thanh toán</label>
+                  <select class="form-select" id="paymentMethod">
+                    <option value="">Tất cả</option>
+                    <option value="cod">COD</option>
+                    <option value="bank">Chuyển khoản</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="paymentMethod" class="form-label">Đơn đặt hàng</label>
+                  <select class="form-select" id="paymentMethod">
+                    <option value="">Tất cả</option>
+                    <option value="cod">Mới Nhất</option>
+                    <option value="bank">Cũ nhất</option>
+                  </select>
+                </div>
+
+                <!-- Nút lọc -->
+                <div>
+                  <button type="button" class="btn btn-primary mt-3" onclick="applyOrderFilter()">Lọc</button>
+                </div>
+              </form>
+              <!-- Tổng quan số lượng đơn hàng -->
+              <div class="my-4">
+                <h5 class="my-3 fw-bold">Tổng quan đơn hàng</h5>
+                <div class="row text-center g-4">
+                  <div class="col-md-3 col-6">
+                    <div class="border rounded p-3 bg-light">
+                      <h6 class="fs-5 fw-bold mt-2">Tổng đơn hàng</h6>
+                      <p class="fs-4 fw-bold">18</p>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-6">
+                    <div class="border rounded p-3 bg-warning bg-opacity-25">
+                      <h6 class="fs-5 fw-bold mt-2">Đang xử lý</h6>
+                      <p class="fs-4 fw-bold text-warning" id="processing-orders">8</p>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-6">
+                    <div class="border rounded p-3 bg-success bg-opacity-25">
+                      <h6 class="fs-5 fw-bold mt-2">Thành công</h6>
+                      <p class="fs-4 fw-bold text-success" id="successful-orders">5</p>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-6">
+                    <div class="border rounded p-3 bg-danger bg-opacity-25">
+                      <h6 class="fs-5 fw-bold mt-2">Đã huỷ</h6>
+                      <p class="fs-4 fw-bold text-danger" id="cancelled-orders">5</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <nav aria-label="Page navigation">
-              <ul class="pagination pagination-sm justify-content-end mt-2">
-                <li class="page-item mx-1">
-                  <a class="page-link rounded-1" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li class="page-item mx-1"><a class="page-link active rounded-1" href="#">1</a></li>
-                <li class="page-item mx-1"><a class="page-link rounded-1" href="#">2</a></li>
-                <li class="page-item mx-1"><a class="page-link rounded-1" href="#">3</a></li>
-                <li class="page-item mx-1">
-                  <a class="page-link rounded-1" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
           </div>
+
+          <div class="card">
+            <div class="card-body">
+
+              <div class="table-responsive">
+
+                <!-- Table with stripped rows -->
+                <table class="table table-striped datatable table-hover">
+                  <thead>
+                    <tr>
+                      <th>
+                        Mã đơn hàng
+                      </th>
+                      <th>Khách hàng</th>
+                      <th data-type="date" data-format="YYYY/DD/MM">Thời gian</th>
+                      <th>Tổng tiền</th>
+                      <th>Trạng thái</th>
+                      <th>Chức năng</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr>
+                      <td class="align-middle">AC#1007</td>
+                      <td class="align-middle">Lê Văn Chuyền</td>
+                      <td class="align-middle">16/3/2025</td>
+                      <td class="align-middle">350000đ</td>
+                      <td class="align-middle">
+                        <span class="badge bg-warning text-dark p-2">Đang giao</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
+                        
+                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="align-middle">BC#1007</td>
+                      <td class="align-middle">Đặng Ánh Nhật</td>
+                      <td class="align-middle">16/3/2025</td>
+                      <td class="align-middle">350000đ</td>
+                      <td class="align-middle">
+                        <a href="single-order-processing.html" class="btn badge bg-secondary p-2">Chờ xác nhận</a>
+                      </td>
+                      <td class="align-middle">
+                        <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
+                        
+                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="align-middle">DC#1007</td>
+                      <td class="align-middle">Đặng Ánh Nhật</td>
+                      <td class="align-middle">16/3/2025</td>
+                      <td class="align-middle">350000đ</td>
+                      <td class="align-middle">
+                        <span class="badge bg-warning text-dark p-2">Đang giao</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
+                        
+                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="align-middle">EC#1007</td>
+                      <td class="align-middle">Đặng Ánh Nhật</td>
+                      <td class="align-middle">16/3/2025</td>
+                      <td class="align-middle">350000đ</td>
+                      <td class="align-middle">
+                        <span class="badge bg-success p-2">Thành công</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
+                        
+                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="align-middle">FC#1007</td>
+                      <td class="align-middle">Đặng Ánh Nhật</td>
+                      <td class="align-middle">16/3/2025</td>
+                      <td class="align-middle">350000đ</td>
+                      <td class="align-middle">
+                        <a href="single-order-processing.html" class="btn badge bg-secondary p-2">Chờ xác nhận</a>
+                      </td>
+                      <td class="align-middle">
+                        <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
+                        
+                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle">BC#1007</td>
+                      <td class="align-middle">Đặng Ánh Nhật</td>
+                      <td class="align-middle">16/3/2025</td>
+                      <td class="align-middle">350000đ</td>
+                      <td class="align-middle">
+                        <span class="badge bg-success p-2">Thành công</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
+                        
+                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="align-middle">DC#1007</td>
+                      <td class="align-middle">Đặng Ánh Nhật</td>
+                      <td class="align-middle">16/3/2025</td>
+                      <td class="align-middle">350000đ</td>
+                      <td class="align-middle">
+                        <span class="badge bg-danger p-2">Đã huỷ</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
+                        
+                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="align-middle">EC#1007</td>
+                      <td class="align-middle">Đặng Ánh Nhật</td>
+                      <td class="align-middle">16/3/2025</td>
+                      <td class="align-middle">350000đ</td>
+                      <td class="align-middle">
+                        <span class="badge bg-danger p-2">Đã huỷ</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
+                        
+                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="align-middle">FC#1007</td>
+                      <td class="align-middle">Đặng Ánh Nhật</td>
+                      <td class="align-middle">16/3/2025</td>
+                      <td class="align-middle">350000đ</td>
+                      <td class="align-middle">
+                        <span class="badge bg-warning text-dark p-2">Đang giao</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
+                        
+                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="align-middle">HC#1007</td>
+                      <td class="align-middle">Đặng Ánh Nhật</td>
+                      <td class="align-middle">16/3/2025</td>
+                      <td class="align-middle">350000đ</td>
+                      <td class="align-middle">
+                        <span class="badge bg-danger p-2">Đã huỷ</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
+                        
+                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="align-middle">KC#1007</td>
+                      <td class="align-middle">Đặng Ánh Nhật</td>
+                      <td class="align-middle">16/3/2025</td>
+                      <td class="align-middle">350000đ</td>
+                      <td class="align-middle">
+                        <span class="badge bg-warning text-dark p-2">Đang giao</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
+                        
+                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="align-middle">GC#1007</td>
+                      <td class="align-middle">Đặng Ánh Nhật</td>
+                      <td class="align-middle">16/3/2025</td>
+                      <td class="align-middle">350000đ</td>
+                      <td class="align-middle">
+                        <span class="badge bg-warning text-dark p-2">Đang giao</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
+                        
+                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="align-middle">HC#1007</td>
+                      <td class="align-middle">Đặng Ánh Nhật</td>
+                      <td class="align-middle">16/3/2025</td>
+                      <td class="align-middle">350000đ</td>
+                      <td class="align-middle">
+                        <span class="badge bg-warning text-dark p-2">Đang giao</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="single-order.html"><i class="bi bi-eye fs-6 text-secondary ms-2 pointer"></i></a>
+                        
+                        <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+                <!-- End Table with stripped rows -->
+
+              </div>
+              
+              <!-- Nút Xuất dữ liệu -->
+              <div class="d-flex justify-content-end mt-3">
+                <button type="button" class="btn btn-primary">
+                  <i class="bi bi-download me-2"></i> Xuất dữ liệu
+                </button>
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
-  </main>
+
+  </main><!-- End #main -->
 
 
   <!-- ======= Footer ======= -->

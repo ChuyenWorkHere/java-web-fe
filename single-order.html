@@ -15,7 +15,9 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -285,7 +287,7 @@
         <a class="nav-link collapsed" href="categories.html">
           <i class="bi bi-list-task"></i>
           <span>Danh mục</span>
-        </a>   
+        </a>
       </li><!-- End Components Nav -->
 
       <li class="nav-item">
@@ -397,127 +399,140 @@
         </a>
       </nav>
     </div>
-  
+
     <section class="section dashboard">
       <div class="row mb-5">
         <div class="col-12">
           <div class="card p-4 rounded-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h2 class="h5 fw-bold">Order ID: <span class="text-dark fw-bold">#FC001</span> 
-                        <!-- <span class="badge bg-warning text-dark">Pending</span> -->
-                    </h2>
-                </div>
-                <div class="d-flex align-items-center">
-                    <select class="form-select me-2" style="width: auto;">
-                      <option value="active">Thành công</option>
-                      <option value="inactive">Chờ phê duyệt</option>
-                      <option value="inactive">Đang gửi</option>
-                      <option value="inactive">Đã huỷ</option>
-                    </select>
-                </div>
+              <div>
+                <h2 class="h5 fw-bold">Order ID: <span class="text-dark fw-bold">#FC001</span>
+                  <!-- <span class="badge bg-warning text-dark">Pending</span> -->
+                </h2>
+              </div>
+              <div class="d-flex align-items-center">
+                <button class="btn btn-success">Thành công</button>
+              </div>
             </div>
-            <div class="row mb-4">
-                <div class="col-md-4">
-                    <h3 class="fs-custom text-dark fw-bold">Chi tiết khách hàng</h3>
-                    <p class="fs-6">Đặng Ánh Nhật</p>
-                    <p class="fs-6">nhat@gmail.com</p>
-                    <p class="fs-6">086431691</p>
-                    <a href="#" class="text-success text-decoration-none small">View Profile</a>
-                </div>
-                <div class="col-md-4">
-                    <h3 class="fs-custom text-dark fw-bold">Địa chỉ nhận hàng</h3>
-                    <p class="fs-6">số 5 Nguyên Xá</p>
-                    <p class="fs-6">Bắc Từ Liêm, Hà Nội, Việt Nam</p>
-                    <p class="fs-6">Sđt: 0863164715</p>
-                </div>
-                <div class="col-md-4">
-                    <h3 class="fs-custom text-dark fw-bold">Chi tiết hoá đơn</h3>
-                    <p class="fs-6">Mã hoá đơn: FC001</p>
-                    <p class="fs-6">Ngày đặt hàng: 17/3/2025</p>
-                    <p class="fs-6">Tổng số tiền: 850000đ</p>
-                </div>
+            <div class="row mb-4 mx-0 py-4 rounded">
+              <div class="col-md-4">
+                <h3 class="fs-custom text-dark fw-bold mb-3">Chi tiết khách hàng</h3>
+                <p class="fs-6">Đặng Ánh Nhật</p>
+                <p class="fs-6">nhat@gmail.com</p>
+                <p class="fs-6">086431691</p>
+                <a href="#" class="text-success text-decoration-none small">View Profile</a>
+              </div>
+              <div class="col-md-4">
+                <h3 class="fs-custom text-dark fw-bold mb-3">Địa chỉ nhận hàng</h3>
+                <p class="fs-6">số 5 Nguyên Xá</p>
+                <p class="fs-6">Bắc Từ Liêm, Hà Nội, Việt Nam</p>
+              </div>
+              <div class="col-md-4">
+                <h3 class="fs-custom text-dark fw-bold mb-3">Chi tiết hoá đơn</h3>
+                <p class="fs-6">Mã hoá đơn: FC001</p>
+                <p class="fs-6">Thời gian: 12 P.M</p>
+                <p class="fs-6">Ngày đặt hàng: 17/3/2025</p>
+                <p class="fs-6">Tổng số tiền: 850000đ</p>
+              </div>
             </div>
             <div class="table-responsive">
-              <table class="table">
+              <table class="table table-striped datatable table-hover">
                 <thead class="table-light">
-                    <tr>
-                        <th scope="col">Ảnh</th>
-                        <th scope="col">Tên sản phẩm</th>
-                        <th scope="col">Giá</th>
-                        <th scope="col">Số lượng</th>
-                        <th scope="col">Tổng giá</th>
-                    </tr>
+                  <tr>
+                    <th scope="col">Ảnh</th>
+                    <th scope="col">Tên sản phẩm</th>
+                    <th scope="col">Giá</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Tổng giá</th>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                    <td class="align-middle"><a href="single-product" class="text-dark text-decoration-none hover-primary">
-                      Unity Pugh
-                    </a></td>
-                    <td class="align-middle">250000đ</td> 
+                    <td class="align-middle"><a href="single-product"
+                        class="text-dark text-decoration-none hover-primary">
+                        Unity Pugh
+                      </a></td>
+                    <td class="align-middle">250000đ</td>
                     <td class="align-middle">1</td>
-                    <td class="align-middle">250000đ</td>               
+                    <td class="align-middle">250000đ</td>
                   </tr>
                   <tr>
                     <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                    <td class="align-middle"><a href="single-product" class="text-dark text-decoration-none hover-primary">
-                      Unity Pugh
-                    </a></td>
-                    <td class="align-middle">250000đ</td> 
+                    <td class="align-middle"><a href="single-product"
+                        class="text-dark text-decoration-none hover-primary">
+                        Unity Pugh
+                      </a></td>
+                    <td class="align-middle">250000đ</td>
                     <td class="align-middle">1</td>
-                    <td class="align-middle">250000đ</td>               
+                    <td class="align-middle">250000đ</td>
                   </tr>
                   <tr>
                     <td class="align-middle"><img src="assets/img/pro8.jpg" class="product-img" alt=""></td>
-                    <td class="align-middle"><a href="single-product" class="text-dark text-decoration-none hover-primary">
-                      Unity Pugh
-                    </a></td>
-                    <td class="align-middle">250000đ</td> 
+                    <td class="align-middle"><a href="single-product"
+                        class="text-dark text-decoration-none hover-primary">
+                        Unity Pugh
+                      </a></td>
+                    <td class="align-middle">250000đ</td>
                     <td class="align-middle">1</td>
-                    <td class="align-middle">250000đ</td>               
+                    <td class="align-middle">250000đ</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            
-            <div class="d-flex justify-content-end mb-4">
-                <div class="w-50">
-                    <div class="d-flex justify-content-between border-bottom py-2">
-                        <span>Tổng tiền:</span>
-                        <span>750000đ</span>
-                    </div>
-                    <div class="d-flex justify-content-between border-bottom py-2">
-                        <span>Phí vận chuyển:</span>
-                        <span>30000đ</span>
-                    </div>
-                    <div class="d-flex justify-content-between py-2 fw-bold">
-                        <span>Tổng cộng:</span>
-                        <span>780000đ</span>
-                    </div>
-                </div>
-            </div>            
+
+
             <div class="d-flex flex-column flex-md-row justify-content-between">
+              <!-- Thông tin thanh toán -->
               <div class="w-100 w-md-50 pe-md-3">
-                  <h3 class="fs-custom text-dark fw-bold">Thông tin thanh toán</h3>
-                  <p class="fs-6">Thanh toán khi nhận hàng</p>
+                <div class="card h-100 border-0 shadow-sm mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title text-dark fw-bold mb-3">Thông tin thanh toán</h5>
+                    <ul class="list-unstyled mb-0">
+                      <li class="mb-2 d-flex justify-content-between">
+                        <span>Hình thức:</span>
+                        <span class="fw-semibold text-primary">Thanh toán khi nhận hàng</span>
+                      </li>
+                      <li class="mb-2 d-flex justify-content-between">
+                        <span>Tổng tiền hàng:</span>
+                        <span class="fw-semibold">750,000₫</span>
+                      </li>
+                      <li class="mb-2 d-flex justify-content-between">
+                        <span>Phí vận chuyển:</span>
+                        <span class="fw-semibold">30,000₫</span>
+                      </li>
+                      <li class="border-top pt-2 mt-2 d-flex justify-content-between">
+                        <span class="fw-bold text-dark">Tổng cộng:</span>
+                        <span class="fw-bold text-success fs-5">780,000₫</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
+
+              <!-- Ghi chú -->
               <div class="w-100 w-md-50">
-                  <h3 class="fs-custom text-dark fw-bold">Ghi chú</h3>
-                  <textarea class="form-control mb-2" rows="4" placeholder="Viết ghi chú cho đơn hàng"></textarea>
-                  <button class="btn btn-success">Lưu ghi chú</button>
+                <div class="card h-100 border-0 shadow-sm">
+                  <div class="card-body">
+                    <h5 class="card-title text-dark fw-bold mb-3">Ghi chú</h5>
+                    <textarea class="form-control mb-3" rows="4" placeholder="Viết ghi chú cho đơn hàng"></textarea>
+                    <button class="btn btn-success">Lưu ghi chú</button>
+                  </div>
+                </div>
               </div>
-            </div>    
+            </div>
+
           </div>
         </div>
       </div>
     </section>
   </main>
-  
+
 
   <!-- ======= Footer ======= -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>

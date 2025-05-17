@@ -250,7 +250,6 @@ h6 {
 }
 
 .card-body {
-
   padding: 0 20px 20px 20px;
 }
 
@@ -1522,4 +1521,45 @@ button.btn-search:hover {
 .icon-btn {
   cursor: pointer;
   font-size: 1.25rem;
+}
+
+
+
+/* 
+****
+phần quản lý đơn hàng
+****
+
+*/
+/* Container nút phân trang */
+/* Nút phân trang - áp dụng với Bootstrap + jQuery DataTables */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  padding: 6px 12px;
+  margin: 0 3px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  color: #212529;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background-color: #007bff;
+  color: #fff !important;
+  border-color: #007bff;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background-color: #007bff;
+  color: #fff !important;
+  font-weight: bold;
+  border-color: #007bff;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background-color: #e9ecef;
+  border-color: #dee2e6;
 }
