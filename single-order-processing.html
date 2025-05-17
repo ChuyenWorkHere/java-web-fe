@@ -411,7 +411,7 @@
                 </h2>
               </div>
               <div class="d-flex align-items-center">
-                <button class="btn btn-success">Xác nhận đơn</button>
+                <button class="btn btn-secondary">Xác nhận đơn</button>
               </div>
             </div>
             <div class="row mb-4 mx-0 py-4 rounded">
@@ -481,33 +481,47 @@
               </table>
             </div>
 
-            <div class="d-flex justify-content-end mb-4">
-              <div class="w-50">
-                <div class="d-flex justify-content-between border-bottom py-2">
-                  <span>Tổng tiền:</span>
-                  <span>750000đ</span>
-                </div>
-                <div class="d-flex justify-content-between border-bottom py-2">
-                  <span>Phí vận chuyển:</span>
-                  <span>30000đ</span>
-                </div>
-                <div class="d-flex justify-content-between py-2 fw-bold">
-                  <span>Tổng cộng:</span>
-                  <span>780000đ</span>
-                </div>
-              </div>
-            </div>
+
             <div class="d-flex flex-column flex-md-row justify-content-between">
+              <!-- Thông tin thanh toán -->
               <div class="w-100 w-md-50 pe-md-3">
-                <h3 class="fs-custom text-dark fw-bold">Thông tin thanh toán</h3>
-                <p class="fs-6">Thanh toán khi nhận hàng</p>
+                <div class="card h-100 border-0 shadow-sm mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title text-dark fw-bold mb-3">Thông tin thanh toán</h5>
+                    <ul class="list-unstyled mb-0">
+                      <li class="mb-2 d-flex justify-content-between">
+                        <span>Hình thức:</span>
+                        <span class="fw-semibold text-primary">Thanh toán khi nhận hàng</span>
+                      </li>
+                      <li class="mb-2 d-flex justify-content-between">
+                        <span>Tổng tiền hàng:</span>
+                        <span class="fw-semibold">750,000₫</span>
+                      </li>
+                      <li class="mb-2 d-flex justify-content-between">
+                        <span>Phí vận chuyển:</span>
+                        <span class="fw-semibold">30,000₫</span>
+                      </li>
+                      <li class="border-top pt-2 mt-2 d-flex justify-content-between">
+                        <span class="fw-bold text-dark">Tổng cộng:</span>
+                        <span class="fw-bold text-success fs-5">780,000₫</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
+
+              <!-- Ghi chú -->
               <div class="w-100 w-md-50">
-                <h3 class="fs-custom text-dark fw-bold">Ghi chú</h3>
-                <textarea class="form-control mb-2" rows="4" placeholder="Viết ghi chú cho đơn hàng"></textarea>
-                <button class="btn btn-success">Lưu ghi chú</button>
+                <div class="card h-100 border-0 shadow-sm">
+                  <div class="card-body">
+                    <h5 class="card-title text-dark fw-bold mb-3">Ghi chú</h5>
+                    <textarea class="form-control mb-3" rows="4" placeholder="Viết ghi chú cho đơn hàng"></textarea>
+                    <button class="btn btn-success">Lưu ghi chú</button>
+                  </div>
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
