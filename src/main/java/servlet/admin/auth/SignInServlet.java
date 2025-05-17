@@ -184,7 +184,7 @@ public class SignInServlet extends HttpServlet {
 			if("ADMIN".equals(role)) {
 				response.sendRedirect("../admin/home-view");
 			}else {
-				response.sendRedirect("../customer/home-view");
+				response.sendRedirect("../public/home");
 			}
 		}else {
 			request.setAttribute("errorMessage", "không có quyền truy cập");
