@@ -15,7 +15,9 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -285,7 +287,7 @@
         <a class="nav-link collapsed" href="categories.html">
           <i class="bi bi-list-task"></i>
           <span>Danh mục</span>
-        </a>   
+        </a>
       </li><!-- End Components Nav -->
 
       <li class="nav-item">
@@ -378,26 +380,57 @@
         </ol>
       </nav>
     </div>
-  
+
     <section class="section dashboard">
       <div class="row">
         <div class="col-12">
           <div class="card shadow-sm pt-3 pe-3 ps-3 rounded-4">
-            <div class="row d-flex justify-content-between g-2 mb-2">
-              <div class="col-12 col-md-6 col-lg-4">
-                <input type="text" class="form-control rounded-2" placeholder="Tìm đơn hàng...">
-              </div>
-              <div class="col-12 col-md-4 col-lg-2">
-                <select class="form-select rounded-2">
-                  <option value="">Tất cả trạng thái</option>
-                  <option value="active">Thành công</option>
-                  <option value="inactive">Chờ phê duyệt</option>
-                  <option value="inactive">Đang gửi</option>
-                  <option value="inactive">Đã huỷ</option>
-                </select>
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">Bộ lọc đơn hàng</h5>
+                <form id="orderFilterForm" class="row g-3">
+                  <div class="col-md-3">
+                    <label for="orderId" class="form-label">Mã đơn hàng</label>
+                    <input type="text" class="form-control" id="orderId" placeholder="Nhập mã đơn hàng">
+                  </div>
+                  <div class="col-md-3">
+                    <label for="orderStatus" class="form-label">Khoảng giá</label>
+                    <select class="form-select" id="orderStatus">
+                      <option value="">Tất cả</option>
+                      <option value="pending">Chờ xác nhận</option>
+                      <option value="shipped">Đã giao</option>
+                      <option value="cancelled">Đã hủy</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="orderStatus" class="form-label">Trạng thái</label>
+                    <select class="form-select" id="orderStatus">
+                      <option value="">Tất cả</option>
+                      <option value="pending">Chờ xác nhận</option>
+                      <option value="shipped">Đã giao</option>
+                      <option value="cancelled">Đã hủy</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="paymentMethod" class="form-label">Phương thức thanh toán</label>
+                    <select class="form-select" id="paymentMethod">
+                      <option value="">Tất cả</option>
+                      <option value="cod">COD</option>
+                      <option value="bank">Chuyển khoản</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="orderDate" class="form-label">Ngày đặt hàng</label>
+                    <input type="date" class="form-control" id="orderDate">
+                  </div>
+                  <div class="col-md-3 align-self-end">
+                    <button type="button" class="btn btn-primary w-100" onclick="applyOrderFilter()">Lọc</button>
+                  </div>
+                </form>
               </div>
             </div>
-  
+
+
             <div class="card">
               <div class="card-body">
                 <div class="table-responsive">
@@ -410,7 +443,7 @@
                         <th scope="col">Thời gian</th>
                         <th scope="col">Thanh toán</th>
                         <th scope="col">Trạng thái</th>
-                        <th scope="col">Tổng tiền</th>         
+                        <th scope="col">Tổng tiền</th>
                         <th scope="col">Chức năng</th>
                       </tr>
                     </thead>
@@ -420,13 +453,14 @@
                         <td class="align-middle">
                           <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
                             FC#1007
-                          </a></td>
+                          </a>
+                        </td>
                         <td class="align-middle">Lê Văn Chuyền</td>
                         <td class="align-middle">16/3/2025 (10h30)</td>
                         <td class="align-middle">Paypal</td>
                         <td class="align-middle">Thành công</td>
                         <td class="align-middle">350000đ</td>
-                        <td class="align-middle">                         
+                        <td class="align-middle">
                           <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
                           <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                         </td>
@@ -436,13 +470,14 @@
                         <td class="align-middle">
                           <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
                             FC#1007
-                          </a></td>
+                          </a>
+                        </td>
                         <td class="align-middle">Lê Văn Chuyền</td>
                         <td class="align-middle">16/3/2025 (10h30)</td>
                         <td class="align-middle">Paypal</td>
                         <td class="align-middle">Thành công</td>
                         <td class="align-middle">350000đ</td>
-                        <td class="align-middle">                         
+                        <td class="align-middle">
                           <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
                           <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                         </td>
@@ -452,13 +487,14 @@
                         <td class="align-middle">
                           <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
                             FC#1007
-                          </a></td>
+                          </a>
+                        </td>
                         <td class="align-middle">Lê Văn Chuyền</td>
                         <td class="align-middle">16/3/2025 (10h30)</td>
                         <td class="align-middle">Paypal</td>
                         <td class="align-middle">Thành công</td>
                         <td class="align-middle">350000đ</td>
-                        <td class="align-middle">                         
+                        <td class="align-middle">
                           <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
                           <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                         </td>
@@ -468,13 +504,14 @@
                         <td class="align-middle">
                           <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
                             FC#1007
-                          </a></td>
+                          </a>
+                        </td>
                         <td class="align-middle">Lê Văn Chuyền</td>
                         <td class="align-middle">16/3/2025 (10h30)</td>
                         <td class="align-middle">Paypal</td>
                         <td class="align-middle">Thành công</td>
                         <td class="align-middle">350000đ</td>
-                        <td class="align-middle">                         
+                        <td class="align-middle">
                           <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
                           <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                         </td>
@@ -484,13 +521,14 @@
                         <td class="align-middle">
                           <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
                             FC#1007
-                          </a></td>
+                          </a>
+                        </td>
                         <td class="align-middle">Hoàng Thu Hằng</td>
                         <td class="align-middle">16/3/2025 (10h30)</td>
                         <td class="align-middle">Paypal</td>
                         <td class="align-middle">Thành công</td>
                         <td class="align-middle">350000đ</td>
-                        <td class="align-middle">                         
+                        <td class="align-middle">
                           <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
                           <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                         </td>
@@ -500,13 +538,14 @@
                         <td class="align-middle">
                           <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
                             FC#1007
-                          </a></td>
+                          </a>
+                        </td>
                         <td class="align-middle">Đặng Ánh Nhật</td>
                         <td class="align-middle">16/3/2025 (10h30)</td>
                         <td class="align-middle">Paypal</td>
                         <td class="align-middle">Thành công</td>
                         <td class="align-middle">350000đ</td>
-                        <td class="align-middle">                         
+                        <td class="align-middle">
                           <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
                           <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                         </td>
@@ -516,13 +555,14 @@
                         <td class="align-middle">
                           <a href="single-order.html" class="text-dark fs-6 text-decoration-none hover-primary">
                             FC#1007
-                          </a></td>
+                          </a>
+                        </td>
                         <td class="align-middle">Nguyễn Thế Anh</td>
                         <td class="align-middle">16/3/2025 (10h30)</td>
                         <td class="align-middle">Code</td>
                         <td class="align-middle">Thành công</td>
                         <td class="align-middle">350000đ</td>
-                        <td class="align-middle">                         
+                        <td class="align-middle">
                           <i class="bi bi-pencil-square fs-6 text-primary ms-2 pointer"></i>
                           <i class="bi bi-trash fs-6 text-danger ms-2 pointer"></i>
                         </td>
@@ -532,7 +572,7 @@
                 </div>
               </div>
             </div>
-  
+
             <nav aria-label="Page navigation">
               <ul class="pagination pagination-sm justify-content-end mt-2">
                 <li class="page-item mx-1">
@@ -555,11 +595,12 @@
       </div>
     </section>
   </main>
-  
+
 
   <!-- ======= Footer ======= -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
