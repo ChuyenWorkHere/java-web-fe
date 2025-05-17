@@ -15,7 +15,9 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -284,7 +286,7 @@
         <a class="nav-link collapsed" href="categories.html">
           <i class="bi bi-list-task"></i>
           <span>Danh mục</span>
-        </a>   
+        </a>
       </li><!-- End Components Nav -->
 
       <li class="nav-item">
@@ -370,7 +372,7 @@
 
     <div class="pagetitle d-flex justify-content-between">
       <h1>Trang chủ</h1>
-      <nav class="d-flex align-items-center" >
+      <nav class="d-flex align-items-center">
         <ol class="breadcrumb  mb-0">
           <li class="breadcrumb-item"><a href="index.html"><i class="bi bi-house-fill"></i></a></li>
           <li class="breadcrumb-item active">Trang chủ</li>
@@ -380,153 +382,157 @@
 
     <section class="section dashboard">
       <div class="row">
+        <!-- Sales Card -->
+        <div class="col-xl-3 col-md-6">
+          <div class="card info-card sales-card">
 
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filter</h6>
+                </li>
+
+                <li><a class="dropdown-item" href="#">Today</a></li>
+                <li><a class="dropdown-item" href="#">This Month</a></li>
+                <li><a class="dropdown-item" href="#">This Year</a></li>
+              </ul>
+            </div>
+
+            <div class="card-body">
+              <h5 class="card-title">Bán Hàng <span>| Hôm nay</span></h5>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-cart"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>145</h6>
+                  <span class="text-success small pt-1 fw-bold">12%</span> <span
+                    class="text-muted small pt-2 ps-1">tăng</span>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- End Sales Card -->
+
+        <!-- Revenue Card -->
+        <div class="col-xl-3 col-md-6">
+          <div class="card info-card revenue-card">
+
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filter</h6>
+                </li>
+
+                <li><a class="dropdown-item" href="#">Today</a></li>
+                <li><a class="dropdown-item" href="#">This Month</a></li>
+                <li><a class="dropdown-item" href="#">This Year</a></li>
+              </ul>
+            </div>
+
+            <div class="card-body">
+              <h5 class="card-title">Doanh Thu <span>| Tháng này</span></h5>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-currency-dollar"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>14.500.000</h6>
+                  <span class="text-success small pt-1 fw-bold">8%</span> <span
+                    class="text-muted small pt-2 ps-1">tăng</span>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- End Revenue Card -->
+
+        <!-- Customers Card -->
+        <div class="col-xl-3 col-md-6">
+
+          <div class="card info-card customers-card">
+
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filter</h6>
+                </li>
+
+                <li><a class="dropdown-item" href="#">Today</a></li>
+                <li><a class="dropdown-item" href="#">This Month</a></li>
+                <li><a class="dropdown-item" href="#">This Year</a></li>
+              </ul>
+            </div>
+
+            <div class="card-body">
+              <h5 class="card-title">Khách Hàng <span>| Năm này</span></h5>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-people"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>1244</h6>
+                  <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                    class="text-muted small pt-2 ps-1">giảm</span>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div><!-- End Customers Card -->
+
+        <div class="col-xl-3 col-md-6">
+
+          <div class="card info-card rating-card">
+
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filter</h6>
+                </li>
+
+                <li><a class="dropdown-item" href="#">Today</a></li>
+                <li><a class="dropdown-item" href="#">This Month</a></li>
+                <li><a class="dropdown-item" href="#">This Year</a></li>
+              </ul>
+            </div>
+
+            <div class="card-body">
+              <h5 class="card-title">Đánh Giá <span>| Năm này</span></h5>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-star-fill"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>1244</h6>
+                  <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                    class="text-muted small pt-2 ps-1">giảm</span>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div><!-- End Customers Card -->
+      </div>
+      <div class="row">
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">
-
-            <!-- Sales Card -->
-            <div class="col-xxl-6 col-md-6">
-              <div class="card info-card sales-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Bán Hàng <span>| Hôm nay</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>145</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">tăng</span>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div><!-- End Sales Card -->
-
-            <!-- Revenue Card -->
-            <div class="col-xxl-6 col-md-6">
-              <div class="card info-card revenue-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Doanh Thu <span>| Tháng này</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>14.500.000</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">tăng</span>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div><!-- End Revenue Card -->
-
-            <!-- Customers Card -->
-            <div class="col-xxl-6 col-xl-12">
-
-              <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Khách Hàng <span>| Năm này</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">giảm</span>
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-            </div><!-- End Customers Card -->
-
-            <div class="col-xxl-6 col-xl-12">
-
-              <div class="card info-card rating-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Đánh Giá <span>| Năm này</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">giảm</span>
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-            </div><!-- End Customers Card -->
 
             <!-- Reports -->
             <div class="col-12">
@@ -762,80 +768,97 @@
         </div><!-- End Left side columns -->
 
         <!-- Right side columns -->
-        <div class="col-lg-4">
+        <div class="col-lg-4 new-customer">
 
-          <!-- Recent Activity -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Hôm nay</a></li>
-                <li><a class="dropdown-item" href="#">Tháng này</a></li>
-                <li><a class="dropdown-item" href="#">Năm này</a></li>
-              </ul>
+          <div class="card p-4 mx-auto">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h2 class="text-slate-900 fw-semibold fs-5 mb-0">Khách Hàng Mới</h2>
+              <i class="fas fa-ellipsis-h text-secondary" aria-hidden="true"></i>
             </div>
-
-            <div class="card-body">
-              <h5 class="card-title">Hoạt động gần đây <span>| Today</span></h5>
-
-              <div class="activity">
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">32 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                  <div class="activity-content">
-                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+            <ul class="list-unstyled mb-0">
+              <li class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center gap-3">
+                  <img src="https://storage.googleapis.com/a1aa/image/86651eb7-180e-4702-5c08-8c1143d80c7a.jpg"
+                    alt="Black and white profile photo of a man looking down" class="avatar-img" />
+                  <div>
+                    <p class="text-slate-900 fw-semibold mb-0" style="font-size: 0.875rem;">Jimmy Denis</p>
+                    <p class="text-slate-400 mb-0" style="font-size: 0.75rem;">Graphic Designer</p>
                   </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">56 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptatem blanditiis blanditiis eveniet
+                </div>
+                <div class="d-flex gap-3">
+                  <i class="bi bi-envelope text-blue-600 icon-btn" aria-hidden="true"></i>
+                  <i class="bi bi-ban text-red-400 icon-btn" aria-hidden="true"></i>
+                </div>
+              </li>
+              <li class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="avatar-circle bg-indigo-600" style="background-color: #6b63ce;">CF</div>
+                  <div>
+                    <p class="text-slate-900 fw-semibold mb-0" style="font-size: 0.875rem;">Chandra Felix</p>
+                    <p class="text-slate-400 mb-0" style="font-size: 0.75rem;">Sales Promotion</p>
                   </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 hrs</div>
-                  <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptates corrupti molestias voluptatem
+                </div>
+                <div class="d-flex gap-3">
+                  <i class="bi bi-envelope text-blue-600 icon-btn" aria-hidden="true"></i>
+                  <i class="bi bi-ban text-red-400 icon-btn" aria-hidden="true"></i>
+                </div>
+              </li>
+              <li class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center gap-3">
+                  <img src="https://storage.googleapis.com/a1aa/image/6e6c9265-63c8-46f7-c5a8-43213eab4c0d.jpg"
+                    alt="Profile photo of a man with dark hair and black shirt" class="avatar-img" />
+                  <div>
+                    <p class="text-slate-900 fw-semibold mb-0" style="font-size: 0.875rem;">Talha</p>
+                    <p class="text-slate-400 mb-0" style="font-size: 0.75rem;">Front End Designer</p>
                   </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">1 day</div>
-                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                  <div class="activity-content">
-                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
+                </div>
+                <div class="d-flex gap-3">
+                  <i class="bi bi-envelope text-blue-600 icon-btn" aria-hidden="true"></i>
+                  <i class="bi bi-ban text-red-400 icon-btn" aria-hidden="true"></i>
+                </div>
+              </li>
+              <li class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center gap-3">
+                  <img src="https://storage.googleapis.com/a1aa/image/8fd47e12-2cc7-4a66-fdf9-3304d8f342ed.jpg"
+                    alt="Black and white profile photo of a smiling man" class="avatar-img" />
+                  <div>
+                    <p class="text-slate-900 fw-semibold mb-0" style="font-size: 0.875rem;">Chad</p>
+                    <p class="text-slate-400 mb-0" style="font-size: 0.75rem;">CEO Zeleaf</p>
                   </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 days</div>
-                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                  <div class="activity-content">
-                    Est sit eum reiciendis exercitationem
+                </div>
+                <div class="d-flex gap-3">
+                  <i class="bi bi-envelope text-blue-600 icon-btn" aria-hidden="true"></i>
+                  <i class="bi bi-ban text-red-400 icon-btn" aria-hidden="true"></i>
+                </div>
+              </li>
+              <li class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="avatar-circle" style="background-color: #2563eb;">H</div>
+                  <div>
+                    <p class="text-slate-900 fw-semibold mb-0" style="font-size: 0.875rem;">Hizrian</p>
+                    <p class="text-slate-400 mb-0" style="font-size: 0.75rem;">Web Designer</p>
                   </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">4 weeks</div>
-                  <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                  <div class="activity-content">
-                    Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
+                </div>
+                <div class="d-flex gap-3">
+                  <i class="bi bi-envelope text-blue-600 icon-btn" aria-hidden="true"></i>
+                  <i class="bi bi-ban text-red-400 icon-btn" aria-hidden="true"></i>
+                </div>
+              </li>
+              <li class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="avatar-circle bg-indigo-600" style="background-color: #6b63ce;">F</div>
+                  <div>
+                    <p class="text-slate-900 fw-semibold mb-0" style="font-size: 0.875rem;">Farrah</p>
+                    <p class="text-slate-400 mb-0" style="font-size: 0.75rem;">Marketing</p>
                   </div>
-                </div><!-- End activity item-->
-
-              </div>
-
-            </div>
-          </div><!-- End Recent Activity -->
+                </div>
+                <div class="d-flex gap-3">
+                  <i class="bi bi-envelope text-blue-600 icon-btn" aria-hidden="true"></i>
+                  <i class="bi bi-ban text-red-400 icon-btn" aria-hidden="true"></i>
+                </div>
+              </li>
+            </ul>
+          </div>
 
           <!-- Budget Report -->
           <div class="card">
@@ -866,42 +889,42 @@
                     radar: {
                       // shape: 'circle',
                       indicator: [{
-                          name: 'Sales',
-                          max: 6500
-                        },
-                        {
-                          name: 'Administration',
-                          max: 16000
-                        },
-                        {
-                          name: 'Information Technology',
-                          max: 30000
-                        },
-                        {
-                          name: 'Customer Support',
-                          max: 38000
-                        },
-                        {
-                          name: 'Development',
-                          max: 52000
-                        },
-                        {
-                          name: 'Marketing',
-                          max: 25000
-                        }
+                        name: 'Sales',
+                        max: 6500
+                      },
+                      {
+                        name: 'Administration',
+                        max: 16000
+                      },
+                      {
+                        name: 'Information Technology',
+                        max: 30000
+                      },
+                      {
+                        name: 'Customer Support',
+                        max: 38000
+                      },
+                      {
+                        name: 'Development',
+                        max: 52000
+                      },
+                      {
+                        name: 'Marketing',
+                        max: 25000
+                      }
                       ]
                     },
                     series: [{
                       name: 'Budget vs spending',
                       type: 'radar',
                       data: [{
-                          value: [4200, 3000, 20000, 35000, 50000, 18000],
-                          name: 'Allocated Budget'
-                        },
-                        {
-                          value: [5000, 14000, 28000, 26000, 42000, 21000],
-                          name: 'Actual Spending'
-                        }
+                        value: [4200, 3000, 20000, 35000, 50000, 18000],
+                        name: 'Allocated Budget'
+                      },
+                      {
+                        value: [5000, 14000, 28000, 26000, 42000, 21000],
+                        name: 'Actual Spending'
+                      }
                       ]
                     }]
                   });
@@ -961,25 +984,25 @@
                         show: false
                       },
                       data: [{
-                          value: 1048,
-                          name: 'Search Engine'
-                        },
-                        {
-                          value: 735,
-                          name: 'Direct'
-                        },
-                        {
-                          value: 580,
-                          name: 'Email'
-                        },
-                        {
-                          value: 484,
-                          name: 'Union Ads'
-                        },
-                        {
-                          value: 300,
-                          name: 'Video Ads'
-                        }
+                        value: 1048,
+                        name: 'Search Engine'
+                      },
+                      {
+                        value: 735,
+                        name: 'Direct'
+                      },
+                      {
+                        value: 580,
+                        name: 'Email'
+                      },
+                      {
+                        value: 484,
+                        name: 'Union Ads'
+                      },
+                      {
+                        value: 300,
+                        name: 'Video Ads'
+                      }
                       ]
                     }]
                   });
@@ -1064,7 +1087,8 @@
     </div>
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
