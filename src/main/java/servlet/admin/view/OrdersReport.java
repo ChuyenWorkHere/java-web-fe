@@ -25,6 +25,7 @@ public class OrdersReport extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
 		PrintWriter out = response.getWriter();
+		request.setAttribute("view", "report-order");
 
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
 		headerDispatcher.include(request, response);

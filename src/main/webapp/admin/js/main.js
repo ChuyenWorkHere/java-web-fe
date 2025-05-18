@@ -317,3 +317,17 @@
   }
 
 })();
+
+function selectColor(element) {
+  // Xóa trạng thái chọn của các ô khác
+  document.querySelectorAll('.color-box').forEach(box => {
+    box.classList.remove('selected');
+  });
+
+  // Thêm trạng thái chọn cho ô được nhấp
+  element.classList.add('selected');
+
+  // Cập nhật giá trị màu vào input ẩn
+  const color = element.getAttribute('data-color');
+  document.getElementById('selectedColor').value = color;
+}

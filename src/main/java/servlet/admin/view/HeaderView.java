@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/admin/header-view")
 public class HeaderView extends HttpServlet {
@@ -24,6 +25,12 @@ public class HeaderView extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
+		
+		HttpSession session = request.getSession(false);
+		String username = (session != null && session.getAttribute("username") != null) 
+                ? (String) session.getAttribute("username") : "Khách";
+        String role = (session != null && session.getAttribute("role") != null) 
+                ? (String) session.getAttribute("role") : "Khách";
 		
 		out.append("<!DOCTYPE html>");
 		out.append("<html lang=\"en\">");
@@ -184,7 +191,7 @@ public class HeaderView extends HttpServlet {
 
 		out.append("            <li class=\"message-item\">");
 		out.append("              <a href=\"#\">");
-		out.append("                <img src=\"assets/img/messages-1.jpg\" alt=\"\" class=\"rounded-circle\">");
+		out.append("                <img src=\"img/messages-1.jpg\" alt=\"\" class=\"rounded-circle\">");
 		out.append("                <div>");
 		out.append("                  <h4>Maria Hudson</h4>");
 		out.append("                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>");
@@ -198,7 +205,7 @@ public class HeaderView extends HttpServlet {
 
 		out.append("            <li class=\"message-item\">");
 		out.append("              <a href=\"#\">");
-		out.append("                <img src=\"assets/img/messages-2.jpg\" alt=\"\" class=\"rounded-circle\">");
+		out.append("                <img src=\"img/messages-2.jpg\" alt=\"\" class=\"rounded-circle\">");
 		out.append("                <div>");
 		out.append("                  <h4>Anna Nelson</h4>");
 		out.append("                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>");
@@ -212,7 +219,7 @@ public class HeaderView extends HttpServlet {
 
 		out.append("            <li class=\"message-item\">");
 		out.append("              <a href=\"#\">");
-		out.append("                <img src=\"assets/img/messages-3.jpg\" alt=\"\" class=\"rounded-circle\">");
+		out.append("                <img src=\"img/messages-3.jpg\" alt=\"\" class=\"rounded-circle\">");
 		out.append("                <div>");
 		out.append("                  <h4>David Muldon</h4>");
 		out.append("                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>");
@@ -236,20 +243,20 @@ public class HeaderView extends HttpServlet {
 
 		out.append(
 				"          <a class=\"nav-link nav-profile d-flex align-items-center pe-0\" href=\"#\" data-bs-toggle=\"dropdown\">");
-		out.append("            <img src=\"assets/img/profile-img.jpg\" alt=\"Profile\" class=\"rounded-circle\">");
+		out.append("            <img src=\"img/profile-img.jpg\" alt=\"Profile\" class=\"rounded-circle\">");
 		out.append("          </a><!-- End Profile Iamge Icon -->");
 
 		out.append("          <ul class=\"dropdown-menu dropdown-menu-end dropdown-menu-arrow profile\">");
 		out.append("            <li class=\"dropdown-header\">");
-		out.append("              <h6>Nguyễn Văn A</h6>");
-		out.append("              <span>Admin</span>");
+		out.append("              <h6>"+username+"</h6>");
+		out.append("              <span>"+role+"</span>");
 		out.append("            </li>");
 		out.append("            <li>");
 		out.append("              <hr class=\"dropdown-divider\">");
 		out.append("            </li>");
 
 		out.append("            <li>");
-		out.append("              <a class=\"dropdown-item d-flex align-items-center\" href=\"users-profile.html\">");
+		out.append("              <a class=\"dropdown-item d-flex align-items-center\" href=\"/Furniture/admin/profile\">");
 		out.append("                <i class=\"bi bi-person\"></i>");
 		out.append("                <span>Hồ sơ</span>");
 		out.append("              </a>");
@@ -279,7 +286,7 @@ public class HeaderView extends HttpServlet {
 		out.append("            </li>");
 
 		out.append("            <li>");
-		out.append("              <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
+		out.append("              <a class=\"dropdown-item d-flex align-items-center\" href=\"../public/log-out\">");
 		out.append("                <i class=\"bi bi-box-arrow-right\"></i>");
 		out.append("                <span>Đăng xuất</span>");
 		out.append("              </a>");
