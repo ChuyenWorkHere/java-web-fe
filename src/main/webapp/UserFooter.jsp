@@ -130,6 +130,7 @@
         <script src="../user/js/jquery.magnific-popup.min.js"></script>
         <script src="../user/js/plugins.js"></script>
         <script src="../user/js/main.js"></script>
+        <script src="../user/js/cart.js"></script>
     </body>
 
 </html>
