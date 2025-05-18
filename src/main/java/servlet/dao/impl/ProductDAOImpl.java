@@ -30,11 +30,7 @@ public class ProductDAOImpl implements ProductDAO {
 		return null;
 	}
 
-	@Override
-	public List<Product> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public boolean addProduct(Product product) {
@@ -52,6 +48,12 @@ public class ProductDAOImpl implements ProductDAO {
 	public boolean deleteProduct(int productId) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<Product> findAll(int pageSize, int pageNumber, String orderBy, String sortBy) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

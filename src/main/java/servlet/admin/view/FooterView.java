@@ -55,8 +55,8 @@ public class FooterView extends HttpServlet {
 
 		out.append("  <!-- Template Main JS File -->");
 		out.append("  <script src=\"../admin/js/main.js\"></script>");
-		out.append("  <script src=\"../admin/js/addProductAnimation.js\"></script>");
-
+		
+		
 		out.append("</body>");
 
 		out.append("</html>");
