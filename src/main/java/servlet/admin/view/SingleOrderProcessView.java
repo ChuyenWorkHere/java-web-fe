@@ -93,7 +93,7 @@ public class SingleOrderProcessView extends HttpServlet {
 		out.append("                </thead>");
 		out.append("                <tbody>");
 		out.append("                  <tr>");
-		out.append("                    <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+		out.append("                    <td class=\"align-middle\"><img src=\"../admin/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 		out.append("                    <td class=\"align-middle\"><a href=\"single-product\"");
 		out.append("                        class=\"text-dark text-decoration-none hover-primary\">");
 		out.append("                        Unity Pugh");
@@ -103,7 +103,7 @@ public class SingleOrderProcessView extends HttpServlet {
 		out.append("                    <td class=\"align-middle\">250000đ</td>");
 		out.append("                  </tr>");
 		out.append("                  <tr>");
-		out.append("                    <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+		out.append("                    <td class=\"align-middle\"><img src=\"../admin/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 		out.append("                    <td class=\"align-middle\"><a href=\"single-product\"");
 		out.append("                        class=\"text-dark text-decoration-none hover-primary\">");
 		out.append("                        Unity Pugh");
@@ -113,7 +113,7 @@ public class SingleOrderProcessView extends HttpServlet {
 		out.append("                    <td class=\"align-middle\">250000đ</td>");
 		out.append("                  </tr>");
 		out.append("                  <tr>");
-		out.append("                    <td class=\"align-middle\"><img src=\"assets/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
+		out.append("                    <td class=\"align-middle\"><img src=\"../admin/img/pro8.jpg\" class=\"product-img\" alt=\"\"></td>");
 		out.append("                    <td class=\"align-middle\"><a href=\"single-product\"");
 		out.append("                        class=\"text-dark text-decoration-none hover-primary\">");
 		out.append("                        Unity Pugh");

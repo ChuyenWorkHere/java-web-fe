@@ -69,7 +69,7 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="product-wrapper mb-50">
                                             <div class="product-img mb-25">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro13.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro14.jpg" alt="">
                                                 </a>
@@ -95,7 +95,7 @@
                                                     <a href="shop.html">furniture</a>
                                                 </div>
                                                 <h4>
-                                                    <a href="product-details.html">Minimal Troma Furniture</a>
+                                                    <a href="../public/product-detail">Minimal Troma Furniture</a>
                                                 </h4>
                                                 <div class="product-meta">
                                                     <div class="pro-price">
@@ -112,7 +112,7 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="product-wrapper mb-50">
                                             <div class="product-img mb-25">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro15.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro16.jpg" alt="">
                                                 </a>
@@ -138,7 +138,7 @@
                                                     <a href="shop.html">furniture</a>
                                                 </div>
                                                 <h4>
-                                                    <a href="product-details.html">Minimal Troma Furniture</a>
+                                                    <a href="../public/product-detail">Minimal Troma Furniture</a>
                                                 </h4>
                                                 <div class="product-meta">
                                                     <div class="pro-price">
@@ -155,7 +155,7 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="product-wrapper mb-50">
                                             <div class="product-img mb-25">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro1.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro2.jpg" alt="">
                                                 </a>
@@ -181,7 +181,7 @@
                                                     <a href="shop.html">furniture</a>
                                                 </div>
                                                 <h4>
-                                                    <a href="product-details.html">Minimal Troma Furniture</a>
+                                                    <a href="../public/product-detail">Minimal Troma Furniture</a>
                                                 </h4>
                                                 <div class="product-meta">
                                                     <div class="pro-price">
@@ -198,7 +198,7 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="product-wrapper mb-50">
                                             <div class="product-img mb-25">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro29.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro28.jpg" alt="">
                                                 </a>
@@ -224,7 +224,7 @@
                                                     <a href="shop.html">furniture</a>
                                                 </div>
                                                 <h4>
-                                                    <a href="product-details.html">Minimal Troma Furniture</a>
+                                                    <a href="../public/product-detail">Minimal Troma Furniture</a>
                                                 </h4>
                                                 <div class="product-meta">
                                                     <div class="pro-price">
@@ -241,7 +241,7 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="product-wrapper mb-50">
                                             <div class="product-img mb-25">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro3.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro4.jpg" alt="">
                                                 </a>
@@ -267,7 +267,7 @@
                                                     <a href="shop.html">furniture</a>
                                                 </div>
                                                 <h4>
-                                                    <a href="product-details.html">Minimal Troma Furniture</a>
+                                                    <a href="../public/product-detail">Minimal Troma Furniture</a>
                                                 </h4>
                                                 <div class="product-meta">
                                                     <div class="pro-price">
@@ -284,7 +284,7 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="product-wrapper mb-50">
                                             <div class="product-img mb-25">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro6.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro7.jpg" alt="">
                                                 </a>
@@ -310,7 +310,7 @@
                                                     <a href="shop.html">furniture</a>
                                                 </div>
                                                 <h4>
-                                                    <a href="product-details.html">Minimal Troma Furniture</a>
+                                                    <a href="../public/product-detail">Minimal Troma Furniture</a>
                                                 </h4>
                                                 <div class="product-meta">
                                                     <div class="pro-price">
@@ -327,7 +327,7 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="product-wrapper mb-50">
                                             <div class="product-img mb-25">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro19.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro23.jpg" alt="">
                                                 </a>
@@ -353,7 +353,7 @@
                                                     <a href="shop.html">furniture</a>
                                                 </div>
                                                 <h4>
-                                                    <a href="product-details.html">Minimal Troma Furniture</a>
+                                                    <a href="../public/product-detail">Minimal Troma Furniture</a>
                                                 </h4>
                                                 <div class="product-meta">
                                                     <div class="pro-price">
@@ -370,7 +370,7 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="product-wrapper mb-50">
                                             <div class="product-img mb-25">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro33.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro32.jpg" alt="">
                                                 </a>
@@ -396,7 +396,7 @@
                                                     <a href="shop.html">furniture</a>
                                                 </div>
                                                 <h4>
-                                                    <a href="product-details.html">Minimal Troma Furniture</a>
+                                                    <a href="../public/product-detail">Minimal Troma Furniture</a>
                                                 </h4>
                                                 <div class="product-meta">
                                                     <div class="pro-price">
@@ -413,7 +413,7 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="product-wrapper mb-50">
                                             <div class="product-img mb-25">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro9.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro10.jpg" alt="">
                                                 </a>
@@ -439,7 +439,7 @@
                                                     <a href="shop.html">furniture</a>
                                                 </div>
                                                 <h4>
-                                                    <a href="product-details.html">Minimal Troma Furniture</a>
+                                                    <a href="../public/product-detail">Minimal Troma Furniture</a>
                                                 </h4>
                                                 <div class="product-meta">
                                                     <div class="pro-price">
@@ -456,7 +456,7 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="product-wrapper mb-50">
                                             <div class="product-img mb-25">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro11.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro12.jpg" alt="">
                                                 </a>
@@ -482,7 +482,7 @@
                                                     <a href="shop.html">furniture</a>
                                                 </div>
                                                 <h4>
-                                                    <a href="product-details.html">Minimal Troma Furniture</a>
+                                                    <a href="../public/product-detail">Minimal Troma Furniture</a>
                                                 </h4>
                                                 <div class="product-meta">
                                                     <div class="pro-price">
@@ -503,7 +503,7 @@
                                     <div class="col-xl-5">
                                         <div class="product-wrapper mb-30">
                                             <div class="product-img">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro13.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro14.jpg" alt="">
                                                 </a>
@@ -521,7 +521,7 @@
                                                 <a href="shop.html">furniture</a>
                                             </div>
                                             <h4>
-                                                <a href="product-details.html">Minimal Troma Furniture</a>
+                                                <a href="../public/product-detail">Minimal Troma Furniture</a>
                                             </h4>
                                             <div class="product-meta mb-10">
                                                 <div class="pro-price">
@@ -547,7 +547,7 @@
                                     <div class="col-xl-5">
                                         <div class="product-wrapper mb-30">
                                             <div class="product-img">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro11.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro12.jpg" alt="">
                                                 </a>
@@ -565,7 +565,7 @@
                                                 <a href="shop.html">furniture</a>
                                             </div>
                                             <h4>
-                                                <a href="product-details.html">Minimal Troma Furniture</a>
+                                                <a href="../public/product-detail">Minimal Troma Furniture</a>
                                             </h4>
                                             <div class="product-meta mb-10">
                                                 <div class="pro-price">
@@ -591,7 +591,7 @@
                                     <div class="col-xl-5">
                                         <div class="product-wrapper mb-30">
                                             <div class="product-img">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro15.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro16.jpg" alt="">
                                                 </a>
@@ -609,7 +609,7 @@
                                                 <a href="shop.html">furniture</a>
                                             </div>
                                             <h4>
-                                                <a href="product-details.html">Minimal Troma Furniture</a>
+                                                <a href="../public/product-detail">Minimal Troma Furniture</a>
                                             </h4>
                                             <div class="product-meta mb-10">
                                                 <div class="pro-price">
@@ -635,7 +635,7 @@
                                     <div class="col-xl-5">
                                         <div class="product-wrapper mb-30">
                                             <div class="product-img">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro6.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro7.jpg" alt="">
                                                 </a>
@@ -653,7 +653,7 @@
                                                 <a href="shop.html">furniture</a>
                                             </div>
                                             <h4>
-                                                <a href="product-details.html">Minimal Troma Furniture</a>
+                                                <a href="../public/product-detail">Minimal Troma Furniture</a>
                                             </h4>
                                             <div class="product-meta mb-10">
                                                 <div class="pro-price">
@@ -679,7 +679,7 @@
                                     <div class="col-xl-5">
                                         <div class="product-wrapper mb-30">
                                             <div class="product-img">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro18.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro19.jpg" alt="">
                                                 </a>
@@ -697,7 +697,7 @@
                                                 <a href="shop.html">furniture</a>
                                             </div>
                                             <h4>
-                                                <a href="product-details.html">Minimal Troma Furniture</a>
+                                                <a href="../public/product-detail">Minimal Troma Furniture</a>
                                             </h4>
                                             <div class="product-meta mb-10">
                                                 <div class="pro-price">
@@ -723,7 +723,7 @@
                                     <div class="col-xl-5">
                                         <div class="product-wrapper mb-30">
                                             <div class="product-img">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro5.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro6.jpg" alt="">
                                                 </a>
@@ -741,7 +741,7 @@
                                                 <a href="shop.html">furniture</a>
                                             </div>
                                             <h4>
-                                                <a href="product-details.html">Minimal Troma Furniture</a>
+                                                <a href="../public/product-detail">Minimal Troma Furniture</a>
                                             </h4>
                                             <div class="product-meta mb-10">
                                                 <div class="pro-price">
@@ -767,7 +767,7 @@
                                     <div class="col-xl-5">
                                         <div class="product-wrapper mb-30">
                                             <div class="product-img">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro20.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro21.jpg" alt="">
                                                 </a>
@@ -785,7 +785,7 @@
                                                 <a href="shop.html">furniture</a>
                                             </div>
                                             <h4>
-                                                <a href="product-details.html">Minimal Troma Furniture</a>
+                                                <a href="../public/product-detail">Minimal Troma Furniture</a>
                                             </h4>
                                             <div class="product-meta mb-10">
                                                 <div class="pro-price">
@@ -811,7 +811,7 @@
                                     <div class="col-xl-5">
                                         <div class="product-wrapper mb-30">
                                             <div class="product-img">
-                                                <a href="product-details.html">
+                                                <a href="../public/product-detail">
                                                     <img src="../user/img/product/pro9.jpg" alt="">
                                                     <img class="secondary-img" src="../user/img/product/pro10.jpg" alt="">
                                                 </a>
@@ -829,7 +829,7 @@
                                                 <a href="shop.html">furniture</a>
                                             </div>
                                             <h4>
-                                                <a href="product-details.html">Minimal Troma Furniture</a>
+                                                <a href="../public/product-detail">Minimal Troma Furniture</a>
                                             </h4>
                                             <div class="product-meta mb-10">
                                                 <div class="pro-price">
@@ -961,7 +961,7 @@
                                 <ul class="shop-sidebar-product">
                                     <li>
                                         <div class="side-pro-img">
-                                            <a href="product-details.html"><img src="../user/img/product/latest/shop-rsp1.jpg" alt=""></a>
+                                            <a href="../public/product-detail"><img src="../user/img/product/latest/shop-rsp1.jpg" alt=""></a>
                                         </div>
                                         <div class="side-pro-content">
                                             <div class="side-pro-rating">
@@ -971,7 +971,7 @@
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                             </div>
-                                            <h5><a href="product-details.html">Raglan Baseball-Style</a></h5>
+                                            <h5><a href="../public/product-detail">Raglan Baseball-Style</a></h5>
                                             <div class="side-pro-price">
                                                 <span>$119.00 USD</span>
                                             </div>
@@ -979,7 +979,7 @@
                                     </li>
                                     <li>
                                         <div class="side-pro-img">
-                                            <a href="product-details.html"><img src="../user/img/product/latest/shop-rsp3.jpg" alt=""></a>
+                                            <a href="../public/product-detail"><img src="../user/img/product/latest/shop-rsp3.jpg" alt=""></a>
                                         </div>
                                         <div class="side-pro-content">
                                             <div class="side-pro-rating">
@@ -989,7 +989,7 @@
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                             </div>
-                                            <h5><a href="product-details.html">Raglan Baseball-Style</a></h5>
+                                            <h5><a href="../public/product-detail">Raglan Baseball-Style</a></h5>
                                             <div class="side-pro-price">
                                                 <span>$119.00 USD</span>
                                             </div>
@@ -997,7 +997,7 @@
                                     </li>
                                     <li>
                                         <div class="side-pro-img">
-                                            <a href="product-details.html"><img src="../user/img/product/latest/shop-rsp2.jpg" alt=""></a>
+                                            <a href="../public/product-detail"><img src="../user/img/product/latest/shop-rsp2.jpg" alt=""></a>
                                         </div>
                                         <div class="side-pro-content">
                                             <div class="side-pro-rating">
@@ -1007,7 +1007,7 @@
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                             </div>
-                                            <h5><a href="product-details.html">Raglan Baseball-Style</a></h5>
+                                            <h5><a href="../public/product-detail">Raglan Baseball-Style</a></h5>
                                             <div class="side-pro-price">
                                                 <span>$119.00 USD</span>
                                             </div>
@@ -1015,7 +1015,7 @@
                                     </li>
                                     <li>
                                         <div class="side-pro-img">
-                                            <a href="product-details.html"><img src="../user/img/product/latest/shop-rsp4.jpg" alt=""></a>
+                                            <a href="../public/product-detail"><img src="../user/img/product/latest/shop-rsp4.jpg" alt=""></a>
                                         </div>
                                         <div class="side-pro-content">
                                             <div class="side-pro-rating">
@@ -1025,7 +1025,7 @@
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                             </div>
-                                            <h5><a href="product-details.html">Raglan Baseball-Style</a></h5>
+                                            <h5><a href="../public/product-detail">Raglan Baseball-Style</a></h5>
                                             <div class="side-pro-price">
                                                 <span>$119.00 USD</span>
                                             </div>

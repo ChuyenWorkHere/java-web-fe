@@ -10,10 +10,10 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="breadcrumb-text text-center">
-                            <h1>Cửa hàng</h1>
+                            <h1>Our Shop</h1>
                             <ul class="breadcrumb-menu">
-                                <li><a href="index.html">Trang chủ</a></li>
-                                <li><span>Chi tiết sản phẩm</span></li>
+                                <li><a href="index.html">home</a></li>
+                                <li><span>shop details</span></li>
                             </ul>
                         </div>
                     </div>
@@ -66,19 +66,19 @@
                     <div class="col-xl-6 col-lg-8">
                         <div class="product-details mb-30 pl-30">
                             <div class="details-cat mb-20">
-                                <a href="#">Trang trí,</a>
-                                <a href="#">nội thất</a>
+                                <a href="#">decor,</a>
+                                <a href="#">furniture</a>
                             </div>
                             <h2 class="pro-details-title mb-15">Limonda Women Winter Cloth</h2>
                             <div class="details-price mb-20">
-                                <span>200.000 VNĐ</span>
-                                <span class="old-price">450.000 VNĐ</span>
+                                <span>$119.00</span>
+                                <span class="old-price">$246.00</span>
                             </div>
                             <div class="product-variant">
 
                                 <div class="product-color variant-item">
                                     <div class="variant-name">
-                                        <span>Màu sắc</span>
+                                        <span>Colors</span>
                                     </div>
                                     <ul class="shop-link shop-color">
                                         <li><a href="shop.html"><span class="blue"></span></a></li>
@@ -104,15 +104,16 @@
                                 </div>
 
                                 <div class="product-desc variant-item">
-                                    <p>Mang phong cách tối giản và tinh tế, chiếc ghế sofa vải 3 chỗ này là lựa chọn hoàn hảo cho không gian phòng khách hiện đại. Được bọc bằng chất liệu vải cao cấp, mềm mại và thoáng khí, sofa mang lại cảm giác êm ái và thoải mái khi sử dụng. Khung ghế được làm từ gỗ tự nhiên chắc chắn, kết hợp cùng đệm mút đàn hồi cao, giúp giữ được hình dáng bền đẹp theo thời gian.</p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
                                 </div>
 
                                 <div class="product-info-list variant-item">
                                     <ul>
-                                        <li><span>Thương hiệu:</span> Hewlett-Packard</li>
-                                        <li><span>Mã sản phẩm:</span> d12</li>
-                                        <li><span>Lượt truy cập:</span> 100</li>
-                                        <li><span>Tình trạng:</span> <span class="in-stock">Còn hàng</span></li>
+                                        <li><span>Brands:</span> Hewlett-Packard</li>
+                                        <li><span>Product Code:</span> d12</li>
+                                        <li><span>Reward Points:</span> 100</li>
+                                        <li><span>Stock:</span> <span class="in-stock">In Stock</span></li>
                                     </ul>
                                 </div>
 
@@ -125,7 +126,7 @@
                                             <button class="details-action-icon" type="submit"><i class="fas fa-heart"></i></button>
                                             <button class="details-action-icon" type="submit"><i class="fas fa-hourglass"></i></button>
                                             <div class="details-cart mt-40">
-                                                <button class="btn theme-btn">mua ngay</button>
+                                                <button class="btn theme-btn">purchase now</button>
                                             </div>
                                         </form>
                                     </div>
@@ -140,24 +141,25 @@
                             <ul class="nav review-tab" id="myTabproduct" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="home-tab6" data-toggle="tab" href="#home6" role="tab" aria-controls="home"
-                                        aria-selected="true">Mô tả</a>
+                                        aria-selected="true">Description </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="profile-tab6" data-toggle="tab" href="#profile6" role="tab" aria-controls="profile"
-                                        aria-selected="false">Đánh giá sản phẩm (2)</a>
+                                        aria-selected="false">Reviews (2)</a>
                                 </li>
                             </ul>
                             <div class="tab-content" id="myTabContent2">
                                 <div class="tab-pane fade show active" id="home6" role="tabpanel" aria-labelledby="home-tab6">
                                     <div class="desc-text">
-                                        <p>Mang phong cách tối giản và tinh tế, chiếc ghế sofa vải 3 chỗ này là lựa chọn hoàn hảo cho không gian phòng khách hiện đại. Được bọc bằng chất liệu vải cao cấp, mềm mại và thoáng khí, sofa mang lại cảm giác êm ái và thoải mái khi sử dụng. Khung ghế được làm từ gỗ tự nhiên chắc chắn, kết hợp cùng đệm mút đàn hồi cao, giúp giữ được hình dáng bền đẹp theo thời gian.
-
-                                           Thiết kế linh hoạt với tone màu trung tính dễ dàng phối hợp với nhiều phong cách nội thất khác nhau. Chân ghế bằng gỗ sồi tự nhiên, được xử lý chống mối mọt và trầy xước. Phù hợp cho các căn hộ chung cư, nhà phố hoặc văn phòng làm việc.
-
-                                           Kích thước: Dài 180cm x Rộng 80cm x Cao 75cm
-                                           Chất liệu: Vải bố cao cấp, khung gỗ tự nhiên
-                                           Màu sắc: Xám nhạt / Kem / Xanh rêu
-                                           Bảo hành: 12 tháng</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                                        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis
+                                        unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
+                                        illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                                        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui
+                                        ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+                                        adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="profile6" role="tabpanel" aria-labelledby="profile-tab6">
@@ -205,9 +207,9 @@
                                             </div>
                                         </div>
                                         <div class="review-box mt-50">
-                                            <h4>Thêm đánh giá</h4>
+                                            <h4>Add a Review</h4>
                                             <div class="your-rating mb-40">
-                                                <span>Đánh giá của bạn:</span>
+                                                <span>Your Rating:</span>
                                                 <div class="rating-list">
                                                     <a href="#">
                                                         <i class="far fa-star"></i>
@@ -229,11 +231,11 @@
                                             <form class="review-form" action="#">
                                                 <div class="row">
                                                     <div class="col-xl-12">
-                                                        <label for="message">ĐÁNH GIÁ</label>
+                                                        <label for="message">YOUR REVIEW</label>
                                                         <textarea name="message" id="message" cols="30" rows="10"></textarea>
                                                     </div>
                                                     <div class="col-xl-6">
-                                                        <label for="r-name">Tên</label>
+                                                        <label for="r-name">Name</label>
                                                         <input type="text" id="r-name">
                                                     </div>
                                                     <div class="col-xl-6">
@@ -241,7 +243,7 @@
                                                         <input type="email" id="r-email">
                                                     </div>
                                                     <div class="col-xl-12">
-                                                        <button class="btn theme-btn">Gửi đánh giá</button>
+                                                        <button class="btn theme-btn">Add your Review</button>
                                                     </div>
                                                 </div>
                                             </form>
