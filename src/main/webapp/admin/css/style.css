@@ -1559,3 +1559,40 @@ button.btn-search:hover {
   cursor: pointer;
   font-size: 1.25rem;
 }
+
+/* start file account */
+.icon-search{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 41.6px;
+  width: 48px;
+  border-radius: 0 5px 5px 0;
+  border: 1px solid #ddd;
+  margin-left: -6px;
+  border-left: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+#toast-message {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #28a745; /* màu xanh thành công */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 9999;
+}
+
+#toast-message.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/*end file account*/

@@ -29,6 +29,7 @@
 <link rel="stylesheet" href="../user/css/default.css">
 <link rel="stylesheet" href="../user/css/style.css">
 <link rel="stylesheet" href="../user/css/responsive.css">
+<link rel="stylesheet" href="../user/css/cart.css">
 </head>
 <body>
 
@@ -155,8 +156,8 @@
                                         <a class="search-btn nav-search search-trigger" href="#"><i class="fas fa-search"></i></a>
                                     </li>
                                     <li class="login-btn"><a href="../public/login"><i class="far fa-user"></i></a></li>
-                                    <li class="d-shop-cart"><a href="#"><i class="flaticon-shopping-cart"></i> <span class="cart-count">3</span></a>
-                                        <ul class="minicart">
+                                    <li class="d-shop-cart"><a href="../customer/cart"><i class="flaticon-shopping-cart"></i> <span class="cart-count">3</span></a>
+                                      <!--   <ul class="minicart">
                                             <li>
                                                 <div class="cart-img">
                                                     <a href="product-details.html">
@@ -240,7 +241,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                </ul>
+                                </ul>--> 
                             </div>
                         </div>
                         <div class="col-12 d-xl-none">
