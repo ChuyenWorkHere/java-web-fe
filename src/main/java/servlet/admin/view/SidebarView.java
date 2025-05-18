@@ -42,6 +42,9 @@ public class SidebarView extends HttpServlet {
 			case "cate":
 				collapse.put("cate", "");
 				break;
+			case "product":
+				collapse.put("product", "");
+				break;	
 			case "add":
 				collapse.put("product", "");
 				combination.put("product", "collapse show");

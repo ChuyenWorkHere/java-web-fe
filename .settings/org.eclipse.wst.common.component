@@ -26,9 +26,14 @@
                         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/annotations"/>
+<<<<<<< HEAD
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-test-sources/test-annotations"/>
                                         
         
+=======
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/.apt_generated"/>
+                                
+>>>>>>> edd15331c2420193128dbbe5633b8cf5b59cd335
         
         
         <property name="context-root" value="Furniture"/>
