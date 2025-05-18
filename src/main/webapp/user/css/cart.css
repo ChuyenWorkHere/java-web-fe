@@ -1,0 +1,19 @@
+.custom-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 1000;
+    font-size: 14px;
+}
+
+.custom-alert.show {
+    opacity: 1;
+    pointer-events: auto;
+}
