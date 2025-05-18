@@ -69,17 +69,8 @@
             <div class="row">
                 <div class="col-xl-9">
                   <h5 class="card-title">Ảnh minh họa</h5>
-                  <div class="">
-                    <div class="drop-zone text-center p-3 bg-light rounded position-relative"
-                      style="border: 1px dashed #ccc; min-height: 150px; cursor: pointer;">
-                      <input type="file" multiple class="file-input" style="display: none;" accept="image/*">
-                      <span class="text-muted position-absolute top-50 start-50 translate-middle dropZoneText">
-                        Drop files here to upload
-                      </span>
-                      <div class="preview d-flex flex-wrap justify-content-center align-items-center"
-                        style="min-height: 150px;"></div>
-                    </div>
-                  </div>
+                  <input type="file" class="form-control image-input" multiple accept="image/*">
+                  <div class="image-preview d-flex flex-wrap mt-2" style="min-height: 100px;"></div>
                 </div>
                 <div class="col-xl-3 col-md-4">
                   <h5 class="card-title">Màu sắc</h5>
