@@ -13,8 +13,8 @@ public class Product extends BaseModel {
     private int productId;
     private String productName;
     private int productTotal;
-    private float productPrice;
-    private float productDiscountPrice;
+    private double productPrice;
+    private double productDiscountPrice;
     private String productDescription;
     private int productVisited;
     private String productImageUrl;
