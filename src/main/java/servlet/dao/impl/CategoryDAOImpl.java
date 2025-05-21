@@ -1,15 +1,32 @@
 package servlet.dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import servlet.dao.CategoryDAO;
 import servlet.models.Category;
+import servlet.utils.DataSourceUtil;
 
 public class CategoryDAOImpl implements CategoryDAO {
 
 	@Override
 	public Category findById(int id) {
-		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM categories WHERE category_id = ?";
+		try (
+				Connection conn = DataSourceUtil.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql)
+		) {
+			stmt.setInt(1, id);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				return mapRowToCategory(rs);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -36,5 +53,17 @@ public class CategoryDAOImpl implements CategoryDAO {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
+	private Category mapRowToCategory(ResultSet rs) throws SQLException {
+		Category category = new Category();
+
+		category.setCategoryId(rs.getInt("category_id"));
+		category.setCategoryName(rs.getString("category_name"));
+		category.setCategoryDescription(rs.getString("category_description"));
+		category.setIsActive(rs.getInt("is_active"));
+
+		return category;
+	}
+
+
 }

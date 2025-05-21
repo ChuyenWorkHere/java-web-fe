@@ -24,6 +24,8 @@ public class AddProductView extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 
+		//Message từ
+
 		PrintWriter out = response.getWriter();
 		request.setAttribute("view", "add");
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
@@ -44,7 +46,7 @@ public class AddProductView extends HttpServlet {
 		out.append("");
 		out.append("    <section class=\"section\">");
 		out.append("      <div class=\"row bg-white\">");
-		out.append("        <form action=\"../admin/product/add\" method=\"POST\" class=\"row formProduct\">");
+		out.append("        <form action=\"../admin/product/add\" method=\"POST\" enctype=\"multipart/form-data\" class=\"row formProduct\">");
 		out.append("          <div class=\"col-lg-6\">");
 		out.append("            <div class=\"card\">");
 		out.append("              <div class=\"card-body\">");

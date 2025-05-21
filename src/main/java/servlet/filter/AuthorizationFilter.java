@@ -36,7 +36,7 @@ public class AuthorizationFilter implements Filter {
 			role = (String) session.getAttribute("role");
 		}
 
-		if (uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".png") || uri.endsWith(".jpg")
+		if (uri.startsWith(contextPath + "/uploads/") || uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".png") || uri.endsWith(".jpg")
 				|| uri.endsWith(".jpeg") || uri.endsWith(".gif") || uri.endsWith(".woff") || uri.endsWith(".ttf")
 				|| uri.endsWith(".eot") || uri.endsWith(".svg")) {
 			// Tài nguyên tĩnh, bỏ qua filter
@@ -65,6 +65,8 @@ public class AuthorizationFilter implements Filter {
 				return;
 			}
 		}
+
+		chain.doFilter(request, response);
 
 	}
 

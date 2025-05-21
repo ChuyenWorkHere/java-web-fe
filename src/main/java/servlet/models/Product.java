@@ -13,17 +13,16 @@ public class Product extends BaseModel {
     private int productId;
     private String productName;
     private int productTotal;
-    private float productPrice;
-    private float productDiscountPrice;
+    private String productCode;
+    private String productMaterial;
+    private double productPrice;
+    private double productDiscountPrice;
     private String productDescription;
     private int productVisited;
     private String productImageUrl;
     private String productSize;
     private boolean productEnable;
-    private Date createdDate;
-    private Date modifiedDate;
     private Brand brand;
     private Category category;
-
 
 }
