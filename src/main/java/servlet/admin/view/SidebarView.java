@@ -42,6 +42,9 @@ public class SidebarView extends HttpServlet {
 			case "cate":
 				collapse.put("cate", "");
 				break;
+			case "product":
+				collapse.put("product", "");
+				break;	
 			case "add":
 				collapse.put("product", "");
 				combination.put("product", "collapse show");
@@ -106,7 +109,7 @@ public class SidebarView extends HttpServlet {
 		out.append("            </a>");
 		out.append("          </li>");
 		out.append("          <li>");
-		out.append("            <a class = \" "+show.getOrDefault("add", "")+" \" href=\"/Furniture/admin/products-view\">");
+		out.append("            <a class = \" "+show.getOrDefault("add", "")+" \" href=\"/Furniture/admin/add-product-view\">");
 		out.append("                <i class=\"bi bi-plus-circle-fill\"></i><span>Thêm mới</span>");
 		out.append("            </a>");
 		out.append("          </li>");

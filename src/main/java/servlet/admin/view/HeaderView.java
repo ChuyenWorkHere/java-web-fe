@@ -63,7 +63,7 @@ public class HeaderView extends HttpServlet {
 		
 		out.append("  <!-- Template Main CSS File -->");
 		out.append("  <link href=\"../admin/css/style.css\" rel=\"stylesheet\">");
-
+		out.append("  <script src=\"https://code.jquery.com/jquery-3.6.0.min.js\"></script>");
 		out.append("</head>");
 
 		out.append("<body>");
