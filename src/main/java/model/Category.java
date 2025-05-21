@@ -1,4 +1,4 @@
-package servlet.admin.model;
+package model;
 
 import lombok.Data;
 

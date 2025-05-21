@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/admin/sidebar-view")
 public class SidebarView extends HttpServlet {
@@ -28,7 +29,8 @@ public class SidebarView extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		String view = (String) request.getAttribute("view");
-		System.out.println(view);
+//		System.out.println(view);
+		
 		Map<String, String> show = new HashMap<String, String>();
 		Map<String, String> collapse = new HashMap<String, String>();
 		Map<String, String> combination = new HashMap<String, String>();

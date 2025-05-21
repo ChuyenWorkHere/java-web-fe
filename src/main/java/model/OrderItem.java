@@ -1,4 +1,4 @@
-package servlet.admin.model;
+package model;
 
 public class OrderItem {
 

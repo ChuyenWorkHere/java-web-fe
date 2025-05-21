@@ -25,14 +25,7 @@ public class HomeView extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");		 
 		
 		PrintWriter out = response.getWriter();
-		
-		HttpSession session = request.getSession(true);
-		Object isLoggedIn = session.getAttribute("userLogined");
-		
-		if( isLoggedIn == null || !isLoggedIn.equals("ok")) {
-			response.sendRedirect("/Furniture/admin/signin");
-		}
-		
+			
 		request.setAttribute("view", "home");
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
 	    headerDispatcher.include(request, response);

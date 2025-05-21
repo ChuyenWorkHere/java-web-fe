@@ -1280,6 +1280,91 @@ h6 {
   background-color: gray;
 }
 
+.product__item-button a {
+  padding: 7px 1px;
+  border-radius: 10px;
+}
+
+.product__item-button a i{
+  color: white;
+  padding: 15px;
+}
+
+.product__item-button .view {
+  background-color: #007bff;
+}
+
+.product__item-button .edit {
+  background-color: #ecce6d;
+}
+
+.product__item-button .delete {
+  background-color: red;
+}
+
+.filter-label {
+  font-weight: 600;
+  font-size: 1rem;
+  color: black;
+}
+
+select.form-select {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #1f2937;
+  /* Tailwind's gray-900 */
+  border: 1px solid #d1d5db;
+  /* Tailwind's gray-300 */
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  height: 2.5rem;
+}
+
+button.btn-search {
+  background-color: #000;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  height: 2.5rem;
+  border: none;
+  width: 100%;
+}
+
+button.btn-search:hover {
+  background-color: #222;
+  color: #fff;
+}
+
+.color-select{
+  margin-left: 20px;
+}
+
+.color-container {
+    margin-top: 7px;
+    display: flex;
+    gap: 10px;
+}
+.color-box {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkmark {
+  display: none;
+  font-size: 24px;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+}
+.color-box.selected .checkmark {
+  display: block;
+}
 
 /*--------------------------------------------------------------
 # Footer

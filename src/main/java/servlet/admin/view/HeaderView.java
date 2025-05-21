@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/admin/header-view")
 public class HeaderView extends HttpServlet {
@@ -24,6 +25,12 @@ public class HeaderView extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
+		
+		HttpSession session = request.getSession(false);
+		String username = (session != null && session.getAttribute("username") != null) 
+                ? (String) session.getAttribute("username") : "Khách";
+        String role = (session != null && session.getAttribute("role") != null) 
+                ? (String) session.getAttribute("role") : "Khách";
 		
 		out.append("<!DOCTYPE html>");
 		out.append("<html lang=\"en\">");
@@ -241,8 +248,8 @@ public class HeaderView extends HttpServlet {
 
 		out.append("          <ul class=\"dropdown-menu dropdown-menu-end dropdown-menu-arrow profile\">");
 		out.append("            <li class=\"dropdown-header\">");
-		out.append("              <h6>Nguyễn Văn A</h6>");
-		out.append("              <span>Admin</span>");
+		out.append("              <h6>"+username+"</h6>");
+		out.append("              <span>"+role+"</span>");
 		out.append("            </li>");
 		out.append("            <li>");
 		out.append("              <hr class=\"dropdown-divider\">");
@@ -279,7 +286,7 @@ public class HeaderView extends HttpServlet {
 		out.append("            </li>");
 
 		out.append("            <li>");
-		out.append("              <a class=\"dropdown-item d-flex align-items-center\" href=\"#\">");
+		out.append("              <a class=\"dropdown-item d-flex align-items-center\" href=\"../public/log-out\">");
 		out.append("                <i class=\"bi bi-box-arrow-right\"></i>");
 		out.append("                <span>Đăng xuất</span>");
 		out.append("              </a>");
