@@ -38,8 +38,23 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 	@Override
 	public boolean addCategory(Category category) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "INSERT INTO categories (category_name, category_description) VALUES (?,?) ";
+		try (Connection conn = DataSourceUtil.getConnection();
+			 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setString(1, category.getCategoryName());
+			ps.setString(2, category.getCategoryDescription());
+			try {
+				int row = ps.executeUpdate();
+				return row > 0;
+			}
+		 	catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
 	}
 
 	@Override
@@ -54,6 +69,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 		return false;
 	}
 
+<<<<<<< HEAD
 	private Category mapRowToCategory(ResultSet rs) throws SQLException {
 		Category category = new Category();
 
@@ -66,4 +82,16 @@ public class CategoryDAOImpl implements CategoryDAO {
 	}
 
 
+=======
+	private Category mapRowToCategory(ResultSet rs) throws SQLException{
+		Category category = new Category();
+		category.setCategoryId(rs.getInt("category_id"));
+		category.setCategoryName(rs.getString("category_name"));
+		category.setCategoryDescription(rs.getString("category_description"));
+
+
+		return category;
+	}
+	
+>>>>>>> 2d25a1d3ffabd928ecd9a31f206d1a8290d00c31
 }

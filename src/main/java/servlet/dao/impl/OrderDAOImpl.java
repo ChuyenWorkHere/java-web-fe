@@ -122,6 +122,7 @@ public class OrderDAOImpl implements OrderDAO {
 
                     User user = new User();
                     user.setUserId(rs.getInt("user_id"));
+
                     user.setEmail(rs.getString("email"));
                     order.setUser(user);
 
@@ -151,6 +152,7 @@ public class OrderDAOImpl implements OrderDAO {
 
                     User user = new User();
                     user.setUserId(rs.getInt("user_id"));
+
                     user.setEmail(rs.getString("email"));
                     order.setUser(user);
 
@@ -180,6 +182,7 @@ public class OrderDAOImpl implements OrderDAO {
 
                     User user = new User();
                     user.setUserId(rs.getInt("user_id"));
+
                     user.setEmail(rs.getString("email"));
                     order.setUser(user);
 

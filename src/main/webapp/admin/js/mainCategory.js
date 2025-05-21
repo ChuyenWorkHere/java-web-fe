@@ -10,6 +10,10 @@ document.getElementById("deleteCategory").addEventListener("click", function() {
 function validFormAddCategory(){    
     let isValid = true;
 
+    //lẤY form
+
+    const form = document.getElementById('formAddCate');
+
     // Lấy input
     const nameInput = document.getElementById('addNameCategory');
     const detailInput = document.getElementById('addDetailCategory');
@@ -46,7 +50,9 @@ function validFormAddCategory(){
       const modalEl = document.getElementById('modalAdd');
       const modal = bootstrap.Modal.getInstance(modalEl);
       modal.hide();
+      form.submit();
       showAlert("Thêm mới Ghế Sofa thành công");
+
     }
 };
 
@@ -89,6 +95,7 @@ function validFormEditCategory(){
       const modalEl = document.getElementById('modalEdit');
       const modal = bootstrap.Modal.getInstance(modalEl);
       modal.hide();
+      form.submit();
       showAlert("Chỉnh sửa Ghế Sofa thành công");
     }
 };
