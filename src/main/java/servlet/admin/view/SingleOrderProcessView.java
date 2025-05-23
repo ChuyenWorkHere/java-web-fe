@@ -1,22 +1,21 @@
 package servlet.admin.view;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 
-@WebServlet("/admin/single-order-view")
-public class SingleOrderView extends HttpServlet {
+@WebServlet("/admin/single-order-process-view")
+public class SingleOrderProcessView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    
-    public SingleOrderView() {
+
+
+    public SingleOrderProcessView() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,7 +31,8 @@ public class SingleOrderView extends HttpServlet {
 		headerDispatcher.include(request, response);
 
 
-		out.append("\"<main id=\"main\" class=\"main\">");
+
+		out.append("<main id=\"main\" class=\"main\">");
 		out.append("    <div class=\"pagetitle\">");
 		out.append("      <nav class=\"d-flex justify-content-between align-items-center flex-wrap\">");
 		out.append("        <ol class=\"breadcrumb fs-6\">");
@@ -56,7 +56,7 @@ public class SingleOrderView extends HttpServlet {
 		out.append("                </h2>");
 		out.append("              </div>");
 		out.append("              <div class=\"d-flex align-items-center\">");
-		out.append("                <button class=\"btn btn-success\">Thành công</button>");
+		out.append("                <button class=\"btn btn-secondary\">Đang chờ xác nhận</button>");
 		out.append("              </div>");
 		out.append("            </div>");
 		out.append("            <div class=\"row mb-4 mx-0 py-4 rounded\">");
@@ -167,6 +167,7 @@ public class SingleOrderView extends HttpServlet {
 		out.append("            </div>");
 		out.append("");
 		out.append("          </div>");
+		out.append("          <a href=\"../admin/orders-view\" class=\"btn btn-success float-end mb-5 py-2 mx-4\">Xác nhận đơn</a>");
 		out.append("        </div>");
 		out.append("      </div>");
 		out.append("    </section>");

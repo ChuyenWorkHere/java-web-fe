@@ -25,7 +25,7 @@ public class HomeView extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");		 
 		
 		PrintWriter out = response.getWriter();
-		
+
 		request.setAttribute("view", "home");
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
 	    headerDispatcher.include(request, response);

@@ -32,11 +32,11 @@ public class CartDAOImpl implements CartDAO {
 	                product.setProductId(rs.getInt("product_id"));
 	                product.setProductName(rs.getString("product_name"));	
 	                product.setProductImageUrl(rs.getString("product_image_url"));
-	                product.setProductDiscountPrice(rs.getDouble("product_discount_price"));
+	                product.setProductDiscountPrice((float) rs.getDouble("product_discount_price"));
 	                
 	                Cart cart = new Cart();
-	                cart.setQuantity(rs.getInt("quantity"));
-	                cart.setProduct(product);
+//	                cart.setQuantity(rs.getInt("quantity"));
+//	                cart.setProduct(product);
 	                
 	                carts.add(cart);
 	            }

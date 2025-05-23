@@ -24,7 +24,16 @@
       <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
-    
+      <dependency>
+          <groupId>com.cloudinary</groupId>
+          <artifactId>cloudinary-http44</artifactId>
+          <version>1.38.0</version>
+      </dependency>
+      <dependency>
+          <groupId>commons-fileupload</groupId>
+          <artifactId>commons-fileupload</artifactId>
+          <version>1.5</version>
+      </dependency>
     <dependency>
 	    <groupId>javax.servlet</groupId>
 	    <artifactId>javax.servlet-api</artifactId>
@@ -32,10 +41,11 @@
 	    <scope>provided</scope>
 	</dependency>
 	
+	<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 	<dependency>
 	    <groupId>org.projectlombok</groupId>
 	    <artifactId>lombok</artifactId>
-	    <version>1.18.38</version>
+	    <version>1.18.36</version>
 	    <scope>provided</scope>
 	</dependency>
 	
@@ -73,6 +83,14 @@
         <failOnMissingWebXml>false</failOnMissingWebXml> <!-- Nếu không dùng web.xml -->
       </configuration>
     </plugin>
-  </plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>14</source>
+                <target>14</target>
+            </configuration>
+        </plugin>
+    </plugins>
   </build>
 </project>

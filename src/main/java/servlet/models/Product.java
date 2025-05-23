@@ -1,19 +1,28 @@
 package servlet.models;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Product extends BaseModel {
-	private int productId;
-	private String productName;
-	private String productImageUrl;
-	private int productTotal;
-	private double productPrice;
-	private double productDiscountPrice;
+    private int productId;
+    private String productName;
+    private int productTotal;
+    private String productCode;
+    private String productMaterial;
+    private double productPrice;
+    private double productDiscountPrice;
+    private String productDescription;
+    private int productVisited;
+    private String productImageUrl;
+    private String productSize;
+    private boolean productEnable;
+    private Brand brand;
+    private Category category;
+
 }

@@ -1,128 +1,82 @@
-/**
- * Thêm ảnh cho vùng kéo thả tải ảnh lên
- */
-    function enableDropZone(dropZone) {
-      const preview = dropZone.querySelector(".preview");
-      const text = dropZone.querySelector(".dropZoneText");
-      const fileInput = dropZone.querySelector(".file-input");
-
-      // Click để chọn ảnh
-      dropZone.addEventListener("click", () => {
-        fileInput.click();
-      });
-
-      // Chọn ảnh từ hộp thoại
-      fileInput.addEventListener("change", () => {
-        if (fileInput.files.length > 0) {
-          handleFiles(fileInput.files);
-        }
-      });
-
-      //  Kéo vào vùng
-      dropZone.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        dropZone.classList.add("bg-secondary", "text-white");
-      });
-
-      // 👉Rời vùng
-      dropZone.addEventListener("dragleave", () => {
-        dropZone.classList.remove("bg-secondary", "text-white");
-      });
-
-      //  Thả vào vùng
-      dropZone.addEventListener("drop", (e) => {
-        e.preventDefault();
-        dropZone.classList.remove("bg-secondary", "text-white");
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-          fileInput.files = files; // đồng bộ input
-          handleFiles(files);
-        }
-      });
-
-      //  Hàm xử lý file ảnh
-      function handleFiles(files) {
-        preview.innerHTML = ""; // clear ảnh cũ
-        text.style.display = "none"; // ẩn dòng chữ
-
-        Array.from(files).forEach(file => {
-          if (file.type.startsWith("image/")) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-              const img = document.createElement("img");
-              img.src = e.target.result;
-              img.style.maxHeight = "100px";
-              img.style.maxWidth = "100px";
-              img.classList.add("m-2");
-              preview.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-          }
-        });
-      }
-    };
-
+    //Index productImg & productColor
+    let index = 0;
     function themsanpham() {
       const danhsachsanpham = document.querySelector(".danhsachsanpham");
 
+
       const sanphamHTML = `
-            <div class="row">
+            <div class="row " data-index="${index}">
                 <div class="col-xl-9">
                   <h5 class="card-title">Ảnh minh họa</h5>
-                  <div class="">
-                    <div class="drop-zone text-center p-3 bg-light rounded position-relative"
-                      style="border: 1px dashed #ccc; min-height: 150px; cursor: pointer;">
-                      <input type="file" multiple class="file-input" style="display: none;" accept="image/*">
-                      <span class="text-muted position-absolute top-50 start-50 translate-middle dropZoneText">
-                        Drop files here to upload
-                      </span>
-                      <div class="preview d-flex flex-wrap justify-content-center align-items-center"
-                        style="min-height: 150px;"></div>
-                    </div>
-                  </div>
+                  <input type="file" name="productImg[${index}]" class="form-control image-input" multiple accept="image/*">
+                  <div class="image-preview d-flex flex-wrap mt-2" style="min-height: 100px;"></div>
                 </div>
                 <div class="col-xl-3 col-md-4">
                   <h5 class="card-title">Màu sắc</h5>
                   <div class="color-container row">
-                    <div class="color-box col-xl-2" data-color="#1A1A2E" style="background-color: #1a1a2e"
-                      onclick="selectColor(this)">
-                      <span class="checkmark">✔</span>
-                    </div>
-                    <div class="color-box col-xl-2" data-color="#0A2E8F" style="background-color: #0a2e8f"
-                      onclick="selectColor(this)">
-                      <span class="checkmark">✔</span>
-                    </div>
-                    <div class="color-box col-xl-2" data-color="#6B48FF" style="background-color: #6b48ff"
-                      onclick="selectColor(this)">
-                      <span class="checkmark">✔</span>
-                    </div>
-                    <div class="color-box col-xl-2" data-color="#00C4B4" style="background-color: #00c4b4"
-                      onclick="selectColor(this)">
-                      <span class="checkmark">✔</span>
-                    </div>
-                    <div class="color-box col-xl-2" data-color="#00FF00" style="background-color: #00ff00"
-                      onclick="selectColor(this)">
-                      <span class="checkmark">✔</span>
-                    </div>
-                    <div class="color-box col-xl-2" data-color="#FF4040" style="background-color: #ff4040"
-                      onclick="selectColor(this)">
-                      <span class="checkmark">✔</span>
-                    </div>
-                    <div class="color-box col-xl-2" data-color="#FFA500" style="background-color: #ffa500"
-                      onclick="selectColor(this)">
-                      <span class="checkmark">✔</span>
-                    </div>
-                    <input type="color" class="color-box col-xl-2 p-0">
+                    <input name="productColor[${index}]" type="color" class="color-box col-xl-2 p-0 color-input">
                   </div>
                 </div>
               </div>
   `;
 
       danhsachsanpham.insertAdjacentHTML('beforeend', sanphamHTML);
+      index++;
 
-      // Gắn sự kiện cho drop-zone mới thêm
-      const dropZones = danhsachsanpham.querySelectorAll(".drop-zone");
-      enableDropZone(dropZones[dropZones.length - 1]);
+      // Tìm input và div preview vừa thêm
+      const inputs = danhsachsanpham.querySelectorAll(".image-input");
+      const newInput = inputs[inputs.length - 1];
+      const previewDiv = newInput.nextElementSibling;
+
+      newInput.addEventListener("change", () => {
+        previewDiv.innerHTML = "";
+        Array.from(newInput.files).forEach(file => {
+          if (file.type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              // Tạo thẻ div chứa ảnh + nút xóa
+              const imageWrapper = document.createElement("div");
+              imageWrapper.style.position = "relative";
+              imageWrapper.classList.add("m-2");
+
+              // Tạo ảnh
+              const img = document.createElement("img");
+              img.src = e.target.result;
+              img.style.maxHeight = "100px";
+              img.style.maxWidth = "100px";
+              img.style.border = "1px solid #ccc";
+              img.style.borderRadius = "4px";
+              img.classList.add("me-2");
+
+              // Tạo nút xóa
+              const removeBtn = document.createElement("button");
+              removeBtn.textContent = "❌";
+              removeBtn.style.position = "absolute";
+              removeBtn.style.top = "0px";
+              removeBtn.style.right = "0px";
+              removeBtn.style.background = "rgba(0, 0, 0, 0.6)";
+              removeBtn.style.color = "white";
+              removeBtn.style.border = "none";
+              removeBtn.style.cursor = "pointer";
+              removeBtn.style.padding = "2px 6px";
+              removeBtn.style.fontSize = "14px";
+              removeBtn.style.borderRadius = "0 4px 0 4px";
+
+              // Xóa ảnh khỏi preview khi bấm nút
+              removeBtn.addEventListener("click", () => {
+                imageWrapper.remove();
+              });
+
+              // Gắn ảnh và nút vào div
+              imageWrapper.appendChild(img);
+              imageWrapper.appendChild(removeBtn);
+              previewDiv.appendChild(imageWrapper);
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      });
+
     }
     
 
@@ -243,4 +197,20 @@ function showAlert() {
 }
 document.querySelectorAll('.confirm').forEach(item => item.addEventListener('click', showAlert));
 
+
+/* Hiển thị ảnh tương ứng khi click màu sắc */
+document.querySelectorAll('.color-img').forEach(button => {
+      button.addEventListener('click', () => {
+        const color = button.getAttribute('data-color');
+        const productItem = button.closest('.product__item');
+        const carousel = productItem.querySelector('.carousel');
+        const items = carousel.querySelectorAll('.carousel-item');
+        items.forEach(item => {
+          item.classList.remove('active');
+          if (item.getAttribute('data-color') === color) {
+            item.classList.add('active');
+          }
+        });
+      });
+    });
 
