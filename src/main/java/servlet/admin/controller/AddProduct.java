@@ -151,12 +151,16 @@ public class AddProduct extends HttpServlet {
             // Lưu sản phẩm vào cơ sở dữ liệu
             ProductDAO productDAO = new ProductDAOImpl();
             boolean isSuccess = productDAO.saveProduct(product);
-
+            if(isSuccess) {
+                response.sendRedirect("../admin/products-view?title=product&action=add&noti=success");
+            } else {
+                response.sendRedirect("../admin/products-view?title=product&action=add&noti=failed");
+            }
 
         } catch (NumberFormatException e) {
-            request.setAttribute("message", "Dữ liệu số không hợp lệ: " + e.getMessage());
+            response.sendRedirect("/admin/products-view?title=product&action=add&noti=failed");
         } catch (Exception e) {
-            request.setAttribute("message", "Lỗi xử lý: " + e.getMessage());
+            response.sendRedirect("/admin/products-view?title=product&action=add&noti=failed");
         }
 
     }

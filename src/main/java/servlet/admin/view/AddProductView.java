@@ -33,6 +33,7 @@ public class AddProductView extends HttpServlet {
 
 		out.append("<!-- ======= Main ======= -->");
 		out.append("  <main id=\"main\" class=\"main\">");
+
 		out.append("    <div class=\"pagetitle d-flex justify-content-between\">");
 		out.append("      <h1>Thêm sản phẩm</h1>");
 		out.append("      <nav class=\"d-flex align-items-center\">");

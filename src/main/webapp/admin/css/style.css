@@ -1313,6 +1313,12 @@ deg
 	font-size: 16px;
 	color: #555555;
 	font-weight: 500;
+
+	display: -webkit-box;           /* Dùng flexbox ảo để tạo dòng */
+    -webkit-line-clamp: 2;          /* Số dòng tối đa */
+    -webkit-box-orient: vertical;   /* Thiết lập hướng dòng */
+    overflow: hidden;               /* Ẩn phần vượt quá */
+    text-overflow: ellipsis;        /* Thêm dấu ... */
 }
 
 .product__item-price_old {
@@ -1336,13 +1342,9 @@ deg
 	outline: none;
 	width: 20px;
 	height: 20px;
-	background-color: bisque;
 	border-radius: 50%;
 }
 
-.product__item-color .color-img-2 {
-	background-color: gray;
-}
 
 .product__item-button a {
 	padding: 7px 1px;
@@ -1412,8 +1414,7 @@ button.btn-search:hover {
 .color-box {
 	width: 20px;
 	height: 20px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
+	border-radius: 2px;
 	cursor: pointer;
 	position: relative;
 	display: flex;

@@ -1,10 +1,15 @@
 document.getElementById("addCategory").addEventListener("click", validFormAddCategory);
-document.getElementById("editCategory").addEventListener("click", validFormEditCategory);
-document.getElementById("deleteCategory").addEventListener("click", function() {
+document.querySelectorAll(".edit-confirm").forEach(item => item.addEventListener("click", validFormEditCategory));
+document.querySelector(".del-confirm").addEventListener("click", function() {
     const modalEl = document.getElementById('modalDel');
     const modal = bootstrap.Modal.getInstance(modalEl);
+    const form = this.closest('form');
+        if (form) {
+          form.submit();
+        } else {
+          console.error('Không tìm thấy form cha của nút confirm');
+        }
     modal.hide();
-    showAlert("Xóa sản phẩm Ghế Sofa thành công");
 });
 
 function validFormAddCategory(){    
@@ -51,21 +56,20 @@ function validFormAddCategory(){
       const modal = bootstrap.Modal.getInstance(modalEl);
       modal.hide();
       form.submit();
-      showAlert("Thêm mới Ghế Sofa thành công");
-
     }
 };
 
-function validFormEditCategory(){    
+function validFormEditCategory(button){
     let isValid = true;
 
-    // Lấy input
-    const nameInput = document.getElementById('editNameCategory');
-    const detailInput = document.getElementById('editDetailCategory');
+    // Tìm phần tử modal chứa nút được click
+    const modal = button.closest('.modal');
 
-    // Lấy thẻ hiển thị lỗi
-    const nameMessage = document.getElementById('editNameMessage');
-    const detailMessage = document.getElementById('editDetailMessage');
+    // Lấy input theo ngữ cảnh của modal hiện tại
+    const nameInput = modal.querySelector('#editNameCategory');
+    const detailInput = modal.querySelector('#editDetailCategory');
+    const nameMessage = modal.querySelector('#editNameMessage');
+    const detailMessage = modal.querySelector('#editDetailMessage');
 
     // Xóa lỗi cũ
     nameMessage.textContent = '';
@@ -83,49 +87,20 @@ function validFormEditCategory(){
       isValid = false;
     }
 
-    // Nếu không hợp lệ, ngăn modal đóng
     if (!isValid) {
-      e.stopPropagation(); // Ngăn sự kiện lan ra
-      e.preventDefault();  // Ngăn đóng modal
-      const modalEl = document.getElementById('modalEdit');
-      const modal = bootstrap.Modal.getInstance(modalEl);
-      modal.show(); // Giữ modal mở lại nếu có lỗi
-    } else {
-      // Nếu cần submit form, bạn có thể gọi form.submit() ở đây
-      const modalEl = document.getElementById('modalEdit');
-      const modal = bootstrap.Modal.getInstance(modalEl);
-      modal.hide();
+      // Không đóng modal
+       return;
+    }
+
+    // Nếu hợp lệ, bạn có thể lấy form trong modal và submit
+    const form = modal.querySelector('form');
+    if (form) {
+      // Ẩn modal thủ công
+      const modalInstance = bootstrap.Modal.getInstance(modal);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+
       form.submit();
-      showAlert("Chỉnh sửa Ghế Sofa thành công");
     }
 };
-
-/* Hiển thị thông báo khi ấn nút modal */
-function showAlert(message) {
-    // Tạo alert HTML
-    const alertHTML = `
-      <div id="notifi" class="alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 m-3" role="alert">
-        <i class="bi bi-check-circle"></i>
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    `;
-
-    // Thêm alert vào DOM
-    document.getElementById('alert-container').innerHTML = alertHTML;
-
-    // Tự động đóng alert sau 1 giây
-    setTimeout(() => {
-        const notifi = document.getElementById('notifi');
-        if (notifi) {
-            // Kích hoạt hiệu ứng fade out
-            notifi.classList.remove('show');
-            notifi.classList.add('hide');
-
-            // Gỡ khỏi DOM sau khi hiệu ứng kết thúc
-            setTimeout(() => {
-                notifi.remove();
-            }, 300); // Thời gian khớp với hiệu ứng fade Bootstrap (300ms)
-        }
-    }, 1000);
-}

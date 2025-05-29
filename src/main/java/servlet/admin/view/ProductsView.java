@@ -31,7 +31,7 @@ public class ProductsView extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 
-		List<Product> productList = productDAO.findAll(6, 1, "ASC", "product_id");
+		List<Product> productList = productDAO.findAll(100, 1, "ASC", "product_id");
 
 
 		PrintWriter out = response.getWriter();
@@ -123,14 +123,14 @@ public class ProductsView extends HttpServlet {
 			out.append("                  <span class=\"fw-bold\">Màu sắc:</span>");
 
 			for (int j = 0; j < colorArray.size(); j++) {
-				out.append("                  <button style = \" background-color: \" " +colorArray.get(j)+"\"; \" class=\"color-img ms-3\" data-color=\""+ProductUtils.toColor(imgAndColors.get(j))+"\"></button>");
+				out.append("                  <button style = \" background-color: " +colorArray.get(j)+";\" class=\"color-img ms-3\" data-color=\""+colorArray.get(j)+"\"></button>");
 			}
 			out.append("                </div>");
 			out.append("                <div class=\"product__item-button d-flex justify-content-center mt-3\">");
 			out.append("                  <button onclick=\"window.location.href='../admin/product-detail-view?pId="+product.getProductId()+"'\" type=\"button\" class=\"btn bg-primary me-2\" data-bs-toggle=\"modal\" data-bs-target=\"\">");
 			out.append("                    <i class=\"bi bi-eye text-white\"></i>");
 			out.append("                  </button>");
-			out.append("                  <button onclick=\"window.location.href='../admin/edit-product-view'\" type=\"button\" class=\"btn bg-warning me-2\" data-bs-toggle=\"modal\" data-bs-target=\"\">");
+			out.append("                  <button onclick=\"window.location.href='../admin/edit-product-view?pId="+product.getProductId()+"'\" type=\"button\" class=\"btn bg-warning me-2\" data-bs-toggle=\"modal\" data-bs-target=\"\">");
 			out.append("                    <i class=\"bi bi-pencil text-white\"></i>");
 			out.append("                  </button>");
 			out.append("                  <button type=\"button\" class=\"btn bg-danger me-2\" data-bs-toggle=\"modal\" data-bs-target=\"#modalDel\">");
@@ -225,6 +225,7 @@ public class ProductsView extends HttpServlet {
 		out.append("    </section>");
 		out.append("  </main>");
 		out.append("  <script src=\"../admin/js/mainProduct.js\"></script>");
+		out.append("  <script src=\"../admin/js/showAlert.js\"></script>");
 
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);
