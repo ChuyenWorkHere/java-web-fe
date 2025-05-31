@@ -11,15 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/admin/category/add")
-public class AddCategory extends HttpServlet {
-
-    private static final long serialVersionUID = 1L;
+@WebServlet("/admin/edit-category")
+public class EditCategory extends HttpServlet {
 
     private CategoryDAO categoryDAO;
 
-    public AddCategory() {
-        categoryDAO= new CategoryDAOImpl();
+    public EditCategory() {
+        categoryDAO = new CategoryDAOImpl();
     }
 
     @Override
@@ -29,26 +27,26 @@ public class AddCategory extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Đặt encoding cho request
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
+        int categoryId = Integer.parseInt(req.getParameter("categoryId"));
         String categoryName = req.getParameter("categoryName");
         String categoryDescription = req.getParameter("categoryDescription");
         int isActive = Integer.parseInt(req.getParameter("isActive"));
 
-        Category category = new Category();
-        category.setCategoryName(categoryName);
-        category.setCategoryDescription(categoryDescription);
-        category.setIsActive(isActive);
+        Category editedCategory = new Category();
+        editedCategory.setCategoryName(categoryName);
+        editedCategory.setCategoryDescription(categoryDescription);
+        editedCategory.setIsActive(isActive);
 
+        boolean isSuccess = categoryDAO.editCategory(categoryId, editedCategory);
 
-        boolean isSucess = categoryDAO.addCategory(category);
-        if(isSucess) {
-            resp.sendRedirect("../categories-view?title=category&action=add&noti=success");
+        if(isSuccess) {
+            resp.sendRedirect("../admin/categories-view?title=category&action=edit&noti=success");
         } else {
-            resp.sendRedirect("../categories-view?title=category&action=add&noti=failed");
+            resp.sendRedirect("../admin/categories-view?title=category&action=edit&noti=failed");
         }
-
     }
+
 }

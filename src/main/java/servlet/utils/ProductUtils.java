@@ -33,4 +33,8 @@ public class ProductUtils {
         DecimalFormat formatter = new DecimalFormat("#,###");
         return formatter.format(number);
     }
+
+    public static String formatName (String name) {
+        return null;
+    }
 }

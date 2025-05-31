@@ -37,6 +37,7 @@ public class ProductDetailView extends HttpServlet {
 		int productId = Integer.parseInt(request.getParameter("pId"));
 		Product product = productDAO.findById(productId);
 
+
 		PrintWriter out = response.getWriter();
 		request.setAttribute("view", "product");
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
