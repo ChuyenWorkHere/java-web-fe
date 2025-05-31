@@ -1,5 +1,6 @@
 package servlet.models;
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,4 +22,5 @@ public class User {
     private String address;
     private int loginCount;
     private Roles role;
+    private List<ShippingAddress> shippingAddressList;
 }

@@ -1,7 +1,13 @@
 package servlet.admin.view;
 
+import servlet.dao.OrderDAO;
+import servlet.dao.impl.OrderDAOImpl;
+import servlet.models.Order;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,9 +37,12 @@ public class OrdersView extends HttpServlet {
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
 	    headerDispatcher.include(request, response);
 
+		OrderDAO orderDAO = new OrderDAOImpl();
+		List<Order> orders = orderDAO.getAllOrders();
+		List<Map<String, Integer>> orderStatusCount = orderDAO.orderStatusCount();
 
 		out.append("\"<main id=\"main\" class=\"main\">");
-		out.append("");
+		
 		out.append("    <div class=\"pagetitle\">");
 		out.append("      <nav>");
 		out.append("        <ol class=\"breadcrumb\">");
@@ -42,18 +51,18 @@ public class OrdersView extends HttpServlet {
 		out.append("        </ol>");
 		out.append("      </nav>");
 		out.append("    </div><!-- End Page Title -->");
-		out.append("");
+		
 		out.append("    <section class=\"section\">");
 		out.append("      <div class=\"row\">");
 		out.append("        <div class=\"col-lg-12\">");
-		out.append("");
+		
 		out.append("          <div class=\"card mb-3\">");
 		out.append("            <div class=\"card-body\">");
 		out.append("              <div class=\"d-flex align-items-center mt-2 mb-3 filter-label\">");
 		out.append("                <i class=\"bi bi-funnel-fill me-2\"></i>");
 		out.append("                <span>BỘ LỌC</span>");
 		out.append("              </div>");
-		out.append("");
+		
 		out.append("              <form id=\"orderFilterForm\" class=\"container\">");
 		out.append("                <div class=\"row g-3 align-items-end\">");
 		out.append("                  <!-- Khoảng giá -->");
@@ -66,7 +75,7 @@ public class OrdersView extends HttpServlet {
 		out.append("                      <option value=\"high\">Trên 1 triệu</option>");
 		out.append("                    </select>");
 		out.append("                  </div>");
-		out.append("");
+		
 		out.append("                  <!-- Trạng thái -->");
 		out.append("                  <div class=\"col-md-2\">");
 		out.append("                    <label for=\"orderStatus\" class=\"form-label\">Trạng thái</label>");
@@ -78,7 +87,7 @@ public class OrdersView extends HttpServlet {
 		out.append("                      <option value=\"cancelled\">Đã hủy</option>");
 		out.append("                    </select>");
 		out.append("                  </div>");
-		out.append("");
+		
 		out.append("                  <!-- Phương thức thanh toán -->");
 		out.append("                  <div class=\"col-md-2\">");
 		out.append("                    <label for=\"paymentMethod\" class=\"form-label\">Thanh toán</label>");
@@ -88,7 +97,7 @@ public class OrdersView extends HttpServlet {
 		out.append("                      <option value=\"bank\">Chuyển khoản</option>");
 		out.append("                    </select>");
 		out.append("                  </div>");
-		out.append("");
+		
 		out.append("                  <!-- Sắp xếp -->");
 		out.append("                  <div class=\"col-md-2\">");
 		out.append("                    <label for=\"orderSort\" class=\"form-label\">Đơn đặt hàng</label>");
@@ -98,54 +107,71 @@ public class OrdersView extends HttpServlet {
 		out.append("                      <option value=\"oldest\">Cũ nhất</option>");
 		out.append("                    </select>");
 		out.append("                  </div>");
-		out.append("");
+		
 		out.append("                  <!-- Nút lọc -->");
 		out.append("                  <div class=\"col-md-1\">");
 		out.append("                    <button type=\"button\" class=\"btn btn-primary mt-3 w-100\" onclick=\"applyOrderFilter()\">Lọc</button>");
 		out.append("                  </div>");
-		out.append("");
+		
 		out.append("                </div>");
 		out.append("              </form>");
-		out.append("");
+		
 		out.append("              <!-- Tổng quan số lượng đơn hàng -->");
 		out.append("              <div class=\"my-4\">");
 		out.append("                <h5 class=\"my-3 fw-bold\">Tổng quan đơn hàng</h5>");
 		out.append("                <div class=\"row text-center g-4\">");
-		out.append("                  <div class=\"col-md-3 col-6\">");
-		out.append("                    <div class=\"border rounded p-3 bg-light\">");
-		out.append("                      <h6 class=\"fs-5 fw-bold mt-2\">Tổng đơn hàng</h6>");
-		out.append("                      <p class=\"fs-4 fw-bold\">18</p>");
-		out.append("                    </div>");
-		out.append("                  </div>");
-		out.append("                  <div class=\"col-md-3 col-6\">");
-		out.append("                    <div class=\"border rounded p-3 bg-warning bg-opacity-25\">");
-		out.append("                      <h6 class=\"fs-5 fw-bold mt-2\">Đang xử lý</h6>");
-		out.append("                      <p class=\"fs-4 fw-bold text-warning\" id=\"processing-orders\">8</p>");
-		out.append("                    </div>");
-		out.append("                  </div>");
-		out.append("                  <div class=\"col-md-3 col-6\">");
-		out.append("                    <div class=\"border rounded p-3 bg-success bg-opacity-25\">");
-		out.append("                      <h6 class=\"fs-5 fw-bold mt-2\">Thành công</h6>");
-		out.append("                      <p class=\"fs-4 fw-bold text-success\" id=\"successful-orders\">5</p>");
-		out.append("                    </div>");
-		out.append("                  </div>");
-		out.append("                  <div class=\"col-md-3 col-6\">");
-		out.append("                    <div class=\"border rounded p-3 bg-danger bg-opacity-25\">");
-		out.append("                      <h6 class=\"fs-5 fw-bold mt-2\">Đã huỷ</h6>");
-		out.append("                      <p class=\"fs-4 fw-bold text-danger\" id=\"cancelled-orders\">5</p>");
-		out.append("                    </div>");
-		out.append("                  </div>");
+
+		for(Map<String, Integer> statusCount : orderStatusCount){
+			String status = statusCount.keySet().iterator().next();
+			int total = statusCount.get(status);
+
+			String label = "";
+			String textColor = "";
+			String bgColor = "";
+			String idAttr = "";
+
+			switch (status){
+				case "DELIVERED":
+					label = "Thành công";
+					bgColor = "bg-success bg-opacity-25";
+					idAttr = " id=\"successful-orders\"";
+					break;
+				case "PENDING":
+					label = "Đang xử lý";
+					bgColor = "bg-warning bg-opacity-25";
+					idAttr = " id=\"processing-orders\"";
+					break;
+				case "SHIPPED":
+					label = "Đang giao";
+					bgColor = "bg-primary bg-opacity-25";
+					idAttr = "";
+					break;
+				case "CANCELLED":
+					label = "Đã huỷ";
+					bgColor = "bg-danger bg-opacity-25";
+					idAttr = " id=\"cancelled-orders\"";
+					break;
+			}
+
+			out.append("  <div class=\"col-md-3 col-6\">");
+			out.append("    <div class=\"border rounded p-3 " + bgColor + "\">");
+			out.append("      <h6 class=\"fs-5 fw-bold mt-2\">" + label + "</h6>");
+			out.append("      <p class=\"fs-4 fw-bold text-dark\"" + idAttr + ">" + total + "</p>");
+			out.append("    </div>");
+			out.append("  </div>");
+		}
+
 		out.append("                </div>");
 		out.append("              </div>");
 		out.append("            </div>");
-		out.append("");
+		
 		out.append("          </div>");
-		out.append("");
+		
 		out.append("          <div class=\"card\">");
 		out.append("            <div class=\"card-body\">");
-		out.append("");
+		
 		out.append("              <div class=\"table-responsive\">");
-		out.append("");
+		
 		out.append("                <!-- Table with stripped rows -->");
 		out.append("                <table class=\"table table-striped datatable table-hover\">");
 		out.append("                  <thead>");
@@ -161,217 +187,63 @@ public class OrdersView extends HttpServlet {
 		out.append("                    </tr>");
 		out.append("                  </thead>");
 		out.append("                  <tbody>");
-		out.append("");
-		out.append("                    <tr>");
-		out.append("                      <td class=\"align-middle\">AC#1007</td>");
-		out.append("                      <td class=\"align-middle\">Lê Văn Chuyền</td>");
-		out.append("                      <td class=\"align-middle\">16/3/2025</td>");
-		out.append("                      <td class=\"align-middle\">350000đ</td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <span class=\"badge bg-warning text-dark p-2\">Đang giao</span>");
-		out.append("                      </td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-view\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-		out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
-		out.append("                      </td>");
-		out.append("                    </tr>");
-		out.append("");
-		out.append("                    <tr>");
-		out.append("                      <td class=\"align-middle\">BC#1007</td>");
-		out.append("                      <td class=\"align-middle\">Đặng Ánh Nhật</td>");
-		out.append("                      <td class=\"align-middle\">16/3/2025</td>");
-		out.append("                      <td class=\"align-middle\">350000đ</td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-process-view\" class=\"btn badge bg-secondary p-2\">Chờ xác nhận</a>");
-		out.append("                      </td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-view\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-		out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
-		out.append("                      </td>");
-		out.append("                    </tr>");
-		out.append("");
-		out.append("                    <tr>");
-		out.append("                      <td class=\"align-middle\">DC#1007</td>");
-		out.append("                      <td class=\"align-middle\">Đặng Ánh Nhật</td>");
-		out.append("                      <td class=\"align-middle\">16/3/2025</td>");
-		out.append("                      <td class=\"align-middle\">350000đ</td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <span class=\"badge bg-warning text-dark p-2\">Đang giao</span>");
-		out.append("                      </td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-view\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-		out.append("");
-		out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
-		out.append("                      </td>");
-		out.append("                    </tr>");
-		out.append("");
-		out.append("                    <tr>");
-		out.append("                      <td class=\"align-middle\">EC#1007</td>");
-		out.append("                      <td class=\"align-middle\">Đặng Ánh Nhật</td>");
-		out.append("                      <td class=\"align-middle\">16/3/2025</td>");
-		out.append("                      <td class=\"align-middle\">350000đ</td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <span class=\"badge bg-success p-2\">Thành công</span>");
-		out.append("                      </td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-view\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-		out.append("");
-		out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
-		out.append("                      </td>");
-		out.append("                    </tr>");
-		out.append("");
-		out.append("");
-		out.append("                    <tr>");
-		out.append("                      <td class=\"align-middle\">FC#1007</td>");
-		out.append("                      <td class=\"align-middle\">Đặng Ánh Nhật</td>");
-		out.append("                      <td class=\"align-middle\">16/3/2025</td>");
-		out.append("                      <td class=\"align-middle\">350000đ</td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-process-view\" class=\"btn badge bg-secondary p-2\">Chờ xác nhận</a>");
-		out.append("                      </td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-view\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-		out.append("");
-		out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
-		out.append("                      </td>");
-		out.append("                    </tr>");
-		out.append("                    <tr>");
-		out.append("                      <td class=\"align-middle\">BC#1007</td>");
-		out.append("                      <td class=\"align-middle\">Đặng Ánh Nhật</td>");
-		out.append("                      <td class=\"align-middle\">16/3/2025</td>");
-		out.append("                      <td class=\"align-middle\">350000đ</td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <span class=\"badge bg-success p-2\">Thành công</span>");
-		out.append("                      </td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-view\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-		out.append("");
-		out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
-		out.append("                      </td>");
-		out.append("                    </tr>");
-		out.append("");
-		out.append("                    <tr>");
-		out.append("                      <td class=\"align-middle\">DC#1007</td>");
-		out.append("                      <td class=\"align-middle\">Đặng Ánh Nhật</td>");
-		out.append("                      <td class=\"align-middle\">16/3/2025</td>");
-		out.append("                      <td class=\"align-middle\">350000đ</td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <span class=\"badge bg-danger p-2\">Đã huỷ</span>");
-		out.append("                      </td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-view\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-		out.append("");
-		out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
-		out.append("                      </td>");
-		out.append("                    </tr>");
-		out.append("");
-		out.append("                    <tr>");
-		out.append("                      <td class=\"align-middle\">EC#1007</td>");
-		out.append("                      <td class=\"align-middle\">Đặng Ánh Nhật</td>");
-		out.append("                      <td class=\"align-middle\">16/3/2025</td>");
-		out.append("                      <td class=\"align-middle\">350000đ</td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <span class=\"badge bg-danger p-2\">Đã huỷ</span>");
-		out.append("                      </td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-view\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-		out.append("");
-		out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
-		out.append("                      </td>");
-		out.append("                    </tr>");
-		out.append("");
-		out.append("");
-		out.append("                    <tr>");
-		out.append("                      <td class=\"align-middle\">FC#1007</td>");
-		out.append("                      <td class=\"align-middle\">Đặng Ánh Nhật</td>");
-		out.append("                      <td class=\"align-middle\">16/3/2025</td>");
-		out.append("                      <td class=\"align-middle\">350000đ</td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <span class=\"badge bg-warning text-dark p-2\">Đang giao</span>");
-		out.append("                      </td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-view\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-		out.append("");
-		out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
-		out.append("                      </td>");
-		out.append("                    </tr>");
-		out.append("");
-		out.append("                    <tr>");
-		out.append("                      <td class=\"align-middle\">HC#1007</td>");
-		out.append("                      <td class=\"align-middle\">Đặng Ánh Nhật</td>");
-		out.append("                      <td class=\"align-middle\">16/3/2025</td>");
-		out.append("                      <td class=\"align-middle\">350000đ</td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <span class=\"badge bg-danger p-2\">Đã huỷ</span>");
-		out.append("                      </td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-view\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-		out.append("");
-		out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
-		out.append("                      </td>");
-		out.append("                    </tr>");
-		out.append("");
-		out.append("                    <tr>");
-		out.append("                      <td class=\"align-middle\">KC#1007</td>");
-		out.append("                      <td class=\"align-middle\">Đặng Ánh Nhật</td>");
-		out.append("                      <td class=\"align-middle\">16/3/2025</td>");
-		out.append("                      <td class=\"align-middle\">350000đ</td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <span class=\"badge bg-warning text-dark p-2\">Đang giao</span>");
-		out.append("                      </td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-view\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-		out.append("");
-		out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
-		out.append("                      </td>");
-		out.append("                    </tr>");
-		out.append("");
-		out.append("                    <tr>");
-		out.append("                      <td class=\"align-middle\">GC#1007</td>");
-		out.append("                      <td class=\"align-middle\">Đặng Ánh Nhật</td>");
-		out.append("                      <td class=\"align-middle\">16/3/2025</td>");
-		out.append("                      <td class=\"align-middle\">350000đ</td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <span class=\"badge bg-warning text-dark p-2\">Đang giao</span>");
-		out.append("                      </td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-view\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-		out.append("");
-		out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
-		out.append("                      </td>");
-		out.append("                    </tr>");
-		out.append("");
-		out.append("                    <tr>");
-		out.append("                      <td class=\"align-middle\">HC#1007</td>");
-		out.append("                      <td class=\"align-middle\">Đặng Ánh Nhật</td>");
-		out.append("                      <td class=\"align-middle\">16/3/2025</td>");
-		out.append("                      <td class=\"align-middle\">350000đ</td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <span class=\"badge bg-warning text-dark p-2\">Đang giao</span>");
-		out.append("                      </td>");
-		out.append("                      <td class=\"align-middle\">");
-		out.append("                        <a href=\"../admin/single-order-view\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-		out.append("");
-		out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
-		out.append("                      </td>");
-		out.append("                    </tr>");
-		out.append("");
+
+		for(Order order : orders){
+			out.append("                    <tr>");
+			out.append("                      <td class=\"align-middle\">DH#"+order.getOrderId()+"</td>");
+			out.append("                      <td class=\"align-middle\">"+order.getUser().getFullname()+"</td>");
+			out.append("                      <td class=\"align-middle\">"+order.getCreatedAt()+"</td>");
+			out.append("                      <td class=\"align-middle\">"+order.getTotalPrice()+"đ</td>");
+			String className = "";
+			String orderStatus = "";
+			switch (order.getOrderStatus()){
+				case "PENDING":
+					className = "btn bg-secondary";
+					orderStatus = "Chờ xác nhận";
+					break;
+				case "SHIPPED":
+					className = "bg-warning text-dark";
+					orderStatus = "Đang giao";
+					break;
+				case "DELIVERED":
+					className = "bg-success";
+					orderStatus = "Thành công";
+					break;
+				case "CANCELLED":
+					className = "bg-danger";
+					orderStatus = "Đã huỷ";
+					break;
+			}
+			out.append("                      <td class=\"align-middle\">");
+			out.append("                        <span class=\"p-2 badge ");
+			out.append(className +"\">"+(order.getOrderStatus().equals("PENDING")
+					? "<a class=\"text-white\" href=\"../admin/single-order-view?orderId="+order.getOrderId()+"\">"+orderStatus+"</a>" : orderStatus) + "</span>");
+
+			out.append("                      </td>");
+			out.append("                      <td class=\"align-middle\">");
+			out.append("                        <a href=\"../admin/single-order-view?orderId="+order.getOrderId()+"\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
+
+			out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
+			out.append("                      </td>");
+			out.append("                    </tr>");
+		}
+		
 		out.append("                  </tbody>");
 		out.append("                </table>");
 		out.append("                <!-- End Table with stripped rows -->");
-		out.append("");
+		
 		out.append("              </div>");
-		out.append("");
+		
 		out.append("              <!-- Nút Xuất dữ liệu -->");
 		out.append("              <div class=\"d-flex justify-content-end mt-3\">");
 		out.append("                <button type=\"button\" class=\"btn btn-primary\">");
 		out.append("                  <i class=\"bi bi-download me-2\"></i> Xuất dữ liệu");
 		out.append("                </button>");
 		out.append("              </div>");
-		out.append("");
+		
 		out.append("            </div>");
 		out.append("          </div>");
-		out.append("");
+		
 		out.append("        </div>");
 		out.append("      </div>");
 		out.append("    </section>");
@@ -396,7 +268,9 @@ public class OrdersView extends HttpServlet {
 		out.append("    </div>");
 		out.append("    <!-- end thông báo -->");
 		out.append("  </main><!-- End #main -->");
-		out.append("");
+		out.append("  <script src=\"../admin/js/jquery.js\"></script>");
+		out.append("  <script src=\"https://code.jquery.com/jquery-3.6.0.min.js\"></script>");
+		
 
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);

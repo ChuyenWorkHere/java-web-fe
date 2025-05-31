@@ -26,7 +26,6 @@ public class AccountsView extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
@@ -42,12 +41,33 @@ public class AccountsView extends HttpServlet {
 	    if(status == null)
 	    	status = "all";
 
-	    if (users == null) {
+		//lấy keyword
+		String keyword = (String) request.getAttribute("keyword");
+
+		//lấy trạng thái url request
+		String statusLink = (String) request.getAttribute("statusLink");
+
+		//lấy thông tin trang được chọn
+		int currentPage = 1;
+		String pageNo = request.getParameter("pageNo");
+
+		if (pageNo != null){
+			currentPage = Integer.parseInt(pageNo);
+		}
+
+		//lấy tổng số trang
+		Integer pages = (Integer) request.getAttribute("pageNumbers");
+
+		int pageNumbers = 0;
+		if (pages != null){
+			pageNumbers = pages;
+		}
+
+		if (users == null) {
 	        UserDAO userDAO = new UserDAOImpl();
-//	        users = userDAO.findAll();
-	        users = userDAO.findAllPage(1, 12);
+	        users = userDAO.findAllPage(currentPage, 12);
+			pageNumbers = (userDAO.countAllUsers() / 12) + 1;
 	    }
-	    
 
 	    out.append("<main id=\"main\" class=\"main\">");
 	    out.append("    <div class=\"pagetitle d-flex justify-content-between\">");
@@ -138,21 +158,36 @@ public class AccountsView extends HttpServlet {
 	    out.append("        </div>");
 	    out.append("<nav aria-label=\"Page navigation\" class=\"mt-4 d-flex justify-content-center order-3 order-md-3\">");
 	    out.append("  <ul class=\"pagination\">");
-	    out.append("	<li class=\"page-item disabled me-2\">");
-	    out.append("	  <a class=\"page-link\" href=\"#\" tabindex=\"-1\"><i class=\"bi bi-caret-left-fill\"></i></a>");
-	    out.append("	</li>");
-	    out.append("	<li class=\"page-item active me-2\">");
-	    out.append("	  <a class=\"page-link\" href=\"#\">1</a>");
-	    out.append("	</li>");
-	    out.append("	<li class=\"page-item me-2\">");
-	    out.append("	  <a class=\"page-link\" href=\"#\">2</a>");
-	    out.append("	</li>");
-	    out.append("	<li class=\"page-item me-2\">");
-	    out.append("	  <a class=\"page-link\" href=\"#\">3</a>");
-	    out.append("	</li>");
-	    out.append("	<li class=\"page-item me-2\">");
-	    out.append("	  <a class=\"page-link\" href=\"#\"><i class=\"bi bi-caret-right-fill\"></i></a>");
-	    out.append("	</li>");
+
+		if(pageNumbers > 1){
+			out.append("	<li class=\"page-item disabled me-2\">");
+			out.append("	  <a class=\"page-link\" href=\"#\" tabindex=\"-1\"><i class=\"bi bi-caret-left-fill\"></i></a>");
+			out.append("	</li> ");
+		}
+
+		for(int i = 0; i < pageNumbers; i++){
+			out.append("    <li class=\"page-item "+ (i+1 == currentPage ? "active" : "") +"  me-2\">");
+
+			if(statusLink == null){
+				out.append("      <a class=\"page-link\" href=\"../admin/accounts-view?pageNo=" + (i + 1) + "\">" + (i + 1) + "</a>");
+			}else {
+				if (statusLink.equals("/admin/search-user")){
+					out.append("      <a class=\"page-link\" href=\"../admin/search-user?pageNo=" + (i + 1) + "&keyword="
+							+keyword + "\">" + (i + 1) + "</a>");
+				}else{
+					out.append("      <a class=\"page-link\" href=\"../admin/filter?pageNo=" + (i + 1) + "&status="
+							+ status + "\">" + (i + 1) + "</a>");
+				}
+			}
+			out.append("    </li>");
+		}
+
+		if(pageNumbers > 1){
+			out.append("	<li class=\"page-item me-2\">");
+			out.append("	  <a class=\"page-link\" href=\"#\"><i class=\"bi bi-caret-right-fill\"></i></a>");
+			out.append("	</li>");
+		}
+
 	    out.append("  </ul>");
 	    out.append("</nav>");
 	    out.append("    </section>");
@@ -236,6 +271,7 @@ public class AccountsView extends HttpServlet {
 	    out.append("      </div>");
 	    out.append("    </div><!-- End Small Modal-->");
 	    out.append("  </main>");
+		out.append("  <script src=\"../admin/js/account.js\"></script>");
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);
 	}

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 @Data
 @AllArgsConstructor
@@ -18,5 +20,7 @@ public class Order {
     private Date createdAt;
     private String orderNote;
     private User user;
+    private ShippingAddress shippingAddress;
+    private List<OrderItem> orderItems;
 
 }

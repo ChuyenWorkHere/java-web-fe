@@ -69,7 +69,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 		return false;
 	}
 
-<<<<<<< HEAD
+
 	private Category mapRowToCategory(ResultSet rs) throws SQLException {
 		Category category = new Category();
 
@@ -81,17 +81,4 @@ public class CategoryDAOImpl implements CategoryDAO {
 		return category;
 	}
 
-
-=======
-	private Category mapRowToCategory(ResultSet rs) throws SQLException{
-		Category category = new Category();
-		category.setCategoryId(rs.getInt("category_id"));
-		category.setCategoryName(rs.getString("category_name"));
-		category.setCategoryDescription(rs.getString("category_description"));
-
-
-		return category;
-	}
-	
->>>>>>> 2d25a1d3ffabd928ecd9a31f206d1a8290d00c31
 }

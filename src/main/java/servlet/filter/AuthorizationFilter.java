@@ -45,7 +45,7 @@ public class AuthorizationFilter implements Filter {
 		}
 
 		// Phân quyền dựa trên vai trò và URL
-		if (uri.startsWith(contextPath + "/public/")) {
+		if (uri.startsWith(contextPath + "/public/") || uri.startsWith(contextPath + "/admin/signin")) {
 			chain.doFilter(request, response);
 			return;
 		} else if (uri.startsWith(contextPath + "/admin/")) {
