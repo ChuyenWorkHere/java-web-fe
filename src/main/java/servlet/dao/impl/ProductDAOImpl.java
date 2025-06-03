@@ -40,7 +40,7 @@ public class ProductDAOImpl implements ProductDAO {
 		return null;
 	}
 
-	
+
 
 	@Override
 	public boolean saveProduct(Product product) {
@@ -109,8 +109,49 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public boolean editProduct(int productId, Product product) {
-		// TODO Auto-generated method stub
-		return false;
+		Product existedProduct = findById(productId);
+		if (existedProduct == null && existedProduct.getProductName() == null){
+			return false;
+		}
+
+		StringBuilder sql = new StringBuilder();
+		sql.append("UPDATE products SET ");
+		sql.append("product_name=?, product_total=?, product_code=?, product_price=?, ");
+		sql.append("product_discount_price=?, product_description=?, product_visited=?, ");
+		sql.append("product_image_url=?, product_size=?, product_enable=?, product_material=?, ");
+		sql.append("brand_id=?, category_id=?, updated_at=?");
+		sql.append(" WHERE product_id=?");
+
+		try (Connection conn = DataSourceUtil.getConnection();
+			 PreparedStatement updateStmt = conn.prepareStatement(sql.toString())) {
+
+			int index = 1;
+			// 2. Gán dữ liệu mới từ `product` vào đối tượng hiện tại
+			updateStmt.setString(index++, product.getProductName());
+			updateStmt.setInt(index++, product.getProductTotal());
+			updateStmt.setString(index++, product.getProductCode());
+			updateStmt.setDouble(index++, product.getProductPrice());
+			updateStmt.setDouble(index++, product.getProductDiscountPrice());
+			updateStmt.setString(index++, product.getProductDescription());
+			updateStmt.setInt(index++, product.getProductVisited());
+			updateStmt.setString(index++, product.getProductImageUrl());
+			updateStmt.setString(index++, product.getProductSize());
+			updateStmt.setInt(index++, product.isProductEnable()? 1 : 0);
+			updateStmt.setString(index++, product.getProductMaterial());
+			updateStmt.setInt(index++, product.getBrand().getBrandId());
+			updateStmt.setInt(index++, product.getCategory().getCategoryId());
+			updateStmt.setDate(index++, java.sql.Date.valueOf(LocalDate.now()));
+			updateStmt.setInt(index++, productId); // WHERE
+
+			// 3. Thực thi cập nhật
+			int rowsAffected = updateStmt.executeUpdate();
+			return rowsAffected > 0;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
 	}
 
 	@Override

@@ -44,7 +44,7 @@ public class AccountsView extends HttpServlet {
 
 	    if (users == null) {
 	        UserDAO userDAO = new UserDAOImpl();
-//	        users = userDAO.findAll();
+//	        users = userDAO.findAllActiveCategories();
 	        users = userDAO.findAllPage(1, 12);
 	    }
 	    

@@ -1,5 +1,6 @@
 package servlet.admin.controller;
 
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -9,6 +10,7 @@ import servlet.models.Brand;
 import servlet.models.Category;
 import servlet.models.Product;
 import servlet.utils.FileUtil;
+import servlet.utils.ProductUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -18,15 +20,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@WebServlet("/admin/product/add")
+@WebServlet("/admin/product/edit")
 @MultipartConfig
-public class AddProduct extends HttpServlet {
-
+public class EditProduct extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public AddProduct() {
+    private ProductDAO productDAO = new ProductDAOImpl();
+
+    public EditProduct() {
         super();
     }
 
@@ -42,6 +49,7 @@ public class AddProduct extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
 
+        String deletePath = getServletContext().getRealPath("/");
         String uploadPath = getServletContext().getRealPath("/uploads");
 
         // Khởi tạo StringBuilder để nối các URL ảnh và mã màu
@@ -54,6 +62,7 @@ public class AddProduct extends HttpServlet {
         upload.setFileSizeMax(10 * 1024 * 1024); // Giới hạn kích thước file: 10MB
 
         // Lấy các tham số từ form
+        int productId = -1;
         String productName = null;
         String productSize = null;
         String productMaterial = null;
@@ -64,9 +73,16 @@ public class AddProduct extends HttpServlet {
         double regular = 0.0;
         double sale = 0.0;
         String about = null;
+
         List<String> colors = new ArrayList<>();
         List<String> imgUrls = new ArrayList<>();
 
+        List<String> oldFilePaths = new ArrayList<>();
+
+        //Kiểm tra người dùng có tải ảnh mới lên không
+        boolean flag = false;
+
+        Product existedProduct = new Product();
         try {
             // Parse request để lấy các field và file
             List<FileItem> items = upload.parseRequest(request);
@@ -77,6 +93,16 @@ public class AddProduct extends HttpServlet {
                     // Xử lý các trường văn bản
                     String value = item.getString("UTF-8");
                     switch (fieldName) {
+                        case "pId" -> {
+                            productId = Integer.parseInt(value);
+                            //Kiểm tra sản phẩm có tồn tại
+                            existedProduct = productDAO.findById(productId);
+                            if (existedProduct == null || existedProduct.getProductName() == null){
+                                response.sendRedirect("../admin/error/404");
+                                return;
+                            }
+                            oldFilePaths = List.of(ProductUtils.urlArray(existedProduct.getProductImageUrl()));
+                        }
                         case "productName" -> productName = value;
                         case "productSize" -> productSize = value;
                         case "productMaterial" -> productMaterial = value;
@@ -95,9 +121,11 @@ public class AddProduct extends HttpServlet {
                         String fileName = FileUtil.uploadImage(uploadPath, item);
                         String fileUrl = "/uploads/" + fileName; // lưu đường dẫn tương đối
                         imgUrls.add(fileUrl);
+                        flag = true;
                     }
                 }
             }
+
 
             // Nối các url img bằng ký tự "||"
             imgUrlsAndColors.append(String.join("||", imgUrls));
@@ -118,7 +146,18 @@ public class AddProduct extends HttpServlet {
             product.setProductDiscountPrice(sale);
             product.setProductSize(productSize);
             product.setProductMaterial(productMaterial);
-            product.setProductImageUrl(imgUrlsAndColors.toString());
+
+            if(flag) {
+                // Người dùng upload file mới => bỏ file cũ
+                product.setProductImageUrl(imgUrlsAndColors.toString());
+                List<String> absolutePaths = new ArrayList<>();
+                for(String filePath : oldFilePaths){
+                    absolutePaths.add(deletePath + filePath);
+                }
+                boolean isDeleted = FileUtil.deleteImages(absolutePaths);
+            } else {
+                product.setProductImageUrl(existedProduct.getProductImageUrl());
+            }
 
             // Tạo đối tượng Category và Brand
             Category category = new Category(categoryId, "", "", 1);
@@ -127,19 +166,18 @@ public class AddProduct extends HttpServlet {
             Brand brand = new Brand(brandId, "");
             product.setBrand(brand);
 
-            // Lưu sản phẩm vào cơ sở dữ liệu
+            // Lưu sản phẩm đã chỉnh sửa vào cơ sở dữ liệu
             ProductDAO productDAO = new ProductDAOImpl();
-            boolean isSuccess = productDAO.saveProduct(product);
+            boolean isSuccess = productDAO.editProduct(productId, product);
             if(isSuccess) {
-                response.sendRedirect("../admin/products-view?title=product&action=add&noti=success");
+                response.sendRedirect("../products-view?title=product&action=edit&noti=success");
             } else {
-                response.sendRedirect("../admin/products-view?title=product&action=add&noti=failed");
+                response.sendRedirect("../products-view?title=product&action=edit&noti=failed");
             }
 
-        } catch (NumberFormatException e) {
-            response.sendRedirect("/admin/products-view?title=product&action=add&noti=failed");
         } catch (Exception e) {
-            response.sendRedirect("/admin/products-view?title=product&action=add&noti=failed");
+            e.printStackTrace();
+            response.sendRedirect("../products-view?title=product&action=edit&noti=failed");
         }
 
     }

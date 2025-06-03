@@ -1,7 +1,15 @@
 package servlet.admin.view;
 
+import servlet.dao.BrandDAO;
+import servlet.dao.CategoryDAO;
+import servlet.dao.impl.BrandDAOImpl;
+import servlet.dao.impl.CategoryDAOImpl;
+import servlet.models.Brand;
+import servlet.models.Category;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,6 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 public class AddProductView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private CategoryDAO categoryDAO = new CategoryDAOImpl();
+	private BrandDAO brandDAO = new BrandDAOImpl();
+
 	public AddProductView() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -24,7 +35,8 @@ public class AddProductView extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 
-		//Message từ
+		List<Category> categories = categoryDAO.findAllActiveCategories(100, 1, "ASC", "category_id" );
+		List<Brand> brands = brandDAO.findAll();
 
 		PrintWriter out = response.getWriter();
 		request.setAttribute("view", "add");
@@ -80,9 +92,9 @@ public class AddProductView extends HttpServlet {
 		out.append("                    <label for=\"category\" class=\"form-label\">Danh mục</label>");
 		out.append("                    <select class=\"form-select\" name=\"category\" id=\"category\">");
 		out.append("                      <option selected>Danh mục</option>");
-		out.append("                      <option value=\"1\">Category 1</option>");
-		out.append("                      <option value=\"2\">Category 2</option>");
-		out.append("                      <option value=\"3\">Category 3</option>");
+		for(Category category : categories) {
+			out.append("<option value=\""+category.getCategoryId()+"\">"+category.getCategoryName()+"</option>");
+		}
 		out.append("                    </select>");
 		out.append("                    <p class=\"text-danger m-0 mt-2\" id=\"categoryMessage\"></p>");
 		out.append("                  </div>");
@@ -90,9 +102,9 @@ public class AddProductView extends HttpServlet {
 		out.append("                    <label for=\"brand\" class=\"form-label\">Thương hiệu</label>");
 		out.append("                    <select class=\"form-select\" name=\"brand\" id=\"brand\">");
 		out.append("                      <option selected>Thương hiệu</option>");
-		out.append("                      <option value=\"1\">MOHO 1</option>");
-		out.append("                      <option value=\"2\">MOHO 2</option>");
-		out.append("                      <option value=\"3\">MOHO 3</option>");
+		for(Brand brand : brands) {
+			out.append("<option value=\""+brand.getBrandId()+"\">"+brand.getBrandName()+"</option>");
+		}
 		out.append("                    </select>");
 		out.append("                    <p class=\"text-danger m-0 mt-2\" id=\"brandMessage\"></p>");
 		out.append("                  </div>");
@@ -136,17 +148,36 @@ public class AddProductView extends HttpServlet {
 		out.append("          </div>");
 		out.append("          <div class=\"col-lg-6\">");
 		out.append("            <!--Thêm ảnh-->");
-		out.append("            <div style=\"max-height: 250px; overflow-y: scroll;\"");
-		out.append("              class=\"row align-items-start mt-3 product-images-col danhsachsanpham\">");
+		out.append("			<div style=\"max-height: 250px; overflow-y: scroll;\" class=\"row align-items-start mt-3 product-images-col\">");
+		out.append("              <div class=\"row\">");
+		out.append("                <div class=\"col-xl-12\">");
+		out.append("                  <h5 class=\"card-title\">Ảnh minh họa</h5>");
+		out.append("                  <input type=\"file\" name=\"productImg\" class=\"form-control image-input\" multiple accept=\"image/*\">");
+		out.append("                  <div class=\"image-preview d-flex flex-wrap mt-2\">");
+		out.append("					<div class=\"image-wrapper position-relative m-2\">");
+		out.append("                      <img src=\"https://product.hstatic.net/200000065946/product/pro_mau_trang_noi_that_moho_combo_phong_khach_kline_1_3883b611ea6345c8bd7c55f840eb2698_master.png\" alt=\"\" class=\"me-2\" style=\"width: 100px; height: 100px; border: 1px solid #ccc; border-radius: 4px;\">");
+		out.append("                    </div>");
+		out.append("					<div class=\"image-wrapper position-relative m-2\">");
+		out.append("                      <img src=\"https://product.hstatic.net/200000065946/product/pro_mau_trang_noi_that_moho_combo_phong_khach_kline_1_3883b611ea6345c8bd7c55f840eb2698_master.png\" alt=\"\" class=\"me-2\" style=\"width: 100px; height: 100px; border: 1px solid #ccc; border-radius: 4px;\">");
+		out.append("                    </div>");
+		out.append("					<div class=\"image-wrapper position-relative m-2\">");
+		out.append("                      <img src=\"https://product.hstatic.net/200000065946/product/pro_mau_trang_noi_that_moho_combo_phong_khach_kline_1_3883b611ea6345c8bd7c55f840eb2698_master.png\" alt=\"\" class=\"me-2\" style=\"width: 100px; height: 100px; border: 1px solid #ccc; border-radius: 4px;\">");
+		out.append("                    </div>");
+		out.append("                  </div>");
+		out.append("                </div>");
+		out.append("                <div class=\"col-xl-12 col-md-12\">");
+		out.append("                  <h5 class=\"card-title\">Màu sắc</h5>");
+		out.append("                  <div class=\"color-container\">");
+		out.append("                    <div class=\"color-wrapper col-auto mb-2\">");
+		out.append("                      <input type=\"color\" name=\"productColors[]\" class=\"color-box p-0\" value=\"#fff\">");
+		out.append("                    </div>");
+		out.append("                    <div class=\"color-wrapper col-auto mb-2\">");
+		out.append("                      <button type=\"button\" class=\"color-box add-color\"><i class=\"bi bi-plus\"></i></button>");
+		out.append("                    </div>");
+		out.append("                  </div>");
+		out.append("                </div>");
+		out.append("              </div>");
 		out.append("            </div>");
-		out.append("            <div class=\"d-flex justify-content-center mt-3\">");
-		out.append("              <button onclick=\"themsanpham()\" type=\"button\"");
-		out.append("                class=\"btn btn-warning d-flex align-items-center gap-2 px-4\">");
-		out.append("                <i class=\"bi bi-plus fs-5\"></i>");
-		out.append("                Thêm ảnh");
-		out.append("              </button>");
-		out.append("            </div>");
-		out.append("");
 		out.append("            <!--Mô tả chi tiết-->");
 		out.append("            <h5 class=\"card-title\">Mô tả chi tiết</h5>");
 		out.append("            <div class=\"col-md-12 col-lg-12\">");

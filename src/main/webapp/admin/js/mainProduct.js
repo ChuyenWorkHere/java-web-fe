@@ -1,65 +1,56 @@
-//Index productImg & productColor
-let index = 0;
-function themsanpham(color = "#000000") {
-  const danhsachsanpham = document.querySelector(".danhsachsanpham");
+//Preview image khi tải ảnh lên
+const input = document.querySelector(".image-input");
+const previewDiv = document.querySelector(".image-preview");
 
-  const sanphamHTML = `
-        <div class="row " data-index="${index}">
-            <div class="col-xl-9">
-              <h5 class="card-title">Ảnh minh họa</h5>
-              <input type="file" name="productImg[${index}]" class="form-control image-input" multiple accept="image/*">
-              <div class="image-preview d-flex flex-wrap mt-2" style="min-height: 100px;"></div>
-            </div>
-            <div class="col-xl-3 col-md-4">
-              <h5 class="card-title">Màu sắc</h5>
-              <div class="color-container row">
-                <input name="productColor[${index}]" type="color" class="color-box col-xl-2 p-0 color-input" value="${color}">
-              </div>
-            </div>
-          </div>
-`;
+input.addEventListener("change", () => {
+  previewDiv.innerHTML = "";
+  Array.from(input.files).forEach(file => {
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        // Tạo thẻ div chứa ảnh + nút xóa
+        const imageWrapper = document.createElement("div");
+        imageWrapper.style.position = "relative";
+        imageWrapper.classList.add("m-2");
 
-  danhsachsanpham.insertAdjacentHTML('beforeend', sanphamHTML);
-  index++;
+        // Tạo ảnh
+        const img = document.createElement("img");
+        img.src = e.target.result;
+        img.style.maxHeight = "100px";
+        img.style.maxWidth = "100px";
+        img.style.border = "1px solid #ccc";
+        img.style.borderRadius = "4px";
+        img.classList.add("me-2");
 
-  // Tìm input và div preview vừa thêm
-  const inputs = danhsachsanpham.querySelectorAll(".image-input");
-  const newInput = inputs[inputs.length - 1];
-  const previewDiv = newInput.nextElementSibling;
 
-  newInput.addEventListener("change", () => {
-    previewDiv.innerHTML = "";
-    Array.from(newInput.files).forEach(file => {
-      if (file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          // Tạo thẻ div chứa ảnh + nút xóa
-          const imageWrapper = createImageWrapper(e.target.result);
-          previewDiv.appendChild(imageWrapper);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
+        // Gắn ảnh và nút vào div
+        imageWrapper.appendChild(img);
+        previewDiv.appendChild(imageWrapper);
+      };
+      reader.readAsDataURL(file);
+    }
   });
+});
 
+
+function initColorInputs() {
+  const colorContainer = document.querySelector('.color-container');
+  const addColorBtn = document.querySelector('.add-color');
+
+  if (!colorContainer || !addColorBtn) return;
+
+  addColorBtn.addEventListener('click', () => {
+    const colorWrapper = document.createElement('div');
+    colorWrapper.className = 'color-wrapper col-auto mb-2';
+    colorWrapper.innerHTML = `
+        <input type="color" name="productColors[]" class="color-box p-0">
+    `;
+    colorContainer.insertBefore(colorWrapper, addColorBtn.parentElement);
+  });
 }
 
-function showOldImages(index, imageUrls) {
-    const container = document.querySelector(`.row[data-index="${index}"] .image-preview`);
-      if (!container) return;
+document.addEventListener('DOMContentLoaded', initColorInputs);
 
-      imageUrls.forEach((url) => {
-        const imgWrapper = createImageWrapper(url, true, () => {
-          // Gửi thông tin ảnh bị xóa về server
-          const hiddenInput = document.createElement("input");
-          hiddenInput.type = "hidden";
-          hiddenInput.name = `deletedImg[${index}][]`;
-          hiddenInput.value = url;
-          container.parentElement.appendChild(hiddenInput);
-        });
-        container.appendChild(imgWrapper);
-      });
-}
 
 /**
  * Kiểm tra dữ liệu trước form thêm sản phẩm
@@ -178,20 +169,4 @@ function showAlert() {
 }
 document.querySelectorAll('.confirm').forEach(item => item.addEventListener('click', showAlert));
 
-
-/* Hiển thị ảnh tương ứng khi click màu sắc */
-document.querySelectorAll('.color-img').forEach(button => {
-      button.addEventListener('click', () => {
-        const color = button.getAttribute('data-color');
-        const productItem = button.closest('.product__item');
-        const carousel = productItem.querySelector('.carousel');
-        const items = carousel.querySelectorAll('.carousel-item');
-        items.forEach(item => {
-          item.classList.remove('active');
-          if (item.getAttribute('data-color') === color) {
-            item.classList.add('active');
-          }
-        });
-      });
-    });
 
