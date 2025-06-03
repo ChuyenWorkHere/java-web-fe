@@ -12,4 +12,7 @@ public interface UserDAO {
     boolean deleteById(int userId);
     User checkLogin(String email, String password);
     List<User> findAllPage(int page, int pageSize);
+    int countAllUsers();
+    int countUserByName(String name);
+    int countUserByStatus(String status);
 }

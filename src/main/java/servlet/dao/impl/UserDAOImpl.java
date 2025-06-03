@@ -196,8 +196,64 @@ public class UserDAOImpl implements UserDAO {
 	    return users;
 	}
 
-	
-	private User mapRowToUser(ResultSet rs) throws SQLException{
+    @Override
+    public int countAllUsers() {
+        String sql = "select count(*) from users";
+        try (
+                Connection connection = DataSourceUtil.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ) {
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next())
+                    return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int countUserByName(String name) {
+        String sql = "select count(*) from users where user_fullname like ?";
+        try (
+                Connection connection = DataSourceUtil.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ) {
+            ps.setString(1, "%" + name + "%");
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next())
+                    return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int countUserByStatus(String status) {
+        String sql = "select count(*) from users where user_isactive = ?";
+        try (
+                Connection connection = DataSourceUtil.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ) {
+            int isActive = status.equals("active") ? 1 : 0;
+            ps.setInt(1, isActive);
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next())
+                    return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+    private User mapRowToUser(ResultSet rs) throws SQLException{
 		User user = new User();
 		user.setUserId(rs.getInt("user_id"));
         user.setPassword(rs.getString("password"));

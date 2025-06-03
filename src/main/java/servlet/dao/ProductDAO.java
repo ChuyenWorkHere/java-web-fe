@@ -2,7 +2,9 @@ package servlet.dao;
 
 import java.util.List;
 
+import lombok.Data;
 import servlet.models.Product;
+
 
 public interface ProductDAO {
 	Product findById(int id);

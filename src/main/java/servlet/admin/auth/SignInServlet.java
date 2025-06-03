@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/public/signin")
+@WebServlet("/admin/signin")
 public class SignInServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -92,7 +92,7 @@ public class SignInServlet extends HttpServlet {
 				out.append("                    <h5 class=\"card-title text-center pb-0 fs-4\">Đăng Nhập</h5>");
 				out.append("                  </div>");
 				
-				out.append("                  <form id = \"loginForm\" action= \"/Furniture/public/signin\" method=\"POST\" class=\"row g-3\" novalidate>");
+				out.append("                  <form id = \"loginForm\" action= \"/Furniture/admin/signin\" method=\"POST\" class=\"row g-3\" novalidate>");
 				out.append("					<p id =\"loginMessage\">"+errorMessage+"</p>");
 				out.append("                    <div class=\"col-12\">");
 				out.append("                      <label for=\"yourUsername\" class=\"form-label\">Tài Khoản</label>");

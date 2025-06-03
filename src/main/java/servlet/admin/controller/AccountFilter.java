@@ -27,13 +27,22 @@ public class AccountFilter extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String status = request.getParameter("status");
-		
+		String pageNumber = request.getParameter("pageNo");
+
+		int pageNo = pageNumber != null ? Integer.parseInt(pageNumber) : 1;
+
 		UserDAO userDAO = new UserDAOImpl();
-		List<User> users = userDAO.findByStatus(status, 1, 12);
-		
+		List<User> users = userDAO.findByStatus(status, pageNo, 12);
+
+		int pageNumbers = (status.equals("all")) ? (userDAO.countAllUsers() / 12 + 1) :
+				(userDAO.countUserByStatus(status) / 12 + 1);
+
 		request.setAttribute("users", users);
 		request.setAttribute("status", status);
-		
+		request.setAttribute("pageNo", pageNo);
+		request.setAttribute("pageNumbers", pageNumbers);
+		request.setAttribute("statusLink", "/admin/filter");
+
 		request.getRequestDispatcher("../admin/accounts-view").forward(request, response);
 	}
 

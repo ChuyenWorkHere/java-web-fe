@@ -29,7 +29,7 @@
                     <div class="col-lg-8 offset-lg-2">
                         <div class="basic-login">
                             <h3 class="text-center mb-60">ĐĂNG NHẬP</h3>
-                            <form id="loginForm" action="#">
+                            <form id="loginForm" action="../">
                                 <label for="email">Email <span>**</span></label>
                                 <input id="email" type="text" placeholder="Nhập email..." />
                                 <label for="password">Mật khẩu <span>**</span></label>

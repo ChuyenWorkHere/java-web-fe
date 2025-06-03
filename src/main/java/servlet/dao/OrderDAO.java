@@ -3,14 +3,13 @@ package servlet.dao;
 import servlet.models.Order;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface OrderDAO {
-    // 3.1.1: Lấy danh sách đơn hàng hiển thị trên màn hình chính quản trị
-    // bao gồm thông tin từ Order + Use
+
     List<Order> getAllOrders();
 
-    // 3.1.2: Lấy chi tiết đơn hàng, bao gồm thông tin User + Product
-    Order getOrderDetailById(int orderId);
+    Order getOrderDetailByOrderId(int orderId);
 
     // 3.1.3: Xóa đơn hàng
     boolean deleteOrder(int orderId);
@@ -32,4 +31,6 @@ public interface OrderDAO {
 
     // Tìm đơn hàng theo user (để xem đơn của khách cụ thể)
     List<Order> getOrdersByUserId(int userId);
+
+    List<Map<String, Integer>> orderStatusCount();
 }
