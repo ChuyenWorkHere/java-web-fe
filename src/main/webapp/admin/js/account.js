@@ -1,4 +1,14 @@
+const accountInput = document.querySelector("#searchInput");
+if(accountInput){
+    const buttonSearch = document.querySelector(".icon-search");
+    accountInput.addEventListener("focus", () => {
+        buttonSearch.classList.add("active");
+    })
 
+    accountInput.addEventListener("blur", () => {
+            buttonSearch.classList.remove("active");
+        })
+}
 
 function showToastMessage() {
   const toast = document.getElementById("toast-message");
@@ -15,8 +25,14 @@ var largeModal = document.getElementById('largeModal');
   largeModal.addEventListener('show.bs.modal', function (event) {
     var button = event.relatedTarget;
 
+    var gender = button.getAttribute('data-gender');
+    document.getElementById('modalGender').textContent = gender;
+
+    var profileImg = document.getElementById('modalProfileImage');
+    profileImg.src = (gender.toLowerCase() === 'nam') ? "../admin/img/avtboy.png"
+                                                      : "../admin/img/avtgirl.jpg";
+
     document.getElementById('modalName').textContent = button.getAttribute('data-name');
-    document.getElementById('modalGender').textContent = button.getAttribute('data-gender');
     document.getElementById('modalPhone').textContent = button.getAttribute('data-phone');
     document.getElementById('modalEmail').textContent = button.getAttribute('data-email');
     document.getElementById('modalAddress').textContent = button.getAttribute('data-address');
@@ -26,8 +42,7 @@ var largeModal = document.getElementById('largeModal');
 	var status = button.getAttribute('data-status');
 	document.getElementById('modalStatus').textContent = (status === 'true') ? 'Hoạt động' : 'Tạm ngừng';
   });
-  
-  //end update information for largeModal
+//end update information for largeModal
   
 /*start delete user*/
   let currentDeleteId = null;

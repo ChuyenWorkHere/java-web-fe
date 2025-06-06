@@ -1,7 +1,12 @@
 package servlet.admin.view;
 
+import servlet.dao.UserDAO;
+import servlet.dao.impl.UserDAOImpl;
+import servlet.models.User;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,6 +34,9 @@ public class HomeView extends HttpServlet {
 		request.setAttribute("view", "home");
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
 	    headerDispatcher.include(request, response);
+
+		UserDAO userDAO = new UserDAOImpl();
+		List<User> users = userDAO.findLatestRegisteredAccount();
 
 	    out.append("<main id=\"main\" class=\"main\">");
 	    out.append("");
@@ -364,90 +372,46 @@ public class HomeView extends HttpServlet {
 	    out.append("              <i class=\"fas fa-ellipsis-h text-secondary\" aria-hidden=\"true\"></i>");
 	    out.append("            </div>");
 	    out.append("            <ul class=\"list-unstyled mb-0\">");
-	    out.append("              <li class=\"d-flex justify-content-between align-items-center mb-4\">");
-	    out.append("                <div class=\"d-flex align-items-center gap-3\">");
-	    out.append("                  <img src=\"https://storage.googleapis.com/a1aa/image/86651eb7-180e-4702-5c08-8c1143d80c7a.jpg\"");
-	    out.append("                    alt=\"Black and white profile photo of a man looking down\" class=\"avatar-img\" />");
-	    out.append("                  <div>");
-	    out.append("                    <p class=\"text-slate-900 fw-semibold mb-0\" style=\"font-size: 0.875rem;\">Jimmy Denis</p>");
-	    out.append("                    <p class=\"text-slate-400 mb-0\" style=\"font-size: 0.75rem;\">Graphic Designer</p>");
-	    out.append("                  </div>");
-	    out.append("                </div>");
-	    out.append("                <div class=\"d-flex gap-3\">");
-	    out.append("                  <i class=\"bi bi-envelope text-blue-600 icon-btn\" aria-hidden=\"true\"></i>");
-	    out.append("                  <i class=\"bi bi-ban text-red-400 icon-btn\" aria-hidden=\"true\"></i>");
-	    out.append("                </div>");
-	    out.append("              </li>");
-	    out.append("              <li class=\"d-flex justify-content-between align-items-center mb-4\">");
-	    out.append("                <div class=\"d-flex align-items-center gap-3\">");
-	    out.append("                  <div class=\"avatar-circle bg-indigo-600\" style=\"background-color: #6b63ce;\">CF</div>");
-	    out.append("                  <div>");
-	    out.append("                    <p class=\"text-slate-900 fw-semibold mb-0\" style=\"font-size: 0.875rem;\">Chandra Felix</p>");
-	    out.append("                    <p class=\"text-slate-400 mb-0\" style=\"font-size: 0.75rem;\">Sales Promotion</p>");
-	    out.append("                  </div>");
-	    out.append("                </div>");
-	    out.append("                <div class=\"d-flex gap-3\">");
-	    out.append("                  <i class=\"bi bi-envelope text-blue-600 icon-btn\" aria-hidden=\"true\"></i>");
-	    out.append("                  <i class=\"bi bi-ban text-red-400 icon-btn\" aria-hidden=\"true\"></i>");
-	    out.append("                </div>");
-	    out.append("              </li>");
-	    out.append("              <li class=\"d-flex justify-content-between align-items-center mb-4\">");
-	    out.append("                <div class=\"d-flex align-items-center gap-3\">");
-	    out.append("                  <img src=\"https://storage.googleapis.com/a1aa/image/6e6c9265-63c8-46f7-c5a8-43213eab4c0d.jpg\"");
-	    out.append("                    alt=\"Profile photo of a man with dark hair and black shirt\" class=\"avatar-img\" />");
-	    out.append("                  <div>");
-	    out.append("                    <p class=\"text-slate-900 fw-semibold mb-0\" style=\"font-size: 0.875rem;\">Talha</p>");
-	    out.append("                    <p class=\"text-slate-400 mb-0\" style=\"font-size: 0.75rem;\">Front End Designer</p>");
-	    out.append("                  </div>");
-	    out.append("                </div>");
-	    out.append("                <div class=\"d-flex gap-3\">");
-	    out.append("                  <i class=\"bi bi-envelope text-blue-600 icon-btn\" aria-hidden=\"true\"></i>");
-	    out.append("                  <i class=\"bi bi-ban text-red-400 icon-btn\" aria-hidden=\"true\"></i>");
-	    out.append("                </div>");
-	    out.append("              </li>");
-	    out.append("              <li class=\"d-flex justify-content-between align-items-center mb-4\">");
-	    out.append("                <div class=\"d-flex align-items-center gap-3\">");
-	    out.append("                  <img src=\"https://storage.googleapis.com/a1aa/image/8fd47e12-2cc7-4a66-fdf9-3304d8f342ed.jpg\"");
-	    out.append("                    alt=\"Black and white profile photo of a smiling man\" class=\"avatar-img\" />");
-	    out.append("                  <div>");
-	    out.append("                    <p class=\"text-slate-900 fw-semibold mb-0\" style=\"font-size: 0.875rem;\">Chad</p>");
-	    out.append("                    <p class=\"text-slate-400 mb-0\" style=\"font-size: 0.75rem;\">CEO Zeleaf</p>");
-	    out.append("                  </div>");
-	    out.append("                </div>");
-	    out.append("                <div class=\"d-flex gap-3\">");
-	    out.append("                  <i class=\"bi bi-envelope text-blue-600 icon-btn\" aria-hidden=\"true\"></i>");
-	    out.append("                  <i class=\"bi bi-ban text-red-400 icon-btn\" aria-hidden=\"true\"></i>");
-	    out.append("                </div>");
-	    out.append("              </li>");
-	    out.append("              <li class=\"d-flex justify-content-between align-items-center mb-4\">");
-	    out.append("                <div class=\"d-flex align-items-center gap-3\">");
-	    out.append("                  <div class=\"avatar-circle\" style=\"background-color: #2563eb;\">H</div>");
-	    out.append("                  <div>");
-	    out.append("                    <p class=\"text-slate-900 fw-semibold mb-0\" style=\"font-size: 0.875rem;\">Hizrian</p>");
-	    out.append("                    <p class=\"text-slate-400 mb-0\" style=\"font-size: 0.75rem;\">Web Designer</p>");
-	    out.append("                  </div>");
-	    out.append("                </div>");
-	    out.append("                <div class=\"d-flex gap-3\">");
-	    out.append("                  <i class=\"bi bi-envelope text-blue-600 icon-btn\" aria-hidden=\"true\"></i>");
-	    out.append("                  <i class=\"bi bi-ban text-red-400 icon-btn\" aria-hidden=\"true\"></i>");
-	    out.append("                </div>");
-	    out.append("              </li>");
-	    out.append("              <li class=\"d-flex justify-content-between align-items-center\">");
-	    out.append("                <div class=\"d-flex align-items-center gap-3\">");
-	    out.append("                  <div class=\"avatar-circle bg-indigo-600\" style=\"background-color: #6b63ce;\">F</div>");
-	    out.append("                  <div>");
-	    out.append("                    <p class=\"text-slate-900 fw-semibold mb-0\" style=\"font-size: 0.875rem;\">Farrah</p>");
-	    out.append("                    <p class=\"text-slate-400 mb-0\" style=\"font-size: 0.75rem;\">Marketing</p>");
-	    out.append("                  </div>");
-	    out.append("                </div>");
-	    out.append("                <div class=\"d-flex gap-3\">");
-	    out.append("                  <i class=\"bi bi-envelope text-blue-600 icon-btn\" aria-hidden=\"true\"></i>");
-	    out.append("                  <i class=\"bi bi-ban text-red-400 icon-btn\" aria-hidden=\"true\"></i>");
-	    out.append("                </div>");
-	    out.append("              </li>");
+
+		for(User user : users){
+			out.append("              <li class=\"d-flex justify-content-between align-items-center mb-4\">");
+			out.append("                <div class=\"d-flex align-items-center gap-3\">");
+			out.append("                  <img src=\""+(user.getGender().equals("Nam")
+					? "../admin/img/avtboy.png" : "../admin/img/avtgirl.jpg")+"\"");
+			out.append("                    alt=\"avtprofile\" class=\"avatar-img\" />");
+			out.append("                  <div>");
+			out.append("                    <p class=\"text-slate-900 fw-semibold mb-0\" style=\"font-size: 0.875rem;\">"+user.getFullname()+"</p>");
+			out.append("                    <p class=\"text-slate-400 mb-0\" style=\"font-size: 0.75rem;\">Khách hàng</p>");
+			out.append("                  </div>");
+			out.append("                </div>");
+			out.append("  				<div class=\"d-flex gap-3\">");
+//			out.append("    				<a class=\"bg-primary bg-opacity-75 pointer text-white rounded-circle p-2 d-inline-flex align-items-center justify-content-center\" style=\"width: 40px; height: 40px;\">");
+//			out.append("      				<i class=\"bi bi-eye\"></i>");
+			out.append("<button class='btn btn-primary rounded-circle viewBtn me-2' ")
+					.append("data-bs-toggle='modal' data-bs-target='#largeModal' ")
+					.append("data-name='" + user.getFullname() + "' ")
+					.append("data-gender='" + user.getGender() + "' ")
+					.append("data-phone='" + user.getPhoneNumber() + "' ")
+					.append("data-email='" + user.getEmail() + "' ")
+					.append("data-address='" + user.getAddress() + "' ")
+					.append("data-created='" + user.getCreateDate() + "' ")
+					.append("data-updated='" + user.getModifiedDate() + "' ")
+					.append("data-status='" + user.isActive() + "'>")
+					.append("<i class='bi bi-eye'></i>")
+					.append("</button>");
+			out.append("    				</a>");
+			out.append("  				</div>");
+			out.append("              </li>");
+		}
+
+
 	    out.append("            </ul>");
 	    out.append("          </div>");
 	    out.append("");
+
+		RequestDispatcher accountModalDispatcher = request.getRequestDispatcher("/admin/account-modal");
+		accountModalDispatcher.include(request, response);
+
 	    out.append("          <!-- News & Updates Traffic -->");
 	    out.append("          <div class=\"card\">");
 	    out.append("            <div class=\"filter\">");
@@ -508,7 +472,7 @@ public class HomeView extends HttpServlet {
 	    out.append("    </section>");
 	    out.append("");
 	    out.append("  </main><!-- End #main -->");
-		
+		out.append("  <script src=\"../admin/js/account.js\"></script>");
 		
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);

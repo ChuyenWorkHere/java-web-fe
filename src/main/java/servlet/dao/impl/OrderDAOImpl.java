@@ -53,7 +53,7 @@ public class OrderDAOImpl implements OrderDAO {
        StringBuilder sql = new StringBuilder();
         sql.append("SELECT o.order_id, o.total_price, o.order_status, o.payment_status, o.payment_method, o.created_at, o.order_note, ");
         sql.append("sa.fullname, sa.phone_number, sa.address, sa.email, ");
-        sql.append("u.user_id, u.user_fullname, u.user_phone_number, u.user_email, ");
+        sql.append("u.user_id, u.user_fullname, u.user_phone_number, u.user_email, u.gender, u.user_isactive, u.user_created_date, u.user_modified_date, u.user_address, ");
         sql.append("oi.order_quantity, oi.order_price, oi.product_id, ");
         sql.append("p.product_name, p.product_image_url ");
         sql.append("FROM orders o ");
@@ -90,8 +90,14 @@ public class OrderDAOImpl implements OrderDAO {
                        User user = new User();
                        user.setUserId(rs.getInt("user_id"));
                        user.setFullname(rs.getString("user_fullname"));
+                       user.setGender(rs.getString("gender"));
                        user.setPhoneNumber(rs.getString("user_phone_number"));
                        user.setEmail(rs.getString("user_email"));
+                       user.setCreateDate(rs.getTimestamp("user_created_date"));
+                       user.setModifiedDate(rs.getTimestamp("user_modified_date"));
+                       int userActive = rs.getInt("user_isactive");
+                       user.setActive(userActive == 1 ? true : false);
+                       user.setAddress(rs.getString("user_address"));
                        order.setUser(user);
                    }
 
@@ -303,11 +309,6 @@ public class OrderDAOImpl implements OrderDAO {
     public List<Map<String, Integer>> orderStatusCount() {
         List<Map<String, Integer>> result = new ArrayList<>();
 
-//        String sql = "SELECT order_status, COUNT(*) AS total\n" +
-//                "FROM orders\n" +
-//                "GROUP BY order_status\n" +
-//                "UNION ALL\n" +
-//                "SELECT 'All', COUNT(*) FROM orders";
         String sql = "select order_status, count(*) as total from orders group by order_status";
         try(Connection conn = DataSourceUtil.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)){
