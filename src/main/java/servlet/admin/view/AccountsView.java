@@ -66,7 +66,7 @@ public class AccountsView extends HttpServlet {
 		if (users == null) {
 	        UserDAO userDAO = new UserDAOImpl();
 	        users = userDAO.findAllPage(currentPage, 12);
-			pageNumbers = (userDAO.countAllUsers() / 12) + 1;
+			pageNumbers = (int) Math.ceil((double) userDAO.countAllUsers() / 12);
 	    }
 
 	    out.append("<main id=\"main\" class=\"main\">");
@@ -115,8 +115,12 @@ public class AccountsView extends HttpServlet {
 			    .append("<i class='bi bi-eye'></i>")
 			    .append("</button>");
 		    if(user.isActive()) {
-		    	out.append("<button class='btn btn-danger btn-delete' data-bs-toggle='modal' data-bs-target='#smallModal' data-id='" + user.getUserId() + "'><i class='bi bi-trash'></i></button>");
-		    }
+				out.append("<button class='btn btn-danger btn-delete' data-bs-toggle='modal' ");
+				out.append("data-bs-target='#smallModal' data-id='" + user.getUserId() + "' ");
+				out.append("data-name='" + user.getFullname() + "'>");
+				out.append("<i class='bi bi-trash'></i></button>");
+
+			}
 
 		    out.append("                    </div>");
 		    out.append("                  </div>");
@@ -124,7 +128,6 @@ public class AccountsView extends HttpServlet {
 		    out.append("              </div>");
 		    out.append("            </div>");
 	    }
-	    
 	    
 	    out.append("          </div>");
 	    out.append("        </div>");
@@ -157,83 +160,56 @@ public class AccountsView extends HttpServlet {
 	    out.append("          </div>");
 	    out.append("        </div>");
 
-//	    out.append("<nav aria-label=\"Page navigation\" class=\"mt-4 d-flex justify-content-center order-3 order-md-3\">");
-//	    out.append("  <ul class=\"pagination\">");
-//
-//		if(pageNumbers > 1){
-//			out.append("	<li class=\"page-item disabled me-2\">");
-//			out.append("	  <a class=\"page-link\" href=\"#\" tabindex=\"-1\"><i class=\"bi bi-caret-left-fill\"></i></a>");
-//			out.append("	</li> ");
-//		}
-//
-//		for(int i = 0; i < pageNumbers; i++){
-//			out.append("    <li class=\"page-item "+ (i+1 == currentPage ? "active" : "") +"  me-2\">");
-//
-//			if(statusLink == null){
-//				out.append("      <a class=\"page-link\" href=\"../admin/accounts-view?pageNo=" + (i + 1) + "\">" + (i + 1) + "</a>");
-//			}else {
-//				if (statusLink.equals("/admin/search-user")){
-//					out.append("      <a class=\"page-link\" href=\"../admin/search-user?pageNo=" + (i + 1) + "&keyword="
-//							+keyword + "\">" + (i + 1) + "</a>");
-//				}else{
-//					out.append("      <a class=\"page-link\" href=\"../admin/filter?pageNo=" + (i + 1) + "&status="
-//							+ status + "\">" + (i + 1) + "</a>");
-//				}
-//			}
-//			out.append("    </li>");
-//		}
-//
-//		if(pageNumbers > 1){
-//			out.append("	<li class=\"page-item me-2\">");
-//			out.append("	  <a class=\"page-link\" href=\"#\"><i class=\"bi bi-caret-right-fill\"></i></a>");
-//			out.append("	</li>");
-//		}
-//
-//	    out.append("  </ul>");
-//	    out.append("</nav>");
-
+		/*		navigation     */
 		out.append("<nav aria-label=\"Page navigation example\" class=\"mt-4 d-flex justify-content-center order-3 order-md-3\">");
 		out.append("  <ul class=\"pagination\">");
 
-		if(pageNumbers > 1){
-//			out.append("	<li class=\"page-item disabled\">");
-//			out.append("	  <a class=\"page-link\" href=\"#\" tabindex=\"-1\"><i class=\"bi bi-caret-left-fill\"></i></a>");
-//			out.append("	</li> ");
-			out.append("                  <li class=\"page-item disabled\">");
-			out.append("                    <a class=\"page-link\" href=\"#\" aria-label=\"Previous\">");
-			out.append("                      <span aria-hidden=\"true\">&laquo;</span>");
-			out.append("                    </a>");
-			out.append("                  </li>");
-		}
-
-		for(int i = 0; i < pageNumbers; i++){
-			out.append("    <li class=\"page-item "+ (i+1 == currentPage ? "active" : "") +"\">");
-
-			if(statusLink == null){
-				out.append("      <a class=\"page-link\" href=\"../admin/accounts-view?pageNo=" + (i + 1) + "\">" + (i + 1) + "</a>");
-			}else {
-				if (statusLink.equals("/admin/search-user")){
-					out.append("      <a class=\"page-link\" href=\"../admin/search-user?pageNo=" + (i + 1) + "&keyword="
-							+keyword + "\">" + (i + 1) + "</a>");
-				}else{
-					out.append("      <a class=\"page-link\" href=\"../admin/filter?pageNo=" + (i + 1) + "&status="
-							+ status + "\">" + (i + 1) + "</a>");
-				}
-			}
+// Previous button
+		if (currentPage > 1) {
+			out.append("    <li class=\"page-item\">");
+			out.append("      <a class=\"page-link\" href=\"" + getPageUrl(currentPage - 1, statusLink, keyword, status) + "\" aria-label=\"Previous\">");
+			out.append("        <span aria-hidden=\"true\">&laquo;</span>");
+			out.append("      </a>");
 			out.append("    </li>");
 		}
 
-		if(pageNumbers > 1){
-			out.append("                  <li class=\"page-item\">");
-			out.append("                    <a class=\"page-link\" href=\"#\" aria-label=\"Next\">");
-			out.append("                      <span aria-hidden=\"true\">&raquo;</span>");
-			out.append("                    </a>");
-			out.append("                  </li>");
+// Always show page 1
+		out.append(createPageItem(1, currentPage, statusLink, keyword, status));
+
+// Add ... after page 1 if needed
+		if (currentPage > 3) {
+			out.append("    <li class=\"page-item disabled\"><a class=\"page-link\">...</a></li>");
+		}
+
+// Show current page if it's not 1 or last
+		if (currentPage != 1 && currentPage != pageNumbers) {
+			out.append(createPageItem(currentPage, currentPage, statusLink, keyword, status));
+		}
+
+// Add ... before last page if needed
+		if (currentPage < pageNumbers - 2) {
+			out.append("    <li class=\"page-item disabled\"><a class=\"page-link\">...</a></li>");
+		}
+
+// Always show last page if more than 1 page
+		if (pageNumbers > 1) {
+			out.append(createPageItem(pageNumbers, currentPage, statusLink, keyword, status));
+		}
+
+// Next button
+		if (currentPage < pageNumbers) {
+			out.append("    <li class=\"page-item\">");
+			out.append("      <a class=\"page-link\" href=\"" + getPageUrl(currentPage + 1, statusLink, keyword, status) + "\" aria-label=\"Next\">");
+			out.append("        <span aria-hidden=\"true\">&raquo;</span>");
+			out.append("      </a>");
+			out.append("    </li>");
 		}
 
 		out.append("  </ul>");
 		out.append("</nav>");
-	    out.append("    </section>");
+
+
+		out.append("    </section>");
 
 		RequestDispatcher accountModalDispatcher = request.getRequestDispatcher("/admin/account-modal");
 	    accountModalDispatcher.include(request, response);
@@ -242,12 +218,16 @@ public class AccountsView extends HttpServlet {
 	    out.append("    <div class=\"modal fade\" id=\"smallModal\" tabindex=\"-1\">");
 	    out.append("      <div class=\"modal-dialog modal-sm\">");
 	    out.append("        <div class=\"modal-content\">");
-	    out.append("          <div class=\"modal-body\">");
+		out.append("  <div class=\"modal-header bg-danger text-white\">");
+		out.append("    <h5 class=\"modal-title userFullname\"></h5>");
+		out.append("    <button type=\"button\" class=\"btn-close btn-close-white\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>");
+		out.append("  </div>");
+		out.append("          <div class=\"modal-body\">");
 	    out.append("            Bạn có chắc chắn muốn xoá không?");
 	    out.append("          </div>");
 	    out.append("          <div class=\"modal-footer\">");
 	    out.append("            <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Huỷ</button>");
-	    out.append("            <button type=\"button\" class=\"btn btn-primary\" id=\"confirmDeleteBtn\" >OK</button>");
+	    out.append("            <button type=\"button\" class=\"btn btn-danger\" id=\"confirmDeleteBtn\" ><i class='bi bi-trash me-2'></i>Xoá</button>");
 	    out.append("          </div>");
 	    out.append("        </div>");
 	    out.append("      </div>");
@@ -262,6 +242,24 @@ public class AccountsView extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+
+	private String createPageItem(int page, int currentPage, String statusLink, String keyword, String status) {
+		StringBuilder item = new StringBuilder();
+		item.append("    <li class=\"page-item " + (page == currentPage ? "active" : "") + "\">");
+		item.append("      <a class=\"page-link\" href=\"" + getPageUrl(page, statusLink, keyword, status) + "\">" + page + "</a>");
+		item.append("    </li>");
+		return item.toString();
+	}
+
+	private String getPageUrl(int page, String statusLink, String keyword, String status) {
+		if (statusLink == null) {
+			return "../admin/accounts-view?pageNo=" + page;
+		}
+		if (statusLink.equals("/admin/search-user")) {
+			return "../admin/search-user?pageNo=" + page + "&keyword=" + keyword;
+		}
+		return "../admin/filter?pageNo=" + page + "&status=" + status;
 	}
 
 }

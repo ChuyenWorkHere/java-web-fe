@@ -3,6 +3,7 @@ package servlet.admin.view;
 import servlet.dao.OrderDAO;
 import servlet.dao.impl.OrderDAOImpl;
 import servlet.models.Order;
+import servlet.utils.ProductUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,15 +39,16 @@ public class OrdersView extends HttpServlet {
 	    headerDispatcher.include(request, response);
 
 		OrderDAO orderDAO = new OrderDAOImpl();
-		List<Order> orders = orderDAO.getAllOrders();
+		List<Order> orders = orderDAO.getAllOrders(1, 12);
 		List<Map<String, Integer>> orderStatusCount = orderDAO.orderStatusCount();
+		int pageNumbers = (int) Math.ceil((double)orderDAO.countAllOrders() / 12);
 
 		out.append("\"<main id=\"main\" class=\"main\">");
 		
 		out.append("    <div class=\"pagetitle\">");
 		out.append("      <nav>");
 		out.append("        <ol class=\"breadcrumb\">");
-		out.append("          <li class=\"breadcrumb-item fs-6\"><a href=\"index.html\">Trang chủ</a></li>");
+		out.append("          <li class=\"breadcrumb-item fs-6\"><a href=\"../admin/home-view\">Trang chủ</a></li>");
 		out.append("          <li class=\"breadcrumb-item fs-6\">Đơn hàng</li>");
 		out.append("        </ol>");
 		out.append("      </nav>");
@@ -193,7 +195,7 @@ public class OrdersView extends HttpServlet {
 			out.append("                      <td class=\"align-middle\">DH#"+order.getOrderId()+"</td>");
 			out.append("                      <td class=\"align-middle\">"+order.getUser().getFullname()+"</td>");
 			out.append("                      <td class=\"align-middle\">"+order.getCreatedAt()+"</td>");
-			out.append("                      <td class=\"align-middle\">"+order.getTotalPrice()+"đ</td>");
+			out.append("                      <td class=\"align-middle\">"+ ProductUtils.formatNumber(order.getTotalPrice())+"đ</td>");
 			String className = "";
 			String orderStatus = "";
 			switch (order.getOrderStatus()){
@@ -233,17 +235,73 @@ public class OrdersView extends HttpServlet {
 		out.append("                <!-- End Table with stripped rows -->");
 		
 		out.append("              </div>");
-		
-		out.append("              <!-- Nút Xuất dữ liệu -->");
-		out.append("              <div class=\"d-flex justify-content-end mt-3\">");
+
+		out.append("              <div class=\"d-flex justify-content-between align-items-center mt-3\">");
+
+		out.append("                <!-- Nút Xuất dữ liệu -->");
 		out.append("                <button type=\"button\" class=\"btn btn-primary\">");
 		out.append("                  <i class=\"bi bi-download me-2\"></i> Xuất dữ liệu");
 		out.append("                </button>");
+
+		out.append("                <!-- Pagination with icons -->");
+		out.append("<nav aria-label=\"Page navigation example\" class=\"mt-4 d-flex justify-content-center order-3 order-md-3\">");
+		out.append("  <ul class=\"pagination\">");
+
+		String pageNo = request.getParameter("pageNo");
+		int currentPage = pageNo != null ? Integer.parseInt(pageNo) : 1;
+
+		String statusLink = "";
+		String status = "";
+		String keyword = "";
+// Previous button
+		if (currentPage > 1) {
+			out.append("    <li class=\"page-item\">");
+			out.append("      <a class=\"page-link\" href=\"" + getPageUrl(currentPage - 1, statusLink, keyword, status) + "\" aria-label=\"Previous\">");
+			out.append("        <span aria-hidden=\"true\">&laquo;</span>");
+			out.append("      </a>");
+			out.append("    </li>");
+		}
+
+// Always show page 1
+		out.append(createPageItem(1, currentPage, statusLink, keyword, status));
+
+// Add ... after page 1 if needed
+		if (currentPage > 3) {
+			out.append("    <li class=\"page-item disabled\"><a class=\"page-link\">...</a></li>");
+		}
+
+// Show current page if it's not 1 or last
+		if (currentPage != 1 && currentPage != pageNumbers) {
+			out.append(createPageItem(currentPage, currentPage, statusLink, keyword, status));
+		}
+
+// Add ... before last page if needed
+		if (currentPage < pageNumbers - 2) {
+			out.append("    <li class=\"page-item disabled\"><a class=\"page-link\">...</a></li>");
+		}
+
+// Always show last page if more than 1 page
+		if (pageNumbers > 1) {
+			out.append(createPageItem(pageNumbers, currentPage, statusLink, keyword, status));
+		}
+
+// Next button
+		if (currentPage < pageNumbers) {
+			out.append("    <li class=\"page-item\">");
+			out.append("      <a class=\"page-link\" href=\"" + getPageUrl(currentPage + 1, statusLink, keyword, status) + "\" aria-label=\"Next\">");
+			out.append("        <span aria-hidden=\"true\">&raquo;</span>");
+			out.append("      </a>");
+			out.append("    </li>");
+		}
+
+		out.append("  </ul>");
+		out.append("</nav>");
+
 		out.append("              </div>");
-		
+
+
 		out.append("            </div>");
 		out.append("          </div>");
-		
 		out.append("        </div>");
 		out.append("      </div>");
 		out.append("    </section>");
@@ -280,6 +338,24 @@ public class OrdersView extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+
+	private String createPageItem(int page, int currentPage, String statusLink, String keyword, String status) {
+		StringBuilder item = new StringBuilder();
+		item.append("    <li class=\"page-item " + (page == currentPage ? "active" : "") + "\">");
+		item.append("      <a class=\"page-link\" href=\"" + getPageUrl(page, statusLink, keyword, status) + "\">" + page + "</a>");
+		item.append("    </li>");
+		return item.toString();
+	}
+
+	private String getPageUrl(int page, String statusLink, String keyword, String status) {
+		if (statusLink == null) {
+			return "../admin/orders-view?pageNo=" + page;
+		}
+//		if (statusLink.equals("/admin/search-user")) {
+//			return "../admin/search-user?pageNo=" + page + "&keyword=" + keyword;
+//		}
+		return "../admin/orders-view?pageNo=" + page + "&status=" + status;
 	}
 
 }

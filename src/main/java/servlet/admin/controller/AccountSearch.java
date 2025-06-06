@@ -34,7 +34,7 @@ public class AccountSearch extends HttpServlet {
 
 		UserDAO userDAO = new UserDAOImpl();
 		List<User> users = userDAO.findByName(keyword, pageNo, 12);
-		int pageNumbers = userDAO.countUserByName(keyword) / 12 + 1;
+		int pageNumbers = (int) Math.ceil((double) userDAO.countUserByName(keyword) / 12);
 		
 		request.setAttribute("users", users);
 		request.setAttribute("keyword", keyword);

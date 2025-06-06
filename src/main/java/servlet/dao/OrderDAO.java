@@ -7,7 +7,11 @@ import java.util.Map;
 
 public interface OrderDAO {
 
-    List<Order> getAllOrders();
+    // lấy tất cả đơn hàng theo phân trang
+    List<Order> getAllOrders(int pageNo, int pageSize);
+
+    //Đếm số lượng đơn hàng
+    public int countAllOrders();
 
     Order getOrderDetailByOrderId(int orderId);
 

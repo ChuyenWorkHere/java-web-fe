@@ -10,18 +10,21 @@ import java.util.Date;
 
 public class OrderDAOImpl implements OrderDAO {
 
-//    private Connection conn;
-//    private PreparedStatement ps;
-//    private ResultSet rs;
-
     @Override
-    public List<Order> getAllOrders() {
+    public List<Order> getAllOrders(int pageNo, int pageSize) {
         List<Order> orders = new ArrayList<>();
-        String sql = "SELECT o.order_id, o.created_at, o.total_price, o.order_status, " +
-                "u.user_id, u.user_fullname " +
-                "FROM orders o JOIN users u ON o.user_id = u.user_id ORDER BY o.created_at DESC";
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT o.order_id, o.created_at, o.total_price, o.order_status, ");
+        sql.append("u.user_id, u.user_fullname ");
+        sql.append("FROM orders o JOIN users u ON o.user_id = u.user_id ORDER BY o.created_at DESC ");
+        sql.append(" LIMIT ? OFFSET ?");
+
         try (Connection conn = DataSourceUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)){
+             PreparedStatement ps = conn.prepareStatement(sql.toString())){
+
+            int offset = (pageNo - 1) * pageSize;
+            ps.setInt(1, pageSize);
+            ps.setInt(2, offset);
 
              try(ResultSet rs = ps.executeQuery()){
                 while (rs.next()) {
@@ -44,6 +47,24 @@ public class OrderDAOImpl implements OrderDAO {
             e.printStackTrace();
         }
         return orders;
+    }
+
+    @Override
+    public int countAllOrders() {
+        String sql = "select count(*) from orders";
+        try (
+                Connection connection = DataSourceUtil.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ) {
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next())
+                    return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override

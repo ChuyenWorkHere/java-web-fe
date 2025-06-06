@@ -34,8 +34,8 @@ public class AccountFilter extends HttpServlet {
 		UserDAO userDAO = new UserDAOImpl();
 		List<User> users = userDAO.findByStatus(status, pageNo, 12);
 
-		int pageNumbers = (status.equals("all")) ? (userDAO.countAllUsers() / 12 + 1) :
-				(userDAO.countUserByStatus(status) / 12 + 1);
+		int pageNumbers = (status.equals("all")) ?  (int) Math.ceil((double) userDAO.countAllUsers() / 12) :
+				(int) Math.ceil((double) userDAO.countUserByStatus(status) / 12);
 
 		request.setAttribute("users", users);
 		request.setAttribute("status", status);
