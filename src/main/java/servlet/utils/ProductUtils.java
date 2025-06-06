@@ -16,6 +16,20 @@ public class ProductUtils {
     public static String[] colorArray(String urlAndColors) {
         return toColorStr(urlAndColors).split("\\|\\|");
     }
+
+    public static List<String> allColorsArray(List<String> urlAndColors) {
+        List<String> colors = new ArrayList<>();
+        for(String temp: urlAndColors) {
+            String[] hexColors = colorArray(temp);
+            for (int i = 0; i < hexColors.length; i++) {
+                if(!colors.contains(hexColors[i])){
+                    colors.add(hexColors[i]);
+                }
+            }
+        }
+        return colors;
+    }
+
     public static String[] urlArray(String urlAndColors) {
         return toUrlStr(urlAndColors).split("\\|\\|");
     }

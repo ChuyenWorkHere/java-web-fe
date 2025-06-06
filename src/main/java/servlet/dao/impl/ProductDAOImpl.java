@@ -161,6 +161,77 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
+	public int productCounter() {
+		String sql = "SELECT COUNT(*) as total FROM products";
+		int num = 0;
+		try (
+				Connection conn = DataSourceUtil.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql)
+		) {
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()){
+				num = rs.getInt("total");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return num;
+	}
+
+	@Override
+	public List<Product> findAllBySearchConditions(int size, int page, String sortBy, String orderBy, String keyWord, int categoryId, int brandId, String color, String price) {
+		List<Product> products = new ArrayList<>();
+
+		StringBuilder sqlSearch = productQuerySearchBuilder(size, page, sortBy, orderBy, keyWord, categoryId, brandId, color, price);
+
+		try (Connection conn = DataSourceUtil.getConnection();
+			 PreparedStatement stmt = conn.prepareStatement(sqlSearch.toString())) {
+			int index = 1;
+			if(keyWord != null && !"".equalsIgnoreCase(keyWord)) {
+				stmt.setString(index++, "%"+keyWord+"%");
+			}
+			if(categoryId != -1) {
+				stmt.setInt(index++, categoryId);
+			}
+			if(brandId != -1) {
+				stmt.setInt(index++, brandId);
+			}
+			if(color != null && !"".equalsIgnoreCase("color")){
+				stmt.setString(index++, "%"+color+"%");
+			}
+
+			if(price != null && !"".equalsIgnoreCase("price")) {
+				int min = -1, max = -1;
+				switch (price) {
+					case "sm" -> { min = -1; max = 1_000_000;}
+					case "md"->	{ min = 1_000_000; max = 3_000_000;}
+					case "lg" -> { min = 3_000_000; max = 5_000_000;}
+					case "xl" -> { min = 5_000_000; max = 9_000_000;}
+					case "xxl"-> { min = 9_000_000; max = -1;}
+				}
+
+				if(min >= 0 ) {
+					stmt.setInt(index++, min);
+				}
+				if(max >= 0) {
+					stmt.setInt(index++, max);
+				}
+			}
+			stmt.setInt(index++, size);
+			stmt.setInt(index++, (page - 1) * size);
+			System.out.println(sqlSearch.toString());
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				products.add(mapRowToProduct(rs));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return products;
+	}
+
+	@Override
 	public List<Product> findAll(int pageSize, int pageNumber, String orderBy, String sortBy) {
 		List<Product> products = new ArrayList<>();
 
@@ -251,6 +322,58 @@ public class ProductDAOImpl implements ProductDAO {
 			product.setCategory(categoryFromDb);
 
 		return product;
+	}
+
+	public StringBuilder productQuerySearchBuilder(int size, int page, String sortBy, String orderBy, String keyWord, int categoryId, int brandId, String color, String price){
+		StringBuilder sqlQuerySearch = new StringBuilder();
+
+		List<String> allowedSortColumns = List.of("product_name", "product_discount_price", "product_id");
+		if (!allowedSortColumns.contains(orderBy)) {
+			orderBy = "product_discount_price";
+		}
+		sortBy = sortBy.equalsIgnoreCase("DESC") ? "DESC" : "ASC";
+
+		sqlQuerySearch.append("SELECT * FROM products WHERE (1 = 1) ");
+
+		if(keyWord!= null && !"".equalsIgnoreCase(keyWord)) {
+			sqlQuerySearch.append(" AND ");
+			sqlQuerySearch.append(" product_name LIKE ? ");
+		}
+		if(categoryId != -1) {
+			sqlQuerySearch.append(" AND ");
+			sqlQuerySearch.append(" category_id = ? ");
+		}
+		if(brandId != -1) {
+			sqlQuerySearch.append(" AND ");
+			sqlQuerySearch.append(" brand_id = ? ");
+		}
+		if(color!= null && !"".equalsIgnoreCase(color)){
+			sqlQuerySearch.append(" AND ");
+			sqlQuerySearch.append(" product_image_url LIKE ? ");
+		}
+
+		if(price != null && !"".equalsIgnoreCase(price)) {
+			int min = -1, max = -1;
+			switch (price) {
+				case "sm" -> { min = -1; max = 1_000_000;}
+				case "md"->	{ min = 1_000_000; max = 3_000_000;}
+				case "lg" -> { min = 3_000_000; max = 5_000_000;}
+				case "xl" -> { min = 5_000_000; max = 9_000_000;}
+				case "xxl"-> { min = 9_000_000; max = -1;}
+			}
+
+			if(min >= 0 ) {
+				sqlQuerySearch.append(" AND ");
+				sqlQuerySearch.append(" product_discount_price >= ? ");
+			}
+			if(max >= 0) {
+				sqlQuerySearch.append(" AND ");
+				sqlQuerySearch.append(" product_discount_price <= ? ");
+			}
+		}
+		sqlQuerySearch.append("ORDER BY " + orderBy + " "  + sortBy  + " " + "LIMIT ? OFFSET ?");
+
+		return sqlQuerySearch;
 	}
 
 }

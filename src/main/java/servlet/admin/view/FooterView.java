@@ -45,8 +45,9 @@ public class FooterView extends HttpServlet {
 
 		out.append("  <!-- Vendor JS Files -->");
 		out.append("  <script src=\"../admin/vendor/apexcharts/apexcharts.min.js\"></script>");
+
 		out.append("  <script src=\"../admin/vendor/bootstrap/js/bootstrap.bundle.min.js\"></script>");
-//		out.append("  <script src=\"../admin/vendor/chart.js/chart.umd.js\"></script>");
+		out.append("  <script src=\"../admin/vendor/chart.js/chart.umd.js\"></script>");
 		out.append("  <script src=\"../admin/vendor/echarts/echarts.min.js\"></script>");
 //		out.append("  <script src=\"../admin/vendor/quill/quill.js\"></script>");
 //		out.append("  <script src=\"../admin/vendor/simple-datatables/simple-datatables.js\"></script>");
