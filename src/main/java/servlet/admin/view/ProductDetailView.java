@@ -43,8 +43,8 @@ public class ProductDetailView extends HttpServlet {
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
 	    headerDispatcher.include(request, response);
 
-		List<String> imgAndColors = ProductUtils.toUrlAndColor(product.getProductImageUrl());
-		List<String> colorArray = ProductUtils.colorArray(product.getProductImageUrl());
+		List<String> urlArray = List.of(ProductUtils.urlArray(product.getProductImageUrl()));
+		List<String> colorArray = List.of(ProductUtils.colorArray(product.getProductImageUrl()));
 
 	    out.append("<main id=\"main\" class=\"main\">");
 	    out.append("");
@@ -69,10 +69,10 @@ public class ProductDetailView extends HttpServlet {
 	    out.append("              <div id=\""+product.getProductId()+"\" class=\"carousel carousel-fade slide\" data-bs-ride=\"carousel\">");
 	    out.append("                <div class=\"carousel-inner\">");
 
-		for (int j = 0; j < imgAndColors.size(); j++) {
-			out.append("                    <div class=\"carousel-item " + (j == 0 ? "active" : "")  +"\" data-color=\""+ProductUtils.toColor(imgAndColors.get(j))+"\">");
+		for (int j = 0; j < urlArray.size(); j++) {
+			out.append("                    <div class=\"carousel-item " + (j == 0 ? "active" : "")  +"\" data-color=\"\">");
 			out.append("                      <img");
-			out.append("                        src=\".."+ProductUtils.toUrl(imgAndColors.get(j))+"\"");
+			out.append("                        src=\".."+urlArray.get(j)+"\"");
 			out.append("                        class=\"d-block w-100\" alt=\"...\">");
 			out.append("                    </div>");
 		}

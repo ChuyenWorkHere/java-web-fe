@@ -1414,12 +1414,12 @@ button.btn-search:hover {
 .color-box {
 	width: 20px;
 	height: 20px;
-	border-radius: 2px;
 	cursor: pointer;
 	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	border: none;
 }
 
 .checkmark {

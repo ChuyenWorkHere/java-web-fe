@@ -9,7 +9,6 @@ import java.util.List;
 
 import servlet.dao.CategoryDAO;
 import servlet.models.Category;
-import servlet.models.Product;
 import servlet.utils.DataSourceUtil;
 
 public class CategoryDAOImpl implements CategoryDAO {
@@ -30,6 +29,43 @@ public class CategoryDAOImpl implements CategoryDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public List<Category> findAllActiveCategories(int pageSize, int pageNumber, String orderBy, String sortBy) {
+		List<Category> categories = new ArrayList<>();
+
+		List<String> allowedSortColumns = List.of("keyword", "isActive");
+		if (!allowedSortColumns.contains(orderBy)) {
+			orderBy = "category_id";
+		}
+
+		sortBy = sortBy.equalsIgnoreCase("DESC") ? "DESC" : "ASC";
+
+		String sql = "SELECT * FROM categories WHERE is_active > 0 ORDER BY " + orderBy + " " + sortBy + " LIMIT ? OFFSET ?";
+
+		try (Connection conn = DataSourceUtil.getConnection();
+			 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setInt(1, pageSize);
+			stmt.setInt(2, (pageNumber - 1) * pageSize);
+
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Category category = new Category();
+				category.setCategoryId(rs.getInt("category_id"));
+				category.setCategoryName(rs.getString("category_name"));
+				category.setCategoryDescription(rs.getString("category_description"));
+				category.setIsActive(rs.getInt("is_active"));
+
+				categories.add(category);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return categories;
 	}
 
 	@Override
