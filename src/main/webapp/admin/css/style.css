@@ -1654,6 +1654,15 @@ button.btn-search:hover {
   pointer-events: auto;
 }
 
+.custom-box-shadow {
+    box-shadow: none !important;
+}
+
+.icon-search.active {
+    border-top: 1px solid #86b7fe;
+    border-right: 1px solid #86b7fe;
+    border-bottom: 1px solid #86b7fe;
+}
 /*end file account*/
 
 /* Product Detail */

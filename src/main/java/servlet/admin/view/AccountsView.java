@@ -134,7 +134,7 @@ public class AccountsView extends HttpServlet {
 	    
 	    out.append("<form method=\"get\" action=\"../admin/search-user\">");
 	    out.append("  <div class=\"d-flex align-items-center col-12\">");
-	    out.append("    <input type=\"text\" id=\"searchInput\" name=\"keyword\" placeholder=\"Tên người dùng...\" class=\"w-100 py-2 px-3 form-control\">");
+	    out.append("    <input type=\"text\" id=\"searchInput\" name=\"keyword\" placeholder=\"Tên người dùng...\" class=\"w-100 py-2 px-3 form-control custom-box-shadow\">");
 	    out.append("    <button type=\"submit\" class=\"btn btn-link p-0\"><i class=\"bi bi-search icon-search pointer\"></i></button>");
 	    out.append("  </div>");
 	    out.append("</form>");
@@ -156,17 +156,58 @@ public class AccountsView extends HttpServlet {
 	    out.append("            </div>");
 	    out.append("          </div>");
 	    out.append("        </div>");
-	    out.append("<nav aria-label=\"Page navigation\" class=\"mt-4 d-flex justify-content-center order-3 order-md-3\">");
-	    out.append("  <ul class=\"pagination\">");
+
+//	    out.append("<nav aria-label=\"Page navigation\" class=\"mt-4 d-flex justify-content-center order-3 order-md-3\">");
+//	    out.append("  <ul class=\"pagination\">");
+//
+//		if(pageNumbers > 1){
+//			out.append("	<li class=\"page-item disabled me-2\">");
+//			out.append("	  <a class=\"page-link\" href=\"#\" tabindex=\"-1\"><i class=\"bi bi-caret-left-fill\"></i></a>");
+//			out.append("	</li> ");
+//		}
+//
+//		for(int i = 0; i < pageNumbers; i++){
+//			out.append("    <li class=\"page-item "+ (i+1 == currentPage ? "active" : "") +"  me-2\">");
+//
+//			if(statusLink == null){
+//				out.append("      <a class=\"page-link\" href=\"../admin/accounts-view?pageNo=" + (i + 1) + "\">" + (i + 1) + "</a>");
+//			}else {
+//				if (statusLink.equals("/admin/search-user")){
+//					out.append("      <a class=\"page-link\" href=\"../admin/search-user?pageNo=" + (i + 1) + "&keyword="
+//							+keyword + "\">" + (i + 1) + "</a>");
+//				}else{
+//					out.append("      <a class=\"page-link\" href=\"../admin/filter?pageNo=" + (i + 1) + "&status="
+//							+ status + "\">" + (i + 1) + "</a>");
+//				}
+//			}
+//			out.append("    </li>");
+//		}
+//
+//		if(pageNumbers > 1){
+//			out.append("	<li class=\"page-item me-2\">");
+//			out.append("	  <a class=\"page-link\" href=\"#\"><i class=\"bi bi-caret-right-fill\"></i></a>");
+//			out.append("	</li>");
+//		}
+//
+//	    out.append("  </ul>");
+//	    out.append("</nav>");
+
+		out.append("<nav aria-label=\"Page navigation example\" class=\"mt-4 d-flex justify-content-center order-3 order-md-3\">");
+		out.append("  <ul class=\"pagination\">");
 
 		if(pageNumbers > 1){
-			out.append("	<li class=\"page-item disabled me-2\">");
-			out.append("	  <a class=\"page-link\" href=\"#\" tabindex=\"-1\"><i class=\"bi bi-caret-left-fill\"></i></a>");
-			out.append("	</li> ");
+//			out.append("	<li class=\"page-item disabled\">");
+//			out.append("	  <a class=\"page-link\" href=\"#\" tabindex=\"-1\"><i class=\"bi bi-caret-left-fill\"></i></a>");
+//			out.append("	</li> ");
+			out.append("                  <li class=\"page-item disabled\">");
+			out.append("                    <a class=\"page-link\" href=\"#\" aria-label=\"Previous\">");
+			out.append("                      <span aria-hidden=\"true\">&laquo;</span>");
+			out.append("                    </a>");
+			out.append("                  </li>");
 		}
 
 		for(int i = 0; i < pageNumbers; i++){
-			out.append("    <li class=\"page-item "+ (i+1 == currentPage ? "active" : "") +"  me-2\">");
+			out.append("    <li class=\"page-item "+ (i+1 == currentPage ? "active" : "") +"\">");
 
 			if(statusLink == null){
 				out.append("      <a class=\"page-link\" href=\"../admin/accounts-view?pageNo=" + (i + 1) + "\">" + (i + 1) + "</a>");
@@ -183,79 +224,20 @@ public class AccountsView extends HttpServlet {
 		}
 
 		if(pageNumbers > 1){
-			out.append("	<li class=\"page-item me-2\">");
-			out.append("	  <a class=\"page-link\" href=\"#\"><i class=\"bi bi-caret-right-fill\"></i></a>");
-			out.append("	</li>");
+			out.append("                  <li class=\"page-item\">");
+			out.append("                    <a class=\"page-link\" href=\"#\" aria-label=\"Next\">");
+			out.append("                      <span aria-hidden=\"true\">&raquo;</span>");
+			out.append("                    </a>");
+			out.append("                  </li>");
 		}
 
-	    out.append("  </ul>");
-	    out.append("</nav>");
+		out.append("  </ul>");
+		out.append("</nav>");
 	    out.append("    </section>");
-	    
-	    out.append("    <!-- start large modal -->");
-	    out.append("    <div class=\"modal fade\" id=\"largeModal\" tabindex=\"-1\">");
-	    out.append("      <div class=\"modal-dialog modal-lg modal-dialog-centered\">");
-	    out.append("        <div class=\"modal-content\">");
-	    out.append("          <div class=\"modal-header\">");
-	    out.append("            <h5 class=\"modal-title\">Thông tin tài khoản</h5>");
-	    out.append("            <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>");
-	    out.append("          </div>");
-	    out.append("          <div class=\"modal-body\">");
-	    out.append("            <div class=\"row\">");
-	    out.append("              <div class=\"card-body profile-card col-md-6 pt-4 d-flex flex-column align-items-center\">");
-	    out.append("                <img src=\"../admin/img/profile-img.jpg\" alt=\"Profile\" class=\"rounded-circle\">");
-	    
-	    out.append("              </div>");
-	    
-	    out.append("              <div class=\"col-md-6 tab-pane fade show active profile-overview\" id=\"profile-overview\">");
-	    out.append("                <div class=\"row mb-1\">");
-	    out.append("                  <div class=\"col-lg-5 col-md-4 label \">Họ & Tên</div>");
-	    out.append("                  <div class=\"col-lg-7 col-md-8\" id=\"modalName\"></div>");
-	    out.append("                </div>");
-	    
-	    out.append("                <div class=\"row mb-1\">");
-	    out.append("                  <div class=\"col-lg-5 col-md-4 label\">Giới tính</div>");
-	    out.append("                  <div class=\"col-lg-7 col-md-8\" id=\"modalGender\"></div>");
-	    out.append("                </div>");
-	    
-	    out.append("                <div class=\"row mb-1\">");
-	    out.append("                  <div class=\"col-lg-5 col-md-4 label\">Số điện thoại</div>");
-	    out.append("                  <div class=\"col-lg-7 col-md-8\" id=\"modalPhone\"></div>");
-	    out.append("                </div>");
-	    
-	    out.append("                <div class=\"row mb-1\">");
-	    out.append("                  <div class=\"col-lg-5 col-md-4 label\">Email</div>");
-	    out.append("                  <div class=\"col-lg-7 col-md-8\" id=\"modalEmail\"></div>");
-	    out.append("                </div>");
-	    
-	    out.append("                <div class=\"row mb-1\">");
-	    out.append("                  <div class=\"col-lg-5 col-md-4 label\">Địa chỉ</div>");
-	    out.append("                  <div class=\"col-lg-7 col-md-8\" id=\"modalAddress\"></div>");
-	    out.append("                </div>");
-	    
-	    out.append("                <div class=\"row mb-1\">");
-	    out.append("                  <div class=\"col-lg-5 col-md-4 label\">Ngày tạo tài khoản</div>");
-	    out.append("                  <div class=\"col-lg-7 col-md-8\" id=\"modalCreated\"></div>");
-	    out.append("                </div>");
-	    
-	    out.append("                <div class=\"row mb-1\">");
-	    out.append("                  <div class=\"col-lg-5 col-md-4 label\">Ngày sửa thông tin</div>");
-	    out.append("                  <div class=\"col-lg-7 col-md-8\" id=\"modalUpdated\"></div>");
-	    out.append("                </div>");
-	    
-	    out.append("                <div class=\"row\">");
-	    out.append("                  <div class=\"col-lg-5 col-md-4 label\">Trạng thái</div>");
-	    out.append("                  <div class=\"col-lg-7 col-md-8\" id=\"modalStatus\"></div>");
-	    out.append("                </div>");
-	    out.append("              </div>");
-	    out.append("            </div>");
-	    
-	    out.append("          </div>");
-	    
-	    out.append("        </div>");
-	    out.append("      </div>");
-	    out.append("    </div><!-- End large Modal-->");
-	    
+
+		RequestDispatcher accountModalDispatcher = request.getRequestDispatcher("/admin/account-modal");
+	    accountModalDispatcher.include(request, response);
+
 	    out.append("    <!-- Start Small Modal-->");
 	    out.append("    <div class=\"modal fade\" id=\"smallModal\" tabindex=\"-1\">");
 	    out.append("      <div class=\"modal-dialog modal-sm\">");
@@ -276,9 +258,7 @@ public class AccountsView extends HttpServlet {
 		footerDispatcher.include(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
