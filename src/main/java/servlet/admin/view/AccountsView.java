@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import servlet.dao.UserDAO;
 import servlet.dao.impl.UserDAOImpl;
 import servlet.models.User;
+import servlet.utils.ProductUtils;
 
 
 @WebServlet("/admin/accounts-view")
@@ -109,8 +110,8 @@ public class AccountsView extends HttpServlet {
 			    .append("data-phone='" + user.getPhoneNumber() + "' ")
 			    .append("data-email='" + user.getEmail() + "' ")
 			    .append("data-address='" + user.getAddress() + "' ")
-			    .append("data-created='" + user.getCreateDate() + "' ")
-			    .append("data-updated='" + user.getModifiedDate() + "' ")
+			    .append("data-created='" + ProductUtils.formatDate(user.getCreateDate())+ "' ")
+			    .append("data-updated='" + ProductUtils.formatDate(user.getModifiedDate()) + "' ")
 			    .append("data-status='" + user.isActive() + "'>")
 			    .append("<i class='bi bi-eye'></i>")
 			    .append("</button>");

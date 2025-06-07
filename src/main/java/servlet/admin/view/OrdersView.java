@@ -7,6 +7,7 @@ import servlet.utils.ProductUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -38,10 +39,22 @@ public class OrdersView extends HttpServlet {
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
 	    headerDispatcher.include(request, response);
 
+		String pageNo = request.getParameter("pageNo");
+		int currentPage = pageNo != null ? Integer.parseInt(pageNo) : 1;
+
+		String priceRange = request.getParameter("priceRange");
+		String ordersStatus = request.getParameter("ordersStatus");
+		String paymentStatus = request.getParameter("paymentStatus");
+		String paymentMethod = request.getParameter("paymentMethod");
+		String orderSort = request.getParameter("orderSort");
+
 		OrderDAO orderDAO = new OrderDAOImpl();
-		List<Order> orders = orderDAO.getAllOrders(1, 12);
+
+		List<Order> orders = orderDAO.getAllOrders(currentPage, 12, priceRange,
+				ordersStatus, paymentStatus, paymentMethod, orderSort);
 		List<Map<String, Integer>> orderStatusCount = orderDAO.orderStatusCount();
-		int pageNumbers = (int) Math.ceil((double)orderDAO.countAllOrders() / 12);
+		int pageNumbers = (int) Math.ceil((double)orderDAO.countAllOrders(
+				ordersStatus, paymentStatus, paymentMethod) / 12);
 
 		out.append("\"<main id=\"main\" class=\"main\">");
 		
@@ -69,34 +82,44 @@ public class OrdersView extends HttpServlet {
 		out.append("                <div class=\"row g-3 align-items-end\">");
 		out.append("                  <!-- Khoảng giá -->");
 		out.append("                  <div class=\"col-md-2\">");
-		out.append("                    <label for=\"priceRange\" class=\"form-label\">Khoảng giá</label>");
+		out.append("                    <label for=\"priceRange\" class=\"form-label\">Giá</label>");
 		out.append("                    <select class=\"form-select\" id=\"priceRange\">");
-		out.append("                      <option value=\"\">Tất cả</option>");
-		out.append("                      <option value=\"low\">Dưới 500k</option>");
-		out.append("                      <option value=\"mid\">500k - 1 triệu</option>");
-		out.append("                      <option value=\"high\">Trên 1 triệu</option>");
+		out.append("                      <option value=\"\">Tuỳ chọn</option>");
+		out.append("                      <option value=\"ASC\">Tăng dần</option>");
+		out.append("                      <option value=\"DESC\">Giảm dần</option>");
 		out.append("                    </select>");
 		out.append("                  </div>");
 		
 		out.append("                  <!-- Trạng thái -->");
 		out.append("                  <div class=\"col-md-2\">");
-		out.append("                    <label for=\"orderStatus\" class=\"form-label\">Trạng thái</label>");
+		out.append("                    <label for=\"ordersStatus\" class=\"form-label\">Trạng thái</label>");
 		out.append("                    <select class=\"form-select\" id=\"orderStatus\">");
-		out.append("                      <option value=\"\">Tất cả</option>");
-		out.append("                      <option value=\"pending\">Chờ xác nhận</option>");
-		out.append("                      <option value=\"shipping\">Đang giao</option>");
-		out.append("                      <option value=\"shipped\">Đã giao</option>");
-		out.append("                      <option value=\"cancelled\">Đã hủy</option>");
+		out.append("                      <option value=\"all\">Tất cả</option>");
+		out.append("                      <option value=\"PENDING\">Chờ xác nhận</option>");
+		out.append("                      <option value=\"SHIPPED\">Đang giao</option>");
+		out.append("                      <option value=\"DELIVERED\">Thành công</option>");
+		out.append("                      <option value=\"CANCELLED\">Đã hủy</option>");
 		out.append("                    </select>");
 		out.append("                  </div>");
-		
+
+		out.append("                  <!-- Trạng thái thanh toán -->");
+		out.append("                  <div class=\"col-md-2\">");
+		out.append("                    <label for=\"paymentMethod\" class=\"form-label\">Trạng thái TT</label>");
+		out.append("                    <select class=\"form-select\" id=\"paymentMethod\">");
+		out.append("                      <option value=\"all\">Tất cả</option>");
+		out.append("                      <option value=\"PAID\">Đã thanh toán</option>");
+		out.append("                      <option value=\"UNPAID\">Chưa thanh toán</option>");
+		out.append("                    </select>");
+		out.append("                  </div>");
+
 		out.append("                  <!-- Phương thức thanh toán -->");
 		out.append("                  <div class=\"col-md-2\">");
-		out.append("                    <label for=\"paymentMethod\" class=\"form-label\">Thanh toán</label>");
+		out.append("                    <label for=\"paymentMethod\" class=\"form-label\">Phương Thức</label>");
 		out.append("                    <select class=\"form-select\" id=\"paymentMethod\">");
-		out.append("                      <option value=\"\">Tất cả</option>");
-		out.append("                      <option value=\"cod\">COD</option>");
-		out.append("                      <option value=\"bank\">Chuyển khoản</option>");
+		out.append("                      <option value=\"all\">Tất cả</option>");
+		out.append("                      <option value=\"CASH_ON_DELIVERY\">COD</option>");
+		out.append("                      <option value=\"BANK_TRANSFER\">Chuyển khoản</option>");
+		out.append("                      <option value=\"CREDIT_CARD\">Thẻ tín dụng</option>");
 		out.append("                    </select>");
 		out.append("                  </div>");
 		
@@ -104,7 +127,6 @@ public class OrdersView extends HttpServlet {
 		out.append("                  <div class=\"col-md-2\">");
 		out.append("                    <label for=\"orderSort\" class=\"form-label\">Đơn đặt hàng</label>");
 		out.append("                    <select class=\"form-select\" id=\"orderSort\">");
-		out.append("                      <option value=\"\">Tất cả</option>");
 		out.append("                      <option value=\"newest\">Mới Nhất</option>");
 		out.append("                      <option value=\"oldest\">Cũ nhất</option>");
 		out.append("                    </select>");
@@ -112,6 +134,9 @@ public class OrdersView extends HttpServlet {
 		
 		out.append("                  <!-- Nút lọc -->");
 		out.append("                  <div class=\"col-md-1\">");
+//		out.append("                    <a href=\"" +
+//				getPageUrl(1, priceRange, ordersStatus, paymentStatus, paymentMethod, orderSort)
+//				+ "\" class=\"btn btn-primary mt-3 w-100\">Lọc</a");
 		out.append("                    <button type=\"button\" class=\"btn btn-primary mt-3 w-100\" onclick=\"applyOrderFilter()\">Lọc</button>");
 		out.append("                  </div>");
 		
@@ -179,11 +204,13 @@ public class OrdersView extends HttpServlet {
 		out.append("                  <thead>");
 		out.append("                    <tr>");
 		out.append("                      <th>");
-		out.append("                        Mã đơn hàng");
+		out.append("                        Mã ĐH");
 		out.append("                      </th>");
 		out.append("                      <th>Khách hàng</th>");
 		out.append("                      <th data-type=\"date\" data-format=\"YYYY/DD/MM\">Thời gian</th>");
 		out.append("                      <th>Tổng tiền</th>");
+		out.append("                      <th>Trạng thái TT</th>");
+		out.append("                      <th>Phương thức TT</th>");
 		out.append("                      <th>Trạng thái</th>");
 		out.append("                      <th>Chức năng</th>");
 		out.append("                    </tr>");
@@ -194,8 +221,16 @@ public class OrdersView extends HttpServlet {
 			out.append("                    <tr>");
 			out.append("                      <td class=\"align-middle\">DH#"+order.getOrderId()+"</td>");
 			out.append("                      <td class=\"align-middle\">"+order.getUser().getFullname()+"</td>");
-			out.append("                      <td class=\"align-middle\">"+order.getCreatedAt()+"</td>");
+			out.append("                      <td class=\"align-middle\">"+ProductUtils.formatDate(order.getCreatedAt())+"</td>");
 			out.append("                      <td class=\"align-middle\">"+ ProductUtils.formatNumber(order.getTotalPrice())+"đ</td>");
+			out.append("                      <td class=\"align-middle\">"+
+					("CREDIT_CARD".equals(order.getPaymentMethod()) ? "Thẻ tín dụng"
+							: ("CASH_ON_DELIVERY".equals(order.getPaymentMethod())
+							? "Thanh toán khi giao hàng" : "Chuyển khoản"))
+					 +"</td>");
+			out.append("                      <td class=\"align-middle\">"+
+					("PAID".equals(order.getPaymentStatus()) ? "Đã thanh toán" : "Chưa thanh toán")
+					+"</td>");
 			String className = "";
 			String orderStatus = "";
 			switch (order.getOrderStatus()){
@@ -224,8 +259,7 @@ public class OrdersView extends HttpServlet {
 			out.append("                      </td>");
 			out.append("                      <td class=\"align-middle\">");
 			out.append("                        <a href=\"../admin/single-order-view?orderId="+order.getOrderId()+"\"><i class=\"bi bi-eye fs-6 text-secondary ms-2 pointer\"></i></a>");
-
-			out.append("                        <i class=\"deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer\"></i>");
+			out.append("<i class='deleteIcon bi bi-trash fs-6 text-danger ms-2 pointer' data-order-id='" + order.getOrderId() + "'></i>");
 			out.append("                      </td>");
 			out.append("                    </tr>");
 		}
@@ -239,32 +273,56 @@ public class OrdersView extends HttpServlet {
 		out.append("              <div class=\"d-flex justify-content-between align-items-center mt-3\">");
 
 		out.append("                <!-- Nút Xuất dữ liệu -->");
-		out.append("                <button type=\"button\" class=\"btn btn-primary\">");
-		out.append("                  <i class=\"bi bi-download me-2\"></i> Xuất dữ liệu");
-		out.append("                </button>");
+
+		out.append("  <div class=\"filter dropdown\">");
+		out.append("    <a class=\"icon btn btn-primary\" data-bs-toggle=\"dropdown\">");
+		out.append("      <i class=\"bi bi-download me-2\"></i> Xuất Excel");
+		out.append("    </a>");
+
+		out.append("    <div class=\"dropdown-menu dropdown-menu-end p-4 shadow\" data-bs-auto-close=\"outside\" style=\"min-width: 350px;\">");
+
+		out.append("      <h6 class=\"fw-bold mb-3\">Chọn thời gian</h6>");
+
+		out.append("      <div id=\"monthFilterGroup\" class=\"mb-3\">");
+
+		out.append("        <div class=\"mb-3\">");
+		out.append("          <label for=\"startDate\" class=\"form-label\">Ngày bắt đầu</label>");
+		out.append("          <input type=\"date\" class=\"form-control\" id=\"startDate\">");
+		out.append("        </div>");
+
+		out.append("        <div class=\"mb-3\">");
+		out.append("          <label for=\"endDate\" class=\"form-label\">Ngày kết thúc</label>");
+		out.append("          <input type=\"date\" class=\"form-control\" id=\"endDate\">");
+		out.append("        </div>");
+
+		out.append("        <a id=\"dateSubmit\" class=\"btn btn-primary w-100 mt-2\" href=\"#\" onclick=\"submitDateRange()\">Xuất Excel</a>");
+
+		out.append("      </div>");
+
+		out.append("    </div>");
+		out.append("  </div>");
 
 		out.append("                <!-- Pagination with icons -->");
 		out.append("<nav aria-label=\"Page navigation example\" class=\"mt-4 d-flex justify-content-center order-3 order-md-3\">");
 		out.append("  <ul class=\"pagination\">");
 
-		String pageNo = request.getParameter("pageNo");
-		int currentPage = pageNo != null ? Integer.parseInt(pageNo) : 1;
-
-		String statusLink = "";
+		String statusLink = null;
 		String status = "";
 		String keyword = "";
 // Previous button
 		if (currentPage > 1) {
 			out.append("    <li class=\"page-item\">");
-			out.append("      <a class=\"page-link\" href=\"" + getPageUrl(currentPage - 1, statusLink, keyword, status) + "\" aria-label=\"Previous\">");
+//			out.append("      <a class=\"page-link\" href=\"" + getPageUrl(currentPage - 1, statusLink, keyword, status) + "\" aria-label=\"Previous\">");
+			out.append("      <a class=\"page-link\" href=\"" +
+					getPageUrl(currentPage - 1, priceRange, ordersStatus, paymentStatus, paymentMethod, orderSort)
+					+ "\" aria-label=\"Previous\">");
 			out.append("        <span aria-hidden=\"true\">&laquo;</span>");
 			out.append("      </a>");
 			out.append("    </li>");
 		}
 
 // Always show page 1
-		out.append(createPageItem(1, currentPage, statusLink, keyword, status));
-
+		out.append(createPageItem(1, currentPage, priceRange, ordersStatus, paymentStatus, paymentMethod, orderSort));
 // Add ... after page 1 if needed
 		if (currentPage > 3) {
 			out.append("    <li class=\"page-item disabled\"><a class=\"page-link\">...</a></li>");
@@ -272,7 +330,8 @@ public class OrdersView extends HttpServlet {
 
 // Show current page if it's not 1 or last
 		if (currentPage != 1 && currentPage != pageNumbers) {
-			out.append(createPageItem(currentPage, currentPage, statusLink, keyword, status));
+			out.append(createPageItem(currentPage, currentPage, priceRange, ordersStatus,
+					paymentStatus, paymentMethod, orderSort));
 		}
 
 // Add ... before last page if needed
@@ -282,13 +341,16 @@ public class OrdersView extends HttpServlet {
 
 // Always show last page if more than 1 page
 		if (pageNumbers > 1) {
-			out.append(createPageItem(pageNumbers, currentPage, statusLink, keyword, status));
+			out.append(createPageItem(pageNumbers, currentPage, priceRange, ordersStatus,
+					paymentStatus, paymentMethod, orderSort));
 		}
 
 // Next button
 		if (currentPage < pageNumbers) {
 			out.append("    <li class=\"page-item\">");
-			out.append("      <a class=\"page-link\" href=\"" + getPageUrl(currentPage + 1, statusLink, keyword, status) + "\" aria-label=\"Next\">");
+			out.append("      <a class=\"page-link\" href=\"" +
+					getPageUrl(currentPage + 1, priceRange, ordersStatus, paymentStatus, paymentMethod, orderSort)
+					+ "\" aria-label=\"Next\">");
 			out.append("        <span aria-hidden=\"true\">&raquo;</span>");
 			out.append("      </a>");
 			out.append("    </li>");
@@ -298,8 +360,6 @@ public class OrdersView extends HttpServlet {
 		out.append("</nav>");
 
 		out.append("              </div>");
-
-
 		out.append("            </div>");
 		out.append("          </div>");
 		out.append("        </div>");
@@ -319,7 +379,7 @@ public class OrdersView extends HttpServlet {
 		out.append("          </div>");
 		out.append("          <div class=\"modal-footer\">");
 		out.append("            <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Huỷ</button>");
-		out.append("            <button type=\"button\" class=\"btn btn-danger\" id=\"confirmDeleteBtn\">Xoá</button>");
+		out.append("            <button type=\"button\" class=\"btn btn-danger\" id=\"confirmDeleteBtn\" data-order-id=\"\">Xoá</button>");
 		out.append("          </div>");
 		out.append("        </div>");
 		out.append("      </div>");
@@ -340,22 +400,39 @@ public class OrdersView extends HttpServlet {
 		doGet(request, response);
 	}
 
-	private String createPageItem(int page, int currentPage, String statusLink, String keyword, String status) {
+	private String createPageItem(int page, int currentPage, String priceRange, String orderStatus,
+								  String paymentStatus, String paymentMethod, String orderSort) {
 		StringBuilder item = new StringBuilder();
 		item.append("    <li class=\"page-item " + (page == currentPage ? "active" : "") + "\">");
-		item.append("      <a class=\"page-link\" href=\"" + getPageUrl(page, statusLink, keyword, status) + "\">" + page + "</a>");
+		item.append("      <a class=\"page-link\" href=\"" +
+				getPageUrl(page, priceRange, orderStatus, paymentStatus, paymentMethod, orderSort) + "\">"
+				+ page + "</a>");
+
 		item.append("    </li>");
 		return item.toString();
 	}
 
-	private String getPageUrl(int page, String statusLink, String keyword, String status) {
-		if (statusLink == null) {
-			return "../admin/orders-view?pageNo=" + page;
+	private String getPageUrl(int page, String priceRange, String orderStatus,
+							  String paymentStatus, String paymentMethod, String orderSort){
+		String url = "../admin/orders-view?pageNo=" + page;
+
+		if (priceRange != null && !priceRange.isEmpty()) {
+			url += "&priceRange=" + priceRange;
 		}
-//		if (statusLink.equals("/admin/search-user")) {
-//			return "../admin/search-user?pageNo=" + page + "&keyword=" + keyword;
-//		}
-		return "../admin/orders-view?pageNo=" + page + "&status=" + status;
+		if (orderStatus != null && !orderStatus.isEmpty()) {
+			url += "&orderStatus=" + orderStatus;
+		}
+		if (paymentStatus != null && !paymentStatus.isEmpty()) {
+			url += "&paymentStatus=" + paymentStatus;
+		}
+		if (paymentMethod != null && !paymentMethod.isEmpty()) {
+			url += "&paymentMethod=" + paymentMethod;
+		}
+		if (orderSort != null && !orderSort.isEmpty()) {
+			url += "&orderSort=" + orderSort;
+		}
+
+		return url;
 	}
 
 }
