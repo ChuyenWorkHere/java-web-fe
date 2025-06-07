@@ -33,7 +33,6 @@ public class ProductsView extends HttpServlet {
 
 		List<Product> productList = productDAO.findAll(100, 1, "ASC", "product_id");
 
-
 		PrintWriter out = response.getWriter();
 		request.setAttribute("view", "list");
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
@@ -81,18 +80,18 @@ public class ProductsView extends HttpServlet {
 
 		for (int i = 0; i < productList.size(); i++) {
 			Product product = productList.get(i);
-			List<String> imgAndColors = ProductUtils.toUrlAndColor(product.getProductImageUrl());
-			List<String> colorArray = ProductUtils.colorArray(product.getProductImageUrl());
+			String[] imgUrls = ProductUtils.urlArray(product.getProductImageUrl());
+			String[] colorArray = ProductUtils.colorArray(product.getProductImageUrl());
 			out.append("            <div class=\"col-xl-4 col-md-6 mb-3\">");
 			out.append("              <div class=\"product__item\">");
 			out.append("                <!-- Slides with controls -->");
 			out.append("                <div id=\""+product.getProductId()+"\" class=\"carousel carousel-fade slide\" data-bs-ride=\"carousel\">");
 			out.append("                  <div class=\"carousel-inner\">");
 
-			for (int j = 0; j < imgAndColors.size(); j++) {
-				out.append("                    <div style=\"max-width: fit-content; max-height: auto;\" class=\"carousel-item " + (j == 0 ? "active" : "")  +"\" data-color=\""+ProductUtils.toColor(imgAndColors.get(j))+"\">");
+			for (int j = 0; j < imgUrls.length; j++) {
+				out.append("                    <div style=\"max-width: fit-content; max-height: auto;\" class=\"carousel-item " + (j == 0 ? "active" : "")  +"\" data-color=\"\">");
 				out.append("                      <img");
-				out.append("                        src=\".."+ProductUtils.toUrl(imgAndColors.get(j))+"\"");
+				out.append("                        src=\".."+imgUrls[j]+"\"");
 				out.append("                        class=\"d-block w-100\" alt=\"...\">");
 				out.append("                    </div>");
 			}
@@ -119,12 +118,13 @@ public class ProductsView extends HttpServlet {
 			out.append("                  <div class=\"product__item-price_old ms-2\">"+ProductUtils.formatNumber(product.getProductPrice())+"đ</div>");
 			out.append("                </div>");
 			out.append("");
-			out.append("                <div class=\"product__item-color d-flex align-items-center\">");
-			out.append("                  <span class=\"fw-bold\">Màu sắc:</span>");
-
-			for (int j = 0; j < colorArray.size(); j++) {
-				out.append("                  <button style = \" background-color: " +colorArray.get(j)+";\" class=\"color-img ms-3\" data-color=\""+colorArray.get(j)+"\"></button>");
+			out.append("                <div class=\"product__item-color row align-items-start\">");
+			out.append("                  <div class=\"col-4 fw-bold pe-0\">Màu sắc:</div>");
+			out.append("					<div class=\"row col-8\">");
+			for (int j = 0; j < colorArray.length; j++) {
+				out.append("                  <button style = \" background-color: " +colorArray[j]+";\" class=\"color-img d-block col-3 me-2 mt-1\" data-color=\""+colorArray[j]+"\"></button>");
 			}
+			out.append("                	</div>");
 			out.append("                </div>");
 			out.append("                <div class=\"product__item-button d-flex justify-content-center mt-3\">");
 			out.append("                  <button onclick=\"window.location.href='../admin/product-detail-view?pId="+product.getProductId()+"'\" type=\"button\" class=\"btn bg-primary me-2\" data-bs-toggle=\"modal\" data-bs-target=\"\">");

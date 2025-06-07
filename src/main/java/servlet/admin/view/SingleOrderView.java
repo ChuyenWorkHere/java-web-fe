@@ -4,6 +4,7 @@ import servlet.dao.OrderDAO;
 import servlet.dao.impl.OrderDAOImpl;
 import servlet.models.Order;
 import servlet.models.OrderItem;
+import servlet.utils.ProductUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -44,7 +45,7 @@ public class SingleOrderView extends HttpServlet {
 		out.append("    <div class=\"pagetitle\">");
 		out.append("      <nav class=\"d-flex justify-content-between align-items-center flex-wrap\">");
 		out.append("        <ol class=\"breadcrumb fs-6\">");
-		out.append("          <li class=\"breadcrumb-item\"><a href=\"index.html\">Trang chủ</a></li>");
+		out.append("          <li class=\"breadcrumb-item\"><a href=\"../admin/home-view\">Trang chủ</a></li>");
 		out.append("          <li class=\"breadcrumb-item active\">Chi tiết đơn hàng</li>");
 		out.append("        </ol>");
 		out.append("        <a href=\"../admin/orders-view\">");
@@ -96,9 +97,24 @@ public class SingleOrderView extends HttpServlet {
 		out.append("                <p class=\"fs-6\">Tên khách hàng: "+ order.getUser().getFullname() +"</p>");
 		out.append("                <p class=\"fs-6\">Email: "+ order.getUser().getEmail() +"</p>");
 		out.append("                <p class=\"fs-6\">Số điện thoại: "+ order.getUser().getPhoneNumber() +"</p>");
-		out.append("                <a href=\"#\" class=\"text-success text-decoration-none small\">Xem chi tiết</a>");
+		out.append("<a class=\"text-success text-decoration-none pointer\"")
+				.append("data-bs-toggle='modal' data-bs-target='#largeModal' ")
+				.append("data-name='" + order.getUser().getFullname() + "' ")
+				.append("data-gender='" + order.getUser().getGender() + "' ")
+				.append("data-phone='" + order.getUser().getPhoneNumber() + "' ")
+				.append("data-email='" + order.getUser().getEmail() + "' ")
+				.append("data-address='" + order.getUser().getAddress() + "' ")
+				.append("data-created='" + order.getUser().getCreateDate() + "' ")
+				.append("data-updated='" + order.getUser().getModifiedDate() + "' ")
+				.append("data-status='" + order.getUser().isActive() + "'>")
+				.append("Xem chi tiết")
+				.append("</a>");
 		out.append("              </div>");
 		out.append("              <div class=\"col-md-4\">");
+
+		RequestDispatcher accountModalDispatcher = request.getRequestDispatcher("/admin/account-modal");
+		accountModalDispatcher.include(request, response);
+
 		out.append("                <h3 class=\"fs-custom text-dark fw-bold mb-3\">Thông tin nhận hàng</h3>");
 		out.append("                <p class=\"fs-6\">Tên người nhận: "+order.getShippingAddress().getFullname()+"</p>");
 		out.append("                <p class=\"fs-6\">SĐT người nhận: "+order.getShippingAddress().getPhoneNumber()+"</p>");
@@ -108,7 +124,7 @@ public class SingleOrderView extends HttpServlet {
 		out.append("                <h3 class=\"fs-custom text-dark fw-bold mb-3\">Chi tiết hoá đơn</h3>");
 		out.append("                <p class=\"fs-6\">Mã hoá đơn: DH#"+order.getOrderId()+"</p>");
 		out.append("                <p class=\"fs-6\">Ngày đặt hàng: "+order.getCreatedAt()+"</p>");
-		out.append("                <p class=\"fs-6\">Tổng tiền: "+order.getTotalPrice()+"</p>");
+		out.append("                <p class=\"fs-6\">Tổng tiền: "+ProductUtils.formatNumber(order.getTotalPrice())+"</p>");
 		out.append("                <p class=\"fs-6\">Trạng thái thanh toán: "+
 				(order.getPaymentStatus().equals("PAID") ? "Đã thanh toán" : "Chưa thanh toán")+"</p>");
 		out.append("              </div>");
@@ -129,14 +145,15 @@ public class SingleOrderView extends HttpServlet {
 		for(OrderItem orderItem : order.getOrderItems()){
 			out.append("                  <tr>");
 			out.append("                    <td class=\"align-middle\"><img src=\""+orderItem.getProduct().getProductImageUrl()+"\" class=\"product-img\" alt=\"\"></td>");
-			out.append("                    <td class=\"align-middle\"><a href=\"single-product\"");
-			out.append("                        class=\"text-dark text-decoration-none hover-primary\">");
+			out.append("                    <td class=\"align-middle\">" +
+					"<a href=\"../admin/product-detail-view?pId="+orderItem.getProduct().getProductId()+"\"");
+			out.append("                        class=\"text-success text-decoration-none hover-primary\">");
 			out.append(orderItem.getProduct().getProductName());
 			out.append("                      </a></td>");
-			out.append("                    <td class=\"align-middle\">"+orderItem.getOrderPrice()+"đ</td>");
+			out.append("                    <td class=\"align-middle\">"+ ProductUtils.formatNumber(orderItem.getOrderPrice())+"đ</td>");
 			out.append("                    <td class=\"align-middle\">"+orderItem.getOrderQuantity()+"</td>");
 			out.append("                    <td class=\"align-middle\">"+
-					(orderItem.getOrderPrice() * orderItem.getOrderQuantity())+"đ</td>");
+					ProductUtils.formatNumber((orderItem.getOrderPrice() * orderItem.getOrderQuantity()))+"đ</td>");
 			out.append("                  </tr>");
 		}
 
@@ -171,7 +188,7 @@ public class SingleOrderView extends HttpServlet {
 		out.append("                      </li>");
 		out.append("                      <li class=\"mb-2 d-flex justify-content-between\">");
 		out.append("                        <span>Tổng tiền hàng:</span>");
-		out.append("                        <span class=\"fw-semibold\">"+order.getTotalPrice()+"₫</span>");
+		out.append("                        <span class=\"fw-semibold\">"+ProductUtils.formatNumber(order.getTotalPrice())+"₫</span>");
 		out.append("                      </li>");
 		out.append("                      <li class=\"mb-2 d-flex justify-content-between\">");
 		out.append("                        <span>Phí vận chuyển:</span>");
@@ -179,7 +196,7 @@ public class SingleOrderView extends HttpServlet {
 		out.append("                      </li>");
 		out.append("                      <li class=\"border-top pt-2 mt-2 d-flex justify-content-between\">");
 		out.append("                        <span class=\"fw-bold text-dark\">Tổng cộng:</span>");
-		out.append("                        <span class=\"fw-bold text-success fs-5\">"+(order.getTotalPrice() + 300000)+"₫</span>");
+		out.append("                        <span class=\"fw-bold text-success fs-5\">"+ProductUtils.formatNumber((order.getTotalPrice() + 300000))+"₫</span>");
 		out.append("                      </li>");
 		out.append("                    </ul>");
 		out.append("                  </div>");
@@ -211,6 +228,7 @@ public class SingleOrderView extends HttpServlet {
 		out.append("  </main>");
 		out.append("  <script src=\"../admin/js/jquery.js\"></script>");
 		out.append("  <script src=\"https://code.jquery.com/jquery-3.6.0.min.js\"></script>");
+		out.append("  <script src=\"../admin/js/account.js\"></script>");
 		out.append("");
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);

@@ -252,6 +252,26 @@ public class UserDAOImpl implements UserDAO {
         return 0;
     }
 
+    @Override
+    public List<User> findLatestRegisteredAccount() {
+        String sql = "select * from users where user_isactive = 1 order by user_created_date desc limit 6";
+        List<User> users = new ArrayList<>();
+
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    User user = mapRowToUser(rs);
+                    users.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
 
     private User mapRowToUser(ResultSet rs) throws SQLException{
 		User user = new User();

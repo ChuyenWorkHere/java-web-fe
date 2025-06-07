@@ -15,4 +15,5 @@ public interface UserDAO {
     int countAllUsers();
     int countUserByName(String name);
     int countUserByStatus(String status);
+    List<User> findLatestRegisteredAccount();
 }

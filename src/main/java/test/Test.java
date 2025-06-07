@@ -1,13 +1,15 @@
 package test;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-import servlet.dao.OrderDAO;
+import servlet.dao.OrdersReportDAO;
 import servlet.dao.UserDAO;
-import servlet.dao.impl.OrderDAOImpl;
+import servlet.dao.impl.OrdersReportDAOImpl;
 import servlet.dao.impl.UserDAOImpl;
 import servlet.models.Order;
-import servlet.models.User;
+import servlet.response.OrderResponse;
 
 public class Test {
 
@@ -35,7 +37,7 @@ public class Test {
 //		List<User> users = userDAO.findByName("n", 1, 12);
 //		int a = userDAO.countUserByStatus("active");
 //		System.out.println("a: " + a);
-		OrderDAO orderDAO = new OrderDAOImpl();
+//		OrderDAO orderDAO = new OrderDAOImpl();
 //
 //		List<Order> orders = orderDAO.getAllOrders();
 //		for(Order o : orders){
@@ -44,8 +46,27 @@ public class Test {
 
 //		Order order = new Order();
 //		System.out.println("orderId = " + order.getOrderId());
-		Order order = orderDAO.getOrderDetailByOrderId(1);
-		System.out.println("order = " + order);
+//		Order order = orderDAO.getOrderDetailByOrderId(1);
+//		System.out.println("order = " + order);
+
+		OrdersReportDAO ordersReport = new OrdersReportDAOImpl();
+//
+//		LocalDate today = LocalDate.now();
+//		int year = today.getYear();
+//		int month = today.getMonthValue();
+//		int month = 5;
+//		int day = today.getDayOfMonth();
+//		int day = 0;
+//		System.out.println("year: " + year);
+//		System.out.println("month: " + month);
+//		System.out.println("day: " + day);
+
+
+//		List<Order> orders = ordersReport.findByCreatedAt(year, month, day, 1, 5);
+//		for(Order order : orders){
+//			System.out.println("order: " + order);
+//		}
+
 	}
 
 }
