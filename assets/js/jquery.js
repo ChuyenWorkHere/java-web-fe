@@ -50,11 +50,31 @@ $(document).ready(function () {
 
   // phần thông báo xác nhận xóa
   $(".deleteIcon").on("click", function () {
-    $("#confirmDeleteModal").modal("show");
-  });
-
-  $("#confirmDeleteBtn").on("click", function () {
-    $("#confirmDeleteModal").modal("hide");
-    alert("Đã xoá thành công!");
+    Swal.fire({
+      title: "Bạn có chắc chắn?",
+      text: "Bạn có chắc muốn xoá đơn hàng này không?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Xoá",
+      cancelButtonText: "Huỷ",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#6c757d",
+      customClass: {
+        popup: "animate__animated animate__fadeInDown animate__faster",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Đã xoá!",
+          text: "Đơn hàng đã được xoá thành công.",
+          icon: "success",
+          timer: 1000, 
+          showConfirmButton: false,
+          customClass: {
+            popup: "animate__animated animate__fadeInUp animate__faster",
+          },
+        });
+      }
+    });
   });
 });
