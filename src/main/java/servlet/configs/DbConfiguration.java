@@ -9,7 +9,7 @@ public class DbConfiguration {
     public static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final int DB_MIN_CONNECTIONS = 2;
     public static final int DB_MAX_CONNECTIONS = 4;
-    public static final String CONNECTION_URL = "jdbc:mysql://" + HOST_NAME + ":" + DB_PORT + "/" + DB_NAME;
+    public static final String CONNECTION_URL = "jdbc:mysql://" + HOST_NAME + ":" + DB_PORT + "/" + DB_NAME + "?allowMultiQueries=true";
      
     private DbConfiguration() {
         super();

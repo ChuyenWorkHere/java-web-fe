@@ -1,12 +1,20 @@
 package servlet.admin.view;
 
+import servlet.constants.SearchConstants;
+import servlet.dao.BrandDAO;
+import servlet.dao.CategoryDAO;
 import servlet.dao.ProductDAO;
+import servlet.dao.impl.BrandDAOImpl;
+import servlet.dao.impl.CategoryDAOImpl;
 import servlet.dao.impl.ProductDAOImpl;
+import servlet.models.Brand;
+import servlet.models.Category;
 import servlet.models.Product;
 import servlet.utils.ProductUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -20,10 +28,14 @@ import javax.servlet.http.HttpServletResponse;
 public class ProductsView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ProductDAO productDAO;
+	private CategoryDAO categoryDAO ;
+	private BrandDAO brandDAO;
 
 	public ProductsView() {
 		super();
 		productDAO = new ProductDAOImpl();
+		categoryDAO = new CategoryDAOImpl();
+		brandDAO = new BrandDAOImpl();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,7 +43,138 @@ public class ProductsView extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 
-		List<Product> productList = productDAO.findAll(100, 1, "ASC", "product_id");
+		int totalProduct = productDAO.productCounter();
+
+		//Hiển thị màu có sẵn
+		List<Product> productList = productDAO.findAll(totalProduct, 1, "ASC", "product_id");
+		List<String> urlAndColors = new ArrayList<>();
+		productList.forEach(product -> urlAndColors.add(product.getProductImageUrl()));
+		List<String> colors = ProductUtils.allColorsArray(urlAndColors);
+		colors.removeIf(item -> item.length()>7);
+		if(colors.size() >= 5) colors = colors.subList(0, 4);
+
+		//Hiển thị category và brand
+		List<Category> categories = categoryDAO.findAll(1000, 1, "ASC", "category_id", null, 1);
+		List<Brand> brands = brandDAO.findAll();
+
+
+		//Url search
+		int size = SearchConstants.PRODUCT_DEFAULT_SIZE; //default
+		int page = SearchConstants.DEFAULT_PAGE; //default
+		String orderBy =  "product_discount_price";//default
+		String sortBy = SearchConstants.DEFAULT_DIR;
+		String keyWord = null;
+		int categoryId = -1;
+		int brandId = -1;
+		String price = null;
+		String color = null;
+
+		StringBuilder urlSearch = new StringBuilder();
+		urlSearch.append("/admin/products-view?");
+
+		if(request.getParameter("size") != null) {
+			urlSearch.append("size=");
+			try {
+				size = Integer.parseInt(request.getParameter("size"));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			urlSearch.append(size);
+		} else {
+			urlSearch.append("size="+size);
+		}
+
+		if(request.getParameter("page") != null) {
+			urlSearch.append("&");
+			urlSearch.append("page=");
+			try {
+				page = Integer.parseInt(request.getParameter("page"));
+			} catch (Exception e) {
+				page = 1;
+			}
+			urlSearch.append(page);
+		} else {
+			urlSearch.append("&");
+			urlSearch.append("page=1");
+		}
+
+		if(request.getParameter("dir") != null) {
+			urlSearch.append("&");
+			urlSearch.append("dir=");
+			sortBy = request.getParameter("dir");
+			urlSearch.append(sortBy);
+		} else {
+			urlSearch.append("&");
+			urlSearch.append("dir=ASC");
+		}
+
+		if(request.getParameter("orderBy") != null) {
+			urlSearch.append("&");
+			urlSearch.append("orderBy=");
+			orderBy = request.getParameter("orderBy");
+			urlSearch.append(orderBy);
+		} else {
+			urlSearch.append("&");
+			urlSearch.append("orderBy=product_discount_price");
+		}
+
+		if(request.getParameter("keyWord") != null &&
+				!request.getParameter("keyWord").trim().equalsIgnoreCase("")) {
+			urlSearch.append("&");
+			urlSearch.append("keyWord=");
+			keyWord = request.getParameter("keyWord");
+			urlSearch.append(keyWord);
+		}
+
+		if(request.getParameter("category") != null) {
+			urlSearch.append("&");
+			urlSearch.append("category=");
+			try {
+				categoryId = Integer.parseInt(request.getParameter("active"));
+				urlSearch.append(categoryId);
+			} catch (Exception e) {
+				categoryId = -1;
+				urlSearch.append(categoryId);
+			}
+
+		}
+
+		if(request.getParameter("brand") != null) {
+			urlSearch.append("&");
+			urlSearch.append("brand=");
+			try {
+				brandId = Integer.parseInt(request.getParameter("brand"));
+				urlSearch.append(brandId);
+			} catch (Exception e) {
+				brandId = -1;
+				urlSearch.append(brandId);
+			}
+
+		}
+
+		if(request.getParameter("color") != null &&
+				request.getParameter("color").startsWith("-")) {
+			urlSearch.append("&");
+			urlSearch.append("color=");
+			color = "#" + request.getParameter("color").substring(1);
+			urlSearch.append(request.getParameter("color"));
+
+		}
+
+		if(request.getParameter("price") != null &&
+				!request.getParameter("price").trim().equalsIgnoreCase("")) {
+			urlSearch.append("&");
+			urlSearch.append("price=");
+			price = request.getParameter("price");
+			urlSearch.append(price);
+		}
+
+		List<Product> products = productDAO.findAllBySearchConditions(size, page, sortBy, orderBy, keyWord, categoryId, brandId,color, price);
+
+		List<Product> allSearchedProduct = productDAO.findAllBySearchConditions(totalProduct, 1, sortBy, orderBy, keyWord, categoryId, brandId,color, price);
+		int totalProductSearched = allSearchedProduct.size();
+
+		int totalPages = totalProductSearched/size + 1;
 
 		PrintWriter out = response.getWriter();
 		request.setAttribute("view", "list");
@@ -78,8 +221,8 @@ public class ProductsView extends HttpServlet {
 		out.append("        <div class=\"col-xl-9 order-2 order-xl-1 mt-4\">");
 		out.append("          <div class=\"row\" style=\"background-color: #f5f8fe;\">");
 
-		for (int i = 0; i < productList.size(); i++) {
-			Product product = productList.get(i);
+		for (int i = 0; i < products.size(); i++) {
+			Product product = products.get(i);
 			String[] imgUrls = ProductUtils.urlArray(product.getProductImageUrl());
 			String[] colorArray = ProductUtils.colorArray(product.getProductImageUrl());
 			out.append("            <div class=\"col-xl-4 col-md-6 mb-3\">");
@@ -142,90 +285,107 @@ public class ProductsView extends HttpServlet {
 		}
 
 		out.append("          </div>");
-		out.append("          <!-- Centered Pagination -->");
-		out.append("              <nav aria-label=\"Page navigation example\">");
-		out.append("                <ul class=\"pagination justify-content-center\">");
-		out.append("                  <li class=\"page-item disabled\">");
-		out.append("                    <a class=\"page-link\" href=\"#\" tabindex=\"-1\" aria-disabled=\"true\">Trước</a>");
+		out.append("              <!-- Pagination with icons -->");
+		out.append("              <nav aria-label=\"Page navigation example \">");
+		out.append("                <div class=\"d-flex flex-end justify-content-end\">");
+		out.append("                  <ul class=\"pagination\">");
+		out.append("                  <li class=\"page-item	"+(page == 1? "disabled": "")+"\">");
+		out.append("                    <a class=\"page-link\" "+ (page == 1 ? "aria-disabled=\"true\"" : " href=\"/Furniture"+urlSearch.toString().replace("page="+page,  "page="+(page -1)) + "\" aria-label=\"Trước\">"));
+		out.append("                      <span aria-hidden=\"true\">&laquo;</span>");
+		out.append("                    </a>");
 		out.append("                  </li>");
-		out.append("                  <li class=\"page-item\"><a class=\"page-link active\" href=\"#\">1</a></li>");
-		out.append("                  <li class=\"page-item\"><a class=\"page-link\" href=\"#\">2</a></li>");
-		out.append("                  <li class=\"page-item\"><a class=\"page-link\" href=\"#\">3</a></li>");
-		out.append("                  <li class=\"page-item\">");
-		out.append("                    <a class=\"page-link\" href=\"#\">Sau</a>");
+		for (int i = 1; i <= totalPages ; i++) {
+			out.append("                  <li class=\"page-item\"><a class=\"page-link "+ (i == page ? "active" : "") +"\" href=\"/Furniture"+urlSearch.toString().replace("page="+page, "page="+i)+"\">"+i+"</a></li>");
+		}
+		out.append("                  <li class=\"page-item "+(page == totalPages? "disabled": "")+"\">");
+		out.append("                    <a class=\"page-link\" "+(page == totalPages ? "aria-disabled=\"true\"" : " href=\"/Furniture"+urlSearch.toString().replace("page="+page,  "page="+(page +1))+"\""+" aria-label=\"Sau\">"));
+		out.append("                      <span aria-hidden=\"true\">&raquo;</span>");
+		out.append("                    </a>");
 		out.append("                  </li>");
 		out.append("                </ul>");
-		out.append("              </nav><!-- End Centered Pagination -->");
+		out.append("                </div>");
+		out.append("              </nav><!-- End Pagination with icons -->");
 		out.append("        </div>");
 		out.append("        <div class=\"col-xl-3 order-1 order-xl-2 mt-4\">");
 		out.append("          <div class=\"row card py-2\" style=\"background-color: #f5f8fe; position: sticky; top: 100px;\">");
-		out.append("            <div class=\"container py-4 d-flex flex-column align-items-start gap-3\" style=\"max-width: 320px;\">");
+		out.append("            <form id=\"searchForm\" action=\"/Furniture/admin/products-view\" method=\"GET\" class=\"container py-4 d-flex flex-column align-items-start gap-3\" style=\"max-width: 320px;\">");
 		out.append("              <div class=\"d-flex align-items-center gap-2 filter-label\">");
 		out.append("                <i class=\"bi bi-funnel-fill\"></i>");
 		out.append("                <span>BỘ LỌC</span>");
 		out.append("              </div>");
-		out.append("              <select class=\"form-select\" aria-label=\"Danh mục\">");
-		out.append("                <option selected>SẢN PHẨM NỔI BẬT</option>");
-		out.append("                <option value=\"1\">Option 1</option>");
-		out.append("                <option value=\"2\">Option 2</option>");
+		out.append("              <input type=\"text\" class=\"form-control\" placeholder=\"Tên sản phẩm...\" name=\"keyWord\">");
+		//Category
+		out.append("                    <select class=\"form-select\" name=\"category\" id=\"category\">");
+		out.append("                      <option value=\"-1\">DANH MỤC</option>");
+		for(Category category : categories) {
+			out.append("<option "+(categoryId == category.getCategoryId() ? "selected" : "")+" value=\""+category.getCategoryId()+"\">"+category.getCategoryName()+"</option>");
+		}
+		out.append("                    </select>");
+
+		//Brand
+		out.append("                    <select class=\"form-select\" name=\"brand\" id=\"brand\">");
+		out.append("                      <option value=\"-1\">THƯƠNG HIỆU</option>");
+		for(Brand brand : brands) {
+			out.append("<option "+(brandId == brand.getBrandId() ? " selected " : "")+" value=\""+brand.getBrandId()+"\">"+brand.getBrandName()+"</option>");
+		}
+		out.append("                    </select>");
+
+		out.append("              <select class=\"form-select\" name=\"price\" aria-label=\"Giá sản phẩm\">");
+		out.append("                <option value=\"\">GIÁ SẢN PHẨM</option>");
+		out.append("                <option "+("sm".equalsIgnoreCase(price) ? " selected " : "")+" value=\"sm\">Dưới 1 triệu</option>");
+		out.append("                <option "+("md".equalsIgnoreCase(price) ? " selected " : "")+" value=\"md\">Từ 1 đến 3 triệu</option>");
+		out.append("                <option "+("lg".equalsIgnoreCase(price) ? " selected " : "")+" value=\"lg\">Từ 3 đến 5 triệu</option>");
+		out.append("                <option "+("xl".equalsIgnoreCase(price) ? " selected " : "")+" value=\"xl\">Từ 5 đến 9 triệu</option>");
+		out.append("                <option "+("xxl".equalsIgnoreCase(price) ? " selected " : "")+" value=\"xxl\">Trên 9 triệu</option>");
 		out.append("              </select>");
-		out.append("              <select class=\"form-select\" aria-label=\"Danh mục\">");
-		out.append("                <option selected>DANH MỤC</option>");
-		out.append("                <option value=\"1\">Option 1</option>");
-		out.append("                <option value=\"2\">Option 2</option>");
-		out.append("              </select>");
-		out.append("              <select class=\"form-select\" aria-label=\"Giá sản phẩm\">");
-		out.append("                <option selected>GIÁ SẢN PHẨM</option>");
-		out.append("                <option value=\"1\">Option 1</option>");
-		out.append("                <option value=\"2\">Option 2</option>");
-		out.append("              </select>");
+
 		out.append("              <div class=\"color-select\">");
 		out.append("                <span>MÀU SẮC</span>");
 		out.append("                <div class=\"color-container\">");
-		out.append("                  <div class=\"color-box\" data-color=\"#1A1A2E\" style=\"background-color: #1A1A2E;\"");
-		out.append("                    onclick=\"selectColor(this)\">");
-		out.append("                    <span class=\"checkmark\">✔</span>");
-		out.append("                  </div>");
-		out.append("                  <div class=\"color-box\" data-color=\"#0A2E8F\" style=\"background-color: #0A2E8F;\"");
-		out.append("                    onclick=\"selectColor(this)\">");
-		out.append("                    <span class=\"checkmark\">✔</span>");
-		out.append("                  </div>");
-		out.append("                  <div class=\"color-box\" data-color=\"#6B48FF\" style=\"background-color: #6B48FF;\"");
-		out.append("                    onclick=\"selectColor(this)\">");
-		out.append("                    <span class=\"checkmark\">✔</span>");
-		out.append("                  </div>");
-		out.append("                  <div class=\"color-box\" data-color=\"#00C4B4\" style=\"background-color: #00C4B4;\"");
-		out.append("                    onclick=\"selectColor(this)\">");
-		out.append("                    <span class=\"checkmark\">✔</span>");
-		out.append("                  </div>");
-		out.append("                  <div class=\"color-box\" data-color=\"#00FF00\" style=\"background-color: #00FF00;\"");
-		out.append("                    onclick=\"selectColor(this)\">");
-		out.append("                    <span class=\"checkmark\">✔</span>");
-		out.append("                  </div>");
-		out.append("                  <div class=\"color-box\" data-color=\"#FF4040\" style=\"background-color: #FF4040;\"");
-		out.append("                    onclick=\"selectColor(this)\">");
-		out.append("                    <span class=\"checkmark\">✔</span>");
-		out.append("                  </div>");
-		out.append("                  <div class=\"color-box\" data-color=\"#FFA500\" style=\"background-color: #FFA500;\"");
-		out.append("                    onclick=\"selectColor(this)\">");
-		out.append("                    <span class=\"checkmark\">✔</span>");
-		out.append("                  </div>");
+		for (int i =0; i < colors.size(); i++) {
+			out.append("                  <div class=\"color-box\" data-color=\""+colors.get(i)+"\" style=\"background-color: "+colors.get(i)+";\"");
+			out.append("                    onclick=\"selectColor(this)\">");
+			out.append("                    <span class=\"checkmark\">✔</span>");
+			out.append("                  </div>");
+		}
+		out.append("                    <div class=\"\"> hoặc chọn </div>");
+		out.append("                    <div class=\"color-wrapper col-auto mb-2\">");
+		out.append("                      <input type=\"color\" name=\"color\" id=\"selectedColor\" class=\"color-box p-0\" value=\""+color+"\">");
+		out.append("                    </div>");
 		out.append("                </div>");
 		out.append("              </div>");
-		out.append("");
-		out.append("              <select class=\"form-select\" aria-label=\"Kích thước\">");
-		out.append("                <option selected>KÍCH THƯỚC</option>");
-		out.append("                <option value=\"1\">Option 1</option>");
-		out.append("                <option value=\"2\">Option 2</option>");
+
+		out.append("              <select class=\"form-select\" name=\"dir\" aria-label=\"Danh mục\">");
+		out.append("                <option value=\"ASC\">SẮP XẾP THEO</option>");
+		out.append("                <option "+ ("ASC".equalsIgnoreCase(sortBy) ? "selected" : "")+" value=\"ASC\">TĂNG DẦN</option>");
+		out.append("                <option "+("DESC".equalsIgnoreCase(sortBy) ? "selected" : "")+" value=\"DESC\">GIẢM DẦN</option>");
 		out.append("              </select>");
-		out.append("              <button type=\"button\" class=\"btn-search\">TÌM KIẾM</button>");
-		out.append("            </div>");
+		out.append("              <select class=\"form-select\" name=\"size\" aria-label=\"Danh mục\">");
+		out.append("                <option value=\"6\">HIỂN THỊ</option>");
+		out.append("                <option "+(size==6 ? "selected" : "")+" value=\"6\">6 BẢN GHI</option>");
+		out.append("                <option "+(size==9 ? "selected" : "")+" value=\"9\">9 BẢN GHI</option>");
+		out.append("              </select>");
+		out.append("              <select class=\"form-select\" name=\"orderBy\" aria-label=\"Danh mục\">");
+		out.append("                <option value=\"category_id\">SẮP XẾP THEO</option>");
+		out.append("                <option "+("product_id".equalsIgnoreCase(orderBy) ? "selected" : "")+" value=\"product_id\">ID</option>");
+		out.append("                <option "+("product_name".equalsIgnoreCase(orderBy) ? "selected" : "")+" value=\"product_name\">TÊN</option>");
+		out.append("                <option "+("product_discount_price".equalsIgnoreCase(orderBy) ? "selected" : "")+" value=\"product_discount_price\">GIÁ</option>");
+		out.append("              </select>");
+		out.append("");
+		out.append("              <button type=\"submit\" class=\"btn-search\">TÌM KIẾM</button>");
+		out.append("            </form>");
 		out.append("          </div>");
 		out.append("        </div>");
 		out.append("    </section>");
 		out.append("  </main>");
 		out.append("  <script src=\"../admin/js/mainProduct.js\"></script>");
 		out.append("  <script src=\"../admin/js/showAlert.js\"></script>");
+		out.append("  <script>");
+		out.append("	document.getElementById(\"searchForm\").addEventListener(\"submit\", function () {");
+		out.append("		const input = document.getElementById(\"selectedColor\");");
+		out.append("		input.value = input.value.replace(\"#\", \"-\");");
+		out.append("	});");
+		out.append("  </script>");
 
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);

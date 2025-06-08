@@ -3,6 +3,7 @@ package servlet.admin.view;
 import servlet.dao.UserDAO;
 import servlet.dao.impl.UserDAOImpl;
 import servlet.models.User;
+import servlet.utils.ProductUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -385,8 +386,6 @@ public class HomeView extends HttpServlet {
 			out.append("                  </div>");
 			out.append("                </div>");
 			out.append("  				<div class=\"d-flex gap-3\">");
-//			out.append("    				<a class=\"bg-primary bg-opacity-75 pointer text-white rounded-circle p-2 d-inline-flex align-items-center justify-content-center\" style=\"width: 40px; height: 40px;\">");
-//			out.append("      				<i class=\"bi bi-eye\"></i>");
 			out.append("<button class='btn btn-primary rounded-circle viewBtn me-2' ")
 					.append("data-bs-toggle='modal' data-bs-target='#largeModal' ")
 					.append("data-name='" + user.getFullname() + "' ")
@@ -394,8 +393,8 @@ public class HomeView extends HttpServlet {
 					.append("data-phone='" + user.getPhoneNumber() + "' ")
 					.append("data-email='" + user.getEmail() + "' ")
 					.append("data-address='" + user.getAddress() + "' ")
-					.append("data-created='" + user.getCreateDate() + "' ")
-					.append("data-updated='" + user.getModifiedDate() + "' ")
+					.append("data-created='" + ProductUtils.formatDate(user.getCreateDate()) + "' ")
+					.append("data-updated='" + ProductUtils.formatDate(user.getModifiedDate()) + "' ")
 					.append("data-status='" + user.isActive() + "'>")
 					.append("<i class='bi bi-eye'></i>")
 					.append("</button>");

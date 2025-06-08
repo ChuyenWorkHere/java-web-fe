@@ -104,8 +104,8 @@ public class SingleOrderView extends HttpServlet {
 				.append("data-phone='" + order.getUser().getPhoneNumber() + "' ")
 				.append("data-email='" + order.getUser().getEmail() + "' ")
 				.append("data-address='" + order.getUser().getAddress() + "' ")
-				.append("data-created='" + order.getUser().getCreateDate() + "' ")
-				.append("data-updated='" + order.getUser().getModifiedDate() + "' ")
+				.append("data-created='" + ProductUtils.formatDate(order.getUser().getCreateDate()) + "' ")
+				.append("data-updated='" + ProductUtils.formatDate(order.getUser().getModifiedDate()) + "' ")
 				.append("data-status='" + order.getUser().isActive() + "'>")
 				.append("Xem chi tiết")
 				.append("</a>");
@@ -220,7 +220,7 @@ public class SingleOrderView extends HttpServlet {
 		out.append("");
 		out.append("          </div>");
 		if(order.getOrderStatus().equals("PENDING")){
-			out.append("          <a href=\"../admin/orders-view\" class=\"btn btn-success float-end mb-5 py-2 mx-4\">Xác nhận đơn</a>");
+			out.append("          <a href=\"../admin/order-status-update?orderId="+order.getOrderId()+"\" class=\"btn btn-success float-end mb-5 py-2 mx-4\">Xác nhận đơn</a>");
 		}
 		out.append("        </div>");
 		out.append("      </div>");

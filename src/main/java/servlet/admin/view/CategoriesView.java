@@ -1,9 +1,9 @@
 package servlet.admin.view;
 
+import servlet.constants.SearchConstants;
 import servlet.dao.CategoryDAO;
 import servlet.dao.impl.CategoryDAOImpl;
 import servlet.models.Category;
-import servlet.models.Product;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,8 +33,92 @@ public class CategoriesView extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 
-		List<Category> categories = categoryDAO.findAll(100, 1, "ASC", "product_id");
+		int totalCategories = categoryDAO.categoryCounter();
+		int size = SearchConstants.CATEGORY_DEFAULT_SIZE; //default
+		int page = SearchConstants.DEFAULT_PAGE; //default
+		String orderBy =  "category_id";//default
+		String sortBy = SearchConstants.DEFAULT_DIR;
+		String keyWord = null;
+		int isActive = -1;
 
+		StringBuilder urlSearch = new StringBuilder();
+		urlSearch.append("/admin/categories-view?");
+
+		if(request.getParameter("size") != null) {
+			urlSearch.append("size=");
+			try {
+				size = Integer.parseInt(request.getParameter("size"));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			urlSearch.append(size);
+			urlSearch.append("&");
+		} else {
+			urlSearch.append("size="+size);
+			urlSearch.append("&");
+		}
+
+		if(request.getParameter("page") != null) {
+			urlSearch.append("page=");
+			try {
+				page = Integer.parseInt(request.getParameter("page"));
+			} catch (Exception e) {
+				page = 1;
+			}
+			urlSearch.append(page);
+			urlSearch.append("&");
+		} else {
+			urlSearch.append("page=1");
+			urlSearch.append("&");
+		}
+
+		if(request.getParameter("dir") != null) {
+			urlSearch.append("dir=");
+			sortBy = request.getParameter("dir");
+			urlSearch.append(sortBy);
+			urlSearch.append("&");
+		} else {
+			urlSearch.append("dir=ASC");
+			urlSearch.append("&");
+		}
+
+		if(request.getParameter("orderBy") != null) {
+			urlSearch.append("orderBy=");
+			orderBy = request.getParameter("orderBy");
+			urlSearch.append(orderBy);
+			urlSearch.append("&");
+		} else {
+			urlSearch.append("orderBy=category_id");
+			urlSearch.append("&");
+		}
+
+		if(request.getParameter("keyWord") != null &&
+				!request.getParameter("keyWord").trim().equalsIgnoreCase("")) {
+			urlSearch.append("keyWord=");
+			keyWord = request.getParameter("keyWord");
+			urlSearch.append(keyWord);
+			urlSearch.append("&");
+
+		}
+
+		if(request.getParameter("active") != null) {
+			urlSearch.append("active=");
+			try {
+				isActive = Integer.parseInt(request.getParameter("active"));
+				urlSearch.append(isActive);
+			} catch (Exception e) {
+				isActive = -1;
+				urlSearch.append(isActive);
+			}
+
+		}
+
+
+		List<Category> categories = categoryDAO.findAll(size, page, orderBy, sortBy, keyWord, isActive);
+
+		int totalCategorySearched = categoryDAO.findAll(totalCategories, 1, orderBy, sortBy, keyWord, isActive).size();
+
+		int totalPages = totalCategorySearched/size + 1;
 
 		PrintWriter out = response.getWriter();
 		request.setAttribute("view", "cate");
@@ -170,16 +254,16 @@ public class CategoriesView extends HttpServlet {
 	    out.append("              <nav aria-label=\"Page navigation example \">");
 	    out.append("                <div class=\"d-flex flex-end justify-content-end\">");
 	    out.append("                  <ul class=\"pagination\">");
-	    out.append("                  <li class=\"page-item\">");
-	    out.append("                    <a class=\"page-link\" href=\"#\" aria-label=\"Previous\">");
+	    out.append("                  <li class=\"page-item	"+(page == 1? "disabled": "")+"\">");
+	    out.append("                    <a class=\"page-link\" "+ (page == 1 ? "aria-disabled=\"true\"" : " href=\"/Furniture"+urlSearch.toString().replace("page="+page,  "page="+(page -1)) + "\" aria-label=\"Trước\">"));
 	    out.append("                      <span aria-hidden=\"true\">&laquo;</span>");
 	    out.append("                    </a>");
 	    out.append("                  </li>");
-	    out.append("                  <li class=\"page-item\"><a class=\"page-link\" href=\"#\">1</a></li>");
-	    out.append("                  <li class=\"page-item\"><a class=\"page-link\" href=\"#\">2</a></li>");
-	    out.append("                  <li class=\"page-item\"><a class=\"page-link\" href=\"#\">3</a></li>");
-	    out.append("                  <li class=\"page-item\">");
-	    out.append("                    <a class=\"page-link\" href=\"#\" aria-label=\"Next\">");
+		for (int i = 1; i <= totalPages ; i++) {
+			out.append("                  <li class=\"page-item\"><a class=\"page-link "+ (i == page ? "active" : "") +"\" href=\"/Furniture"+urlSearch.toString().replace("page="+page, "page="+i)+"\">"+i+"</a></li>");
+		}
+	    out.append("                  <li class=\"page-item "+(page == totalPages? "disabled": "")+"\">");
+	    out.append("                    <a class=\"page-link\" "+(page == totalPages ? "aria-disabled=\"true\"" : " href=\"/Furniture"+urlSearch.toString().replace("page="+page,  "page="+(page +1))+"\""+" aria-label=\"Sau\">"));
 	    out.append("                      <span aria-hidden=\"true\">&raquo;</span>");
 	    out.append("                    </a>");
 	    out.append("                  </li>");
@@ -246,13 +330,31 @@ public class CategoriesView extends HttpServlet {
 	    out.append("                <i class=\"bi bi-funnel-fill\"></i>");
 	    out.append("                <span>BỘ LỌC</span>");
 	    out.append("              </div>");
-	    out.append("              <input type=\"text\" placeholder=\"Tìm kiếm...\" class=\"w-100 py-2 px-3 form-control\" style=\"outline: none;\">");
-	    out.append("              <select class=\"form-select\" aria-label=\"Danh mục\">");
-	    out.append("                <option selected>TRẠNG THÁI</option>");
-	    out.append("                <option value=\"1\">HOẠT ĐỘNG</option>");
-	    out.append("                <option value=\"2\">BẢO TRÌ</option>");
+		out.append("              <form class=\"container py-4 d-flex flex-column align-items-start gap-3\" action=\"/Furniture/admin/categories-view\" method=\"GET\">");
+	    out.append("              <input type=\"text\" name=\"keyWord\" placeholder=\"Tìm kiếm...\" class=\"w-100 py-2 px-3 form-control\" style=\"outline: none;\" value=\""+(keyWord == null ? "":keyWord) +"\">");
+	    out.append("              <select class=\"form-select\" name=\"active\" aria-label=\"Danh mục\">");
+	    out.append("                <option value=\"-1\">TRẠNG THÁI</option>");
+	    out.append("                <option "+(isActive ==1 ? "selected" : "")+" value=\"1\">HOẠT ĐỘNG</option>");
+	    out.append("                <option "+(isActive ==0 ? "selected" : "")+" value=\"0\">BẢO TRÌ</option>");
 	    out.append("              </select>");
-	    out.append("              <button type=\"button\" class=\"btn-search\">TÌM KIẾM</button>");
+		out.append("              <select class=\"form-select\" name=\"dir\" aria-label=\"Danh mục\">");
+		out.append("                <option value=\"ASC\">SẮP XẾP THEO</option>");
+		out.append("                <option "+ ("ASC".equalsIgnoreCase(sortBy) ? "selected" : "")+" value=\"ASC\">TĂNG DẦN</option>");
+		out.append("                <option "+("DESC".equalsIgnoreCase(sortBy) ? "selected" : "")+" value=\"DESC\">GIẢM DẦN</option>");
+		out.append("              </select>");
+		out.append("              <select class=\"form-select\" name=\"size\" aria-label=\"Danh mục\">");
+		out.append("                <option value=\"10\">HIỂN THỊ</option>");
+		out.append("                <option "+(size==5 ? "selected" : "")+" value=\"5\">5 BẢN GHI</option>");
+		out.append("                <option "+(size==10 ? "selected" : "")+" value=\"10\">10 BẢN GHI</option>");
+		out.append("              </select>");
+		out.append("              <select class=\"form-select\" name=\"orderBy\" aria-label=\"Danh mục\">");
+		out.append("                <option value=\"category_id\">SẮP XẾP THEO</option>");
+		out.append("                <option "+("category_id".equalsIgnoreCase(orderBy) ? "selected" : "")+" value=\"category_id\">ID</option>");
+		out.append("                <option "+("category_name".equalsIgnoreCase(orderBy) ? "selected" : "")+" value=\"category_name\">TÊN</option>");
+		out.append("                <option "+("is_active".equalsIgnoreCase(orderBy) ? "selected" : "")+" value=\"is_active\">TRẠNG THÁI</option>");
+		out.append("              </select>");
+	    out.append("              <button type=\"submit\" class=\"btn-search\">TÌM KIẾM</button>");
+		out.append("            </form>");
 	    out.append("            </div>");
 	    out.append("          </div>");
 	    out.append("        </div>");
@@ -272,4 +374,7 @@ public class CategoriesView extends HttpServlet {
 		doGet(request, response);
 	}
 
+	private String urlSearchBuilder(int size, int page, String dir, String sortBy, String keyWord, int active) {
+		return null;
+	}
 }

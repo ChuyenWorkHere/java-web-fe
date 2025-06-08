@@ -69,24 +69,44 @@ public class CategoryDAOImpl implements CategoryDAO {
 	}
 
 	@Override
-	public List<Category> findAll(int pageSize, int pageNumber, String orderBy, String sortBy) {
+	public List<Category> findAll(int pageSize, int pageNumber, String orderBy, String sortBy, String keyWord, int isActive) {
 		List<Category> categories = new ArrayList<>();
 
-		List<String> allowedSortColumns = List.of("keyword", "isActive");
+		List<String> allowedSortColumns = List.of("category_name", "category_id", "is_active");
 		if (!allowedSortColumns.contains(orderBy)) {
 			orderBy = "category_id";
 		}
 
 		sortBy = sortBy.equalsIgnoreCase("DESC") ? "DESC" : "ASC";
-
-		String sql = "SELECT * FROM categories ORDER BY " + orderBy + " " + sortBy + " LIMIT ? OFFSET ?";
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM categories ");
+		if((keyWord != null && !keyWord.trim().isEmpty()) || isActive >= 0) {
+			sql.append(" WHERE ");
+		}
+		if(keyWord != null && !keyWord.trim().isEmpty()) {
+			sql.append(" (category_name LIKE ? OR category_description LIKE ?) ");
+		}
+		if (keyWord != null && !keyWord.trim().isEmpty() && isActive >=0) {
+			sql.append(" AND ");
+		}
+		if(isActive >= 0) {
+			sql.append(" (is_active = ?) ");
+		}
+		sql.append("ORDER BY " + orderBy + " "  + sortBy  + " " + "LIMIT ? OFFSET ?");
 
 		try (Connection conn = DataSourceUtil.getConnection();
-			 PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-			stmt.setInt(1, pageSize);
-			stmt.setInt(2, (pageNumber - 1) * pageSize);
-
+			 PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+			int index = 1;
+			if(keyWord != null && !keyWord.trim().isEmpty()) {
+				stmt.setString(index++, "%"+keyWord+"%");
+				stmt.setString(index++, "%"+keyWord+"%");
+			}
+			if(isActive >= 0) {
+				stmt.setInt(index++, isActive);
+			}
+			stmt.setInt(index++, pageSize);
+			stmt.setInt(index++, (pageNumber - 1) * pageSize);
+			System.out.println(sql.toString());
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				Category category = new Category();
@@ -163,6 +183,24 @@ public class CategoryDAOImpl implements CategoryDAO {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public int categoryCounter() {
+		String sql = "SELECT COUNT(*) as total FROM categories";
+		int num = 0;
+		try (
+				Connection conn = DataSourceUtil.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql)
+		) {
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()){
+				num = rs.getInt("total");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return num;
 	}
 
 	private Category mapRowToCategory(ResultSet rs) throws SQLException {
