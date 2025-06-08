@@ -71,6 +71,11 @@ public class SidebarView extends HttpServlet {
 				combination.put("report", "collapse show");
 				show.put("order", "active");
 				break;
+			case "report-payment":
+				collapse.put("report", "");
+				combination.put("report", "collapse show");
+				show.put("payment", "active");
+				break;
 			default:
 				break;
 			}
@@ -143,6 +148,11 @@ public class SidebarView extends HttpServlet {
 		out.append("          <li>");
 		out.append("            <a class = \" "+ show.getOrDefault("order", "") +" \" href=\"/Furniture/admin/orders-report\">");
 		out.append("                <i class=\"bi bi-cart\"></i><span>Đơn hàng</span>");
+		out.append("            </a>");
+		out.append("          </li>");
+		out.append("          <li>");
+		out.append("            <a class = \" "+ show.getOrDefault("payment", "") +" \" href=\"/Furniture/admin/payment-report\">");
+		out.append("                <i class=\"bi bi-credit-card\"></i><span>Thanh toán</span>");
 		out.append("            </a>");
 		out.append("          </li>");
 		out.append("        </ul>");

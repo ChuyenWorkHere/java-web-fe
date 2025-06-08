@@ -1829,3 +1829,65 @@ hr.custom-hr {
 	margin-bottom: 1.5rem;
 }
 
+/* css payment roport*/
+    .chart-container canvas {
+      width: 100% !important;
+      max-width: 500px;
+      height: auto !important;
+    }
+
+
+    /* Dropdown toggle button styling */
+    .filter-dropdown-toggle {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: #0c2a6e;
+      cursor: pointer;
+      user-select: none;
+      line-height: 1;
+      padding: 0;
+      z-index: 10;
+    }
+    .filter-dropdown-toggle:focus {
+      outline: none;
+      box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.5);
+      border-radius: 0.25rem;
+    }
+    /* Dropdown menu custom width */
+    .filter-dropdown-menu {
+      min-width: 140px;
+      padding: 0.5rem 0;
+    }
+    .filter-dropdown-menu button {
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 0.5rem 1.5rem;
+      text-align: left;
+      color: #0c2a6e;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.15s ease-in-out;
+    }
+    .filter-dropdown-menu button:hover,
+    .filter-dropdown-menu button:focus {
+      background-color: #e0e7ff;
+      outline: none;
+    }
+    /* Icons in payment list */
+    .payment-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 0.5rem;
+      flex-shrink: 0;
+      color: inherit;
+    }
+
+
+
+
+

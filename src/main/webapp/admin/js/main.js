@@ -334,3 +334,6 @@ function selectColor(element) {
 }
 
 //end select color//
+
+
+

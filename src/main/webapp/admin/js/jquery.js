@@ -8,4 +8,16 @@ $(document).ready(function () {
     $("#confirmDeleteModal").modal("hide");
     alert("Đã xoá thành công!");
   });
+
+
+//
+$("#monthFilter").click(function(){
+    $("#monthFilter").show();
+    $("#yearFilter").hide();
+})
+$("#yearFilter").click(function(){
+    $("#yearFilter").show();
+    $("#monthFilter").hide();
+})
+
 });
