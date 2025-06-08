@@ -366,24 +366,7 @@ public class OrdersView extends HttpServlet {
 		out.append("      </div>");
 		out.append("    </section>");
 		out.append("    <!-- thông báo -->");
-		out.append("    <div class=\"modal fade\" id=\"confirmDeleteModal\" tabindex=\"-1\" aria-labelledby=\"confirmDeleteLabel\"");
-		out.append("      aria-hidden=\"true\">");
-		out.append("      <div class=\"modal-dialog modal-sm animate__animated animate__fadeInDown\">");
-		out.append("        <div class=\"modal-content shadow\">");
-		out.append("          <div class=\"modal-header\">");
-		out.append("            <h5 class=\"modal-title\" id=\"confirmDeleteLabel\">Xác nhận xoá</h5>");
-		out.append("            <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Đóng\"></button>");
-		out.append("          </div>");
-		out.append("          <div class=\"modal-body\">");
-		out.append("            Bạn có chắc chắn muốn xoá đơn hàng này không?");
-		out.append("          </div>");
-		out.append("          <div class=\"modal-footer\">");
-		out.append("            <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Huỷ</button>");
-		out.append("            <button type=\"button\" class=\"btn btn-danger\" id=\"confirmDeleteBtn\" data-order-id=\"\">Xoá</button>");
-		out.append("          </div>");
-		out.append("        </div>");
-		out.append("      </div>");
-		out.append("    </div>");
+
 		out.append("    <!-- end thông báo -->");
 		out.append("  </main><!-- End #main -->");
 		out.append("  <script src=\"../admin/js/jquery.js\"></script>");

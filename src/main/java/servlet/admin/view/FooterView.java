@@ -49,6 +49,7 @@ public class FooterView extends HttpServlet {
 		out.append("  <script src=\"../admin/vendor/bootstrap/js/bootstrap.bundle.min.js\"></script>");
 		out.append("  <script src=\"../admin/vendor/chart.js/chart.umd.js\"></script>");
 		out.append("  <script src=\"../admin/vendor/echarts/echarts.min.js\"></script>");
+		out.append("  <script src=\"https://cdn.jsdelivr.net/npm/sweetalert2@11\"></script>");
 //		out.append("  <script src=\"../admin/vendor/quill/quill.js\"></script>");
 //		out.append("  <script src=\"../admin/vendor/simple-datatables/simple-datatables.js\"></script>");
 		out.append("  <script src=\"../admin/vendor/tinymce/tinymce.min.js\"></script>");
@@ -56,6 +57,7 @@ public class FooterView extends HttpServlet {
 
 		out.append("  <!-- Template Main JS File -->");
 		out.append("  <script src=\"../admin/js/main.js\"></script>");
+		out.append("  <script src=\"../admin/js/Order.js\"></script>");
 		out.append("</body>");
 
 		out.append("</html>");

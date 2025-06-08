@@ -78,7 +78,7 @@ public class PaymentReport extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-        request.setAttribute("view", "report-order");
+        request.setAttribute("view", "report-payment");
 
         RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
         headerDispatcher.include(request, response);
