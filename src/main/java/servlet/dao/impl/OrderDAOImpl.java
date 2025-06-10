@@ -11,48 +11,7 @@ import java.util.Date;
 
 public class OrderDAOImpl implements OrderDAO {
 
-//    @Override
-//    public List<Order> getAllOrders(int pageNo, int pageSize) {
-//        List<Order> orders = new ArrayList<>();
-//        StringBuilder sql = new StringBuilder();
-//        sql.append("SELECT o.order_id, o.created_at, o.total_price, o.order_status, o.payment_status, o.payment_method, ");
-//        sql.append("u.user_id, u.user_fullname ");
-//        sql.append("FROM orders o JOIN users u ON o.user_id = u.user_id ORDER BY o.created_at DESC ");
-//        sql.append("LIMIT ? OFFSET ?");
-//
-//        try (Connection conn = DataSourceUtil.getConnection();
-//             PreparedStatement ps = conn.prepareStatement(sql.toString())){
-//
-//            int offset = (pageNo - 1) * pageSize;
-//            ps.setInt(1, pageSize);
-//            ps.setInt(2, offset);
-//
-//             try(ResultSet rs = ps.executeQuery()){
-//                while (rs.next()) {
-//                    Order order = new Order();
-//                    order.setOrderId(rs.getInt("order_id"));
-//                    order.setCreatedAt(rs.getTimestamp("created_at"));
-//                    order.setTotalPrice(rs.getFloat("total_price"));
-//                    order.setOrderStatus(rs.getString("order_status"));
-//                    order.setPaymentStatus(rs.getString("payment_status"));
-//                    order.setPaymentMethod(rs.getString("payment_method"));
-//
-//
-//                    User user = new User();
-//                    user.setUserId(rs.getInt("user_id"));
-//                    user.setFullname(rs.getString("user_fullname"));
-//                    order.setUser(user);
-//
-//                    orders.add(order);
-//                }
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return orders;
-//    }
-//
+    private UserDAO userDAO = new UserDAOImpl();
     @Override
     public List<Order> getAllOrders(int pageNo, int pageSize, String priceRange, String orderStatus,
                                     String paymentStatus, String paymentMethod, String orderSort) {
