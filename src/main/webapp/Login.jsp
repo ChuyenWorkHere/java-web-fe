@@ -29,11 +29,11 @@
                     <div class="col-lg-8 offset-lg-2">
                         <div class="basic-login">
                             <h3 class="text-center mb-60">ĐĂNG NHẬP</h3>
-                            <form id="loginForm" action="../">
+                            <form id="loginForm" action="/Furniture/public/customer-login" method="post">
                                 <label for="email">Email <span>**</span></label>
-                                <input id="email" type="text" placeholder="Nhập email..." />
+                                <input id="email" name="username" type="text" placeholder="Nhập email..." />
                                 <label for="password">Mật khẩu <span>**</span></label>
-                                <input id="password" type="password" placeholder="Nhập mật khẩu..." />
+                                <input id="password" name="password" type="password" placeholder="Nhập mật khẩu..." />
                                 <div class="login-action mb-20 fix">
                                     <span class="log-rem f-left">
                                         <input id="remember" type="checkbox" />
@@ -46,8 +46,8 @@
                                 <div id="loginMessage" class="mb-2"></div>
                                 <button type="submit" class="btn theme-btn-2 w-100">Đăng Nhập</button>
                                 <div class="or-divide"><span>or</span></div>
-                                <button class="btn theme-btn w-100">Đăng Ký Ngay</button>
                             </form>
+                            <button class="btn theme-btn w-100">Đăng Ký Ngay</button>
                         </div>
                     </div>
                 </div>

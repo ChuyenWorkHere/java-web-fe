@@ -66,6 +66,43 @@ public class OrdersReportDAOImpl implements OrdersReportDAO {
     }
 
     @Override
+    public int countCreatedAt(int year, int month, int day) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT COUNT(*) FROM orders WHERE YEAR(created_at) = ? ");
+
+        if (month != 0) {
+            sql.append("AND MONTH(created_at) = ? ");
+        }
+        if (day != 0) {
+            sql.append("AND DAY(created_at) = ? ");
+        }
+
+        try(Connection conn = DataSourceUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql.toString())){
+
+            int paramIndex = 1;
+            ps.setInt(paramIndex++, year);
+
+            if (month != 0) {
+                ps.setInt(paramIndex++, month);
+            }
+            if (day != 0) {
+                ps.setInt(paramIndex, day);
+            }
+
+            try(ResultSet rs = ps.executeQuery()){
+                while (rs.next()){
+                    return rs.getInt(1);
+                }
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
     public List<OrderResponse> getMonthlyOrderStatus(int year) {
 
         List<OrderResponse> orderResponses = new ArrayList<>();
