@@ -173,8 +173,11 @@ public class ProductsView extends HttpServlet {
 
 		List<Product> allSearchedProduct = productDAO.findAllBySearchConditions(totalProduct, 1, sortBy, orderBy, keyWord, categoryId, brandId,color, price);
 		int totalProductSearched = allSearchedProduct.size();
-
-		int totalPages = totalProductSearched/size + 1;
+		int totalPages = 1;
+		if(totalProductSearched % size != 0)
+			totalPages = totalProductSearched/size + 1;
+		else
+			totalPages = totalProductSearched/size;
 
 		PrintWriter out = response.getWriter();
 		request.setAttribute("view", "list");

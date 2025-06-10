@@ -1,6 +1,7 @@
 package servlet.dao.impl;
 
 import servlet.dao.OrderDAO;
+import servlet.dao.UserDAO;
 import servlet.models.*;
 import servlet.utils.DataSourceUtil;
 
@@ -10,6 +11,48 @@ import java.util.Date;
 
 public class OrderDAOImpl implements OrderDAO {
 
+//    @Override
+//    public List<Order> getAllOrders(int pageNo, int pageSize) {
+//        List<Order> orders = new ArrayList<>();
+//        StringBuilder sql = new StringBuilder();
+//        sql.append("SELECT o.order_id, o.created_at, o.total_price, o.order_status, o.payment_status, o.payment_method, ");
+//        sql.append("u.user_id, u.user_fullname ");
+//        sql.append("FROM orders o JOIN users u ON o.user_id = u.user_id ORDER BY o.created_at DESC ");
+//        sql.append("LIMIT ? OFFSET ?");
+//
+//        try (Connection conn = DataSourceUtil.getConnection();
+//             PreparedStatement ps = conn.prepareStatement(sql.toString())){
+//
+//            int offset = (pageNo - 1) * pageSize;
+//            ps.setInt(1, pageSize);
+//            ps.setInt(2, offset);
+//
+//             try(ResultSet rs = ps.executeQuery()){
+//                while (rs.next()) {
+//                    Order order = new Order();
+//                    order.setOrderId(rs.getInt("order_id"));
+//                    order.setCreatedAt(rs.getTimestamp("created_at"));
+//                    order.setTotalPrice(rs.getFloat("total_price"));
+//                    order.setOrderStatus(rs.getString("order_status"));
+//                    order.setPaymentStatus(rs.getString("payment_status"));
+//                    order.setPaymentMethod(rs.getString("payment_method"));
+//
+//
+//                    User user = new User();
+//                    user.setUserId(rs.getInt("user_id"));
+//                    user.setFullname(rs.getString("user_fullname"));
+//                    order.setUser(user);
+//
+//                    orders.add(order);
+//                }
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return orders;
+//    }
+//
     @Override
     public List<Order> getAllOrders(int pageNo, int pageSize, String priceRange, String orderStatus,
                                     String paymentStatus, String paymentMethod, String orderSort) {
@@ -284,6 +327,40 @@ public class OrderDAOImpl implements OrderDAO {
         return orders;
     }
 
+    //Đã sửa
+    @Override
+    public List<Order> getOrdersByStatus(String status) {
+        List<Order> orders = new ArrayList<>();
+        String sql = "SELECT o.* FROM orders o WHERE o.order_status = ?";
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, status);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Order order = new Order();
+                    order.setOrderId(rs.getInt("order_id"));
+                    order.setCreatedAt(rs.getTimestamp("created_at"));
+                    order.setTotalPrice(rs.getFloat("total_price"));
+                    order.setOrderStatus(rs.getString("order_status"));
+                    order.setPaymentStatus(rs.getString("payment_status"));
+                    order.setPaymentMethod(rs.getString("payment_method"));
+                    order.setOrderNote(rs.getString("order_note"));
+
+
+                    int userId  = rs.getInt("user_id");
+                    User user = userDAO.findById(userId);
+
+                    order.setUser(user);
+
+                    orders.add(order);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
     @Override
     public boolean updateOrderStatus(int orderId) {
         String sql = "UPDATE orders SET order_status = ? WHERE order_id = ?";
@@ -321,6 +398,43 @@ public class OrderDAOImpl implements OrderDAO {
 
 
         return result;
+    }
+
+    @Override
+    public Order saveOrder(Order order) {
+        String sql = "INSERT INTO orders (total_price, order_status, payment_status, payment_method, created_at, order_note, user_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setDouble(1, order.getTotalPrice());
+            ps.setString(2, order.getOrderStatus());
+            ps.setString(3, order.getPaymentStatus());
+            ps.setString(4, order.getPaymentMethod());
+            ps.setDate(5, new java.sql.Date(order.getCreatedAt().getTime()));
+            ps.setString(6, order.getOrderNote());
+            ps.setInt(7, order.getUser().getUserId());
+
+            try {
+                int row = ps.executeUpdate();
+
+                if (row > 0) {
+                    try (ResultSet rs = ps.getGeneratedKeys()) {
+                        if (rs.next()) {
+                            int generatedId = rs.getInt(1);
+                            order.setOrderId(generatedId);
+                            return order;
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
 

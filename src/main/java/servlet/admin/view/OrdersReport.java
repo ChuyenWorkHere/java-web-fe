@@ -47,7 +47,8 @@ public class OrdersReport extends HttpServlet {
 		out.append("        <ol class=\"breadcrumb  mb-0\">");
 		out.append(
 				"          <li class=\"breadcrumb-item\"><a href=\"index.html\"><i class=\"bi bi-house-fill\"></i></a></li>");
-		out.append("          <li class=\"breadcrumb-item active\">Thống kê</li>");
+		out.append("          <li class=\"breadcrumb-item\">Thống kê</li>");
+		out.append("          <li class=\"breadcrumb-item active\">Đơn hàng</li>");
 		out.append("        </ol>");
 		out.append("      </nav>");
 		out.append("    </div><!-- End Page Title -->");

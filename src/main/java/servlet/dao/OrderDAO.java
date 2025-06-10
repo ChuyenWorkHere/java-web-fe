@@ -28,4 +28,8 @@ public interface OrderDAO {
     boolean updateOrderStatus(int orderId);
 
     List<Map<String, Integer>> orderStatusCount();
+
+    Order saveOrder(Order order);
+
+    List<Order> getOrdersByStatus(String status);
 }
