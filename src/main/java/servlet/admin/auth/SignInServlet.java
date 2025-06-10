@@ -1,5 +1,9 @@
 package servlet.admin.auth;
 
+import servlet.dao.UserDAO;
+import servlet.dao.impl.UserDAOImpl;
+import servlet.models.User;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -149,7 +153,7 @@ public class SignInServlet extends HttpServlet {
 				
 				out.append("  <!-- Template Main JS File -->");
 				out.append("  <script src=\"../admin/js/main.js\"></script>");
-				out.append("  <script src=\"../admin/js/validAuth.js\"></script>");
+//				out.append("  <script src=\"../admin/js/validAuth.js\"></script>");
 				
 				out.append("</body>");
 				
@@ -161,36 +165,23 @@ public class SignInServlet extends HttpServlet {
 		
 		String username = request.getParameter("username").trim();
 		String password = request.getParameter("password").trim();
-//		
-//		if( !"".equalsIgnoreCase(username) && !"".equals(password)) {
-//			System.out.println("1234");
-//			response.sendRedirect("../admin/home-view");
-//		} else {
-//			request.setAttribute("errorMessage", "Tài khoản hoặc mật khẩu không hợp lệ");
-//			doGet(request, response);
-//		}
-		
-		String role = null;
-		if("admin@gmail.com".equals(username) && "Admin123!".equals(password)) {
-			role = "ADMIN";
-		}else if("customer@gmail.com".equals(username) && "Customer123!".equals(password)) {
-			role = "CUSTOMER";
-		}
-		
-		if(role != null) {
+
+		UserDAO userDAO = new UserDAOImpl();
+		User user = userDAO.checkLogin(username, password);
+
+		if (user != null){
 			HttpSession session = request.getSession();
-			session.setAttribute("username", username);
-			session.setAttribute("role", role);
-			if("ADMIN".equals(role)) {
+			session.setAttribute("username", user.getFullname());
+			session.setAttribute("role", user.getRole().getRoleName());
+			if("ADMIN".equals(user.getRole().getRoleName())) {
 				response.sendRedirect("../admin/home-view");
 			}else {
-				response.sendRedirect("../public/home");
+				request.setAttribute("errorMessage", "Không có quyền truy cập");
+				doGet(request, response);
 			}
-		}else {
-			request.setAttribute("errorMessage", "không có quyền truy cập");
+		}else{
+			request.setAttribute("errorMessage", "Tài khoản hoặc mật khẩu không hợp lệ");
 			doGet(request, response);
 		}
-	
 	}
-
 }
