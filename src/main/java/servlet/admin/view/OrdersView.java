@@ -417,5 +417,4 @@ public class OrdersView extends HttpServlet {
 
 		return url;
 	}
-
 }

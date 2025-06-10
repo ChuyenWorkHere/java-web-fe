@@ -94,3 +94,25 @@ window.addEventListener('DOMContentLoaded', () => {
   if (params.endDate) document.getElementById("endDate").value = params.endDate;
 });
 // end nút excel
+
+//$(".deleteIcon").on("click", function () {
+//  Swal.fire({
+//    title: 'Bạn có chắc chắn hehe?',
+//    text: 'Bạn có chắc muốn xoá đơn hàng này không hehe?',
+//    icon: 'warning',
+//    showCancelButton: true,
+//    confirmButtonText: 'Xoá',
+//    cancelButtonText: 'Huỷ',
+//    confirmButtonColor: '#d33',
+//    cancelButtonColor: '#6c757d'
+//  }).then((result) => {
+//    if (result.isConfirmed) {
+//      // Gọi ajax xoá, hoặc thực hiện hành động xoá tại đây
+//      Swal.fire(
+//        'Đã xoá!',
+//        'Đơn hàng đã được xoá thành công hehe.',
+//        'success'
+//      );
+//    }
+//  });
+//});
