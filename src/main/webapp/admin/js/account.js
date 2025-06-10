@@ -48,13 +48,24 @@ var largeModal = document.getElementById('largeModal');
   let currentDeleteId = null;
   let currentItemElement = null;
 
+
+
   // Khi bấm nút xoá
   document.querySelectorAll(".btn-delete").forEach(button => {
     button.addEventListener("click", function () {
       currentDeleteId = this.getAttribute("data-id");
-      currentItemElement = this.closest(".col-xl-3"); 
+      currentItemElement = this.closest(".col-xl-3");
     });
   });
+
+  const smallModal = document.getElementById('smallModal');
+  if (smallModal) {
+    smallModal.addEventListener('show.bs.modal', function (event) {
+      const button = event.relatedTarget;
+      const fullname = button.getAttribute('data-name');
+      smallModal.querySelector('.userFullname').textContent = "Tài Khoản " + fullname;
+    });
+  }
 
   // Khi xác nhận xoá
   document.getElementById("confirmDeleteBtn").addEventListener("click", function () {
@@ -84,7 +95,7 @@ var largeModal = document.getElementById('largeModal');
 			  deleteButton.classList.add("d-none");
 		    }
 		  }
-		
+
         // Hiển thị thông báo
         showToastMessage();
       } else {

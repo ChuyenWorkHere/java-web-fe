@@ -1,7 +1,10 @@
 package servlet.utils;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ProductUtils {
@@ -39,4 +42,24 @@ public class ProductUtils {
         return formatter.format(number);
     }
 
+    // Hàm định dạng tùy theo giờ
+    public static String formatDate(Date date) {
+        // Tách giờ, phút, giây ra để kiểm tra
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
+        int millisecond = calendar.get(Calendar.MILLISECOND);
+
+        // Nếu đúng 00:00:00.0 thì chỉ hiển thị ngày
+        if (hour == 0 && minute == 0 && second == 0 && millisecond == 0) {
+            SimpleDateFormat dateOnlyFormat = new SimpleDateFormat("dd/MM/yyyy");
+            return dateOnlyFormat.format(date);
+        } else {
+            SimpleDateFormat fullFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            return fullFormat.format(date);
+        }
+    }
 }

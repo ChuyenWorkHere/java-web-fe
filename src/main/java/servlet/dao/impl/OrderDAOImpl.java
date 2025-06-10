@@ -14,21 +14,140 @@ public class OrderDAOImpl implements OrderDAO {
     private UserDAO userDAO = new UserDAOImpl();
 
     @Override
-    public List<Order> getAllOrders() {
-        List<Order> orders = new ArrayList<>();
-        String sql = "SELECT o.order_id, o.created_at, o.total_price, o.order_status, " +
-                "u.user_id, u.user_fullname " +
-                "FROM orders o JOIN users u ON o.user_id = u.user_id ORDER BY o.created_at DESC";
-        try (Connection conn = DataSourceUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)){
+//    public List<Order> getAllOrders(int pageNo, int pageSize, String priceRange, String orderStatus,
+//                                    String paymentStatus, String paymentMethod, String orderSort) {
+//        List<Order> orders = new ArrayList<>();
+//        StringBuilder sql = new StringBuilder();
+//        sql.append("SELECT o.order_id, o.created_at, o.total_price, o.order_status, o.payment_status, o.payment_method, ");
+//        sql.append("u.user_id, u.user_fullname ");
+//        sql.append("FROM orders o JOIN users u ON o.user_id = u.user_id ");
+//
+//        if(orderStatus != null || paymentStatus != null || paymentMethod != null ){
+//            sql.append("Where ");
+//        }
+//        if(orderStatus != null){
+//            sql.append("o.order_status = ? ");
+//        }
+//        if(paymentStatus != null){
+//            sql.append("o.payment_status = ? ");
+//        }
+//        if(paymentMethod != null){
+//            sql.append("o.payment_method = ? ");
+//        }
+//        sql.append("ORDER BY ");
+//        if(priceRange != null){
+//            sql.append("o.total_price ?, ");
+//        }
+//        sql.append("created_at ? ");
+//        sql.append("LIMIT ? OFFSET ?");
+//
+//        try (Connection conn = DataSourceUtil.getConnection();
+//             PreparedStatement ps = conn.prepareStatement(sql.toString())){
+//
+//            int index = 1;
+//            int offset = (pageNo - 1) * pageSize;
+//
+//            if(orderStatus != null){
+//                ps.setString(index++, orderStatus);
+//            }
+//            if(paymentStatus != null){
+//               ps.setString(index++, paymentStatus);
+//            }
+//            if(paymentMethod != null){
+//                ps.setString(index++, paymentMethod);
+//            }
+//            if(priceRange != null){
+//                ps.setString(index++, priceRange);
+//            }
+//
+//            ps.setString(index++, "oldest".equals(orderSort) ? "ASC" : "DESC");
+//            ps.setInt(index++, pageSize);
+//            ps.setInt(index, offset);
+//
+//             try(ResultSet rs = ps.executeQuery()){
+//                while (rs.next()) {
+//                    Order order = new Order();
+//                    order.setOrderId(rs.getInt("order_id"));
+//                    order.setCreatedAt(rs.getTimestamp("created_at"));
+//                    order.setTotalPrice(rs.getFloat("total_price"));
+//                    order.setOrderStatus(rs.getString("order_status"));
+//                    order.setPaymentStatus(rs.getString("payment_status"));
+//                    order.setPaymentMethod(rs.getString("payment_method"));
+//
+//
+//                    User user = new User();
+//                    user.setUserId(rs.getInt("user_id"));
+//                    user.setFullname(rs.getString("user_fullname"));
+//                    order.setUser(user);
+//
+//                    orders.add(order);
+//                }
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return orders;
+//    }
 
-             try(ResultSet rs = ps.executeQuery()){
+    public List<Order> getAllOrders(int pageNo, int pageSize, String priceRange, String orderStatus,
+                                    String paymentStatus, String paymentMethod, String orderSort) {
+        List<Order> orders = new ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT o.order_id, o.created_at, o.total_price, o.order_status, o.payment_status, o.payment_method, ");
+        sql.append("u.user_id, u.user_fullname ");
+        sql.append("FROM orders o JOIN users u ON o.user_id = u.user_id ");
+
+        // Xây dựng điều kiện WHERE động
+        List<String> conditions = new ArrayList<>();
+        if (orderStatus != null) conditions.add("o.order_status = ?");
+        if (paymentStatus != null) conditions.add("o.payment_status = ?");
+        if (paymentMethod != null) conditions.add("o.payment_method = ?");
+
+        if (!conditions.isEmpty()) {
+            sql.append("WHERE ");
+            sql.append(String.join(" AND ", conditions));
+            sql.append(" ");
+        }
+
+        // Sắp xếp
+        sql.append("ORDER BY ");
+        if ("asc".equalsIgnoreCase(priceRange)) {
+            sql.append("o.total_price ASC, ");
+        } else if ("desc".equalsIgnoreCase(priceRange)) {
+            sql.append("o.total_price DESC, ");
+        }
+        // Mặc định sắp xếp theo created_at
+        sql.append("o.created_at ");
+        sql.append("oldest".equalsIgnoreCase(orderSort) ? "ASC " : "DESC ");
+
+        // Phân trang
+        sql.append("LIMIT ? OFFSET ?");
+
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+            int index = 1;
+            // Gán giá trị cho các điều kiện lọc
+            if (orderStatus != null) ps.setString(index++, orderStatus);
+            if (paymentStatus != null) ps.setString(index++, paymentStatus);
+            if (paymentMethod != null) ps.setString(index++, paymentMethod);
+
+            // Gán LIMIT và OFFSET
+            int offset = (pageNo - 1) * pageSize;
+            ps.setInt(index++, pageSize);
+            ps.setInt(index, offset);
+
+            // Thực thi truy vấn và lấy kết quả
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Order order = new Order();
                     order.setOrderId(rs.getInt("order_id"));
                     order.setCreatedAt(rs.getTimestamp("created_at"));
                     order.setTotalPrice(rs.getFloat("total_price"));
                     order.setOrderStatus(rs.getString("order_status"));
+                    order.setPaymentStatus(rs.getString("payment_status"));
+                    order.setPaymentMethod(rs.getString("payment_method"));
 
                     User user = new User();
                     user.setUserId(rs.getInt("user_id"));
@@ -40,9 +159,45 @@ public class OrderDAOImpl implements OrderDAO {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace(); // Có thể log lỗi hoặc ném lại exception tuỳ trường hợp
+        }
+
+        return orders;
+    }
+
+
+    @Override
+    public int countAllOrders(String orderStatus, String paymentStatus, String paymentMethod) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select count(*) from orders");
+        List<String> conditions = new ArrayList<>();
+        if (orderStatus != null) conditions.add("o.order_status = ?");
+        if (paymentStatus != null) conditions.add("o.payment_status = ?");
+        if (paymentMethod != null) conditions.add("o.payment_method = ?");
+
+        if (!conditions.isEmpty()) {
+            sql.append("WHERE ");
+            sql.append(String.join(" AND ", conditions));
+            sql.append(" ");
+        }
+        try (
+                Connection connection = DataSourceUtil.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql.toString())
+        ) {
+            int index = 1;
+            if (orderStatus != null) ps.setString(index++, orderStatus);
+            if (paymentStatus != null) ps.setString(index++, paymentStatus);
+            if (paymentMethod != null) ps.setString(index, paymentMethod);
+
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next())
+                    return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return orders;
+        return 0;
     }
 
     @Override
@@ -127,56 +282,81 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public boolean deleteOrder(int orderId) {
-        String sql = "DELETE FROM orders WHERE order_id = ?";
-        try (Connection conn = DataSourceUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, orderId);
-            return ps.executeUpdate() > 0;
+
+        String deleteOrderItemsSql = "DELETE FROM order_items WHERE order_id = ?";
+        String deleteOrderSql = "DELETE FROM orders WHERE order_id = ?";
+
+        try (Connection conn = DataSourceUtil.getConnection()) {
+            // Bắt đầu transaction
+            conn.setAutoCommit(false);
+
+            try (
+                    PreparedStatement psItems = conn.prepareStatement(deleteOrderItemsSql);
+                    PreparedStatement psOrder = conn.prepareStatement(deleteOrderSql)
+            ) {
+                // Xóa các mục trong đơn hàng
+                psItems.setInt(1, orderId);
+                psItems.executeUpdate();
+
+                // Xóa đơn hàng
+                psOrder.setInt(1, orderId);
+                int affectedRows = psOrder.executeUpdate();
+
+                if (affectedRows > 0) {
+                    conn.commit();
+                    return true;
+                } else {
+                    conn.rollback();
+                }
+            } catch (SQLException e) {
+                conn.rollback(); // rollback nếu có lỗi trong quá trình xóa
+                e.printStackTrace();
+            } finally {
+                conn.setAutoCommit(true); // khôi phục trạng thái ban đầu
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return false;
     }
 
     @Override
-    public boolean updateOrderStatus(int orderId, String newStatus) {
-        String sql = "UPDATE orders SET order_status = ? WHERE order_id = ?";
-        try (Connection conn = DataSourceUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, newStatus);
-            ps.setInt(2, orderId);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    @Override
-    public List<Order> getOrdersByPriceRange(double minPrice, double maxPrice) {
+    public List<Order> getAllOrdersByDate(String startDate, String endDate) {
         List<Order> orders = new ArrayList<>();
-        String sql = "SELECT o.*, u.user_id, u.username, u.email FROM orders o JOIN users u ON o.user_id = u.user_id WHERE o.total_price BETWEEN ? AND ?";
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT o.order_id, o.created_at, o.total_price, o.order_status, o.payment_status, o.payment_method, ");
+        sql.append("u.user_id, u.user_fullname ");
+        sql.append("FROM orders o JOIN users u ON o.user_id = u.user_id ");
+        sql.append("WHERE o.created_at BETWEEN ? AND ? ");
+        sql.append("ORDER BY o.created_at DESC");
+
         try (Connection conn = DataSourceUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setDouble(1, minPrice);
-            ps.setDouble(2, maxPrice);
-            try (ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = conn.prepareStatement(sql.toString())){
+
+            ps.setString(1, startDate);
+            ps.setString(2, endDate);
+
+            try(ResultSet rs = ps.executeQuery()){
                 while (rs.next()) {
                     Order order = new Order();
                     order.setOrderId(rs.getInt("order_id"));
                     order.setCreatedAt(rs.getTimestamp("created_at"));
                     order.setTotalPrice(rs.getFloat("total_price"));
                     order.setOrderStatus(rs.getString("order_status"));
+                    order.setPaymentStatus(rs.getString("payment_status"));
+                    order.setPaymentMethod(rs.getString("payment_method"));
 
                     User user = new User();
                     user.setUserId(rs.getInt("user_id"));
-
-                    user.setEmail(rs.getString("email"));
+                    user.setFullname(rs.getString("user_fullname"));
                     order.setUser(user);
 
                     orders.add(order);
                 }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -218,95 +398,20 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public List<Order> getOrdersByPaymentMethod(String paymentMethod) {
-        List<Order> orders = new ArrayList<>();
-        String sql = "SELECT o.*, u.user_id, u.username, u.email FROM orders o JOIN users u ON o.user_id = u.user_id WHERE o.payment_method = ?";
+    public boolean updateOrderStatus(int orderId) {
+        String sql = "UPDATE orders SET order_status = ? WHERE order_id = ?";
         try (Connection conn = DataSourceUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, paymentMethod);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Order order = new Order();
-                    order.setOrderId(rs.getInt("order_id"));
-                    order.setCreatedAt(rs.getTimestamp("created_at"));
-                    order.setTotalPrice(rs.getFloat("total_price"));
-                    order.setOrderStatus(rs.getString("order_status"));
-
-                    User user = new User();
-                    user.setUserId(rs.getInt("user_id"));
-
-                    user.setEmail(rs.getString("email"));
-                    order.setUser(user);
-
-                    orders.add(order);
-                }
-            }
+            ps.setString(1, "SHIPPED");
+            ps.setInt(2, orderId);
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return orders;
+        return false;
     }
 
-    @Override
-    public List<Order> getOrdersByDateRange(Date fromDate, Date toDate) {
-        List<Order> orders = new ArrayList<>();
-        String sql = "SELECT o.*, u.user_id, u.username, u.email FROM orders o JOIN users u ON o.user_id = u.user_id WHERE o.created_at BETWEEN ? AND ?";
-        try (Connection conn = DataSourceUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setTimestamp(1, new Timestamp(fromDate.getTime()));
-            ps.setTimestamp(2, new Timestamp(toDate.getTime()));
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Order order = new Order();
-                    order.setOrderId(rs.getInt("order_id"));
-                    order.setCreatedAt(rs.getTimestamp("created_at"));
-                    order.setTotalPrice(rs.getFloat("total_price"));
-                    order.setOrderStatus(rs.getString("order_status"));
 
-                    User user = new User();
-                    user.setUserId(rs.getInt("user_id"));
-
-                    user.setEmail(rs.getString("email"));
-                    order.setUser(user);
-
-                    orders.add(order);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return orders;
-    }
-
-    @Override
-    public List<Order> getOrdersByUserId(int userId) {
-        List<Order> orders = new ArrayList<>();
-        String sql = "SELECT o.*, u.user_id, u.username, u.email FROM orders o JOIN users u ON o.user_id = u.user_id WHERE u.user_id = ?";
-        try (Connection conn = DataSourceUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, userId);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Order order = new Order();
-                    order.setOrderId(rs.getInt("order_id"));
-                    order.setCreatedAt(rs.getTimestamp("created_at"));
-                    order.setTotalPrice(rs.getFloat("total_price"));
-                    order.setOrderStatus(rs.getString("order_status"));
-
-                    User user = new User();
-                    user.setUserId(rs.getInt("user_id"));
-
-                    user.setEmail(rs.getString("email"));
-                    order.setUser(user);
-
-                    orders.add(order);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return orders;
-    }
 
     @Override
     public List<Map<String, Integer>> orderStatusCount() {
