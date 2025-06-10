@@ -156,7 +156,9 @@ public class EditProduct extends HttpServlet {
                 }
                 boolean isDeleted = FileUtil.deleteImages(absolutePaths);
             } else {
-                product.setProductImageUrl(existedProduct.getProductImageUrl());
+                String oldImgUrls = ProductUtils.toUrlStr(existedProduct.getProductImageUrl());
+                String colorsString = String.join("||", colors);
+                product.setProductImageUrl(oldImgUrls + "**" + colorsString);
             }
 
             // Tạo đối tượng Category và Brand

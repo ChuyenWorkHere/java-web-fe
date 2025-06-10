@@ -1,74 +1,99 @@
 package test;
 
+import servlet.dao.*;
+import servlet.dao.impl.*;
+import servlet.models.Order;
+import servlet.models.OrderItem;
+import servlet.models.Product;
+import servlet.models.User;
+
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-
-import servlet.dao.OrdersReportDAO;
-import servlet.dao.UserDAO;
-import servlet.dao.impl.OrdersReportDAOImpl;
-import servlet.dao.impl.UserDAOImpl;
-import servlet.models.Category;
-import servlet.models.Order;
-import servlet.response.OrderResponse;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Test {
 
 	public static void main(String[] args) {
 		UserDAO userDAO = new UserDAOImpl();
-		
-//		User user = userDAO.findById(2);
-//		List<User> user2 = userDAO.findByName("E");
-//		List<User> user2 = userDAO.findByStatus("Tạm ngừng");
-//		for(User u : user2) {
-//			System.out.println("thông tin user: " + u.toString());
+		OrderDAO orderDAO = new OrderDAOImpl();
+		OrderItemsDAO orderItemsDAO = new OrderItemsDAOImpl();
+
+//		//Giả lập user id
+//		List<Integer> userId = new ArrayList<>();
+//		for(int i=1; i <= 42; i++){
+//			userId.add(i);
 //		}
-		
-//		boolean a = userDAO.deleteById(2);
-//		System.out.println(a);
-		
-//		String pass = BCrypt.hashpw("123456", BCrypt.gensalt());
-//		System.out.println(pass);
-		
-//		User user = userDAO.checkLogin("nguyenvana@example.com", "123456");
-//		System.out.println(user.toString());
-//		boolean a = userDAO.updateLoginCount(user.getUserId());
-//		int b = userDAO.countAllUsers();
-//		System.out.println("b: " + b);
-//		List<User> users = userDAO.findByName("n", 1, 12);
-//		int a = userDAO.countUserByStatus("active");
-//		System.out.println("a: " + a);
-//		OrderDAO orderDAO = new OrderDAOImpl();
 //
-//		List<Order> orders = orderDAO.getAllOrders();
-//		for(Order o : orders){
-//			System.out.println(o.toString());
+//		//Gỉa lập product id
+//		List<Integer> productId = new ArrayList<>();
+//		for(int i=6; i<=29; i++){
+//			productId.add(i);
 //		}
-
-//		Order order = new Order();
-//		System.out.println("orderId = " + order.getOrderId());
-//		Order order = orderDAO.getOrderDetailByOrderId(1);
-//		System.out.println("order = " + order);
-
-		OrdersReportDAO ordersReport = new OrdersReportDAOImpl();
-
 //
-//		LocalDate today = LocalDate.now();
-//		int year = today.getYear();
-//		int month = today.getMonthValue();
-//		int month = 5;
-//		int day = today.getDayOfMonth();
-//		int day = 0;
-//		System.out.println("year: " + year);
-//		System.out.println("month: " + month);
-//		System.out.println("day: " + day);
-
-
-//		List<Order> orders = ordersReport.findByCreatedAt(year, month, day, 1, 5);
-//		for(Order order : orders){
-//			System.out.println("order: " + order);
+//		//Gỉa lập price
+//		List<Integer> price = new ArrayList<>();
+//		for(int i=10; i<=20; i++){
+//			price.add(i);
 //		}
+//
+//		//Gải lập status
+//		List<String> orderStatus = List.of("PENDING","SHIPPED","DELIVERED","CANCELLED");
+//
+//		//Gỉa lập payment status
+//		List<String> paymentStatus = List.of("PAID","UNPAID");
+//
+//		//Gỉa lập payment method
+//		List<String> paymentMethod = List.of("CREDIT_CARD","CASH_ON_DELIVERY", "BANK_TRANSFER");
+//
+//		//Order note
+//		List<String> orderNote = List.of("Giao hàng nhanh","Gói cẩn thận", "Giao trong giờ hành chính", "Giao hàng thành công");
+//
+//		//Random date
+//		LocalDate startDate = LocalDate.of(2023, 1, 1);
+//		LocalDate endDate = LocalDate.of(2025, 12, 31);
+//
+//
+//		for(int i = 100; i< 150; i++) {
+//			Order order = new Order();
+//
+//			order.setTotalPrice(price.get(ThreadLocalRandom.current().nextInt(0,  price.size())) * 1_000_000);
+//			order.setOrderStatus(orderStatus.get(ThreadLocalRandom.current().nextInt(0,  orderStatus.size())));
+//			order.setPaymentMethod(paymentMethod.get(ThreadLocalRandom.current().nextInt(0,  paymentMethod.size())));
+//			order.setPaymentStatus(paymentStatus.get(ThreadLocalRandom.current().nextInt(0,  paymentStatus.size())));
+//			order.setCreatedAt(getRandomDate(startDate, endDate));
+//			order.setOrderNote(orderNote.get(ThreadLocalRandom.current().nextInt(0,  orderNote.size())));
+//			User user = new User();
+//			user.setUserId( userId.get(ThreadLocalRandom.current().nextInt(0,  userId.size())));
+//			order.setUser(user);
+//
+//			order = orderDAO.saveOrder(order);
+//
+//			List<OrderItem> orderItems = new ArrayList<>();
+//			for(int j = 0; j< 10; j++) {
+//				OrderItem item = new OrderItem();
+//				item.setOrderQuantity(price.get(ThreadLocalRandom.current().nextInt(0,  price.size())));
+//				item.setOrderPrice(price.get(ThreadLocalRandom.current().nextInt(0,  price.size())) * 50_000);
+//				item.setOrder(order);
+//				Product product = new Product();
+//				product.setProductId(productId.get(ThreadLocalRandom.current().nextInt(0, productId.size())));
+//				item.setProduct(product);
+//
+//				orderItems.add(item);
+//			}
+//			orderItemsDAO.saveOrderItems(orderItems);
+//		}
+		SalesDAO salesDAO = new SalesDAOImpl();
+		System.out.println(salesDAO.reportChartBuilder(6, 2025));
+	}
 
+	public static java.util.Date getRandomDate(LocalDate start, LocalDate end) {
+		long days = ChronoUnit.DAYS.between(start, end);
+		long randomDays = ThreadLocalRandom.current().nextLong(days + 1);
+		return Date.valueOf(start.plusDays(randomDays));
 	}
 
 }

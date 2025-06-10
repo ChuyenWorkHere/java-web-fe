@@ -11,7 +11,7 @@ public class OrderItem {
 
     private int orderItemId;
     private int orderQuantity;
-    private float orderPrice;
+    private double orderPrice;
     private Order order;
     private Product product;
 }

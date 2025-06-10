@@ -71,10 +71,10 @@ public class SidebarView extends HttpServlet {
 				combination.put("report", "collapse show");
 				show.put("order", "active");
 				break;
-			case "report-payment":
+			case "report-category":
 				collapse.put("report", "");
 				combination.put("report", "collapse show");
-				show.put("payment", "active");
+				show.put("category", "active");
 				break;
 			default:
 				break;
@@ -151,8 +151,8 @@ public class SidebarView extends HttpServlet {
 		out.append("            </a>");
 		out.append("          </li>");
 		out.append("          <li>");
-		out.append("            <a class = \" "+ show.getOrDefault("payment", "") +" \" href=\"/Furniture/admin/payment-report\">");
-		out.append("                <i class=\"bi bi-credit-card\"></i><span>Thanh toán</span>");
+		out.append("            <a class = \" "+ show.getOrDefault("category", "") +" \" href=\"/Furniture/admin/sales-report\">");
+		out.append("                <i class=\"bi bi-currency-dollar\"></i><span>Doanh Thu</span>");
 		out.append("            </a>");
 		out.append("          </li>");
 		out.append("        </ul>");
