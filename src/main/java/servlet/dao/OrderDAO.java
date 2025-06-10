@@ -33,4 +33,6 @@ public interface OrderDAO {
     List<Order> getOrdersByUserId(int userId);
 
     List<Map<String, Integer>> orderStatusCount();
+
+    Order saveOrder(Order order);
 }

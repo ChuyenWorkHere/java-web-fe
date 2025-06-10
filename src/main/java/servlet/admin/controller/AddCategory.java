@@ -43,7 +43,7 @@ public class AddCategory extends HttpServlet {
         category.setIsActive(isActive);
 
 
-        boolean isSucess = categoryDAO.addCategory(category);
+        boolean isSucess = categoryDAO.saveCategory(category);
         if(isSucess) {
             resp.sendRedirect("../categories-view?title=category&action=add&noti=success");
         } else {

@@ -13,7 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 public class Order {
     private int orderId;
-    private float totalPrice;
+    private double totalPrice;
     private String orderStatus;
     private String paymentStatus;
     private String paymentMethod;

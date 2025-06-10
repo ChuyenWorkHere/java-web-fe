@@ -472,7 +472,7 @@ public class HomeView extends HttpServlet {
 	    out.append("    </section>");
 	    out.append("");
 	    out.append("  </main><!-- End #main -->");
-		out.append("  <script src=\"../admin/js/account.js\"></script>");
+
 		
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);

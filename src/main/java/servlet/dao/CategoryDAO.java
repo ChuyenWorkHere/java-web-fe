@@ -8,7 +8,7 @@ public interface CategoryDAO {
 	Category findById(int id);
 	List<Category> findAllActiveCategories(int pageSize, int pageNumber, String orderBy, String sortBy);
 	List<Category> findAll(int pageSize, int pageNumber, String orderBy, String sortBy, String keyWord, int active);
-	boolean addCategory(Category category);
+	boolean saveCategory(Category category);
 	boolean editCategory(int categoryId, Category category);
 	boolean deleteCategory(int categoryId);
 	int categoryCounter();

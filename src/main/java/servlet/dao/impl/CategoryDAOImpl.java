@@ -126,7 +126,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	}
 
 	@Override
-	public boolean addCategory(Category category) {
+	public boolean saveCategory(Category category) {
 		String sql = "INSERT INTO categories (category_name, category_description, is_active) VALUES (?,?,?) ";
 		try (Connection conn = DataSourceUtil.getConnection();
 			 PreparedStatement ps = conn.prepareStatement(sql)) {
