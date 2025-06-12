@@ -25,4 +25,7 @@ public interface UserDAO {
 
     // lấy 6 tài khoản mới tạo
     List<User> findLatestRegisteredAccount();
+
+    //kích hoạt lại tài khoản
+    boolean restoreById(int userId);
 }

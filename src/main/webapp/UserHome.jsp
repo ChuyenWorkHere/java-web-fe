@@ -129,11 +129,11 @@
                                                 <div class="product-wrapper mb-50">
                                                     <div class="product-img mb-25">
                                                         <a href="product-details.html">
-                                                            <img src="../user/../user/img/product/pro1.jpg" alt="">
-                                                            <img class="secondary-img" src="../user/../user/img/product/pro2.jpg" alt="">
+                                                            <img src="../user/img/product/pro1.jpg" alt="">
+                                                            <img class="secondary-img" src="../user/img/product/pro2.jpg" alt="">
                                                         </a>
                                                         <div class="product-action text-center">
-                                                            <a href="#" title="Shoppingb Cart">
+                                                            <a href="/Furniture/customer/add-to-cart?productId=6" title="Thêm vào giỏ hàng">
                                                                 <i class="flaticon-shopping-cart"></i>
                                                             </a>
                                                             <a href="#" title="Quick View">
