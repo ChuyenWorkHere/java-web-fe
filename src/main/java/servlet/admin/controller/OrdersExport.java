@@ -30,6 +30,8 @@ public class OrdersExport extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        //Lấy tham số ngày
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
 
@@ -42,8 +44,10 @@ public class OrdersExport extends HttpServlet {
         List<Order> orders = null;
 
         try {
+            //Gọi OrderDAO để lấy danh sách đơn hàng trong khoảng ngày đó
             orders = orderDAO.getAllOrdersByDate(startDate, endDate);
 
+            //Tạo workbook Excel bằng thư viện Apache POI
             Workbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("Orders");
 
@@ -87,7 +91,7 @@ public class OrdersExport extends HttpServlet {
                 sheet.autoSizeColumn(i);
             }
 
-            // Thiết lập response headers để trình duyệt tải file
+            // Trả về file Excel cho trình duyệt
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setHeader("Content-Disposition", "attachment; filename=orders.xlsx");
 

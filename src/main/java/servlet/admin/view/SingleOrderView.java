@@ -116,9 +116,9 @@ public class SingleOrderView extends HttpServlet {
 		accountModalDispatcher.include(request, response);
 
 		out.append("                <h3 class=\"fs-custom text-dark fw-bold mb-3\">Thông tin nhận hàng</h3>");
-		out.append("                <p class=\"fs-6\">Tên người nhận: "+order.getShippingAddress().getFullname()+"</p>");
-		out.append("                <p class=\"fs-6\">SĐT người nhận: "+order.getShippingAddress().getPhoneNumber()+"</p>");
-		out.append("                <p class=\"fs-6\">Địa chỉ: "+order.getShippingAddress().getAddress()+"</p>");
+		out.append("                <p class=\"fs-6\">Tên người nhận: "+order.getUser().getFullname()+"</p>");
+		out.append("                <p class=\"fs-6\">SĐT người nhận: "+order.getUser().getPhoneNumber()+"</p>");
+		out.append("                <p class=\"fs-6\">Địa chỉ: "+order.getUser().getAddress()+"</p>");
 		out.append("              </div>");
 		out.append("              <div class=\"col-md-4\">");
 		out.append("                <h3 class=\"fs-custom text-dark fw-bold mb-3\">Chi tiết hoá đơn</h3>");
@@ -144,7 +144,16 @@ public class SingleOrderView extends HttpServlet {
 
 		for(OrderItem orderItem : order.getOrderItems()){
 			out.append("                  <tr>");
-			out.append("                    <td class=\"align-middle\"><img src=\""+orderItem.getProduct().getProductImageUrl()+"\" class=\"product-img\" alt=\"\"></td>");
+			String firstImage = "/uploads/1ad2543b-8147-479f-9e0e-15c55e4f2723.jpg";
+			String imageString = orderItem.getProduct().getProductImageUrl();
+			if (imageString != null && !imageString.trim().isEmpty()) {
+				String[] images = imageString.split("\\|\\|");
+				if (images.length > 0 && images[0] != null && !images[0].trim().isEmpty()) {
+					firstImage = images[0].trim();
+				}
+			}
+			String imagePath = request.getContextPath() + firstImage;
+			out.println("<td class=\"align-middle\"><img src=\"" + imagePath + "\" class=\"product-img\" alt=\"\"></td>");
 			out.append("                    <td class=\"align-middle\">" +
 					"<a href=\"../admin/product-detail-view?pId="+orderItem.getProduct().getProductId()+"\"");
 			out.append("                        class=\"text-success text-decoration-none hover-primary\">");

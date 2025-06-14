@@ -1887,7 +1887,11 @@ hr.custom-hr {
       color: inherit;
     }
 
-
-
+    /* Notifycation-payment */
+    .notification-payment{
+        background-color: #b6e0f7;
+        border: 1px solid #019df1;
+        padding: 10px 0;
+    }
 
 

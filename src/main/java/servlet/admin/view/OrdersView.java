@@ -22,22 +22,22 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/admin/orders-view")
 public class OrdersView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    
-    public OrdersView() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	
+
+	public OrdersView() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");		 
-		
+		response.setCharacterEncoding("UTF-8");
+
 		PrintWriter out = response.getWriter();
 		request.setAttribute("view", "order");
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
-	    headerDispatcher.include(request, response);
+		headerDispatcher.include(request, response);
 
 		String pageNo = request.getParameter("pageNo");
 		int currentPage = pageNo != null ? Integer.parseInt(pageNo) : 1;
@@ -57,7 +57,7 @@ public class OrdersView extends HttpServlet {
 				ordersStatus, paymentStatus, paymentMethod) / 12);
 
 		out.append("\"<main id=\"main\" class=\"main\">");
-		
+
 		out.append("    <div class=\"pagetitle\">");
 		out.append("      <nav>");
 		out.append("        <ol class=\"breadcrumb\">");
@@ -66,18 +66,18 @@ public class OrdersView extends HttpServlet {
 		out.append("        </ol>");
 		out.append("      </nav>");
 		out.append("    </div><!-- End Page Title -->");
-		
+
 		out.append("    <section class=\"section\">");
 		out.append("      <div class=\"row\">");
 		out.append("        <div class=\"col-lg-12\">");
-		
+
 		out.append("          <div class=\"card mb-3\">");
 		out.append("            <div class=\"card-body\">");
 		out.append("              <div class=\"d-flex align-items-center mt-2 mb-3 filter-label\">");
 		out.append("                <i class=\"bi bi-funnel-fill me-2\"></i>");
 		out.append("                <span>BỘ LỌC</span>");
 		out.append("              </div>");
-		
+
 		out.append("              <form id=\"orderFilterForm\" class=\"container\">");
 		out.append("                <div class=\"row g-3 align-items-end\">");
 		out.append("                  <!-- Khoảng giá -->");
@@ -89,7 +89,7 @@ public class OrdersView extends HttpServlet {
 		out.append("                      <option value=\"DESC\">Giảm dần</option>");
 		out.append("                    </select>");
 		out.append("                  </div>");
-		
+
 		out.append("                  <!-- Trạng thái -->");
 		out.append("                  <div class=\"col-md-2\">");
 		out.append("                    <label for=\"ordersStatus\" class=\"form-label\">Trạng thái</label>");
@@ -122,7 +122,7 @@ public class OrdersView extends HttpServlet {
 		out.append("                      <option value=\"CREDIT_CARD\">Thẻ tín dụng</option>");
 		out.append("                    </select>");
 		out.append("                  </div>");
-		
+
 		out.append("                  <!-- Sắp xếp -->");
 		out.append("                  <div class=\"col-md-2\">");
 		out.append("                    <label for=\"orderSort\" class=\"form-label\">Đơn đặt hàng</label>");
@@ -131,7 +131,7 @@ public class OrdersView extends HttpServlet {
 		out.append("                      <option value=\"oldest\">Cũ nhất</option>");
 		out.append("                    </select>");
 		out.append("                  </div>");
-		
+
 		out.append("                  <!-- Nút lọc -->");
 		out.append("                  <div class=\"col-md-1\">");
 //		out.append("                    <a href=\"" +
@@ -139,10 +139,10 @@ public class OrdersView extends HttpServlet {
 //				+ "\" class=\"btn btn-primary mt-3 w-100\">Lọc</a");
 		out.append("                    <button type=\"button\" class=\"btn btn-primary mt-3 w-100\" onclick=\"applyOrderFilter()\">Lọc</button>");
 		out.append("                  </div>");
-		
+
 		out.append("                </div>");
 		out.append("              </form>");
-		
+
 		out.append("              <!-- Tổng quan số lượng đơn hàng -->");
 		out.append("              <div class=\"my-4\">");
 		out.append("                <h5 class=\"my-3 fw-bold\">Tổng quan đơn hàng</h5>");
@@ -191,14 +191,14 @@ public class OrdersView extends HttpServlet {
 		out.append("                </div>");
 		out.append("              </div>");
 		out.append("            </div>");
-		
+
 		out.append("          </div>");
-		
+
 		out.append("          <div class=\"card\">");
 		out.append("            <div class=\"card-body\">");
-		
+
 		out.append("              <div class=\"table-responsive\">");
-		
+
 		out.append("                <!-- Table with stripped rows -->");
 		out.append("                <table class=\"table table-striped datatable table-hover\">");
 		out.append("                  <thead>");
@@ -209,8 +209,8 @@ public class OrdersView extends HttpServlet {
 		out.append("                      <th>Khách hàng</th>");
 		out.append("                      <th data-type=\"date\" data-format=\"YYYY/DD/MM\">Thời gian</th>");
 		out.append("                      <th>Tổng tiền</th>");
-		out.append("                      <th>Trạng thái TT</th>");
 		out.append("                      <th>Phương thức TT</th>");
+		out.append("                      <th>Trạng thái TT</th>");
 		out.append("                      <th>Trạng thái</th>");
 		out.append("                      <th>Chức năng</th>");
 		out.append("                    </tr>");
@@ -227,7 +227,7 @@ public class OrdersView extends HttpServlet {
 					("CREDIT_CARD".equals(order.getPaymentMethod()) ? "Thẻ tín dụng"
 							: ("CASH_ON_DELIVERY".equals(order.getPaymentMethod())
 							? "Thanh toán khi giao hàng" : "Chuyển khoản"))
-					 +"</td>");
+					+"</td>");
 			out.append("                      <td class=\"align-middle\">"+
 					("PAID".equals(order.getPaymentStatus()) ? "Đã thanh toán" : "Chưa thanh toán")
 					+"</td>");
@@ -263,22 +263,21 @@ public class OrdersView extends HttpServlet {
 			out.append("                      </td>");
 			out.append("                    </tr>");
 		}
-		
+
 		out.append("                  </tbody>");
 		out.append("                </table>");
 		out.append("                <!-- End Table with stripped rows -->");
-		
+
 		out.append("              </div>");
 
-		out.append("              <div class=\"d-flex justify-content-between align-items-center mt-3\">");
+		out.append("              <div class=\"d-flex align-items-center mt-3\">");
 
 		out.append("                <!-- Nút Xuất dữ liệu -->");
 
 		out.append("  <div class=\"filter dropdown\">");
 		out.append("    <a class=\"icon btn btn-primary\" data-bs-toggle=\"dropdown\">");
-		out.append("      <i class=\"bi bi-download me-2\"></i> Xuất Excel");
+		out.append("      <i class=\"bi bi-download\"></i> Xuất Excel");
 		out.append("    </a>");
-
 		out.append("    <div class=\"dropdown-menu dropdown-menu-end p-4 shadow\" data-bs-auto-close=\"outside\" style=\"min-width: 350px;\">");
 
 		out.append("      <h6 class=\"fw-bold mb-3\">Chọn thời gian</h6>");
@@ -297,13 +296,50 @@ public class OrdersView extends HttpServlet {
 
 		out.append("        <a id=\"dateSubmit\" class=\"btn btn-primary w-100 mt-2\" href=\"#\" onclick=\"submitDateRange()\">Xuất Excel</a>");
 
+
 		out.append("      </div>");
 
 		out.append("    </div>");
 		out.append("  </div>");
 
+
+
+		out.append("                <!-- Nút Xuất dữ liệu PDF -->");
+
+		out.append("  <div class=\"filter dropdown ms-3\">");
+		out.append("    <a class=\"icon btn btn-primary\" data-bs-toggle=\"dropdown\">");
+		out.append("      <i class=\"bi bi-download\"></i> Xuất PDF");
+		out.append("    </a>");
+		out.append("    <div class=\"dropdown-menu dropdown-menu-end p-4 shadow\" data-bs-auto-close=\"outside\" style=\"min-width: 350px;\">");
+
+		out.append("      <h6 class=\"fw-bold mb-3\">Chọn thời gian</h6>");
+
+		out.append("      <div id=\"monthFilterGroup\" class=\"mb-3\">");
+
+		out.append("        <div class=\"mb-3\">");
+		out.append("          <label for=\"startDatePdf\" class=\"form-label\">Ngày bắt đầu</label>");
+		out.append("          <input type=\"date\" class=\"form-control\" id=\"startDatePdf\">");
+		out.append("        </div>");
+
+		out.append("        <div class=\"mb-3\">");
+		out.append("          <label for=\"endDatePdf\" class=\"form-label\">Ngày kết thúc</label>");
+		out.append("          <input type=\"date\" class=\"form-control\" id=\"endDatePdf\">");
+		out.append("        </div>");
+
+		out.append("        <a id=\"dateSubmitPdf\" class=\"btn btn-primary w-100 mt-2\" href=\"#\" onclick=\"submitDateRangePdf()\">Xuất PDF</a>");
+
+		out.append("      </div>");
+
+		out.append("    </div>");
+		out.append("  </div>");
+
+
+
+
+		out.append("                <a id=\"trashview\" class=\"btn btn-secondary mx-3\" href=\"../admin/trash-view\">Thùng rác</a>");
+
 		out.append("                <!-- Pagination with icons -->");
-		out.append("<nav aria-label=\"Page navigation example\" class=\"mt-4 d-flex justify-content-center order-3 order-md-3\">");
+		out.append("<nav aria-label=\"Page navigation example\" class=\"ms-auto mt-4 d-flex justify-content-center order-3 order-md-3\">");
 		out.append("  <ul class=\"pagination\">");
 
 		String statusLink = null;
@@ -365,19 +401,36 @@ public class OrdersView extends HttpServlet {
 		out.append("        </div>");
 		out.append("      </div>");
 		out.append("    </section>");
-		out.append("    <!-- thông báo -->");
-
-		out.append("    <!-- end thông báo -->");
 		out.append("  </main><!-- End #main -->");
 		out.append("  <script src=\"../admin/js/jquery.js\"></script>");
+		out.append("  <script src=\"../admin/js/Order.js\"></script>");
 		out.append("  <script src=\"https://code.jquery.com/jquery-3.6.0.min.js\"></script>");
-		
+		out.append("  <script>");
+		out.println("function submitDateRangePdf() {");
+		out.println("    var startDate = document.getElementById(\"startDatePdf\").value;");
+		out.println("    var endDate = document.getElementById(\"endDatePdf\").value;");
+		out.println("");
+		out.println("    // Kiểm tra xem người dùng đã nhập ngày chưa");
+		out.println("    if (!startDate || !endDate) {");
+		out.println("        alert(\"Vui lòng chọn cả ngày bắt đầu và ngày kết thúc.\");");
+		out.println("        return;");
+		out.println("    }");
+		out.println("");
+		out.println("    // Tạo URL để gửi yêu cầu đến servlet");
+		out.println("    var url = '" + request.getContextPath() + "/admin/ExportPdfServlet?startDate=' + startDate + '&endDate=' + endDate;");
+		out.println("");
+		out.println("    // Chuyển hướng đến URL để xuất PDF");
+		out.println("    window.location.href = url;");
+		out.println("}");
+		out.println("");
+		out.append("  </script>");
+
 
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);
 	}
 
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
@@ -417,4 +470,6 @@ public class OrdersView extends HttpServlet {
 
 		return url;
 	}
+
 }
+
