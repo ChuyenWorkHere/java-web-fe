@@ -107,10 +107,48 @@ var largeModal = document.getElementById('largeModal');
       alert("Đã xảy ra lỗi.");
     });
   });
-  
+
   /*end delete user*/
   
 
-  
+  /*start restore user*/
+      document.querySelectorAll('.btn-restore').forEach(btn => {
+          btn.addEventListener('click', function () {
+              const userName = this.getAttribute('data-name');
+              const userId = this.getAttribute('data-id');
+
+              document.querySelector('#smallModalRestore .userFullname').textContent = userName;
+              document.getElementById('confirmRestoreBtn').setAttribute('data-id', userId);
+          });
+      });
+
+      // Xử lý khi xác nhận kích hoạt
+      document.getElementById('confirmRestoreBtn').addEventListener('click', function () {
+          const userId = this.getAttribute('data-id');
+
+          // Gửi request đến Servlet
+          fetch('../admin/account-restore', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              body: 'userId=' + encodeURIComponent(userId)
+          })
+          .then(response => {
+              if (response.ok) {
+                  // Xử lý thành công
+                  console.log('Kích hoạt thành công userId: ', userId);
+                  location.reload(); // Hoặc cập nhật UI nếu không muốn reload
+              } else {
+                  console.error('Kích hoạt thất bại');
+              }
+          })
+          .catch(error => {
+              console.error('Lỗi khi gửi request: ', error);
+          });
+      });
+
+
+  /*end restore user*/
  
   

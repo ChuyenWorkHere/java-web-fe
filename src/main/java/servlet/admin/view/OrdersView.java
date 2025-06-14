@@ -134,9 +134,6 @@ public class OrdersView extends HttpServlet {
 
 		out.append("                  <!-- Nút lọc -->");
 		out.append("                  <div class=\"col-md-1\">");
-//		out.append("                    <a href=\"" +
-//				getPageUrl(1, priceRange, ordersStatus, paymentStatus, paymentMethod, orderSort)
-//				+ "\" class=\"btn btn-primary mt-3 w-100\">Lọc</a");
 		out.append("                    <button type=\"button\" class=\"btn btn-primary mt-3 w-100\" onclick=\"applyOrderFilter()\">Lọc</button>");
 		out.append("                  </div>");
 

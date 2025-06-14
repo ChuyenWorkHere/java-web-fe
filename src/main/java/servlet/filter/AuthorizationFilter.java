@@ -61,13 +61,12 @@ public class AuthorizationFilter implements Filter {
 				chain.doFilter(request, response);
 				return;
 			} else {
-				httpResponse.sendRedirect(contextPath + "/public/signin");
+				httpResponse.sendRedirect(contextPath + "/public/login");
 				return;
 			}
 		}
 
 		chain.doFilter(request, response);
-
 	}
 
 }

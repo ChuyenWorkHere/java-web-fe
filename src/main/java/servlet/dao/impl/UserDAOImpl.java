@@ -15,10 +15,10 @@ import java.util.List;
 import javax.management.relation.Role;
 
 import org.mindrot.jbcrypt.BCrypt;
+import servlet.utils.PasswordUtils;
 
 public class UserDAOImpl implements UserDAO {
-	
-	
+
     @Override
     public User findById(int userId) {
     	 String sql = "SELECT * FROM users WHERE user_id = ?";
@@ -37,74 +37,6 @@ public class UserDAOImpl implements UserDAO {
          return null;
     }
 
-    @Override
-    public List<User> findByName(String name, int page, int pageSize) {
-        String sql = "SELECT * FROM users WHERE user_fullname LIKE ? LIMIT ? OFFSET ?";
-        List<User> users = new ArrayList<>();
-
-        try (Connection conn = DataSourceUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-             
-            int offset = (page - 1) * pageSize;
-
-            ps.setString(1, "%" + name + "%");
-            ps.setInt(2, pageSize);
-            ps.setInt(3, offset);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    User user = mapRowToUser(rs);
-                    users.add(user);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return users;
-    }
-    
-    @Override
-    public List<User> findByStatus(String status, int page, int pageSize) {
-        List<User> users = new ArrayList<>();
-        String sql;
-
-        boolean isAll = "all".equals(status);
-        if (isAll) {
-            sql = "SELECT * FROM users WHERE role_id = ? LIMIT ? OFFSET ?";
-        } else {
-            sql = "SELECT * FROM users WHERE role_id = ? AND user_isactive = ? LIMIT ? OFFSET ?";
-        }
-
-        try (Connection conn = DataSourceUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            int offset = (page - 1) * pageSize;
-            ps.setInt(1, 2); 
-
-            if (isAll) {
-                ps.setInt(2, pageSize);
-                ps.setInt(3, offset);
-            } else {
-                int statusValue = "active".equals(status) ? 1 : 0;
-                ps.setInt(2, statusValue);
-                ps.setInt(3, pageSize);
-                ps.setInt(4, offset);
-            }
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    users.add(mapRowToUser(rs));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return users;
-    }
-
-
-
 	@Override
 	public boolean deleteById(int userId) {
 		 String sql = "update users set user_isactive = ? WHERE user_id = ?";
@@ -118,7 +50,7 @@ public class UserDAOImpl implements UserDAO {
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
-	        return false;
+        return false;
 	}
 
 	@Override
@@ -153,8 +85,8 @@ public class UserDAOImpl implements UserDAO {
 
 	        try (ResultSet rs = ps.executeQuery()) {
 	            if (rs.next()) {
-	                String hashedPassword = rs.getString("password"); 
-	                if (BCrypt.checkpw(password, hashedPassword)) {
+	                String hashedPassword = rs.getString("password");
+	                if (PasswordUtils.checkPassword(password, hashedPassword)) {
 	                	User user = mapRowToUser(rs);
 	                	String roleName = rs.getString("role_name");
 	                	user.getRole().setRoleName(roleName);
@@ -167,80 +99,93 @@ public class UserDAOImpl implements UserDAO {
 	    }
 	    return null;
 	}
-	
-	public List<User> findAllPage(int page, int pageSize) {
-	    List<User> users = new ArrayList<>();
-	    String sql = "SELECT * FROM users WHERE role_id = ? LIMIT ? OFFSET ?";
-	    
-	    try (
-	        Connection connection = DataSourceUtil.getConnection();
-	        PreparedStatement ps = connection.prepareStatement(sql)
-	    ) {
-	        int offset = (page - 1) * pageSize;
-	        
-	        ps.setInt(1, 2); 
-	        ps.setInt(2, pageSize); 
-	        ps.setInt(3, offset);   
-	        
-	        try (ResultSet rs = ps.executeQuery()) {
-	            while (rs.next()) {
-	                User user = mapRowToUser(rs);
-	                users.add(user);
-	            }
-	        }
-	        
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return users;
-	}
 
     @Override
-    public int countAllUsers() {
-        String sql = "select count(*) from users";
+    public List<User> findAllPage(int page, int pageSize, String keyWord, String status, String dir, String orderBy) {
+        List<User> users = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT * FROM users WHERE role_id = 2 ");
+
+        if (keyWord != null && !keyWord.trim().isEmpty()) {
+            sql.append("AND user_fullname LIKE ? ");
+        }
+
+        if (status != null && !"all".equalsIgnoreCase(status)) {
+            sql.append("AND user_isactive = ? ");
+        }
+
+        if("user_isactive".equalsIgnoreCase(orderBy)){
+            sql.append("ORDER BY user_isactive ");
+        }else {
+            sql.append("ORDER BY user_fullname ");
+        }
+
+        if ("DESC".equalsIgnoreCase(dir)){
+            sql.append("DESC ");
+        }else {
+            sql.append("ASC ");
+        }
+
+        sql.append("LIMIT ? OFFSET ?");
+
         try (
                 Connection connection = DataSourceUtil.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql)
+                PreparedStatement ps = connection.prepareStatement(sql.toString())
         ) {
-            try(ResultSet rs = ps.executeQuery()){
-                if(rs.next())
-                    return rs.getInt(1);
+            int index = 1;
+
+            if (keyWord != null && !keyWord.trim().isEmpty()) ps.setString(index++, "%" +keyWord.trim()+ "%");
+            if (status != null && !"all".equalsIgnoreCase(status)) {
+                int statusValue = "active".equals(status) ? 1 : 0;
+                ps.setInt(index++, statusValue);
+            }
+
+            int offset = (page - 1) * pageSize;
+            ps.setInt(index++, pageSize);
+            ps.setInt(index, offset);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    User user = mapRowToUser(rs);
+                    users.add(user);
+                }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+
+        return users;
     }
 
     @Override
-    public int countUserByName(String name) {
-        String sql = "select count(*) from users where user_fullname like ?";
-        try (
-                Connection connection = DataSourceUtil.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql)
-        ) {
-            ps.setString(1, "%" + name + "%");
-            try(ResultSet rs = ps.executeQuery()){
-                if(rs.next())
-                    return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public int countAllUsers(String keyWord, String status) {
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT COUNT(*) FROM users WHERE role_id = 2 ");
+
+        if (keyWord != null && !keyWord.trim().isEmpty()) {
+            sql.append("AND user_fullname LIKE ? ");
         }
-        return 0;
-    }
 
-    @Override
-    public int countUserByStatus(String status) {
-        String sql = "select count(*) from users where user_isactive = ?";
+        if (status != null && !"all".equalsIgnoreCase(status)) {
+            sql.append("AND user_isactive = ? ");
+        }
+
         try (
                 Connection connection = DataSourceUtil.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql)
+                PreparedStatement ps = connection.prepareStatement(sql.toString())
         ) {
-            int isActive = status.equals("active") ? 1 : 0;
-            ps.setInt(1, isActive);
+            int index = 1;
+
+            if(keyWord != null && !keyWord.isEmpty()) ps.setString(index++, "%" + keyWord.trim() + "%");
+
+            if (status != null && !"all".equalsIgnoreCase(status)) {
+                int statusValue = "active".equals(status) ? 1 : 0;
+                ps.setInt(index, statusValue);
+            }
+
             try(ResultSet rs = ps.executeQuery()){
                 if(rs.next())
                     return rs.getInt(1);
@@ -272,6 +217,21 @@ public class UserDAOImpl implements UserDAO {
         return users;
     }
 
+    @Override
+    public boolean restoreById(int userId) {
+        String sql = "update users set user_isactive = ? WHERE user_id = ?";
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, 1);
+            ps.setInt(2, userId);
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     private User mapRowToUser(ResultSet rs) throws SQLException{
 		User user = new User();
@@ -296,8 +256,4 @@ public class UserDAOImpl implements UserDAO {
         return user;
 	}
 
-	
-
-
-	
 }

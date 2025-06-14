@@ -3,11 +3,15 @@ package servlet.admin.view;
 import servlet.dao.OrdersReportDAO;
 import servlet.dao.impl.OrdersReportDAOImpl;
 import servlet.models.Order;
+import servlet.models.User;
 import servlet.response.OrderResponse;
+import servlet.response.UserReportResponse;
+import servlet.utils.ProductUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.*;
 
 import javax.servlet.RequestDispatcher;
@@ -37,6 +41,9 @@ public class OrdersReport extends HttpServlet {
 
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
 		headerDispatcher.include(request, response);
+		/*them thu vien*/
+		out.append("<script src=\"https://html2canvas.hertzen.com/dist/html2canvas.min.js\"></script>");
+		/*them thu vien*/
 
 		out.append("<main id=\"main\" class=\"main\">");
 
@@ -63,16 +70,64 @@ public class OrdersReport extends HttpServlet {
 		out.append("            <div class=\"col-12\">");
 		out.append("              <div class=\"card\">");
 
+		/*--------------line chart------------------*/
+
 		orderLineChart(request, response);
 
-		out.append("              </div>");
-		out.append("            </div><!-- End Reports -->");
-		out.append("          </div>");
-		out.append("        </div><!-- End Left side columns -->");
+		/* start nut xuat du lieu*/
+		LocalDate localDate = LocalDate.now();
+		int currentYear = localDate.getYear();
+
+		out.append("  <div class=\"dropdown\">");
+		out.append("    <a class=\"btn btn-primary dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\">");
+		out.append("      <i class=\"bi bi-download me-2\"></i> Xuất PDF");
+		out.append("    </a>");
+		out.append("    <div class=\"dropdown-menu p-4 shadow\" style=\"min-width: 350px;\">");
+		out.append("      <h6 class=\"fw-bold mb-3\">Lọc theo</h6>");
+		out.append("      <div class=\"d-flex align-items-center mb-3 gap-3\">");
+		out.append("        <div class=\"form-check\">");
+		out.append("          <input class=\"form-check-input\" type=\"radio\" name=\"pdfExportMode\" id=\"pdfExportYear\" value=\"year\" checked onclick=\"togglePdfExportMode()\">");
+		out.append("          <label class=\"form-check-label\" for=\"pdfExportYear\">Năm</label>");
+		out.append("        </div>");
+		out.append("        <div class=\"form-check\">");
+		out.append("          <input class=\"form-check-input\" type=\"radio\" name=\"pdfExportMode\" id=\"pdfExportMonth\" value=\"month\" onclick=\"togglePdfExportMode()\">");
+		out.append("          <label class=\"form-check-label\" for=\"pdfExportMonth\">Tháng</label>");
+		out.append("        </div>");
 		out.append("      </div>");
-		out.append("      <div class=\"row\">");
+		out.append("      <div id=\"pdfExportYearGroup\" class=\"mb-3\">");
+		out.append("        <select class=\"form-select\" id=\"pdfExportYearSelect\">");
+		for (int year = currentYear; year >= 2015; year--) {
+			out.append("          <option value=\"" + year + "\">" + year + "</option>");
+		}
+		out.append("        </select>");
+		out.append("        <a class=\"btn btn-primary w-100 mt-2\" href=\"#\" onclick=\"submitPdfExportYear()\">Xuất PDF</a>");
+		out.append("      </div>");
+		out.append("      <div id=\"pdfExportMonthGroup\" class=\"mb-3\" style=\"display: none;\">");
+		out.append("        <div class=\"d-flex gap-2 mb-2\">");
+		out.append("          <select class=\"form-select\" id=\"pdfExportMonthYearSelect\">");
+		for (int year = currentYear; year >= 2015; year--) {
+			out.append("            <option value=\"" + year + "\">" + year + "</option>");
+		}
+		out.append("          </select>");
+		out.append("          <select class=\"form-select\" id=\"pdfExportMonthSelect\" style=\"min-width: 102px;\">");
+		for (int m = 1; m <= 12; m++) {
+			out.append("            <option value=\"" + m + "\">Tháng " + m + "</option>");
+		}
+		out.append("          </select>");
+		out.append("        </div>");
+		out.append("        <a class=\"btn btn-primary w-100 mt-2\" href=\"#\" onclick=\"submitPdfExportMonth()\">Xuất PDF</a>");
+		out.append("      </div>");
+		out.append("    </div>");
+		out.append("  </div>");
+
+		/* end nut xuat du lieu*/
+		out.append("  </div>");
+		/*end them thong bao top*/
+
+		/*--------------line chart------------------*/
+
 		out.append("        <!-- Recent Sales -->");
-		out.append("        <div class=\"col-lg-8\">");
+		out.append("        <div class=\"col-lg-4\">");
 		out.append("          <div class=\"card recent-sales overflow-auto\">");
 
 		out.append("            <div class=\"filter\">");
@@ -93,7 +148,6 @@ public class OrdersReport extends HttpServlet {
 
 		out.append("          </div>");
 		out.append("        </div><!-- End Recent Sales -->");
-
 		out.append("      </div>");
 		out.append("    </section>");
 
@@ -116,15 +170,13 @@ public class OrdersReport extends HttpServlet {
 
 		ordersReportDAO = new OrdersReportDAOImpl();
 
+		/*---------------start filter dropdown------------*/
 		out.append("  <div class=\"filter dropdown\">");
 		out.append("    <a class=\"icon\" data-bs-toggle=\"dropdown\">");
 		out.append("      <i class=\"bi bi-three-dots\"></i>");
 		out.append("    </a>");
-
 		out.append("    <div class=\"dropdown-menu dropdown-menu-end p-4 shadow\" data-bs-auto-close=\"outside\" style=\"min-width: 350px;\">");
-
 		out.append("      <h6 class=\"fw-bold mb-3\">Lọc theo</h6>");
-
 		out.append("      <div class=\"d-flex align-items-center mb-3 gap-3\">");
 		out.append("        <div class=\"form-check\">");
 		out.append("          <input class=\"form-check-input\" type=\"radio\" name=\"filterMode\" id=\"filterYear\" value=\"year\" checked onclick=\"toggleFilterMode()\">");
@@ -140,22 +192,24 @@ public class OrdersReport extends HttpServlet {
 		int currentYear = localDate.getYear();
 
 		out.append("      <div id=\"yearFilterGroup\" class=\"mb-3\">");
-		out.append("        <select class=\"form-select\" id=\"yearSelectOnly\">");
+		out.append("        <select class=\"form-select\" id=\"filterYearSelect\">");
+//		out.append("        <select class=\"form-select\" id=\"yearSelectOnly\">");
 		for (int year = currentYear; year >= 2015; year--) {
 			out.append("          <option value=\"" + year + "\">" + year + "</option>");
 		}
 		out.append("        </select>");
 		out.append("        <a id=\"yearSubmit\" class=\"btn btn-primary w-100 mt-2\" href=\"#\" onclick=\"submitYear()\">Xem kết quả</a>");
 		out.append("      </div>");
-
 		out.append("      <div id=\"monthFilterGroup\" class=\"mb-3\" style=\"display: none;\">");
 		out.append("        <div class=\"d-flex gap-2 mb-2\">");
-		out.append("          <select class=\"form-select\" id=\"monthYearSelect\">");
+		out.append("          <select class=\"form-select\" id=\"filterMonthYearSelect\">");
+//		out.append("          <select class=\"form-select\" id=\"monthYearSelect\">");
 		for (int year = currentYear; year >= 2015; year--) {
 			out.append("            <option value=\"" + year + "\">" + year + "</option>");
 		}
 		out.append("          </select>");
-		out.append("          <select class=\"form-select\" id=\"monthSelect\" style=\"min-width: 102px;\">");
+		out.append("          <select class=\"form-select\" id=\"filterMonthSelect\" style=\"min-width: 102px;\">");
+//		out.append("          <select class=\"form-select\" id=\"monthSelect\" style=\"min-width: 102px;\">");
 		for (int m = 1; m <= 12; m++) {
 			out.append("            <option value=\"" + m + "\">Tháng " + m + "</option>");
 		}
@@ -163,35 +217,32 @@ public class OrdersReport extends HttpServlet {
 		out.append("        </div>");
 		out.append("        <a id=\"monthSubmit\" class=\"btn btn-primary w-100 mt-2\" href=\"#\" onclick=\"submitMonth()\">Xem kết quả</a>");
 		out.append("      </div>");
-
 		out.append("    </div>");
 		out.append("  </div>");
+		/*---------------end filter dropdown------------*/
 
 		List<OrderResponse> orderResponseList;
 		List<String> data = new ArrayList<>();
 		List<Integer> successData = new ArrayList<>();
 		List<Integer> cancelData = new ArrayList<>();
 
+		int currentMonth = LocalDate.now().getMonthValue();
+		int currentDay = LocalDate.now().getDayOfMonth();
+
 		String yearParam = request.getParameter("year");
 		int year = (yearParam == null) ? currentYear : Integer.parseInt(yearParam);
 		String monthParam = request.getParameter("month");
 
-// Dùng TreeSet để tự động sắp xếp tăng dần
-		Set<Integer> timeUnits = new TreeSet<>();
-
-// Lưu dữ liệu đếm theo thời gian và trạng thái
 		Map<Integer, Integer> deliveredMap = new HashMap<>();
 		Map<Integer, Integer> cancelledMap = new HashMap<>();
 
 		if (monthParam != null) {
-			// THỐNG KÊ THEO NGÀY TRONG THÁNG
+			// ===== Thống kê theo ngày trong tháng =====
 			int month = Integer.parseInt(monthParam);
 			orderResponseList = ordersReportDAO.getDaylyOrderStatus(year, month);
 
 			for (OrderResponse order : orderResponseList) {
-				int day = order.getDay(); // ngày trong tháng
-				timeUnits.add(day);
-
+				int day = order.getDay();
 				if ("DELIVERED".equals(order.getOrderStatus())) {
 					deliveredMap.put(day, order.getTotal());
 				} else if ("CANCELLED".equals(order.getOrderStatus())) {
@@ -199,20 +250,27 @@ public class OrdersReport extends HttpServlet {
 				}
 			}
 
-			for (int day : timeUnits) {
+			int lastDay;
+			if (year < currentYear || (year == currentYear && month < currentMonth)) {
+				// Lấy toàn bộ ngày trong tháng đó
+				lastDay = YearMonth.of(year, month).lengthOfMonth();
+			} else {
+				// Chỉ lấy đến ngày hiện tại
+				lastDay = currentDay;
+			}
+
+			for (int day = 1; day <= lastDay; day++) {
 				data.add("\"" + day + "\"");
 				successData.add(deliveredMap.getOrDefault(day, 0));
 				cancelData.add(cancelledMap.getOrDefault(day, 0));
 			}
 
 		} else {
-			// THỐNG KÊ THEO THÁNG TRONG NĂM
+			// ===== Thống kê theo tháng trong năm =====
 			orderResponseList = ordersReportDAO.getMonthlyOrderStatus(year);
 
 			for (OrderResponse order : orderResponseList) {
-				int month = order.getMonth(); // tháng trong năm
-				timeUnits.add(month);
-
+				int month = order.getMonth();
 				if ("DELIVERED".equals(order.getOrderStatus())) {
 					deliveredMap.put(month, order.getTotal());
 				} else if ("CANCELLED".equals(order.getOrderStatus())) {
@@ -220,18 +278,34 @@ public class OrdersReport extends HttpServlet {
 				}
 			}
 
-			for (int month : timeUnits) {
+			int lastMonth = (year < currentYear) ? 12 : currentMonth;
+
+			for (int month = 1; month <= lastMonth; month++) {
 				data.add("\"Tháng " + month + "\"");
 				successData.add(deliveredMap.getOrDefault(month, 0));
 				cancelData.add(cancelledMap.getOrDefault(month, 0));
 			}
 		}
 
-//		String data = "[\"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\", \"10\", \"11\", \"12\", \"13\", \"14\", \"15\", \"16\", \"17\", \"18\", \"19\", \"20\", \"21\", \"22\", \"23\", \"24\", \"25\", \"26\", \"27\", \"28\", \"29\", \"30\", \"31\"]";
-//
-//		String successData = "[3, 5, 2, 6, 8, 4, 7, 3, 6, 5, 7, 8, 4, 6, 5, 3, 4, 6, 8, 7, 6, 4, 5, 7, 6, 4, 3, 5, 6, 7, 6]";
-//
-//		String cancelData = "[1, 0, 2, 1, 1, 0, 2, 1, 0, 1, 2, 1, 0, 1, 0, 2, 1, 0, 1, 0, 2, 1, 0, 1, 2, 1, 0, 1, 0, 2, 1]";
+		double cancelMean = calculateMean(cancelData);
+		double cancelStdDev = calculateStdDev(cancelData);
+		List<Integer> highCancelIndexes = new ArrayList<>();
+		List<String> anomalyDetails = new ArrayList<>();
+
+		for (int i = 0; i < cancelData.size(); i++) {
+			int cancelCount = cancelData.get(i);
+			if (cancelCount > cancelMean + 2 * cancelStdDev) {
+				highCancelIndexes.add(i);
+
+				String label = monthParam != null
+						? "Ngày " + (i + 1)
+						: "Tháng " + (i + 1);
+
+				anomalyDetails.add(label + " có " + String.format("%.3f", (double) cancelCount) + " đơn hàng bị huỷ, vượt quá ngưỡng bất thường.\n"
+						+ "(Trung bình: " + String.format("%.3f", cancelMean) + ", Độ lệch chuẩn: " + String.format("%.3f", cancelStdDev)
+						+ ", Ngưỡng: " + String.format("%.3f", cancelMean + 2 * cancelStdDev) + ")");
+			}
+		}
 
 		if(orderResponseList.isEmpty()){
 			out.append("  <div class=\"card-body\">");
@@ -274,18 +348,113 @@ public class OrdersReport extends HttpServlet {
 			out.append("                        },");
 			out.append("                        options: {");
 			out.append("                          scales: {");
+			out.append("                            x: {");
+			out.append("                              display: true,");
+			out.append("                              title: {");
+			out.append("                                display: true,");
+			out.append("                                text: \""+(monthParam != null ? "Ngày" : "Tháng")+"\"");
+			out.append("                              }");
+			out.append("                            },");
 			out.append("                            y: {");
-			out.append("                              beginAtZero: true");
+			out.append("                              display: true,");
+			out.append("                              title: {");
+			out.append("                                display: true,");
+			out.append("                                text: \"Số lượng\"");
+			out.append("                              },");
+			out.append("                              ticks: {");
+			out.append("                                beginAtZero: true");
+			out.append("                              }");
 			out.append("                            }");
 			out.append("                          }");
 			out.append("                        }");
+
+
 			out.append("                      });");
 			out.append("                    });");
 			out.append("                  </script>");
 			out.append("                  <!-- End Line CHart -->");
 
+			if (!highCancelIndexes.isEmpty()) {
+				out.append("<div class='alert alert-danger mt-3'>");
+				out.append("<strong>Cảnh báo:</strong> Có ");
+				out.append(String.valueOf(highCancelIndexes.size()));
+				out.append(" ");
+				out.append((monthParam != null ? "ngày" : "tháng"));
+				out.append(" có số đơn hàng bị hủy cao bất thường. Hãy kiểm tra lý do.");
+				out.append("<ul>");
+				for (String detail : anomalyDetails) {
+					out.append("<li>").append(detail).append("</li>");
+				}
+				out.append("</ul>");
+				out.append("</div>");
+			}
+
 			out.append("                </div>");
 		}
+		/*-------------------- Thong bao top nguoi mua/huy -------------------*/
+		if(monthParam != null){
+			int month = Integer.parseInt(monthParam);
+			generateTopUserSection(request, response, year, month);
+		}else{
+			generateTopUserSection(request, response, year, 0);
+		}
+
+	}
+
+	private void generateTopUserSection(HttpServletRequest request, HttpServletResponse response,
+										int year, Integer month) throws ServletException, IOException{
+
+		List<UserReportResponse> completedResults = ordersReportDAO.getTopBuyers(year, month, 8);
+		List<UserReportResponse> canceledResults = ordersReportDAO.getTopCancellers(year, month, 8);
+
+		PrintWriter out = response.getWriter();
+		out.append("              </div>");
+		out.append("            </div><!-- End Reports -->");
+		out.append("          </div>");
+		out.append("        </div><!-- End Left side columns -->");
+		out.append("      </div>");
+
+		out.append("      <div class=\"row\">");
+		/* them thong bao top*/
+		out.append("        <div class=\"col-lg-8\">");
+		out.append("<!-- Top Users Section -->");
+		out.append("<div class=\"row\">");
+
+		// Cột trái - Top Người Mua
+		out.append("  <div class=\"col-12 col-md-6 col-lg-6 mb-4\">");
+		out.append("    <div class=\"card h-100\">");
+		out.append("      <div class=\"card-body\">");
+		out.append("        <h5 class=\"card-title\">Top Người Mua</h5>");
+		out.append("        <ul class=\"list-group\">");
+		for (UserReportResponse com : completedResults){
+			out.append("          <li class=\"list-group-item d-flex justify-content-between align-items-center\">");
+			out.append("            "+ com.getFullname() +" <span class=\"badge bg-success rounded-pill\">"
+					+com.getTotalOrders()+" đơn - "+ ProductUtils.formatNumber(com.getTotalAmount()) +"đ</span>");
+			out.append("          </li>");
+		}
+
+		out.append("        </ul>");
+		out.append("      </div>");
+		out.append("    </div>");
+		out.append("  </div>");
+
+		// Cột phải - Top Người Huỷ
+		out.append("  <div class=\"col-12 col-md-6 col-lg-6 mb-4\">");
+		out.append("    <div class=\"card h-100\">");
+		out.append("      <div class=\"card-body\">");
+		out.append("        <h5 class=\"card-title\">Top Người Huỷ</h5>");
+		out.append("        <ul class=\"list-group\">");
+		for (UserReportResponse can : canceledResults){
+			out.append("          <li class=\"list-group-item d-flex justify-content-between align-items-center\">");
+			out.append("            "+ can.getFullname() +" <span class=\"badge bg-danger rounded-pill\">"
+					+can.getTotalOrders()+" đơn - "+ ProductUtils.formatNumber(can.getTotalAmount()) +"đ</span>");
+			out.append("          </li>");
+		}
+		out.append("        </ul>");
+		out.append("      </div>");
+		out.append("    </div>");
+		out.append("  </div>");
+		out.append("</div>");
 	}
 
 	protected void notification(HttpServletRequest request, HttpServletResponse response)
@@ -293,6 +462,11 @@ public class OrdersReport extends HttpServlet {
 
 		String timeFilter = request.getParameter("timeFilter");
 		timeFilter = timeFilter == null ? "today" : timeFilter;
+
+		String pageNo = request.getParameter("pageNo");
+		int currentPage = 1;
+		if (pageNo != null)
+			currentPage = Integer.parseInt(pageNo);
 
 		LocalDate today = LocalDate.now();
 		int year = today.getYear();
@@ -308,7 +482,8 @@ public class OrdersReport extends HttpServlet {
 		}
 
 		ordersReportDAO = new OrdersReportDAOImpl();
-		List<Order> orders = ordersReportDAO.findByCreatedAt(year, month, day, 1, 5);
+		List<Order> orders = ordersReportDAO.findByCreatedAt(year, month, day, currentPage, 5);
+		int pageNumbers = (int) Math.ceil((double) ordersReportDAO.countCreatedAt(year, month, day) / 5);
 
 		PrintWriter out = response.getWriter();
 
@@ -362,26 +537,103 @@ public class OrdersReport extends HttpServlet {
 			}
 
 			out.append("              <!-- Pagination with icons -->");
-			out.append("              <nav aria-label=\"Page navigation example\" class=\"d-flex justify-content-end\">");
-			out.append("                <ul class=\"pagination\">");
-			out.append("                  <li class=\"page-item\">");
-			out.append("                    <a class=\"page-link\" href=\"#\" aria-label=\"Previous\">");
-			out.append("                      <span aria-hidden=\"true\">&laquo;</span>");
-			out.append("                    </a>");
-			out.append("                  </li>");
-			out.append("                  <li class=\"page-item\"><a class=\"page-link\" href=\"#\">1</a></li>");
-			out.append("                  <li class=\"page-item\"><a class=\"page-link\" href=\"#\">2</a></li>");
-			out.append("                  <li class=\"page-item\"><a class=\"page-link\" href=\"#\">3</a></li>");
-			out.append("                  <li class=\"page-item\">");
-			out.append("                    <a class=\"page-link\" href=\"#\" aria-label=\"Next\">");
-			out.append("                      <span aria-hidden=\"true\">&raquo;</span>");
-			out.append("                    </a>");
-			out.append("                  </li>");
-			out.append("                </ul>");
-			out.append("              </nav><!-- End Pagination with icons -->");
+
+			out.append("<nav aria-label=\"Page navigation example\" class=\"mt-4 d-flex justify-content-center order-3 order-md-3\">");
+			out.append("  <ul class=\"pagination\">");
+
+			String statusLink = null;
+			String status = "";
+			String keyword = "";
+// Previous button
+			if (currentPage > 1) {
+				out.append("    <li class=\"page-item\">");
+//			out.append("      <a class=\"page-link\" href=\"" + getPageUrl(currentPage - 1, statusLink, keyword, status) + "\" aria-label=\"Previous\">");
+				out.append("      <a class=\"page-link\" href=\"" +
+						getPageUrl(currentPage - 1, timeFilter)
+						+ "\" aria-label=\"Previous\">");
+				out.append("        <span aria-hidden=\"true\">&laquo;</span>");
+				out.append("      </a>");
+				out.append("    </li>");
+			}
+
+// Always show page 1
+			out.append(createPageItem(1, currentPage, timeFilter));
+// Add ... after page 1 if needed
+			if (currentPage > 3) {
+				out.append("    <li class=\"page-item disabled\"><a class=\"page-link\">...</a></li>");
+			}
+
+// Show current page if it's not 1 or last
+			if (currentPage != 1 && currentPage != pageNumbers) {
+				out.append(createPageItem(currentPage, currentPage, timeFilter));
+			}
+
+// Add ... before last page if needed
+			if (currentPage < pageNumbers - 2) {
+				out.append("    <li class=\"page-item disabled\"><a class=\"page-link\">...</a></li>");
+			}
+
+// Always show last page if more than 1 page
+			if (pageNumbers > 1) {
+				out.append(createPageItem(pageNumbers, currentPage, timeFilter));
+			}
+
+// Next button
+			if (currentPage < pageNumbers) {
+				out.append("    <li class=\"page-item\">");
+				out.append("      <a class=\"page-link\" href=\"" +
+						getPageUrl(currentPage + 1, timeFilter)
+						+ "\" aria-label=\"Next\">");
+				out.append("        <span aria-hidden=\"true\">&raquo;</span>");
+				out.append("      </a>");
+				out.append("    </li>");
+			}
+
+			out.append("  </ul>");
+			out.append("</nav>");
+
+
 			out.append("            </div>");
 		}
 
 	}
 
+	private String createPageItem(int page, int currentPage, String timeFilter) {
+		StringBuilder item = new StringBuilder();
+		item.append("    <li class=\"page-item " + (page == currentPage ? "active" : "") + "\">");
+		item.append("      <a class=\"page-link\" href=\"" +
+				getPageUrl(page, timeFilter) + "\">"
+				+ page + "</a>");
+
+		item.append("    </li>");
+		return item.toString();
+	}
+
+	private String getPageUrl(int pageNo, String timeFilter){
+		String url = "../admin/orders-report?pageNo=" + pageNo;
+		url += "&timeFilter=" + timeFilter;
+		return url;
+	}
+
+	/* phát hện sự bất thường trong biểu đồ */
+	// tính trung bình
+	public static double calculateMean(List<Integer> data) {
+		double sum = 0;
+		for (int val : data) {
+			sum += val;
+		}
+		return sum / data.size();
+	}
+
+	//tính độ lệch chuẩn
+	public static double calculateStdDev(List<Integer> data) {
+		double mean = calculateMean(data);
+		double sumSquaredDiffs = 0;
+		for (int val : data) {
+			sumSquaredDiffs += Math.pow(val - mean, 2);
+		}
+		return Math.sqrt(sumSquaredDiffs / data.size());
+	}
+
+	/* phát hện sự bất thường trong biểu đồ */
 }

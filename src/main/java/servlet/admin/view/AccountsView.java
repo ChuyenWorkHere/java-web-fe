@@ -36,21 +36,19 @@ public class AccountsView extends HttpServlet {
 		request.setAttribute("view", "account");
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
 	    headerDispatcher.include(request, response);
-	    
-	    List<User> users = (List<User>) request.getAttribute("users");
-	    String status = (String) request.getAttribute("status");
-	    if(status == null)
-	    	status = "all";
-
-		//lấy keyword
-		String keyword = (String) request.getAttribute("keyword");
-
-		//lấy trạng thái url request
-		String statusLink = (String) request.getAttribute("statusLink");
 
 		//lấy thông tin trang được chọn
 		int currentPage = 1;
 		String pageNo = request.getParameter("pageNo");
+
+		/*sua */
+
+		String keyword = request.getParameter("keyword");
+		String status = request.getParameter("status");
+		String dir = request.getParameter("dir");
+		String orderBy = request.getParameter("orderBy");
+
+		/*sua*/
 
 		if (pageNo != null){
 			currentPage = Integer.parseInt(pageNo);
@@ -64,11 +62,10 @@ public class AccountsView extends HttpServlet {
 			pageNumbers = pages;
 		}
 
-		if (users == null) {
-	        UserDAO userDAO = new UserDAOImpl();
-	        users = userDAO.findAllPage(currentPage, 12);
-			pageNumbers = (int) Math.ceil((double) userDAO.countAllUsers() / 12);
-	    }
+		UserDAO userDAO = new UserDAOImpl();
+		List<User> users = userDAO.findAllPage(currentPage, 12, keyword, status, dir, orderBy);
+		pageNumbers = (int) Math.ceil((double) userDAO.countAllUsers(keyword, status) / 12);
+
 
 	    out.append("<main id=\"main\" class=\"main\">");
 	    out.append("    <div class=\"pagetitle d-flex justify-content-between\">");
@@ -115,51 +112,71 @@ public class AccountsView extends HttpServlet {
 			    .append("data-status='" + user.isActive() + "'>")
 			    .append("<i class='bi bi-eye'></i>")
 			    .append("</button>");
-		    if(user.isActive()) {
-				out.append("<button class='btn btn-danger btn-delete' data-bs-toggle='modal' ");
-				out.append("data-bs-target='#smallModal' data-id='" + user.getUserId() + "' ");
+			if(user.isActive()) {
+				out.append("<button class='btn btn-danger btn-delete' ");
+				out.append("data-bs-toggle='modal' data-bs-target='#smallModal' ");
+				out.append("data-id='" + user.getUserId() + "' ");
 				out.append("data-name='" + user.getFullname() + "'>");
 				out.append("<i class='bi bi-trash'></i></button>");
-
+			} else {
+				out.append("<button class='btn btn-success btn-restore' ");
+				out.append("data-bs-toggle='modal' data-bs-target='#smallModalRestore' ");
+				out.append("data-id='" + user.getUserId() + "' ");
+				out.append("data-name='" + user.getFullname() + "'>");
+				out.append("<i class='bi bi-arrow-clockwise'></i></button>");
 			}
 
-		    out.append("                    </div>");
+
+			out.append("                    </div>");
 		    out.append("                  </div>");
 		    out.append("                </div>");
 		    out.append("              </div>");
 		    out.append("            </div>");
 	    }
-	    
 	    out.append("          </div>");
 	    out.append("        </div>");
+
 	    out.append("        <div class=\"col-md-3 mt-4 order-1 order-md-2\">");
 	    out.append("          <div class=\"row card py-2\" style=\" position: sticky; top: 100px;\">");
 	    out.append("            <div class=\"container py-4 d-flex flex-column align-items-start gap-3\" style=\"max-width: 320px;\">");
-	    
-	    out.append("<form method=\"get\" action=\"../admin/search-user\">");
-	    out.append("  <div class=\"d-flex align-items-center col-12\">");
-	    out.append("    <input type=\"text\" id=\"searchInput\" name=\"keyword\" placeholder=\"Tên người dùng...\" class=\"w-100 py-2 px-3 form-control custom-box-shadow\">");
-	    out.append("    <button type=\"submit\" class=\"btn btn-link p-0\"><i class=\"bi bi-search icon-search pointer\"></i></button>");
-	    out.append("  </div>");
-	    out.append("</form>");
-	    
-	    out.append("<form method=\"get\" class=\"col-12\" action=\"../admin/filter\">");
-	    
-	    out.append("              <div class=\"d-flex align-items-center gap-2 mb-3 filter-label\">");
-	    out.append("                <i class=\"bi bi-funnel-fill\"></i>");
-	    out.append("                <span>BỘ LỌC</span>");
-	    out.append("              </div>");
-	    out.append("              <select class=\"form-select col-12 mb-2\" name=\"status\" aria-label=\"Danh mục\">");
-	    out.append("                <option value=\"all\">Tất cả</option>");
-	    out.append("                <option value=\"active\"" + (status.equals("active") ? " selected" : "") + ">Hoạt động</option>");
-	    out.append("                <option value=\"inactive\"" + (status.equals("inactive") ? " selected" : "") + ">Tạm ngừng</option>");
-	    out.append("              </select>");
-	    
-	    out.append("              <button type=\"submit\" class=\"btn-search\">LỌC</button>");
-	    out.append("</form>");
-	    out.append("            </div>");
-	    out.append("          </div>");
-	    out.append("        </div>");
+
+		out.append("              <div class=\"d-flex align-items-center gap-2 filter-label\">");
+		out.append("                <i class=\"bi bi-funnel-fill\"></i>");
+		out.append("                <span>BỘ LỌC</span>");
+		out.append("              </div>");
+		out.append("              <form class=\"container py-4 d-flex flex-column align-items-start gap-3\" action=\"/Furniture/admin/accounts-view\" method=\"GET\">");
+		out.append("              <input type=\"text\" name=\"keyword\" placeholder=\"Tìm kiếm...\" class=\"w-100 py-2 px-3 form-control\" style=\"outline: none;\" value=\""+(keyword == null ? "":keyword) +"\">");
+		out.append("              <select class=\"form-select\" name=\"status\" aria-label=\"Danh mục\">");
+		out.append("                <option value=\"all\">TẤT CẢ</option>");
+		out.append("                <option  value=\"active\" " +
+				("active".equalsIgnoreCase(status) ? "selected" : "")
+						+" >HOẠT ĐỘNG</option>");
+		out.append("                <option  value=\"inactive\" "
+				+ ("inactive".equalsIgnoreCase(status) ? "selected" : "") +
+				">TẠM NGỪNG</option>");
+		out.append("              </select>");
+		out.append("              <select class=\"form-select\" name=\"dir\" aria-label=\"Danh mục\">");
+		out.append("                <option value=\"ASC\" "
+				+ ("ASC".equalsIgnoreCase(dir) ? "selected" : "") +
+				">TĂNG DẦN</option>");
+		out.append("                <option value=\"DESC\" "
+				+ ("DESC".equalsIgnoreCase(dir) ? "selected" : "") +
+				">GIẢM DẦN</option>");
+		out.append("              </select>");
+
+		out.append("              <select class=\"form-select\" name=\"orderBy\" aria-label=\"Danh mục\">");
+		out.append("                <option  value=\"user_fullname\" "
+				+ ("user_fullname".equalsIgnoreCase(orderBy) ? "selected" : "") +
+				">TÊN</option>");
+		out.append("                <option  value=\"user_created_date\" "
+				+ ("user_created_date".equalsIgnoreCase(orderBy) ? "selected" : "") +
+				">NGÀY TẠO</option>");
+		out.append("              </select>");
+		out.append("              <button type=\"submit\" class=\"btn-search\">TÌM KIẾM</button>");
+		out.append("            </form>");
+		out.append("            </div>");
+		out.append("          </div>");
+		out.append("          </div>");
 
 		/*		navigation     */
 		out.append("<nav aria-label=\"Page navigation example\" class=\"mt-4 d-flex justify-content-center order-3 order-md-3\">");
@@ -168,14 +185,14 @@ public class AccountsView extends HttpServlet {
 // Previous button
 		if (currentPage > 1) {
 			out.append("    <li class=\"page-item\">");
-			out.append("      <a class=\"page-link\" href=\"" + getPageUrl(currentPage - 1, statusLink, keyword, status) + "\" aria-label=\"Previous\">");
+			out.append("      <a class=\"page-link\" href=\"" + getPageUrl(currentPage - 1, keyword, status, dir, orderBy) + "\" aria-label=\"Previous\">");
 			out.append("        <span aria-hidden=\"true\">&laquo;</span>");
 			out.append("      </a>");
 			out.append("    </li>");
 		}
 
 // Always show page 1
-		out.append(createPageItem(1, currentPage, statusLink, keyword, status));
+		out.append(createPageItem(1, currentPage, keyword, status, dir, orderBy));
 
 // Add ... after page 1 if needed
 		if (currentPage > 3) {
@@ -184,7 +201,7 @@ public class AccountsView extends HttpServlet {
 
 // Show current page if it's not 1 or last
 		if (currentPage != 1 && currentPage != pageNumbers) {
-			out.append(createPageItem(currentPage, currentPage, statusLink, keyword, status));
+			out.append(createPageItem(currentPage, currentPage, keyword, status, dir, orderBy));
 		}
 
 // Add ... before last page if needed
@@ -194,13 +211,13 @@ public class AccountsView extends HttpServlet {
 
 // Always show last page if more than 1 page
 		if (pageNumbers > 1) {
-			out.append(createPageItem(pageNumbers, currentPage, statusLink, keyword, status));
+			out.append(createPageItem(pageNumbers, currentPage, keyword, status, dir, orderBy));
 		}
 
 // Next button
 		if (currentPage < pageNumbers) {
 			out.append("    <li class=\"page-item\">");
-			out.append("      <a class=\"page-link\" href=\"" + getPageUrl(currentPage + 1, statusLink, keyword, status) + "\" aria-label=\"Next\">");
+			out.append("      <a class=\"page-link\" href=\"" + getPageUrl(currentPage + 1, keyword, status, dir, orderBy) + "\" aria-label=\"Next\">");
 			out.append("        <span aria-hidden=\"true\">&raquo;</span>");
 			out.append("      </a>");
 			out.append("    </li>");
@@ -209,13 +226,12 @@ public class AccountsView extends HttpServlet {
 		out.append("  </ul>");
 		out.append("</nav>");
 
-
 		out.append("    </section>");
 
 		RequestDispatcher accountModalDispatcher = request.getRequestDispatcher("/admin/account-modal");
 	    accountModalDispatcher.include(request, response);
 
-	    out.append("    <!-- Start Small Modal-->");
+	    out.append("    <!-- Start Small Modal Delete-->");
 	    out.append("    <div class=\"modal fade\" id=\"smallModal\" tabindex=\"-1\">");
 	    out.append("      <div class=\"modal-dialog modal-sm\">");
 	    out.append("        <div class=\"modal-content\">");
@@ -232,8 +248,30 @@ public class AccountsView extends HttpServlet {
 	    out.append("          </div>");
 	    out.append("        </div>");
 	    out.append("      </div>");
-	    out.append("    </div><!-- End Small Modal-->");
-	    out.append("  </main>");
+	    out.append("    </div><!-- End Small Modal Delete-->");
+
+		out.append("    <!-- Start Small Modal Restore-->");
+		out.append("    <div class=\"modal fade\" id=\"smallModalRestore\" tabindex=\"-1\">");
+		out.append("      <div class=\"modal-dialog modal-sm\">");
+		out.append("        <div class=\"modal-content\">");
+		out.append("          <div class=\"modal-header bg-success text-white\">"); // Sửa màu hợp ngữ cảnh
+		out.append("            <h5 class=\"modal-title userFullname\"></h5>");
+		out.append("            <button type=\"button\" class=\"btn-close btn-close-white\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>");
+		out.append("          </div>");
+		out.append("          <div class=\"modal-body\">");
+		out.append("            Bạn có muốn kích hoạt tài khoản này không?");
+		out.append("          </div>");
+		out.append("          <div class=\"modal-footer\">");
+		out.append("            <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Huỷ</button>");
+		out.append("            <button type=\"button\" class=\"btn btn-success\" id=\"confirmRestoreBtn\">");
+		out.append("              <i class='bi bi-arrow-clockwise me-1'></i>Kích hoạt");
+		out.append("            </button>");
+		out.append("          </div>");
+		out.append("        </div>");
+		out.append("      </div>");
+		out.append("    </div><!-- End Small Modal Restore-->");
+
+		out.append("  </main>");
 		out.append("  <script src=\"../admin/js/account.js\"></script>");
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);
@@ -245,22 +283,34 @@ public class AccountsView extends HttpServlet {
 		doGet(request, response);
 	}
 
-	private String createPageItem(int page, int currentPage, String statusLink, String keyword, String status) {
+	private String createPageItem(int page, int currentPage, String keyword, String status, String dir, String orderBy) {
 		StringBuilder item = new StringBuilder();
 		item.append("    <li class=\"page-item " + (page == currentPage ? "active" : "") + "\">");
-		item.append("      <a class=\"page-link\" href=\"" + getPageUrl(page, statusLink, keyword, status) + "\">" + page + "</a>");
+		item.append("      <a class=\"page-link\" href=\"" +
+				getPageUrl(page, keyword, status, dir, orderBy) + "\">"
+				+ page + "</a>");
+
 		item.append("    </li>");
 		return item.toString();
 	}
 
-	private String getPageUrl(int page, String statusLink, String keyword, String status) {
-		if (statusLink == null) {
-			return "../admin/accounts-view?pageNo=" + page;
+	private String getPageUrl(int page, String keyword, String status, String dir, String orderBy){
+		String url = "../admin/accounts-view?pageNo=" + page;
+
+		if (keyword != null && !keyword.isEmpty()) {
+			url += "&keyword=" + keyword;
 		}
-		if (statusLink.equals("/admin/search-user")) {
-			return "../admin/search-user?pageNo=" + page + "&keyword=" + keyword;
+		if (status != null && !status.isEmpty()) {
+			url += "&status=" + status;
 		}
-		return "../admin/filter?pageNo=" + page + "&status=" + status;
+		if (dir != null && !dir.isEmpty()) {
+			url += "&dir=" + dir;
+		}
+		if (orderBy != null && !orderBy.isEmpty()) {
+			url += "&orderBy=" + orderBy;
+		}
+
+		return url;
 	}
 
 }

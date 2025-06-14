@@ -26,7 +26,7 @@ public class LogoutServlet extends HttpServlet {
 			System.out.println("Invalidating session");
 			session.invalidate();
 		}
-		response.sendRedirect("../public/signin");
+		response.sendRedirect("../admin/signin");
 	}
 
 	
