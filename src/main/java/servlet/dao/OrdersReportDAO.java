@@ -2,6 +2,7 @@ package servlet.dao;
 
 import servlet.models.Order;
 import servlet.models.User;
+import servlet.response.OrderReportFeedback;
 import servlet.response.OrderResponse;
 import servlet.response.UserReportResponse;
 

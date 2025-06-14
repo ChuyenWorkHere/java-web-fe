@@ -2,6 +2,7 @@ package servlet.dao.impl;
 
 import servlet.dao.OrdersReportDAO;
 import servlet.models.Order;
+import servlet.response.OrderReportFeedback;
 import servlet.response.OrderResponse;
 import servlet.response.UserReportResponse;
 import servlet.utils.DataSourceUtil;
@@ -274,6 +275,5 @@ public class OrdersReportDAOImpl implements OrdersReportDAO {
 
         return result;
     }
-
 
 }
