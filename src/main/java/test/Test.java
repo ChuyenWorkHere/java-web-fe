@@ -67,14 +67,18 @@ public class Test {
 		List<String> paymentMethod = List.of("CREDIT_CARD","CASH_ON_DELIVERY", "BANK_TRANSFER");
 
 		//Order note
-		List<String> orderNote = List.of("Giao hàng nhanh","Gói cẩn thận", "Giao trong giờ hành chính", "Giao hàng thành công");
+		List<String> orderNote = List.of("Giao hàng quá trễ",
+						"Sản phẩm bị hỏng",
+						"Giá quá đắt",
+						"Tôi muốn hủy đơn",
+						"Vận chuyển chậm lần nữa");
 
 		//Random date
-		LocalDate startDate = LocalDate.of(2025, 1, 1);
-		LocalDate endDate = LocalDate.of(2025,5 , 30);
+		LocalDate startDate = LocalDate.of(2023, 1, 1);
+		LocalDate endDate = LocalDate.of(2025,6, 13);
 
 
-		for(int i = 100; i< 1500; i++) {
+		for(int i = 100; i< 2000; i++) {
 			Order order = new Order();
 
 			order.setTotalPrice(price.get(ThreadLocalRandom.current().nextInt(0,  price.size())) * 1_000_000);

@@ -98,11 +98,12 @@ function getQueryParams() {
   window.location.search.substring(1).split("&").forEach(pair => {
     if (pair) {
       const [key, value] = pair.split("=");
-      PARAMETERS[decodeURIComponent(key)] = decodeURIComponent(value || "");
+      params[decodeURIComponent(key)] = decodeURIComponent(value || "");
     }
   });
   return params;
 }
+
 
 window.addEventListener('DOMContentLoaded', () => {
   const params = getQueryParams();
@@ -129,7 +130,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- PDF Export Dropdown ---
- // --- PDF Export Dropdown ---
  const pdfExportYearRadio = document.getElementById('pdfExportYear');
  const pdfExportMonthRadio = document.getElementById('pdfExportMonth');
  const pdfExportYearSelect = document.getElementById('pdfExportYearSelect');

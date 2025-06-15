@@ -193,7 +193,6 @@ public class OrdersReport extends HttpServlet {
 
 		out.append("      <div id=\"yearFilterGroup\" class=\"mb-3\">");
 		out.append("        <select class=\"form-select\" id=\"filterYearSelect\">");
-//		out.append("        <select class=\"form-select\" id=\"yearSelectOnly\">");
 		for (int year = currentYear; year >= 2015; year--) {
 			out.append("          <option value=\"" + year + "\">" + year + "</option>");
 		}
@@ -203,13 +202,11 @@ public class OrdersReport extends HttpServlet {
 		out.append("      <div id=\"monthFilterGroup\" class=\"mb-3\" style=\"display: none;\">");
 		out.append("        <div class=\"d-flex gap-2 mb-2\">");
 		out.append("          <select class=\"form-select\" id=\"filterMonthYearSelect\">");
-//		out.append("          <select class=\"form-select\" id=\"monthYearSelect\">");
 		for (int year = currentYear; year >= 2015; year--) {
 			out.append("            <option value=\"" + year + "\">" + year + "</option>");
 		}
 		out.append("          </select>");
 		out.append("          <select class=\"form-select\" id=\"filterMonthSelect\" style=\"min-width: 102px;\">");
-//		out.append("          <select class=\"form-select\" id=\"monthSelect\" style=\"min-width: 102px;\">");
 		for (int m = 1; m <= 12; m++) {
 			out.append("            <option value=\"" + m + "\">Tháng " + m + "</option>");
 		}
@@ -301,7 +298,7 @@ public class OrdersReport extends HttpServlet {
 						? "Ngày " + (i + 1)
 						: "Tháng " + (i + 1);
 
-				anomalyDetails.add(label + " có " + String.format("%.3f", (double) cancelCount) + " đơn hàng bị huỷ, vượt quá ngưỡng bất thường.\n"
+				anomalyDetails.add(label + " có " + cancelCount + " đơn hàng bị huỷ, vượt quá ngưỡng bất thường.\n"
 						+ "(Trung bình: " + String.format("%.3f", cancelMean) + ", Độ lệch chuẩn: " + String.format("%.3f", cancelStdDev)
 						+ ", Ngưỡng: " + String.format("%.3f", cancelMean + 2 * cancelStdDev) + ")");
 			}
