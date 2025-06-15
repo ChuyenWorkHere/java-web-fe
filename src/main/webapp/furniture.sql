@@ -183,6 +183,10 @@ CREATE TABLE `orders` (
 --
 -- Dumping data for table `orders`
 --
+--Thêm cột deleted_at vào bảng Orders
+ALTER TABLE orders ADD deleted_at DATETIME NULL;
+
+
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
