@@ -1,36 +1,35 @@
 package servlet.admin.controller;
 
-import servlet.dao.OrderDAO;
-import servlet.dao.impl.OrderDAOImpl;
-
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-@WebServlet("/admin/order-status-update")
-public class OrdersStatusUpdate extends HttpServlet {
+import servlet.dao.UserDAO;
+import servlet.dao.impl.UserDAOImpl;
+
+@WebServlet("/admin/account-restore")
+public class AccountRestore extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
 
-    public OrdersStatusUpdate() {
+    public AccountRestore() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int orderId = Integer.parseInt(request.getParameter("orderId")) ;
+        int userId = Integer.parseInt(request.getParameter("userId")) ;
+        System.out.println("UserId: " + userId);
 
-        System.out.println("orderId = " + orderId);
-        OrderDAO orderDAO = new OrderDAOImpl();
-        boolean check = orderDAO.updateOrderStatus(orderId);
+        UserDAO userDAO = new UserDAOImpl();
+        boolean success =  userDAO.restoreById(userId);
 
-        if(check){
-            response.sendRedirect("../admin/orders-view");
-        }else{
-            response.sendRedirect("../admin/single-order-view");
-        }
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("{\"success\":" + success + "}");
     }
 
 

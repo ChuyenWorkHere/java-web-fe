@@ -24,7 +24,7 @@ public class OrderDelete extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("orderId")) ;
-        System.out.println("orderId: " + orderId);
+        System.out.println("Xóa vĩnh viễn đơn hàng với orderId: " + orderId);
 
         OrderDAO orderDAO = new OrderDAOImpl();
         boolean success =  orderDAO.deleteOrder(orderId);
@@ -39,5 +39,4 @@ public class OrderDelete extends HttpServlet {
         // TODO Auto-generated method stub
         doGet(request, response);
     }
-
 }

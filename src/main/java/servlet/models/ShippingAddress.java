@@ -21,6 +21,5 @@ public class ShippingAddress {
 
     @ToString.Exclude
     private Order order;
-//    private User user;
 
 }

@@ -50,7 +50,7 @@ public class UserDAOImpl implements UserDAO {
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
-	        return false;
+        return false;
 	}
 
 	@Override
@@ -215,6 +215,22 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         }
         return users;
+    }
+
+    @Override
+    public boolean restoreById(int userId) {
+        String sql = "update users set user_isactive = ? WHERE user_id = ?";
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, 1);
+            ps.setInt(2, userId);
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private User mapRowToUser(ResultSet rs) throws SQLException{

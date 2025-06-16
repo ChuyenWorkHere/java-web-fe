@@ -30,13 +30,13 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Test {
 
 	public static void main(String[] args) {
-		UserDAO userDAO = new UserDAOImpl();
-
-		User user = userDAO.checkLogin("nguyenvana@example.com", "Admin123!");
-		System.out.println("user: " + user);
-
-		String hashCode = PasswordUtils.hashPassword("Admin123!");
-		System.out.println("hashCode: " + hashCode);
+//		UserDAO userDAO = new UserDAOImpl();
+//
+//		User user = userDAO.checkLogin("admin@gmail.com", "Admin123!");
+//		System.out.println("user: " + user);
+//
+//		String hashCode = PasswordUtils.hashPassword("Admin123!");
+//		System.out.println("hashCode: " + hashCode);
 		OrderDAO orderDAO = new OrderDAOImpl();
 		OrderItemsDAO orderItemsDAO = new OrderItemsDAOImpl();
 

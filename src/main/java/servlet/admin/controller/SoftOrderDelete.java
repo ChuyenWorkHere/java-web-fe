@@ -10,33 +10,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/admin/order-status-update")
-public class OrdersStatusUpdate extends HttpServlet {
+@WebServlet("/admin/soft-order-delete")
+public class SoftOrderDelete extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-
-    public OrdersStatusUpdate() {
+    public SoftOrderDelete() {
         super();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int orderId = Integer.parseInt(request.getParameter("orderId")) ;
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
+        System.out.println("Xóa mềm đơn hàng với orderId: " + orderId);
 
-        System.out.println("orderId = " + orderId);
         OrderDAO orderDAO = new OrderDAOImpl();
-        boolean check = orderDAO.updateOrderStatus(orderId);
+        boolean success = orderDAO.softDeleteOrder(orderId); // Sử dụng hàm xóa mềm
 
-        if(check){
-            response.sendRedirect("../admin/orders-view");
-        }else{
-            response.sendRedirect("../admin/single-order-view");
-        }
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("{\"success\":" + success + "}");
     }
-
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
         doGet(request, response);
     }
-
 }

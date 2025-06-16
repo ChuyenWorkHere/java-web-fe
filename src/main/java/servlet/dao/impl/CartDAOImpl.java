@@ -52,17 +52,17 @@ public class CartDAOImpl implements CartDAO {
     @Override
     public boolean addProductToCart(int userId, int productId) {
     	
-    	int quantity = 1;
-    	if(isProductInCart(userId, productId)) {
-    		 quantity += getQuantity(userId, productId);
-    	}
+//    	int quantity = 1;
+//    	if(isProductInCart(userId, productId)) {
+//    		 quantity += getQuantity(userId, productId);
+//    	}
         String sql = "INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)";
         try (Connection conn = DataSourceUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, userId);
             ps.setInt(2, productId);
-            ps.setInt(3, quantity);
+            ps.setInt(3, 1);
             return ps.executeUpdate() > 0;
 
         } catch (Exception e) {

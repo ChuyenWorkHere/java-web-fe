@@ -3,7 +3,10 @@ package servlet.admin.view;
 import servlet.dao.OrdersReportDAO;
 import servlet.dao.impl.OrdersReportDAOImpl;
 import servlet.models.Order;
+import servlet.models.User;
 import servlet.response.OrderResponse;
+import servlet.response.UserReportResponse;
+import servlet.utils.ProductUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,6 +41,9 @@ public class OrdersReport extends HttpServlet {
 
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/admin/header-view");
 		headerDispatcher.include(request, response);
+		/*them thu vien*/
+		out.append("<script src=\"https://html2canvas.hertzen.com/dist/html2canvas.min.js\"></script>");
+		/*them thu vien*/
 
 		out.append("<main id=\"main\" class=\"main\">");
 
@@ -64,175 +70,64 @@ public class OrdersReport extends HttpServlet {
 		out.append("            <div class=\"col-12\">");
 		out.append("              <div class=\"card\">");
 
+		/*--------------line chart------------------*/
+
 		orderLineChart(request, response);
 
-		out.append("              </div>");
-		out.append("            </div><!-- End Reports -->");
-		out.append("          </div>");
-		out.append("        </div><!-- End Left side columns -->");
+		/* start nut xuat du lieu*/
+		LocalDate localDate = LocalDate.now();
+		int currentYear = localDate.getYear();
 
-//		out.append("        <!-- Right side columns -->");
-//		out.append("        <div class=\"col-lg-4\">");
-
-//		out.append("          <div class=\"row\">");
-//		out.append("            <!-- All Orders Card -->");
-//		out.append("            <div class=\"col-xxl-12 col-sm-6 col-lg-12 \">");
-//		out.append("              <div class=\"card info-card all-orders-card mb-3\">");
-//
-//		out.append("                <div class=\"filter\">");
-//		out.append(
-//				"                  <a class=\"icon\" href=\"#\" data-bs-toggle=\"dropdown\"><i class=\"bi bi-three-dots\"></i></a>");
-//		out.append("                  <ul class=\"dropdown-menu dropdown-menu-end dropdown-menu-arrow\">");
-//		out.append("                    <li class=\"dropdown-header text-start\">");
-//		out.append("                      <h6>Lọc</h6>");
-//		out.append("                    </li>");
-//
-//		out.append("                    <li><a class=\"dropdown-item\" href=\"#\">Hôm nay</a></li>");
-//		out.append("                    <li><a class=\"dropdown-item\" href=\"#\">Tháng này</a></li>");
-//		out.append("                    <li><a class=\"dropdown-item\" href=\"#\">Năm nay</a></li>");
-//		out.append("                  </ul>");
-//		out.append("                </div>");
-//
-//		out.append("                <div class=\"card-body px-3 py-1\">");
-//		out.append("                  <h5 class=\"card-title px-2 py-2 m-0\">Tất Cả <span>| Hôm nay</span></h5>");
-//
-//		out.append("                  <div class=\"d-flex align-items-center\">");
-//		out.append(
-//				"                    <div class=\"card-icon rounded-circle d-flex align-items-center justify-content-center\">");
-//		out.append("                      <i class=\"bi bi-receipt\"></i>");
-//		out.append("                    </div>");
-//		out.append("                    <div class=\"ps-3\">");
-//		out.append("                      <h6>145</h6>");
-//		out.append(
-//				"                      <span class=\"text-success small pt-1 fw-bold\">12%</span> <span class=\"text-muted small pt-2 ps-1\">Tăng</span>");
-//
-//		out.append("                    </div>");
-//		out.append("                  </div>");
-//		out.append("                </div>");
-//
-//		out.append("              </div>");
-//		out.append("            </div><!-- End All Orders Card -->");
-//
-//		out.append("            <!-- Order Success Card -->");
-//		out.append("            <div class=\"col-xxl-12 col-sm-6 col-lg-12\">");
-//		out.append("              <div class=\"card info-card order-success-card mb-3\">");
-//
-//		out.append("                <div class=\"filter\">");
-//		out.append(
-//				"                  <a class=\"icon\" href=\"#\" data-bs-toggle=\"dropdown\"><i class=\"bi bi-three-dots\"></i></a>");
-//		out.append("                  <ul class=\"dropdown-menu dropdown-menu-end dropdown-menu-arrow\">");
-//		out.append("                    <li class=\"dropdown-header text-start\">");
-//		out.append("                      <h6>Lọc</h6>");
-//		out.append("                    </li>");
-//
-//		out.append("                    <li><a class=\"dropdown-item\" href=\"#\">Hôm nay</a></li>");
-//		out.append("                    <li><a class=\"dropdown-item\" href=\"#\">Tháng này</a></li>");
-//		out.append("                    <li><a class=\"dropdown-item\" href=\"#\">Năm nay</a></li>");
-//		out.append("                  </ul>");
-//		out.append("                </div>");
-//
-//		out.append("                <div class=\"card-body px-3 py-1\">");
-//		out.append("                  <h5 class=\"card-title px-2 py-2 m-0\">Thành Công <span>| Hôm nay</span></h5>");
-//
-//		out.append("                  <div class=\"d-flex align-items-center\">");
-//		out.append(
-//				"                    <div class=\"card-icon rounded-circle d-flex align-items-center justify-content-center\">");
-//		out.append("                      <i class=\"bi bi-check-circle-fill\"></i>");
-//		out.append("                    </div>");
-//		out.append("                    <div class=\"ps-3\">");
-//		out.append("                      <h6>145</h6>");
-//		out.append(
-//				"                      <span class=\"text-success small pt-1 fw-bold\">12%</span> <span class=\"text-muted small pt-2 ps-1\">Tăng</span>");
-//
-//		out.append("                    </div>");
-//		out.append("                  </div>");
-//		out.append("                </div>");
-//
-//		out.append("              </div>");
-//		out.append("            </div><!-- End Order Success Card -->");
-//		out.append("            ");
-//		out.append("            <!-- Order Pending Card -->");
-//		out.append("            <div class=\"col-xxl-12 col-sm-6 col-lg-12\">");
-//		out.append("              <div class=\"card info-card order-pending-card mb-3\">");
-//
-//		out.append("                <div class=\"filter\">");
-//		out.append(
-//				"                  <a class=\"icon\" href=\"#\" data-bs-toggle=\"dropdown\"><i class=\"bi bi-three-dots\"></i></a>");
-//		out.append("                  <ul class=\"dropdown-menu dropdown-menu-end dropdown-menu-arrow\">");
-//		out.append("                    <li class=\"dropdown-header text-start\">");
-//		out.append("                      <h6>Lọc</h6>");
-//		out.append("                    </li>");
-//
-//		out.append("                    <li><a class=\"dropdown-item\" href=\"#\">Hôm nay</a></li>");
-//		out.append("                    <li><a class=\"dropdown-item\" href=\"#\">Tháng này</a></li>");
-//		out.append("                    <li><a class=\"dropdown-item\" href=\"#\">Năm nay</a></li>");
-//		out.append("                  </ul>");
-//		out.append("                </div>");
-//
-//		out.append("                <div class=\"card-body px-3 py-1\">");
-//		out.append("                  <h5 class=\"card-title px-2 py-2 m-0\">Đang Chờ <span>| Hôm nay</span></h5>");
-//
-//		out.append("                  <div class=\"d-flex align-items-center\">");
-//		out.append(
-//				"                    <div class=\"card-icon rounded-circle d-flex align-items-center justify-content-center\">");
-//		out.append("                      <i class=\"bi bi-hourglass-split\"></i>");
-//		out.append("                    </div>");
-//		out.append("                    <div class=\"ps-3\">");
-//		out.append("                      <h6>145</h6>");
-//		out.append(
-//				"                      <span class=\"text-success small pt-1 fw-bold\">12%</span> <span class=\"text-muted small pt-2 ps-1\">Tăng</span>");
-//
-//		out.append("                    </div>");
-//		out.append("                  </div>");
-//		out.append("                </div>");
-//
-//		out.append("              </div>");
-//		out.append("            </div><!-- End Order Pending Card -->");
-//
-//		out.append("            <!-- Order Failed Card -->");
-//		out.append("            <div class=\"col-xxl-12 col-sm-6 col-lg-12\">");
-//		out.append("              <div class=\"card info-card order-failed-card mb-3\">");
-//
-//		out.append("                <div class=\"filter\">");
-//		out.append(
-//				"                  <a class=\"icon\" href=\"#\" data-bs-toggle=\"dropdown\"><i class=\"bi bi-three-dots\"></i></a>");
-//		out.append("                  <ul class=\"dropdown-menu dropdown-menu-end dropdown-menu-arrow\">");
-//		out.append("                    <li class=\"dropdown-header text-start\">");
-//		out.append("                      <h6>Lọc</h6>");
-//		out.append("                    </li>");
-//
-//		out.append("                    <li><a class=\"dropdown-item\" href=\"#\">Hôm nay</a></li>");
-//		out.append("                    <li><a class=\"dropdown-item\" href=\"#\">Tháng này</a></li>");
-//		out.append("                    <li><a class=\"dropdown-item\" href=\"#\">Năm nay</a></li>");
-//		out.append("                  </ul>");
-//		out.append("                </div>");
-//
-//		out.append("                <div class=\"card-body px-3 py-1\">");
-//		out.append("                  <h5 class=\"card-title px-2 py-2 m-0\">Bị Hủy <span>| Hôm nay</span></h5>");
-//
-//		out.append("                  <div class=\"d-flex align-items-center\">");
-//		out.append(
-//				"                    <div class=\"card-icon rounded-circle d-flex align-items-center justify-content-center\">");
-//		out.append("                      <i class=\"bi bi-x-circle-fill\"></i>");
-//		out.append("                    </div>");
-//		out.append("                    <div class=\"ps-3\">");
-//		out.append("                      <h6>145</h6>");
-//		out.append(
-//				"                      <span class=\"text-success small pt-1 fw-bold\">12%</span> <span class=\"text-muted small pt-2 ps-1\">Tăng</span>");
-//
-//		out.append("                    </div>");
-//		out.append("                  </div>");
-//		out.append("                </div>");
-//
-//		out.append("              </div>");
-//		out.append("            </div><!-- End Order Failed Card -->");
-//		out.append("          </div>");
-//		out.append("        </div><!-- End Right side columns -->");
-
+		out.append("  <div class=\"dropdown\">");
+		out.append("    <a class=\"btn btn-primary dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\">");
+		out.append("      <i class=\"bi bi-download me-2\"></i> Xuất PDF");
+		out.append("    </a>");
+		out.append("    <div class=\"dropdown-menu p-4 shadow\" style=\"min-width: 350px;\">");
+		out.append("      <h6 class=\"fw-bold mb-3\">Lọc theo</h6>");
+		out.append("      <div class=\"d-flex align-items-center mb-3 gap-3\">");
+		out.append("        <div class=\"form-check\">");
+		out.append("          <input class=\"form-check-input\" type=\"radio\" name=\"pdfExportMode\" id=\"pdfExportYear\" value=\"year\" checked onclick=\"togglePdfExportMode()\">");
+		out.append("          <label class=\"form-check-label\" for=\"pdfExportYear\">Năm</label>");
+		out.append("        </div>");
+		out.append("        <div class=\"form-check\">");
+		out.append("          <input class=\"form-check-input\" type=\"radio\" name=\"pdfExportMode\" id=\"pdfExportMonth\" value=\"month\" onclick=\"togglePdfExportMode()\">");
+		out.append("          <label class=\"form-check-label\" for=\"pdfExportMonth\">Tháng</label>");
+		out.append("        </div>");
 		out.append("      </div>");
-		out.append("      <div class=\"row\">");
+		out.append("      <div id=\"pdfExportYearGroup\" class=\"mb-3\">");
+		out.append("        <select class=\"form-select\" id=\"pdfExportYearSelect\">");
+		for (int year = currentYear; year >= 2015; year--) {
+			out.append("          <option value=\"" + year + "\">" + year + "</option>");
+		}
+		out.append("        </select>");
+		out.append("        <a class=\"btn btn-primary w-100 mt-2\" href=\"#\" onclick=\"submitPdfExportYear()\">Xuất PDF</a>");
+		out.append("      </div>");
+		out.append("      <div id=\"pdfExportMonthGroup\" class=\"mb-3\" style=\"display: none;\">");
+		out.append("        <div class=\"d-flex gap-2 mb-2\">");
+		out.append("          <select class=\"form-select\" id=\"pdfExportMonthYearSelect\">");
+		for (int year = currentYear; year >= 2015; year--) {
+			out.append("            <option value=\"" + year + "\">" + year + "</option>");
+		}
+		out.append("          </select>");
+		out.append("          <select class=\"form-select\" id=\"pdfExportMonthSelect\" style=\"min-width: 102px;\">");
+		for (int m = 1; m <= 12; m++) {
+			out.append("            <option value=\"" + m + "\">Tháng " + m + "</option>");
+		}
+		out.append("          </select>");
+		out.append("        </div>");
+		out.append("        <a class=\"btn btn-primary w-100 mt-2\" href=\"#\" onclick=\"submitPdfExportMonth()\">Xuất PDF</a>");
+		out.append("      </div>");
+		out.append("    </div>");
+		out.append("  </div>");
+
+		/* end nut xuat du lieu*/
+		out.append("  </div>");
+		/*end them thong bao top*/
+
+		/*--------------line chart------------------*/
+
 		out.append("        <!-- Recent Sales -->");
-		out.append("        <div class=\"col-lg-8\">");
+		out.append("        <div class=\"col-lg-4\">");
 		out.append("          <div class=\"card recent-sales overflow-auto\">");
 
 		out.append("            <div class=\"filter\">");
@@ -253,7 +148,6 @@ public class OrdersReport extends HttpServlet {
 
 		out.append("          </div>");
 		out.append("        </div><!-- End Recent Sales -->");
-
 		out.append("      </div>");
 		out.append("    </section>");
 
@@ -276,15 +170,13 @@ public class OrdersReport extends HttpServlet {
 
 		ordersReportDAO = new OrdersReportDAOImpl();
 
+		/*---------------start filter dropdown------------*/
 		out.append("  <div class=\"filter dropdown\">");
 		out.append("    <a class=\"icon\" data-bs-toggle=\"dropdown\">");
 		out.append("      <i class=\"bi bi-three-dots\"></i>");
 		out.append("    </a>");
-
 		out.append("    <div class=\"dropdown-menu dropdown-menu-end p-4 shadow\" data-bs-auto-close=\"outside\" style=\"min-width: 350px;\">");
-
 		out.append("      <h6 class=\"fw-bold mb-3\">Lọc theo</h6>");
-
 		out.append("      <div class=\"d-flex align-items-center mb-3 gap-3\">");
 		out.append("        <div class=\"form-check\">");
 		out.append("          <input class=\"form-check-input\" type=\"radio\" name=\"filterMode\" id=\"filterYear\" value=\"year\" checked onclick=\"toggleFilterMode()\">");
@@ -300,22 +192,21 @@ public class OrdersReport extends HttpServlet {
 		int currentYear = localDate.getYear();
 
 		out.append("      <div id=\"yearFilterGroup\" class=\"mb-3\">");
-		out.append("        <select class=\"form-select\" id=\"yearSelectOnly\">");
+		out.append("        <select class=\"form-select\" id=\"filterYearSelect\">");
 		for (int year = currentYear; year >= 2015; year--) {
 			out.append("          <option value=\"" + year + "\">" + year + "</option>");
 		}
 		out.append("        </select>");
 		out.append("        <a id=\"yearSubmit\" class=\"btn btn-primary w-100 mt-2\" href=\"#\" onclick=\"submitYear()\">Xem kết quả</a>");
 		out.append("      </div>");
-
 		out.append("      <div id=\"monthFilterGroup\" class=\"mb-3\" style=\"display: none;\">");
 		out.append("        <div class=\"d-flex gap-2 mb-2\">");
-		out.append("          <select class=\"form-select\" id=\"monthYearSelect\">");
+		out.append("          <select class=\"form-select\" id=\"filterMonthYearSelect\">");
 		for (int year = currentYear; year >= 2015; year--) {
 			out.append("            <option value=\"" + year + "\">" + year + "</option>");
 		}
 		out.append("          </select>");
-		out.append("          <select class=\"form-select\" id=\"monthSelect\" style=\"min-width: 102px;\">");
+		out.append("          <select class=\"form-select\" id=\"filterMonthSelect\" style=\"min-width: 102px;\">");
 		for (int m = 1; m <= 12; m++) {
 			out.append("            <option value=\"" + m + "\">Tháng " + m + "</option>");
 		}
@@ -323,9 +214,9 @@ public class OrdersReport extends HttpServlet {
 		out.append("        </div>");
 		out.append("        <a id=\"monthSubmit\" class=\"btn btn-primary w-100 mt-2\" href=\"#\" onclick=\"submitMonth()\">Xem kết quả</a>");
 		out.append("      </div>");
-
 		out.append("    </div>");
 		out.append("  </div>");
+		/*---------------end filter dropdown------------*/
 
 		List<OrderResponse> orderResponseList;
 		List<String> data = new ArrayList<>();
@@ -407,7 +298,7 @@ public class OrdersReport extends HttpServlet {
 						? "Ngày " + (i + 1)
 						: "Tháng " + (i + 1);
 
-				anomalyDetails.add(label + " có " + String.format("%.3f", (double) cancelCount) + " đơn hàng bị huỷ, vượt quá ngưỡng bất thường.\n"
+				anomalyDetails.add(label + " có " + cancelCount + " đơn hàng bị huỷ, vượt quá ngưỡng bất thường.\n"
 						+ "(Trung bình: " + String.format("%.3f", cancelMean) + ", Độ lệch chuẩn: " + String.format("%.3f", cancelStdDev)
 						+ ", Ngưỡng: " + String.format("%.3f", cancelMean + 2 * cancelStdDev) + ")");
 			}
@@ -497,6 +388,70 @@ public class OrdersReport extends HttpServlet {
 
 			out.append("                </div>");
 		}
+		/*-------------------- Thong bao top nguoi mua/huy -------------------*/
+		if(monthParam != null){
+			int month = Integer.parseInt(monthParam);
+			generateTopUserSection(request, response, year, month);
+		}else{
+			generateTopUserSection(request, response, year, 0);
+		}
+
+	}
+
+	private void generateTopUserSection(HttpServletRequest request, HttpServletResponse response,
+										int year, Integer month) throws ServletException, IOException{
+
+		List<UserReportResponse> completedResults = ordersReportDAO.getTopBuyers(year, month, 8);
+		List<UserReportResponse> canceledResults = ordersReportDAO.getTopCancellers(year, month, 8);
+
+		PrintWriter out = response.getWriter();
+		out.append("              </div>");
+		out.append("            </div><!-- End Reports -->");
+		out.append("          </div>");
+		out.append("        </div><!-- End Left side columns -->");
+		out.append("      </div>");
+
+		out.append("      <div class=\"row\">");
+		/* them thong bao top*/
+		out.append("        <div class=\"col-lg-8\">");
+		out.append("<!-- Top Users Section -->");
+		out.append("<div class=\"row\">");
+
+		// Cột trái - Top Người Mua
+		out.append("  <div class=\"col-12 col-md-6 col-lg-6 mb-4\">");
+		out.append("    <div class=\"card h-100\">");
+		out.append("      <div class=\"card-body\">");
+		out.append("        <h5 class=\"card-title\">Top Người Mua</h5>");
+		out.append("        <ul class=\"list-group\">");
+		for (UserReportResponse com : completedResults){
+			out.append("          <li class=\"list-group-item d-flex justify-content-between align-items-center\">");
+			out.append("            "+ com.getFullname() +" <span class=\"badge bg-success rounded-pill\">"
+					+com.getTotalOrders()+" đơn - "+ ProductUtils.formatNumber(com.getTotalAmount()) +"đ</span>");
+			out.append("          </li>");
+		}
+
+		out.append("        </ul>");
+		out.append("      </div>");
+		out.append("    </div>");
+		out.append("  </div>");
+
+		// Cột phải - Top Người Huỷ
+		out.append("  <div class=\"col-12 col-md-6 col-lg-6 mb-4\">");
+		out.append("    <div class=\"card h-100\">");
+		out.append("      <div class=\"card-body\">");
+		out.append("        <h5 class=\"card-title\">Top Người Huỷ</h5>");
+		out.append("        <ul class=\"list-group\">");
+		for (UserReportResponse can : canceledResults){
+			out.append("          <li class=\"list-group-item d-flex justify-content-between align-items-center\">");
+			out.append("            "+ can.getFullname() +" <span class=\"badge bg-danger rounded-pill\">"
+					+can.getTotalOrders()+" đơn - "+ ProductUtils.formatNumber(can.getTotalAmount()) +"đ</span>");
+			out.append("          </li>");
+		}
+		out.append("        </ul>");
+		out.append("      </div>");
+		out.append("    </div>");
+		out.append("  </div>");
+		out.append("</div>");
 	}
 
 	protected void notification(HttpServletRequest request, HttpServletResponse response)

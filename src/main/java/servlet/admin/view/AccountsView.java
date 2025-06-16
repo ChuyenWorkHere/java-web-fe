@@ -112,15 +112,22 @@ public class AccountsView extends HttpServlet {
 			    .append("data-status='" + user.isActive() + "'>")
 			    .append("<i class='bi bi-eye'></i>")
 			    .append("</button>");
-		    if(user.isActive()) {
-				out.append("<button class='btn btn-danger btn-delete' data-bs-toggle='modal' ");
-				out.append("data-bs-target='#smallModal' data-id='" + user.getUserId() + "' ");
+			if(user.isActive()) {
+				out.append("<button class='btn btn-danger btn-delete' ");
+				out.append("data-bs-toggle='modal' data-bs-target='#smallModal' ");
+				out.append("data-id='" + user.getUserId() + "' ");
 				out.append("data-name='" + user.getFullname() + "'>");
 				out.append("<i class='bi bi-trash'></i></button>");
-
+			} else {
+				out.append("<button class='btn btn-success btn-restore' ");
+				out.append("data-bs-toggle='modal' data-bs-target='#smallModalRestore' ");
+				out.append("data-id='" + user.getUserId() + "' ");
+				out.append("data-name='" + user.getFullname() + "'>");
+				out.append("<i class='bi bi-arrow-clockwise'></i></button>");
 			}
 
-		    out.append("                    </div>");
+
+			out.append("                    </div>");
 		    out.append("                  </div>");
 		    out.append("                </div>");
 		    out.append("              </div>");
@@ -224,7 +231,7 @@ public class AccountsView extends HttpServlet {
 		RequestDispatcher accountModalDispatcher = request.getRequestDispatcher("/admin/account-modal");
 	    accountModalDispatcher.include(request, response);
 
-	    out.append("    <!-- Start Small Modal-->");
+	    out.append("    <!-- Start Small Modal Delete-->");
 	    out.append("    <div class=\"modal fade\" id=\"smallModal\" tabindex=\"-1\">");
 	    out.append("      <div class=\"modal-dialog modal-sm\">");
 	    out.append("        <div class=\"modal-content\">");
@@ -241,8 +248,30 @@ public class AccountsView extends HttpServlet {
 	    out.append("          </div>");
 	    out.append("        </div>");
 	    out.append("      </div>");
-	    out.append("    </div><!-- End Small Modal-->");
-	    out.append("  </main>");
+	    out.append("    </div><!-- End Small Modal Delete-->");
+
+		out.append("    <!-- Start Small Modal Restore-->");
+		out.append("    <div class=\"modal fade\" id=\"smallModalRestore\" tabindex=\"-1\">");
+		out.append("      <div class=\"modal-dialog modal-sm\">");
+		out.append("        <div class=\"modal-content\">");
+		out.append("          <div class=\"modal-header bg-success text-white\">"); // Sửa màu hợp ngữ cảnh
+		out.append("            <h5 class=\"modal-title userFullname\"></h5>");
+		out.append("            <button type=\"button\" class=\"btn-close btn-close-white\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>");
+		out.append("          </div>");
+		out.append("          <div class=\"modal-body\">");
+		out.append("            Bạn có muốn kích hoạt tài khoản này không?");
+		out.append("          </div>");
+		out.append("          <div class=\"modal-footer\">");
+		out.append("            <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Huỷ</button>");
+		out.append("            <button type=\"button\" class=\"btn btn-success\" id=\"confirmRestoreBtn\">");
+		out.append("              <i class='bi bi-arrow-clockwise me-1'></i>Kích hoạt");
+		out.append("            </button>");
+		out.append("          </div>");
+		out.append("        </div>");
+		out.append("      </div>");
+		out.append("    </div><!-- End Small Modal Restore-->");
+
+		out.append("  </main>");
 		out.append("  <script src=\"../admin/js/account.js\"></script>");
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);

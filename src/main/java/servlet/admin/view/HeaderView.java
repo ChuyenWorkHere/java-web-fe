@@ -64,6 +64,7 @@ public class HeaderView extends HttpServlet {
 		out.append("  <!-- Template Main CSS File -->");
 		out.append("  <link href=\"../admin/css/style.css\" rel=\"stylesheet\">");
 		out.append("  <script src=\"https://code.jquery.com/jquery-3.6.0.min.js\"></script>");
+		out.append("  <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n");
 		out.append("</head>");
 
 		out.append("<body>");
