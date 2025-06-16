@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -103,8 +104,14 @@ public class Test {
 //			}
 //			orderItemsDAO.saveOrderItems(orderItems);
 //		}
-		SalesDAO salesDAO = new SalesDAOImpl();
-		System.out.println(salesDAO.reportChartBuilder(6, 2025));
+//		SalesDAO salesDAO = new SalesDAOImpl();
+//		System.out.println(salesDAO.reportChartBuilder(6, 2025));
+
+		HomeDAO homeDAO = new HomeDAOImpl();
+		Map<String, String> filterInfo = new HashMap<>();
+		filterInfo.put("chart", "year");
+		System.out.println(homeDAO.loadChart(filterInfo));
+
 	}
 
 	public static java.util.Date getRandomDate(LocalDate start, LocalDate end) {
