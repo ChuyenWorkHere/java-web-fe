@@ -23,7 +23,6 @@ public class OrderDAOImpl implements OrderDAO {
 
         // Xây dựng điều kiện WHERE động
         List<String> conditions = new ArrayList<>();
-        conditions.add("o.deleted_at IS NULL"); // Chỉ lấy các đơn hàng chưa bị xóa
 
         if (orderStatus != null) conditions.add("o.order_status = ?");
         if (paymentStatus != null) conditions.add("o.payment_status = ?");
@@ -286,43 +285,43 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public int deleteOldDeletedOrders() {
-        String deleteOrderItemsSql = "DELETE FROM order_items WHERE order_id IN (SELECT order_id FROM orders WHERE deleted_at IS NOT NULL AND deleted_at <= ?)";
-        String deleteOrderSql = "DELETE FROM orders WHERE deleted_at IS NOT NULL AND deleted_at <= ?";
+//        String deleteOrderItemsSql = "DELETE FROM order_items WHERE order_id IN (SELECT order_id FROM orders WHERE deleted_at IS NOT NULL AND deleted_at <= ?)";
+//        String deleteOrderSql = "DELETE FROM orders WHERE deleted_at IS NOT NULL AND deleted_at <= ?";
+//
+//        int totalDeleted = 0;
+//
+//        try (Connection conn = DataSourceUtil.getConnection()) {
+//            // Bắt đầu transaction
+//            conn.setAutoCommit(false);
+//
+//            try (
+//                    PreparedStatement psItems = conn.prepareStatement(deleteOrderItemsSql);
+//                    PreparedStatement psOrder = conn.prepareStatement(deleteOrderSql)
+//            ) {
+//                // Tính toán ngày 30 ngày trước
+//                java.sql.Date thirtyDaysAgo = new java.sql.Date(System.currentTimeMillis() - 30L * 24 * 60 * 60 * 1000);
+//
+//                // Xóa các mục trong đơn hàng
+//                psItems.setDate(1, thirtyDaysAgo);
+//                totalDeleted += psItems.executeUpdate();
+//
+//                // Xóa đơn hàng
+//                psOrder.setDate(1, thirtyDaysAgo);
+//                totalDeleted += psOrder.executeUpdate();
+//
+//                conn.commit(); // Commit transaction
+//            } catch (SQLException e) {
+//                conn.rollback(); // Rollback nếu có lỗi
+//                e.printStackTrace();
+//            } finally {
+//                conn.setAutoCommit(true); // Khôi phục trạng thái ban đầu
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
-        int totalDeleted = 0;
-
-        try (Connection conn = DataSourceUtil.getConnection()) {
-            // Bắt đầu transaction
-            conn.setAutoCommit(false);
-
-            try (
-                    PreparedStatement psItems = conn.prepareStatement(deleteOrderItemsSql);
-                    PreparedStatement psOrder = conn.prepareStatement(deleteOrderSql)
-            ) {
-                // Tính toán ngày 30 ngày trước
-                java.sql.Date thirtyDaysAgo = new java.sql.Date(System.currentTimeMillis() - 30L * 24 * 60 * 60 * 1000);
-
-                // Xóa các mục trong đơn hàng
-                psItems.setDate(1, thirtyDaysAgo);
-                totalDeleted += psItems.executeUpdate();
-
-                // Xóa đơn hàng
-                psOrder.setDate(1, thirtyDaysAgo);
-                totalDeleted += psOrder.executeUpdate();
-
-                conn.commit(); // Commit transaction
-            } catch (SQLException e) {
-                conn.rollback(); // Rollback nếu có lỗi
-                e.printStackTrace();
-            } finally {
-                conn.setAutoCommit(true); // Khôi phục trạng thái ban đầu
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return totalDeleted; // Trả về tổng số đơn hàng đã xóa
+        return 0; // Trả về tổng số đơn hàng đã xóa
     }
 
 
