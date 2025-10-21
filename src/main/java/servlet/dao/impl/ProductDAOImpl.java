@@ -156,7 +156,20 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public boolean deleteProduct(int productId) {
-		// TODO Auto-generated method stub
+
+		String sql = "DELETE FROM products WHERE product_id = ?";
+
+		try (
+				Connection connection = DataSourceUtil.getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql);
+				) {
+			statement.setInt(1, productId);
+			int rows = statement.executeUpdate();
+			return rows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 		return false;
 	}
 

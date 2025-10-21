@@ -316,7 +316,6 @@
 
 package servlet.admin.view;
 
-import servlet.admin.controller.AINotificationService;
 import servlet.utils.DataSourceUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -509,30 +508,6 @@ public class PaymentReport extends HttpServlet {
         out.println("          <p class=\"mt-4 fst-italic\">Biểu đồ tròn bên cạnh thể hiện tỷ lệ phần trăm các phương thức thanh toán được sử dụng trong hệ thống.</p>");
 
 
-        // Notifications based on the payment counts
-        String aiMessage;
-
-        boolean hasMonth = (month != null && !month.trim().isEmpty());
-        boolean hasYear = (year != null && !year.trim().isEmpty());
-
-        if (!hasMonth && !hasYear) {
-            // ➤ Không có tháng và không có năm ⇒ phân tích toàn bộ dữ liệu
-            aiMessage = AINotificationService.generateAllTimeMessage(cashCount, transferCount, creditCardCount);
-        } else if (!hasMonth && hasYear) {
-            // ➤ Chỉ có năm ⇒ phân tích cả năm
-            int yearInt = Integer.parseInt(year);
-            aiMessage = AINotificationService.generateYearlyMessage(yearInt, cashCount, transferCount, creditCardCount);
-        } else {
-            // ➤ Có cả tháng và năm ⇒ phân tích theo tháng
-            aiMessage = AINotificationService.generateSmartMessage(cashCount, transferCount, creditCardCount);
-        }
-        out.println("<div class='alert alert-info mt-3'><strong>" + aiMessage + "</strong></div>");
-// Gọi API để nhận thông báo từ mô hình AI
-
-        String aiMessage2 = getNextMonthPrediction(currentMonth, currentYear);
-        out.println("<div class='alert alert-success mt-3'><strong>" + aiMessage2 + "</strong></div>");
-
-
         out.println("<!-- Nút Xuất dữ liệu PDF phương thức thanh toán -->");
         out.println("<div class=\"filter dropdown mt-3\">");
         out.println("  <a class=\"icon btn btn-success\" data-bs-toggle=\"dropdown\">");
@@ -557,9 +532,6 @@ public class PaymentReport extends HttpServlet {
         out.println("  </div>");
         out.println("</div>");
         out.println("");
-
-// Phương thức để gọi API
-
 
         out.println("        </div>");
         out.println("      </div>");
@@ -686,47 +658,6 @@ public class PaymentReport extends HttpServlet {
 
         RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
         footerDispatcher.include(request, response);
-    }
-
-    private String getNextMonthPrediction(int month, int year) {
-        String apiUrl = "http://localhost:5000/predict-next-month"; // API Flask
-
-        try {
-            String jsonInputString = String.format("{\"year\": %d, \"month\": %d}", year, month);
-
-            URL url = new URL(apiUrl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json; utf-8");
-            conn.setRequestProperty("Accept", "application/json");
-            conn.setDoOutput(true);
-
-            try (OutputStream os = conn.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
-
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
-                StringBuilder response = new StringBuilder();
-                String responseLine;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
-
-                return "🔮 Dự báo tháng tiếp theo (" + getNextMonthLabel(month, year) + "): <br>" + response.toString();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "❌ Không thể kết nối AI để dự báo.";
-        }
-    }
-
-    // Hàm phụ để in ra tháng/năm tiếp theo đúng định dạng
-    private String getNextMonthLabel(int month, int year) {
-        int nextMonth = (month % 12) + 1;
-        int nextYear = (month == 12) ? year + 1 : year;
-        return String.format("%02d/%d", nextMonth, nextYear);
     }
 
 

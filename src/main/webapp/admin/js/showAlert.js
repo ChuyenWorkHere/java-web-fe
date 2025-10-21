@@ -77,6 +77,21 @@ if(title && action && noti) {
                 showAlert("Xóa sản phẩm không thành công", false);
             }
             break;
+        case "order":
+            if (noti === "success" && action === "add") {
+                showAlert("Thêm sản phẩm thành công!", true);
+            } else if (noti === "failed" && action == "add") {
+                showAlert("Thêm sản phẩm thất bại!", false);
+            } else if (noti === "success" && action === "edit") {
+                showAlert("Cập nhật đơn hàng thành công", true);
+            } else if (noti === "failed" && action === "edit") {
+                showAlert("Cập nhật đơn hàng không thành công", false);
+            } else if (noti === "success" && action === "del") {
+                showAlert("Xóa đơn hàng thành công", true);
+            } else if (noti === "failed" && action === "del") {
+                showAlert("Xóa đơn hàng không thành công", false);
+            }
+            break;
         // Thêm các case khác nếu cần
         default:
             break;

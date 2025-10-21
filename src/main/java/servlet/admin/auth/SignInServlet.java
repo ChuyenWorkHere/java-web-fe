@@ -172,6 +172,7 @@ public class SignInServlet extends HttpServlet {
 		if (user != null){
 			HttpSession session = request.getSession();
 			session.setAttribute("username", user.getFullname());
+			session.setAttribute("userId", user.getUserId());
 			session.setAttribute("role", user.getRole().getRoleName());
 			if("ADMIN".equals(user.getRole().getRoleName())) {
 				response.sendRedirect("../admin/home-view");

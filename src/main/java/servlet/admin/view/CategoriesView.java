@@ -127,7 +127,7 @@ public class CategoriesView extends HttpServlet {
 
 	    out.append("<main id=\"main\" class=\"main\">");
 	    out.append("");
-	    out.append("    <div class=\"pagetitle d-flex justify-content-between\">");
+	    out.append("    <div class=\"pagetitle p-0 m-0 d-flex justify-content-between\">");
 	    out.append("      <h1>Danh mục</h1>");
 	    out.append("      <nav class=\"d-flex align-items-center\">");
 	    out.append("        <ol class=\"breadcrumb  mb-0\">");

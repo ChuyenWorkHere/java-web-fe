@@ -169,8 +169,10 @@ public class ProductsView extends HttpServlet {
 			urlSearch.append(price);
 		}
 
+		//Danh sách product để hiển thị
 		List<Product> products = productDAO.findAllBySearchConditions(size, page, sortBy, orderBy, keyWord, categoryId, brandId,color, price);
 
+		//Danh sách product để lấy size, tạo pagination
 		List<Product> allSearchedProduct = productDAO.findAllBySearchConditions(totalProduct, 1, sortBy, orderBy, keyWord, categoryId, brandId,color, price);
 		int totalProductSearched = allSearchedProduct.size();
 		int totalPages = 1;
@@ -185,7 +187,7 @@ public class ProductsView extends HttpServlet {
 		headerDispatcher.include(request, response);
 
 		out.append("<main id=\"main\" class=\"main\">");
-		out.append("    <div class=\"pagetitle d-flex justify-content-between\">");
+		out.append("    <div class=\"pagetitle d-flex justify-content-between m-0 p-0 pt-2\">");
 		out.append("      <h1>Sản phẩm</h1>");
 		out.append("      <nav class=\"d-flex align-items-center\">");
 		out.append("        <ol class=\"breadcrumb  mb-0\">");
@@ -200,25 +202,28 @@ public class ProductsView extends HttpServlet {
 		out.append("      <!-- Container để chứa alert -->");
 		out.append("      <div id=\"alert-container\" class = \"z-2 position-absolute\"></div>");
 		out.append("");
-		out.append("      <!--Modal Delete Product-->");
-		out.append("      <div class=\"modal fade\" id=\"modalDel\" tabindex=\"-1\">");
-		out.append("        <div class=\"modal-dialog modal-dialog-centered\">");
-		out.append("          <div class=\"modal-content\">");
-		out.append("            <div class=\"modal-header\">");
-		out.append("              <h5 class=\"modal-title\">Xác nhận xóa</h5>");
-		out.append("              <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>");
-		out.append("            </div>");
-		out.append("            <div class=\"modal-body text-center\">");
-		out.append("              Xác nhận xóa sản phẩm Tủ Quần Áo Gỗ Có Gương MOHO GRENAA 2 Nhiều Kích Thước?");
-		out.append("            </div>");
-		out.append("            <div class=\"modal-footer\">");
-		out.append("              <button  type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Đóng</button>");
-		out.append("              <button  type=\"button\" class=\"btn btn-danger confirm\" data-bs-dismiss=\"modal\">Xóa</button>");
-		out.append("            </div>");
-		out.append("          </div>");
-		out.append("        </div>");
-		out.append("      </div>");
-		out.append("      <!-- End Modal Delete Product-->");
+
+		for (int i = 0; i < products.size(); i++) {
+
+			Product product = products.get(i);
+
+			out.append("<!--Modal Delete Product-->");
+			out.append("        <div class=\"modal fade\" id=\"modalDel"+product.getProductId()+"\" tabindex=\"-1\">");
+			out.append("          <div class=\"modal-dialog modal-dialog-centered\">");
+			out.append("            <div class=\"modal-content\">");
+			out.append("              <div class=\"modal-body text-center py-3\">");
+			out.append("                <div class=\"my-3\"><i class=\"bi bi-exclamation-octagon me-1\"></i>Xác nhận xóa sản phẩm "+product.getProductName()+"?</div>");
+			out.append("                <form id=\"form"+product.getProductId()+"\" method=\"post\" action=\"../admin/product-delete\">");
+			out.append("                  <input type=\"hidden\" name=\"productId\" value=\"" + product.getProductId() + "\">");
+			out.append("                  <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Đóng</button>");
+			out.append("                  <button type=\"submit\" class=\"btn btn-danger del-confirm\">Xóa</button>");
+			out.append("                </form>");
+			out.append("              </div>");
+			out.append("            </div>");
+			out.append("          </div>");
+			out.append("        </div><!-- End Modal Delete Product-->");
+		}
+
 		out.append("");
 		out.append("      <div class=\"row product\">");
 		out.append("        <div class=\"col-xl-9 order-2 order-xl-1 mt-4\">");
@@ -279,7 +284,7 @@ public class ProductsView extends HttpServlet {
 			out.append("                  <button onclick=\"window.location.href='../admin/edit-product-view?pId="+product.getProductId()+"'\" type=\"button\" class=\"btn bg-warning me-2\" data-bs-toggle=\"modal\" data-bs-target=\"\">");
 			out.append("                    <i class=\"bi bi-pencil text-white\"></i>");
 			out.append("                  </button>");
-			out.append("                  <button type=\"button\" class=\"btn bg-danger me-2\" data-bs-toggle=\"modal\" data-bs-target=\"#modalDel\">");
+			out.append("                  <button type=\"button\" class=\"btn bg-danger me-2\" data-bs-toggle=\"modal\" data-bs-target=\"#modalDel"+product.getProductId()+"\">");
 			out.append("                    <i class=\"bi bi-trash text-white\"></i>");
 			out.append("                  </button>");
 			out.append("                </div>");

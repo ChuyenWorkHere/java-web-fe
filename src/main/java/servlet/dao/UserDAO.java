@@ -2,6 +2,7 @@ package servlet.dao;
 
 import servlet.models.User;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface UserDAO {
@@ -28,4 +29,6 @@ public interface UserDAO {
 
     //kích hoạt lại tài khoản
     boolean restoreById(int userId);
+
+    User getLoggedInUser(HttpSession session);
 }

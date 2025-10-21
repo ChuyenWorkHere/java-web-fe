@@ -1,5 +1,9 @@
 package servlet.admin.view;
 
+import servlet.dao.UserDAO;
+import servlet.dao.impl.UserDAOImpl;
+import servlet.models.User;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -9,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class UserProfileView
@@ -16,22 +21,26 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/admin/profile")
 public class UserProfileView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
+	private UserDAO userDAO;
+
     public UserProfileView() {
         super();
-        // TODO Auto-generated constructor stub
+		userDAO = new UserDAOImpl();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");		 
+		response.setCharacterEncoding("UTF-8");
+
+		HttpSession session = request.getSession();
+		User loggedInUser = userDAO.getLoggedInUser(session);
+
+		if(loggedInUser == null){
+			response.sendRedirect("/Furniture/admin/signin");
+			return;
+		}
 		
 		PrintWriter out = response.getWriter();
 		
@@ -41,10 +50,10 @@ public class UserProfileView extends HttpServlet {
 	    out.append("<main id=\"main\" class=\"main\">");
 	    out.append("");
 	    out.append("    <div class=\"pagetitle d-flex justify-content-between\">");
-	    out.append("      <h1>Profile</h1>");
+	    out.append("      <h1>Thông tin</h1>");
 	    out.append("      <nav class=\"d-flex align-items-center\">");
 	    out.append("        <ol class=\"breadcrumb mb-0\">");
-	    out.append("          <li class=\"breadcrumb-item\"><a href=\"index.html\">Home</a></li>");
+	    out.append("          <li class=\"breadcrumb-item\"><a href=\"../admin/home-view\">Home</a></li>");
 	    out.append("          <li class=\"breadcrumb-item\">Users</li>");
 	    out.append("          <li class=\"breadcrumb-item active\">Profile</li>");
 	    out.append("        </ol>");
@@ -59,8 +68,8 @@ public class UserProfileView extends HttpServlet {
 	    out.append("            <div class=\"card-body profile-card pt-4 d-flex flex-column align-items-center\">");
 	    out.append("");
 	    out.append("              <img src=\"img/profile-img.jpg\" alt=\"Profile\" class=\"rounded-circle\">");
-	    out.append("              <h2>Kevin Anderson</h2>");
-	    out.append("              <h3>Web Designer</h3>");
+	    out.append("              <h2>"+loggedInUser.getFullname()+"</h2>");
+	    out.append("              <h3>"+loggedInUser.getEmail()+"</h3>");
 	    out.append("              <div class=\"social-links mt-2\">");
 	    out.append("                <a href=\"#\" class=\"twitter\"><i class=\"bi bi-twitter\"></i></a>");
 	    out.append("                <a href=\"#\" class=\"facebook\"><i class=\"bi bi-facebook\"></i></a>");
@@ -99,46 +108,50 @@ public class UserProfileView extends HttpServlet {
 	    out.append("              <div class=\"tab-content pt-2\">");
 	    out.append("");
 	    out.append("                <div class=\"tab-pane fade show active profile-overview\" id=\"profile-overview\">");
-	    out.append("                  <h5 class=\"card-title\">About</h5>");
+	    out.append("                  <h5 class=\"card-title\">Giới thiệu</h5>");
 	    out.append("                  <p class=\"small fst-italic\">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>");
 	    out.append("");
-	    out.append("                  <h5 class=\"card-title\">Profile Details</h5>");
+	    out.append("                  <h5 class=\"card-title\">Chi tiết</h5>");
 	    out.append("");
 	    out.append("                  <div class=\"row\">");
-	    out.append("                    <div class=\"col-lg-3 col-md-4 label \">Full Name</div>");
-	    out.append("                    <div class=\"col-lg-9 col-md-8\">Kevin Anderson</div>");
+	    out.append("                    <div class=\"col-lg-3 col-md-4 label \">Họ tên</div>");
+	    out.append("                    <div class=\"col-lg-9 col-md-8\">"+loggedInUser.getFullname()+"</div>");
 	    out.append("                  </div>");
 	    out.append("");
 	    out.append("                  <div class=\"row\">");
-	    out.append("                    <div class=\"col-lg-3 col-md-4 label\">Company</div>");
-	    out.append("                    <div class=\"col-lg-9 col-md-8\">Lueilwitz, Wisoky and Leuschke</div>");
+	    out.append("                    <div class=\"col-lg-3 col-md-4 label\">Giới tính</div>");
+	    out.append("                    <div class=\"col-lg-9 col-md-8\">"+loggedInUser.getGender()+"</div>");
 	    out.append("                  </div>");
 	    out.append("");
 	    out.append("                  <div class=\"row\">");
-	    out.append("                    <div class=\"col-lg-3 col-md-4 label\">Job</div>");
-	    out.append("                    <div class=\"col-lg-9 col-md-8\">Web Designer</div>");
+	    out.append("                    <div class=\"col-lg-3 col-md-4 label\">Quyền</div>");
+	    out.append("                    <div class=\"col-lg-9 col-md-8\">"+loggedInUser.getRole().getRoleName()+"</div>");
 	    out.append("                  </div>");
 	    out.append("");
 	    out.append("                  <div class=\"row\">");
-	    out.append("                    <div class=\"col-lg-3 col-md-4 label\">Country</div>");
-	    out.append("                    <div class=\"col-lg-9 col-md-8\">USA</div>");
+	    out.append("                    <div class=\"col-lg-3 col-md-4 label\">Địa chỉ</div>");
+	    out.append("                    <div class=\"col-lg-9 col-md-8\">"+loggedInUser.getAddress()+"</div>");
 	    out.append("                  </div>");
 	    out.append("");
 	    out.append("                  <div class=\"row\">");
-	    out.append("                    <div class=\"col-lg-3 col-md-4 label\">Address</div>");
-	    out.append("                    <div class=\"col-lg-9 col-md-8\">A108 Adam Street, New York, NY 535022</div>");
-	    out.append("                  </div>");
-	    out.append("");
-	    out.append("                  <div class=\"row\">");
-	    out.append("                    <div class=\"col-lg-3 col-md-4 label\">Phone</div>");
-	    out.append("                    <div class=\"col-lg-9 col-md-8\">(436) 486-3538 x29071</div>");
+	    out.append("                    <div class=\"col-lg-3 col-md-4 label\">SĐT</div>");
+	    out.append("                    <div class=\"col-lg-9 col-md-8\">"+loggedInUser.getPhoneNumber()+"</div>");
 	    out.append("                  </div>");
 	    out.append("");
 	    out.append("                  <div class=\"row\">");
 	    out.append("                    <div class=\"col-lg-3 col-md-4 label\">Email</div>");
-	    out.append("                    <div class=\"col-lg-9 col-md-8\">k.anderson@example.com</div>");
+	    out.append("                    <div class=\"col-lg-9 col-md-8\">"+loggedInUser.getEmail()+"</div>");
 	    out.append("                  </div>");
 	    out.append("");
+	    out.append("                  <div class=\"row\">");
+	    out.append("                    <div class=\"col-lg-3 col-md-4 label\">Ngày tạo tài khoản</div>");
+	    out.append("                    <div class=\"col-lg-9 col-md-8\">"+loggedInUser.getCreateDate()+"</div>");
+	    out.append("                  </div>");
+	    out.append("");
+		out.append("                  <div class=\"row\">");
+		out.append("                    <div class=\"col-lg-3 col-md-4 label\">Tình trạng</div>");
+		out.append("                    <div class=\"col-lg-9 col-md-8\">"+ (loggedInUser.isActive() ? "Hoạt động"  : "Bảo trì")+"</div>");
+		out.append("                  </div>");
 	    out.append("                </div>");
 	    out.append("");
 	    out.append("                <div class=\"tab-pane fade profile-edit pt-3\" id=\"profile-edit\">");
@@ -146,12 +159,12 @@ public class UserProfileView extends HttpServlet {
 	    out.append("                  <!-- Profile Edit Form -->");
 	    out.append("                  <form>");
 	    out.append("                    <div class=\"row mb-3\">");
-	    out.append("                      <label for=\"profileImage\" class=\"col-md-4 col-lg-3 col-form-label\">Profile Image</label>");
+	    out.append("                      <label for=\"profileImage\" class=\"col-md-4 col-lg-3 col-form-label\"> Image</label>");
 	    out.append("                      <div class=\"col-md-8 col-lg-9\">");
-	    out.append("                        <img src=\"../img/profile-img.jpg\" alt=\"Profile\">");
+	    out.append("                        <img src=\"img/profile-img.jpg\" alt=\"Profile\">");
 	    out.append("                        <div class=\"pt-2\">");
-	    out.append("                          <a href=\"#\" class=\"btn btn-primary btn-sm\" title=\"Upload new profile image\"><i class=\"bi bi-upload\"></i></a>");
-	    out.append("                          <a href=\"#\" class=\"btn btn-danger btn-sm\" title=\"Remove my profile image\"><i class=\"bi bi-trash\"></i></a>");
+//	    out.append("                          <a href=\"#\" class=\"btn btn-primary btn-sm\" title=\"Upload new profile image\"><i class=\"bi bi-upload\"></i></a>");
+//	    out.append("                          <a href=\"#\" class=\"btn btn-danger btn-sm\" title=\"Remove my profile image\"><i class=\"bi bi-trash\"></i></a>");
 	    out.append("                        </div>");
 	    out.append("                      </div>");
 	    out.append("                    </div>");
@@ -159,7 +172,7 @@ public class UserProfileView extends HttpServlet {
 	    out.append("                    <div class=\"row mb-3\">");
 	    out.append("                      <label for=\"fullName\" class=\"col-md-4 col-lg-3 col-form-label\">Full Name</label>");
 	    out.append("                      <div class=\"col-md-8 col-lg-9\">");
-	    out.append("                        <input name=\"fullName\" type=\"text\" class=\"form-control\" id=\"fullName\" value=\"Kevin Anderson\">");
+	    out.append("                        <input name=\"fullName\" type=\"text\" class=\"form-control\" id=\"fullName\" value=\""+loggedInUser.getFullname()+"\">");
 	    out.append("                      </div>");
 	    out.append("                    </div>");
 	    out.append("");
@@ -307,9 +320,6 @@ public class UserProfileView extends HttpServlet {
 		footerDispatcher.include(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

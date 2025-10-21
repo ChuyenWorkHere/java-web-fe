@@ -126,39 +126,6 @@ public class OrderDAOImpl implements OrderDAO {
         return 0;
     }
 
-    @Override
-    public int countDeletedOrders() {
-        String sql = "SELECT COUNT(*) FROM orders WHERE deleted_at IS NOT NULL";
-        try (Connection conn = DataSourceUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-
-    @Override
-    public boolean softDeleteOrder(int orderId) {
-        String sql = "UPDATE orders SET deleted_at = CURRENT_TIMESTAMP WHERE order_id = ?";
-
-        try (Connection conn = DataSourceUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, orderId);
-            int affectedRows = ps.executeUpdate();
-            return affectedRows > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
 
 
     @Override
@@ -248,18 +215,14 @@ public class OrderDAOImpl implements OrderDAO {
         String deleteOrderSql = "DELETE FROM orders WHERE order_id = ?";
 
         try (Connection conn = DataSourceUtil.getConnection()) {
-            // Bắt đầu transaction
             conn.setAutoCommit(false);
-
             try (
                     PreparedStatement psItems = conn.prepareStatement(deleteOrderItemsSql);
                     PreparedStatement psOrder = conn.prepareStatement(deleteOrderSql)
             ) {
-                // Xóa các mục trong đơn hàng
                 psItems.setInt(1, orderId);
                 psItems.executeUpdate();
 
-                // Xóa đơn hàng
                 psOrder.setInt(1, orderId);
                 int affectedRows = psOrder.executeUpdate();
 
@@ -270,114 +233,16 @@ public class OrderDAOImpl implements OrderDAO {
                     conn.rollback();
                 }
             } catch (SQLException e) {
-                conn.rollback(); // rollback nếu có lỗi trong quá trình xóa
+                conn.rollback();
                 e.printStackTrace();
             } finally {
-                conn.setAutoCommit(true); // khôi phục trạng thái ban đầu
+                conn.setAutoCommit(true);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return false;
-    }
-
-    @Override
-    public int deleteOldDeletedOrders() {
-//        String deleteOrderItemsSql = "DELETE FROM order_items WHERE order_id IN (SELECT order_id FROM orders WHERE deleted_at IS NOT NULL AND deleted_at <= ?)";
-//        String deleteOrderSql = "DELETE FROM orders WHERE deleted_at IS NOT NULL AND deleted_at <= ?";
-//
-//        int totalDeleted = 0;
-//
-//        try (Connection conn = DataSourceUtil.getConnection()) {
-//            // Bắt đầu transaction
-//            conn.setAutoCommit(false);
-//
-//            try (
-//                    PreparedStatement psItems = conn.prepareStatement(deleteOrderItemsSql);
-//                    PreparedStatement psOrder = conn.prepareStatement(deleteOrderSql)
-//            ) {
-//                // Tính toán ngày 30 ngày trước
-//                java.sql.Date thirtyDaysAgo = new java.sql.Date(System.currentTimeMillis() - 30L * 24 * 60 * 60 * 1000);
-//
-//                // Xóa các mục trong đơn hàng
-//                psItems.setDate(1, thirtyDaysAgo);
-//                totalDeleted += psItems.executeUpdate();
-//
-//                // Xóa đơn hàng
-//                psOrder.setDate(1, thirtyDaysAgo);
-//                totalDeleted += psOrder.executeUpdate();
-//
-//                conn.commit(); // Commit transaction
-//            } catch (SQLException e) {
-//                conn.rollback(); // Rollback nếu có lỗi
-//                e.printStackTrace();
-//            } finally {
-//                conn.setAutoCommit(true); // Khôi phục trạng thái ban đầu
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-
-        return 0; // Trả về tổng số đơn hàng đã xóa
-    }
-
-
-    @Override
-    public List<Order> getDeletedOrders(int pageNo, int pageSize) {
-        List<Order> orders = new ArrayList<>();
-        String sql = "SELECT o.order_id, o.created_at, o.total_price, o.order_status, o.payment_status, o.payment_method, " +
-                "u.user_id, u.user_fullname " +
-                "FROM orders o JOIN users u ON o.user_id = u.user_id " +
-                "WHERE o.deleted_at IS NOT NULL " +
-                "ORDER BY o.created_at DESC " +
-                "LIMIT ? OFFSET ?";
-
-        try (Connection conn = DataSourceUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            int offset = (pageNo - 1) * pageSize;
-            ps.setInt(1, pageSize);
-            ps.setInt(2, offset);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Order order = new Order();
-                    order.setOrderId(rs.getInt("order_id"));
-                    order.setCreatedAt(rs.getTimestamp("created_at"));
-                    order.setTotalPrice(rs.getFloat("total_price"));
-                    order.setOrderStatus(rs.getString("order_status"));
-                    order.setPaymentStatus(rs.getString("payment_status"));
-                    order.setPaymentMethod(rs.getString("payment_method"));
-
-                    User user = new User();
-                    user.setUserId(rs.getInt("user_id"));
-                    user.setFullname(rs.getString("user_fullname"));
-                    order.setUser (user);
-
-                    orders.add(order);
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return orders;
-    }
-
-    @Override
-    public boolean restoreOrder(int orderId) {
-        String sql = "UPDATE orders SET deleted_at = NULL WHERE order_id = ?";
-        try (Connection conn = DataSourceUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, orderId);
-            int affectedRows = ps.executeUpdate();
-            return affectedRows > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return false;
     }
 
@@ -477,7 +342,7 @@ public class OrderDAOImpl implements OrderDAO {
     public List<Map<String, Integer>> orderStatusCount() {
         List<Map<String, Integer>> result = new ArrayList<>();
 
-        String sql = "SELECT order_status, COUNT(*) AS total FROM orders WHERE deleted_at IS NULL GROUP BY order_status";
+        String sql = "SELECT order_status, COUNT(*) AS total FROM orders GROUP BY order_status";
         try (Connection conn = DataSourceUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 

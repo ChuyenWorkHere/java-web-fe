@@ -177,34 +177,6 @@ public class SidebarView extends HttpServlet {
 		out.append("        </a>");
 		out.append("      </li><!-- End Profile Page Nav -->");
 
-		out.append("      <li class=\"nav-item\">");
-		out.append("        <a class=\"nav-link collapsed\" href=\"pages-register.html\">");
-		out.append("          <i class=\"bi bi-card-list\"></i>");
-		out.append("          <span>Đăng Ký</span>");
-		out.append("        </a>");
-		out.append("      </li><!-- End Register Page Nav -->");
-
-		out.append("      <li class=\"nav-item\">");
-		out.append("        <a class=\"nav-link collapsed\" href=\"/Furniture/admin/signin\">");
-		out.append("          <i class=\"bi bi-box-arrow-in-right\"></i>");
-		out.append("          <span>Đăng Nhập</span>");
-		out.append("        </a>");
-		out.append("      </li><!-- End Login Page Nav -->");
-
-		out.append("      <li class=\"nav-item\">");
-		out.append("        <a class=\"nav-link collapsed\" href=\"pages-error-404.html\">");
-		out.append("          <i class=\"bi bi-dash-circle\"></i>");
-		out.append("          <span>Error 404</span>");
-		out.append("        </a>");
-		out.append("      </li><!-- End Error 404 Page Nav -->");
-
-		out.append("      <li class=\"nav-item\">");
-		out.append("        <a class=\"nav-link collapsed\" href=\"pages-blank.html\">");
-		out.append("          <i class=\"bi bi-file-earmark\"></i>");
-		out.append("          <span>Blank</span>");
-		out.append("        </a>");
-		out.append("      </li><!-- End Blank Page Nav -->");
-
 		out.append("    </ul>");
 
 		out.append("  </aside><!-- End Sidebar-->");

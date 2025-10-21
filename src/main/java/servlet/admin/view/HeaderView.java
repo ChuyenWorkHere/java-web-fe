@@ -267,12 +267,6 @@ public class HeaderView extends HttpServlet {
 		out.append("            </li>");
 
 		out.append("            <li>");
-		out.append("              <a class=\"dropdown-item d-flex align-items-center\" href=\"users-profile.html\">");
-		out.append("                <i class=\"bi bi-gear\"></i>");
-		out.append("                <span>Cài đặt tài khoản</span>");
-		out.append("              </a>");
-		out.append("            </li>");
-		out.append("            <li>");
 		out.append("              <hr class=\"dropdown-divider\">");
 		out.append("            </li>");
 

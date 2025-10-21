@@ -24,14 +24,15 @@ public class OrderDelete extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("orderId")) ;
-        System.out.println("Xóa vĩnh viễn đơn hàng với orderId: " + orderId);
 
         OrderDAO orderDAO = new OrderDAOImpl();
-        boolean success =  orderDAO.deleteOrder(orderId);
+        boolean isSuccess =  orderDAO.deleteOrder(orderId);
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{\"success\":" + success + "}");
+        if(isSuccess) {
+            response.sendRedirect("../admin/orders-view?title=order&action=del&noti=success");
+        } else {
+            response.sendRedirect("../admin/orders-view?title=order&action=del&noti=failed");
+        }
     }
 
 

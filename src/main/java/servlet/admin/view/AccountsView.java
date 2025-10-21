@@ -68,7 +68,7 @@ public class AccountsView extends HttpServlet {
 
 
 	    out.append("<main id=\"main\" class=\"main\">");
-	    out.append("    <div class=\"pagetitle d-flex justify-content-between\">");
+	    out.append("    <div class=\"pagetitle d-flex justify-content-between py-1 m-0\">");
 	    out.append("      <h1>Tài khoản</h1>");
 	    out.append("      <nav class=\"d-flex align-items-center\">");
 	    out.append("        <ol class=\"breadcrumb  mb-0\">");
@@ -125,8 +125,6 @@ public class AccountsView extends HttpServlet {
 				out.append("data-name='" + user.getFullname() + "'>");
 				out.append("<i class='bi bi-arrow-clockwise'></i></button>");
 			}
-
-
 			out.append("                    </div>");
 		    out.append("                  </div>");
 		    out.append("                </div>");
@@ -135,11 +133,9 @@ public class AccountsView extends HttpServlet {
 	    }
 	    out.append("          </div>");
 	    out.append("        </div>");
-
 	    out.append("        <div class=\"col-md-3 mt-4 order-1 order-md-2\">");
 	    out.append("          <div class=\"row card py-2\" style=\" position: sticky; top: 100px;\">");
 	    out.append("            <div class=\"container py-4 d-flex flex-column align-items-start gap-3\" style=\"max-width: 320px;\">");
-
 		out.append("              <div class=\"d-flex align-items-center gap-2 filter-label\">");
 		out.append("                <i class=\"bi bi-funnel-fill\"></i>");
 		out.append("                <span>BỘ LỌC</span>");

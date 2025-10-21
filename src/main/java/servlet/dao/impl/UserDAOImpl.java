@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.management.relation.Role;
+import javax.servlet.http.HttpSession;
 
 import org.mindrot.jbcrypt.BCrypt;
 import servlet.utils.PasswordUtils;
@@ -231,6 +232,17 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public User getLoggedInUser(HttpSession session) {
+        if(session.getAttribute("userId") != null) {
+            int userId = (Integer) session.getAttribute("userId");
+            User loggedInUser = findById(userId);
+            return loggedInUser;
+        } else {
+            return null;
+        }
     }
 
     private User mapRowToUser(ResultSet rs) throws SQLException{

@@ -15,26 +15,13 @@ public interface OrderDAO {
     //Đếm số lượng đơn hàng
     public int countAllOrders(String orderStatus, String paymentStatus, String paymentMethod);
 
-    //Đếm đơn đã xóa
-    public int countDeletedOrders();
 
     //lấy chi tiết đơn hàng theo orderId
     Order getOrderDetailByOrderId(int orderId);
 
-    // Chuyển vào thùng rác
-    boolean softDeleteOrder(int orderId);
 
     // Xóa đơn hàng
     boolean deleteOrder(int orderId);
-
-    // Xoá đơn hàng sau 30 ngày
-    public int deleteOldDeletedOrders();
-
-    // Lấy đơn hàng trong thùng rác
-    public List<Order> getDeletedOrders(int pageNo, int pageSize);
-
-    // Khôi phục đơn hàng
-    public boolean restoreOrder(int orderId);
 
     //lấy tất cả đơn hàng theo khoảng thời gian
     List<Order> getAllOrdersByDate(String startDate, String endDate);
