@@ -2,27 +2,20 @@ package servlet.admin.view;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import servlet.dao.UserDAO;
-import servlet.dao.impl.UserDAOImpl;
-import servlet.models.User;
-
 
 @WebServlet("/admin/account-modal")
-public class AccountModal extends HttpServlet {
+public class AccountModalView extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
 
-    public AccountModal() {
+    public AccountModalView() {
         super();
         // TODO Auto-generated constructor stub
     }

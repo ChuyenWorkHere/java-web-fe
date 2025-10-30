@@ -1,7 +1,5 @@
 package servlet.dao;
 
-import servlet.response.ReportChartResponse;
-
 import java.util.Map;
 
 public interface SalesDAO {

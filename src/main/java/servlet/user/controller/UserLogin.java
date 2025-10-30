@@ -1,4 +1,4 @@
-package servlet.user;
+package servlet.user.controller;
 
 import servlet.dao.UserDAO;
 import servlet.dao.impl.UserDAOImpl;
@@ -11,13 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @WebServlet("/public/customer-login")
-public class LoginController extends HttpServlet {
+public class UserLogin extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
 
-    public LoginController() {
+    public UserLogin() {
         super();
     }
 
@@ -36,15 +38,12 @@ public class LoginController extends HttpServlet {
 
         if (user != null){
             HttpSession session = request.getSession();
-
-            if("CUSTOMER".equals(user.getRole().getRoleName())) {
-                session.setAttribute("user", user);
-                session.setAttribute("role", user.getRole().getRoleName());
-                response.sendRedirect("../public/home");
-            }
-        }else {
+            session.setAttribute("user", user);
+            session.setAttribute("role", user.getRole().getRoleName());
+            response.sendRedirect("../public/home");
+        } else {
             request.setAttribute("errorMessage", "Tài khoản hoặc mật khẩu không hợp lệ");
-            request.getRequestDispatcher("/Login.jsp").forward(request, response);
+            request.getRequestDispatcher("../public/login").forward(request, response);
         }
     }
 }

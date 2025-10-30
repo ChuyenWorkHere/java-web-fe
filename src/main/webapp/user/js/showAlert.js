@@ -4,40 +4,32 @@ function getQueryParam(param) {
     return urlParams.get(param);
 }
 
-/* Hiển thị thông báo khi ấn nút modal */
 function showAlert(message, isSuccess) {
-    document.getElementById('alert-container').innerHTML = "";
-    // Tạo alert HTML
     const alertHTML = `
-      <div id="notifi" class="alert ${ isSuccess ? "alert-success" : "alert-danger"} alert-dismissible fade show position-fixed bottom-0 end-0 m-3" role="alert">
-        <i class="bi ${isSuccess ? "bi-check-circle" : "bi-exclamation-circle"}"></i>
+      <div id="notifi" class="alert ${ isSuccess ? "alert-success" : "alert-danger"}
+           alert-dismissible fade show position-fixed bottom-0 end-0 m-3 shadow"
+           role="alert" style="min-width: 300px; z-index:1055">
+        <i class="bi ${isSuccess ? "bi-check-circle" : "bi-exclamation-circle"} me-1"></i>
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     `;
+    document.body.insertAdjacentHTML('beforeend', alertHTML);
 
-    // Thêm alert vào DOM
-    document.getElementById('alert-container').innerHTML = alertHTML;
-
-    // Tự động đóng alert sau 1 giây
     setTimeout(() => {
         const notifi = document.getElementById('notifi');
         if (notifi) {
-            // Kích hoạt hiệu ứng fade out
             notifi.classList.remove('show');
             notifi.classList.add('hide');
-
-            // Gỡ khỏi DOM sau khi hiệu ứng kết thúc
-            setTimeout(() => {
-                notifi.remove();
-            }, 300); // Thời gian khớp với hiệu ứng fade Bootstrap (300ms)
+            setTimeout(() => notifi.remove(), 300);
         }
-    }, 1000);
+    }, 1500);
 }
 
 const title = getQueryParam("title");
 const action = getQueryParam("action");
 const noti = getQueryParam("noti");
+const message = getQueryParam("message");
 
 if(title && action && noti) {
     switch (title) {
@@ -104,5 +96,10 @@ if(title && action && noti) {
             break;
     }
     // (Tuỳ chọn) Xoá tham số khỏi URL để tránh alert khi reload
+    window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+if(message && noti) {
+    showAlert(message, noti === "success" ? true : false);
     window.history.replaceState({}, document.title, window.location.pathname);
 }

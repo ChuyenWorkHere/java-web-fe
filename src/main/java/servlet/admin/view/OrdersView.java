@@ -273,7 +273,7 @@ public class OrdersView extends HttpServlet {
 
         out.append("              </div>");
 
-        out.append("              <div class=\"d-flex align-items-center mt-3\">");
+        out.append("              <div class=\"d-flex justify-content-between align-items-center mt-3\">");
 
         out.append("                <!-- Nút Xuất dữ liệu -->");
 
@@ -308,31 +308,6 @@ public class OrdersView extends HttpServlet {
         out.append("                <!-- Nút Xuất dữ liệu PDF -->");
 
         out.append("  <div class=\"filter dropdown ms-3\">");
-        out.append("    <a class=\"icon btn btn-primary\" data-bs-toggle=\"dropdown\">");
-        out.append("      <i class=\"bi bi-download\"></i> Xuất PDF");
-        out.append("    </a>");
-        out.append("    <div class=\"dropdown-menu dropdown-menu-end p-4 shadow\" data-bs-auto-close=\"outside\" style=\"min-width: 350px;\">");
-
-        out.append("      <h6 class=\"fw-bold mb-3\">Chọn thời gian</h6>");
-
-        out.append("      <div id=\"monthFilterGroup\" class=\"mb-3\">");
-
-        out.append("        <div class=\"mb-3\">");
-        out.append("          <label for=\"startDatePdf\" class=\"form-label\">Ngày bắt đầu</label>");
-        out.append("          <input type=\"date\" class=\"form-control\" id=\"startDatePdf\">");
-        out.append("        </div>");
-
-        out.append("        <div class=\"mb-3\">");
-        out.append("          <label for=\"endDatePdf\" class=\"form-label\">Ngày kết thúc</label>");
-        out.append("          <input type=\"date\" class=\"form-control\" id=\"endDatePdf\">");
-        out.append("        </div>");
-
-        out.append("        <a id=\"dateSubmitPdf\" class=\"btn btn-primary w-100 mt-2\" href=\"#\" onclick=\"submitDateRangePdf()\">Xuất PDF</a>");
-
-        out.append("      </div>");
-
-        out.append("    </div>");
-        out.append("  </div>");
 
         out.append("                <!-- Pagination with icons -->");
         out.append("<nav aria-label=\"Page navigation example\" class=\"ms-auto mt-4 d-flex justify-content-center order-3 order-md-3\">");

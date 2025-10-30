@@ -99,19 +99,20 @@
         </footer>
         <!-- footer end -->
 
-    <!-- Fullscreen search -->
-    <div class="search-wrap">
-        <div class="search-inner">
-            <i class="fas fa-times search-close" id="search-close"></i>
-            <div class="search-cell">
-                <form method="get">
-                    <div class="search-field-holder">
-                        <input type="search" class="main-search-input" placeholder="Search Entire Store...">
-                    </div>
-                </form>
+        <!-- Fullscreen search -->
+        <div class="search-wrap">
+            <div class="search-inner">
+                <i class="fas fa-times search-close" id="search-close"></i>
+                <div class="search-cell">
+                    <form method="get">
+                        <div class="search-field-holder">
+                            <input type="search" class="main-search-input" placeholder="Search Entire Store...">
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-    </div> <!-- end fullscreen search -->
+        </div> <!-- end fullscreen search -->
+
 
 		<!-- JS here -->
         <script src="../user/js/vendor/jquery-1.12.4.min.js"></script>
@@ -131,6 +132,7 @@
         <script src="../user/js/plugins.js"></script>
         <script src="../user/js/main.js"></script>
         <script src="../user/js/cart.js"></script>
+        <script src="../user/js/showAlert.js"></script>
     </body>
 
 </html>

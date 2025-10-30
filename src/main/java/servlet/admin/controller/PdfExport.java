@@ -16,7 +16,7 @@ import java.util.Base64;
 import java.util.List;
 
 @WebServlet("/admin/exportPdf")
-public class PdfExportServlet extends HttpServlet {
+public class PdfExport extends HttpServlet {
     private OrdersReportDAO ordersReportDAO = new OrdersReportDAOImpl();
 
     @Override

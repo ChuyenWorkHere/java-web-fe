@@ -5,6 +5,7 @@ import servlet.dao.UserDAO;
 import servlet.dao.impl.HomeDAOImpl;
 import servlet.dao.impl.UserDAOImpl;
 import servlet.models.User;
+import servlet.response.ReportResponse;
 import servlet.utils.ProductUtils;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -53,6 +55,7 @@ public class HomeView extends HttpServlet {
 		String sales = "year";
 		String customers = "year";
 		String revenue = "year";
+		String chart = "year";
 
 		if(request.getParameter("sales") != null
 			&& request.getParameter("sales").trim() != ""){
@@ -78,7 +81,40 @@ public class HomeView extends HttpServlet {
 		filterInfo.put("revenue", revenue);
 		urlSearch.append("&revenue=" + revenue);
 
+		if(request.getParameter("chart") != null
+				&& request.getParameter("chart").trim() != ""){
+			chart = request.getParameter("chart");
+		}
+		filterInfo.put("chart", chart);
+		urlSearch.append("&chart=" + chart);
+
 		Map<String, Map<String, Double>> dataCardMap = homeDAO.loadCard(filterInfo);
+		ReportResponse<String> chartData = homeDAO.loadChart(filterInfo);
+		Map<String, List<Integer>> dataMap = chartData.getObject();
+
+		String salesData = "[" +
+				dataMap.get("sales").stream()
+						.map(String::valueOf)
+						.collect(Collectors.joining(","))
+				+ "]";
+
+		String customersData = "[" +
+				dataMap.get("customers").stream()
+						.map(String::valueOf)
+						.collect(Collectors.joining(","))
+				+ "]";
+
+		String revenueData = "[" +
+				dataMap.get("revenue").stream()
+						.map(String::valueOf)
+						.collect(Collectors.joining(","))
+				+ "]";
+
+		String labelsData = "[" +
+				chartData.getLabels().stream()
+						.map(label -> "'"+label+"'")
+						.collect(Collectors.joining(","))
+				+ "]";
 
 	    out.append("<main id=\"main\" class=\"main\">");
 	    out.append("");
@@ -233,13 +269,13 @@ public class HomeView extends HttpServlet {
 	    out.append("                      <h6>Filter</h6>");
 	    out.append("                    </li>");
 	    out.append("");
-	    out.append("                    <li><a class=\"dropdown-item\" href=\"#\">This Month</a></li>");
-	    out.append("                    <li><a class=\"dropdown-item\" href=\"#\">This Year</a></li>");
+	    out.append("                    <li><a class=\"dropdown-item\" href=\""+urlSearch.toString().replace("chart="+chart, "chart=month")+"\">Tháng này</a></li>");
+	    out.append("                    <li><a class=\"dropdown-item\" href=\""+urlSearch.toString().replace("chart="+chart, "chart=year")+"\">Năm nay</a></li>");
 	    out.append("                  </ul>");
 	    out.append("                </div>");
 	    out.append("");
 	    out.append("                <div class=\"card-body p-0\">");
-	    out.append("                  <h5 class=\"card-title ps-4\">Báo cáo <span>/Hôm nay</span></h5>");
+	    out.append("                  <h5 class=\"card-title ps-4\">Báo cáo <span>/"+(chart.equalsIgnoreCase("year") ? "Năm nay" : "Tháng này)")+"</span></h5>");
 	    out.append("");
 	    out.append("                  <!-- Line Chart -->");
 	    out.append("                  <div id=\"reportsChart\"></div>");
@@ -249,15 +285,15 @@ public class HomeView extends HttpServlet {
 		out.append("                      new ApexCharts(document.querySelector(\"#reportsChart\"), {");
 		out.append("                        series: [{");
 		out.append("                          name: 'Sales',");
-		out.append("                          data: [192, 180, 200, 210, 190, 192, 185],");
+		out.append("                          data: "+salesData+",");
 		out.append("                          type: 'line'");
 		out.append("                        }, {");
 		out.append("                          name: 'Lợi Nhuận (VND)',");
-		out.append("                          data: [2752600000, 2600000000, 2800000000, 2900000000, 2700000000, 2752600000, 2650000000],");
+		out.append("                          data: "+revenueData+",");
 		out.append("                          type: 'line'");
 		out.append("                        }, {");
 		out.append("                          name: 'Khách Hàng',");
-		out.append("                          data: [60, 55, 65, 70, 62, 60, 58],");
+		out.append("                          data: "+customersData+",");
 		out.append("                          type: 'line'");
 		out.append("                        }],");
 		out.append("                        chart: {");
@@ -291,7 +327,7 @@ public class HomeView extends HttpServlet {
 		out.append("                          width: 2");
 		out.append("                        },");
 		out.append("                        xaxis: {");
-		out.append("                          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],");
+		out.append("                          categories: "+labelsData+",");
 		out.append("                          labels: {");
 		out.append("                            show: true,");
 		out.append("                            rotate: 0,");
@@ -337,79 +373,7 @@ public class HomeView extends HttpServlet {
 	    out.append("              </div>");
 	    out.append("            </div><!-- End Reports -->");
 	    out.append("");
-	    out.append("            <!-- Top Selling -->");
-	    out.append("            <div class=\"col-12\">");
-	    out.append("              <div class=\"card top-selling overflow-auto\">");
-	    out.append("");
-	    out.append("                <div class=\"filter\">");
-	    out.append("                  <a class=\"icon\" href=\"#\" data-bs-toggle=\"dropdown\"><i class=\"bi bi-three-dots\"></i></a>");
-	    out.append("                  <ul class=\"dropdown-menu dropdown-menu-end dropdown-menu-arrow\">");
-	    out.append("                    <li class=\"dropdown-header text-start\">");
-	    out.append("                      <h6>Filter</h6>");
-	    out.append("                    </li>");
-	    out.append("");
-	    out.append("                    <li><a class=\"dropdown-item\" href=\"#\">Today</a></li>");
-	    out.append("                    <li><a class=\"dropdown-item\" href=\"#\">This Month</a></li>");
-	    out.append("                    <li><a class=\"dropdown-item\" href=\"#\">This Year</a></li>");
-	    out.append("                  </ul>");
-	    out.append("                </div>");
-	    out.append("");
-	    out.append("                <div class=\"card-body pb-0\">");
-	    out.append("                  <h5 class=\"card-title\">Bán Chạy Nhất <span>| Today</span></h5>");
-	    out.append("");
-	    out.append("                  <table class=\"table table-borderless\">");
-	    out.append("                    <thead>");
-	    out.append("                      <tr>");
-	    out.append("                        <th scope=\"col\">Ảnh</th>");
-	    out.append("                        <th scope=\"col\">Sản Phẩm</th>");
-	    out.append("                        <th scope=\"col\">Gía</th>");
-	    out.append("                        <th scope=\"col\">Lượt Bán</th>");
-	    out.append("                      </tr>");
-	    out.append("                    </thead>");
-	    out.append("                    <tbody>");
-	    out.append("                      <tr>");
-	    out.append("                        <th scope=\"row\"><a href=\"#\"><img src=\"../admin/img/product-1.jpg\" alt=\"\"></a></th>");
-	    out.append("                        <td><a href=\"#\" class=\"text-primary fw-bold\">Ut inventore ipsa voluptas nulla</a></td>");
-	    out.append("                        <td>$64</td>");
-	    out.append("                        <td class=\"fw-bold\">124</td>");
 
-	    out.append("                      </tr>");
-	    out.append("                      <tr>");
-	    out.append("                        <th scope=\"row\"><a href=\"#\"><img src=\"../admin/img/product-2.jpg\" alt=\"\"></a></th>");
-	    out.append("                        <td><a href=\"#\" class=\"text-primary fw-bold\">Exercitationem similique doloremque</a></td>");
-	    out.append("                        <td>$46</td>");
-	    out.append("                        <td class=\"fw-bold\">98</td>");
-
-	    out.append("                      </tr>");
-	    out.append("                      <tr>");
-	    out.append("                        <th scope=\"row\"><a href=\"#\"><img src=\"../admin/img/product-3.jpg\" alt=\"\"></a></th>");
-	    out.append("                        <td><a href=\"#\" class=\"text-primary fw-bold\">Doloribus nisi exercitationem</a></td>");
-	    out.append("                        <td>$59</td>");
-	    out.append("                        <td class=\"fw-bold\">74</td>");
-
-	    out.append("                      </tr>");
-	    out.append("                      <tr>");
-	    out.append("                        <th scope=\"row\"><a href=\"#\"><img src=\"../admin/img/product-4.jpg\" alt=\"\"></a></th>");
-	    out.append("                        <td><a href=\"#\" class=\"text-primary fw-bold\">Officiis quaerat sint rerum error</a></td>");
-	    out.append("                        <td>$32</td>");
-	    out.append("                        <td class=\"fw-bold\">63</td>");
-
-	    out.append("                      </tr>");
-	    out.append("                      <tr>");
-	    out.append("                        <th scope=\"row\"><a href=\"#\"><img src=\"../admin/img/product-5.jpg\" alt=\"\"></a></th>");
-	    out.append("                        <td><a href=\"#\" class=\"text-primary fw-bold\">Sit unde debitis delectus repellendus</a></td>");
-	    out.append("                        <td>$79</td>");
-	    out.append("                        <td class=\"fw-bold\">41</td>");
-
-	    out.append("                      </tr>");
-	    out.append("                    </tbody>");
-	    out.append("                  </table>");
-	    out.append("");
-	    out.append("                </div>");
-	    out.append("");
-	    out.append("              </div>");
-	    out.append("            </div><!-- End Top Selling -->");
-	    out.append("");
 	    out.append("          </div>");
 	    out.append("        </div><!-- End Left side columns -->");
 	    out.append("");
@@ -426,8 +390,8 @@ public class HomeView extends HttpServlet {
 		for(User user : users){
 			out.append("              <li class=\"d-flex justify-content-between align-items-center mb-4\">");
 			out.append("                <div class=\"d-flex align-items-center gap-3\">");
-			out.append("                  <img src=\""+(user.getGender().equals("Nam")
-					? "../admin/img/avtboy.png" : "../admin/img/avtgirl.jpg")+"\"");
+			out.append("                  <img src=\""+(user.getGender() == null ? "../admin/img/avtboy.png" : (user.getGender().equals("Nam")
+					? "../admin/img/avtboy.png" : "../admin/img/avtgirl.jpg"))+"\"");
 			out.append("                    alt=\"avtprofile\" class=\"avatar-img\" />");
 			out.append("                  <div>");
 			out.append("                    <p class=\"text-slate-900 fw-semibold mb-0\" style=\"font-size: 0.875rem;\">"+user.getFullname()+"</p>");
@@ -443,7 +407,7 @@ public class HomeView extends HttpServlet {
 					.append("data-email='" + user.getEmail() + "' ")
 					.append("data-address='" + user.getAddress() + "' ")
 					.append("data-created='" + ProductUtils.formatDate(user.getCreateDate()) + "' ")
-					.append("data-updated='" + ProductUtils.formatDate(user.getModifiedDate()) + "' ")
+					.append("data-updated='" + ProductUtils.formatDate(user.getModifiedDate() == null ? user.getCreateDate() : user.getModifiedDate()) + "' ")
 					.append("data-status='" + user.isActive() + "'>")
 					.append("<i class='bi bi-eye'></i>")
 					.append("</button>");
@@ -460,60 +424,6 @@ public class HomeView extends HttpServlet {
 		RequestDispatcher accountModalDispatcher = request.getRequestDispatcher("/admin/account-modal");
 		accountModalDispatcher.include(request, response);
 
-	    out.append("          <!-- News & Updates Traffic -->");
-	    out.append("          <div class=\"card\">");
-	    out.append("            <div class=\"filter\">");
-	    out.append("              <a class=\"icon\" href=\"#\" data-bs-toggle=\"dropdown\"><i class=\"bi bi-three-dots\"></i></a>");
-	    out.append("              <ul class=\"dropdown-menu dropdown-menu-end dropdown-menu-arrow\">");
-	    out.append("                <li class=\"dropdown-header text-start\">");
-	    out.append("                  <h6>Filter</h6>");
-	    out.append("                </li>");
-	    out.append("");
-	    out.append("                <li><a class=\"dropdown-item\" href=\"#\">Today</a></li>");
-	    out.append("                <li><a class=\"dropdown-item\" href=\"#\">This Month</a></li>");
-	    out.append("                <li><a class=\"dropdown-item\" href=\"#\">This Year</a></li>");
-	    out.append("              </ul>");
-	    out.append("            </div>");
-	    out.append("");
-	    out.append("            <div class=\"card-body pb-0\">");
-	    out.append("              <h5 class=\"card-title\">News &amp; Updates <span>| Today</span></h5>");
-	    out.append("");
-	    out.append("              <div class=\"news\">");
-	    out.append("                <div class=\"post-item clearfix\">");
-	    out.append("                  <img src=\"../admin/img/news-1.jpg\" alt=\"\">");
-	    out.append("                  <h4><a href=\"#\">Nihil blanditiis at in nihil autem</a></h4>");
-	    out.append("                  <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>");
-	    out.append("                </div>");
-	    out.append("");
-	    out.append("                <div class=\"post-item clearfix\">");
-	    out.append("                  <img src=\"../admin/img/news-2.jpg\" alt=\"\">");
-	    out.append("                  <h4><a href=\"#\">Quidem autem et impedit</a></h4>");
-	    out.append("                  <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>");
-	    out.append("                </div>");
-	    out.append("");
-	    out.append("                <div class=\"post-item clearfix\">");
-	    out.append("                  <img src=\"../admin/img/news-3.jpg\" alt=\"\">");
-	    out.append("                  <h4><a href=\"#\">Id quia et et ut maxime similique occaecati ut</a></h4>");
-	    out.append("                  <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>");
-	    out.append("                </div>");
-	    out.append("");
-	    out.append("                <div class=\"post-item clearfix\">");
-	    out.append("                  <img src=\"../admin/img/news-4.jpg\" alt=\"\">");
-	    out.append("                  <h4><a href=\"#\">Laborum corporis quo dara net para</a></h4>");
-	    out.append("                  <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>");
-	    out.append("                </div>");
-	    out.append("");
-	    out.append("                <div class=\"post-item clearfix\">");
-	    out.append("                  <img src=\"../admin/img/news-5.jpg\" alt=\"\">");
-	    out.append("                  <h4><a href=\"#\">Et dolores corrupti quae illo quod dolor</a></h4>");
-	    out.append("                  <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>");
-	    out.append("                </div>");
-	    out.append("");
-	    out.append("              </div><!-- End sidebar recent posts-->");
-	    out.append("");
-	    out.append("            </div>");
-	    out.append("          </div><!-- End News & Updates -->");
-	    out.append("");
 	    out.append("        </div><!-- End Right side columns -->");
 	    out.append("");
 	    out.append("      </div>");

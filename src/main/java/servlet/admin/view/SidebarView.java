@@ -160,11 +160,6 @@ public class SidebarView extends HttpServlet {
 		out.append("                <i class=\"bi bi-currency-dollar\"></i><span>Doanh Thu</span>");
 		out.append("            </a>");
 		out.append("          </li>");
-		out.append("          <li>");
-		out.append("            <a class = \" "+ show.getOrDefault("payment", "") +" \" href=\"/Furniture/admin/payment-report\">");
-		out.append("                <i class=\"bi bi-credit-card\"></i><span>Thanh toán</span>");
-		out.append("            </a>");
-		out.append("          </li>");
 		out.append("        </ul>");
 		out.append("      </li><!-- End Icons Nav -->");
 

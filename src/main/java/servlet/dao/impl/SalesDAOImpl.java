@@ -1,15 +1,12 @@
 package servlet.dao.impl;
 
 import servlet.dao.SalesDAO;
-import servlet.response.ReportChartResponse;
 import servlet.utils.DataSourceUtil;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 

@@ -124,9 +124,6 @@ public class SignInServlet extends HttpServlet {
 				out.append("                    <div class=\"col-12\">");
 				out.append("                      <button class=\"btn btn-primary w-100\" type=\"submit\">Login</button>");
 				out.append("                    </div>");
-				out.append("                    <div class=\"col-12\">");
-				out.append("                      <p class=\"small mb-0\">Bạn không có tài khoản? <a href=\"pages-register.html\">Đăng ký ngay</a></p>");
-				out.append("                    </div>");
 				out.append("                  </form>");
 				
 				out.append("                </div>");
@@ -171,6 +168,7 @@ public class SignInServlet extends HttpServlet {
 
 		if (user != null){
 			HttpSession session = request.getSession();
+			session.setAttribute("loggedInUser", user);
 			session.setAttribute("username", user.getFullname());
 			session.setAttribute("userId", user.getUserId());
 			session.setAttribute("role", user.getRole().getRoleName());

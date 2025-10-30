@@ -112,7 +112,7 @@ public class ProductDetailView extends HttpServlet {
 	    out.append("                  </p>");
 	    out.append("                  <div class=\"d-flex gap-3\">");
 		for (int j = 0; j < colorArray.size(); j++) {
-			out.append("                    <span style=\"background-color: "+colorArray.get(j)+"\" class=\"color-circle\" title=\"Blue\">");
+			out.append("                    <span style=\"background-color: "+colorArray.get(j)+"\" class=\"color-circle\">");
 			out.append("                    </span>");
 		}
 	    out.append("                  </div>");
@@ -127,6 +127,16 @@ public class ProductDetailView extends HttpServlet {
 	    out.append("                    </span>");
 	    out.append("                  </div>");
 	    out.append("                </div>");
+		out.append("                <div class=\"mb-4 d-flex align-items-center gap-4\">");
+		out.append("                  <p class=\"text-uppercase fw-semibold text-secondary small mb-0\" style=\"letter-spacing: 0.1em;\">");
+		out.append("                    CHẤT LIỆU");
+		out.append("                  </p>");
+		out.append("                  <div class=\"d-flex gap-3 fs-6 fw-normal\">");
+		out.append("                    <span class=\"size-option\">");
+		out.append("                      "+product.getProductMaterial()+"");
+		out.append("                    </span>");
+		out.append("                  </div>");
+		out.append("                </div>");
 	    out.append("                <div class=\"d-flex flex-column gap-2 small fw-semibold text-black\" style=\"max-width: 320px;\">");
 	    out.append("                  <div class=\"d-flex justify-content-between\">");
 	    out.append("                    <span>");
@@ -146,12 +156,20 @@ public class ProductDetailView extends HttpServlet {
 	    out.append("                  </div>");
 	    out.append("                  <div class=\"d-flex justify-content-between\">");
 	    out.append("                    <span>");
-	    out.append("                      Số Lượt Xem:");
+	    out.append("                      Số lượng:");
 	    out.append("                    </span>");
 	    out.append("                    <span class=\"fw-normal\">");
-	    out.append("                      "+product.getProductVisited()+"");
+	    out.append("                      "+product.getProductTotal()+"");
 	    out.append("                    </span>");
 	    out.append("                  </div>");
+		out.append("                  <div class=\"d-flex justify-content-between\">");
+		out.append("                    <span>");
+		out.append("                      Trạng thái:");
+		out.append("                    </span>");
+		out.append("                    <span class=\"fw-medium "+ (product.isProductEnable() ? "text-success" : "text-danger")+"\">");
+		out.append("                      "+(product.isProductEnable() ? "Hoạt động" : "Ngừng bán")+"");
+		out.append("                    </span>");
+		out.append("                  </div>");
 	    out.append("                </div>");
 	    out.append("              </div>");
 	    out.append("            </div>");

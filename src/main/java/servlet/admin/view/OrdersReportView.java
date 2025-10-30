@@ -3,7 +3,6 @@ package servlet.admin.view;
 import servlet.dao.OrdersReportDAO;
 import servlet.dao.impl.OrdersReportDAOImpl;
 import servlet.models.Order;
-import servlet.models.User;
 import servlet.response.OrderResponse;
 import servlet.response.UserReportResponse;
 import servlet.utils.ProductUtils;
@@ -22,12 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/admin/orders-report")
-public class OrdersReport extends HttpServlet {
+public class OrdersReportView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private OrdersReportDAO ordersReportDAO;
 
-	public OrdersReport() {
+	public OrdersReportView() {
 		super();
 	}
 
@@ -236,7 +235,7 @@ public class OrdersReport extends HttpServlet {
 		if (monthParam != null) {
 			// ===== Thống kê theo ngày trong tháng =====
 			int month = Integer.parseInt(monthParam);
-			orderResponseList = ordersReportDAO.getDaylyOrderStatus(year, month);
+			orderResponseList = ordersReportDAO.getDailyOrderStatus(year, month);
 
 			for (OrderResponse order : orderResponseList) {
 				int day = order.getDay();

@@ -2,7 +2,7 @@ package servlet.dao.impl;
 
 import servlet.dao.HomeDAO;
 import servlet.dao.SalesDAO;
-import servlet.response.ReportChartResponse;
+import servlet.response.ReportResponse;
 import servlet.utils.DataSourceUtil;
 
 import java.sql.Connection;
@@ -79,9 +79,9 @@ public class HomeDAOImpl implements HomeDAO {
     }
 
     @Override
-    public ReportChartResponse<String> loadChart(Map<String, String> filterInfo) {
+    public ReportResponse<String> loadChart(Map<String, String> filterInfo) {
 
-        ReportChartResponse<String> chartResponse = new ReportChartResponse<>();
+        ReportResponse<String> chartResponse = new ReportResponse<>();
         Map<String, List<Integer>> dataMap = new HashMap<>();
         List<String> labels = new ArrayList<>();
         LocalDate now = LocalDate.now();
@@ -107,7 +107,6 @@ public class HomeDAOImpl implements HomeDAO {
         querySearch.append(salesChartQuery(filterInfo));
         querySearch.append(customersChartQuery(filterInfo));
         querySearch.append(revenueChartQuery(filterInfo));
-
 
         try(Connection connection = DataSourceUtil.getConnection();
             PreparedStatement stmt = connection.prepareStatement(querySearch.toString())) {
@@ -147,6 +146,21 @@ public class HomeDAOImpl implements HomeDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        for (String key : List.of("sales", "customers", "revenue")) {
+            List<Integer> values = dataMap.get(key);
+            if (values == null) {
+                values = new ArrayList<>();
+            }
+
+            // Bổ sung giá trị 0 cho những label chưa có
+            while (values.size() < labels.size()) {
+                values.add(0);
+            }
+
+            dataMap.put(key, values);
+        }
+
         chartResponse.setLabels(labels);
         chartResponse.setObject(dataMap);
         return chartResponse;
@@ -163,6 +177,7 @@ public class HomeDAOImpl implements HomeDAO {
                     salesChartQuery.append(" FROM orders o");
                     salesChartQuery.append(" WHERE YEAR(o.created_at) = YEAR(curdate())");
                     salesChartQuery.append(" AND MONTH(o.created_at) = MONTH(curdate())");
+                    salesChartQuery.append(" AND o.order_status = 'DELIVERED'");
                     salesChartQuery.append(" GROUP BY day(o.created_at)");
                     salesChartQuery.append(" order by `date`;");
                 }
@@ -170,6 +185,7 @@ public class HomeDAOImpl implements HomeDAO {
                     salesChartQuery.append(" SELECT month(o.created_at) as `date`, count(*) as total_sales");
                     salesChartQuery.append(" FROM orders o");
                     salesChartQuery.append(" WHERE YEAR(o.created_at) = YEAR(curdate())");
+                    salesChartQuery.append(" AND o.order_status = 'DELIVERED'");
                     salesChartQuery.append(" GROUP BY `date`");
                     salesChartQuery.append(" order by `date`;");
                 }

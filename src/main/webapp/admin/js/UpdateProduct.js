@@ -1,6 +1,3 @@
-
-
-
 //Preview image khi tải ảnh lên
 const input = document.querySelector(".image-input");
 const previewDiv = document.querySelector(".image-preview");
@@ -139,37 +136,3 @@ if (formProduct) {
         }
       });
 }
-
-
-/* Hiển thị thông báo khi ấn nút modal */
-function showAlert() {
-    // Tạo alert HTML
-    const alertHTML = `
-      <div id="notifi" class="alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 m-3" role="alert">
-        <i class="bi bi-check-circle"></i>
-        Xóa sản phẩm Ghế Sofa thành công
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    `;
-
-    // Thêm alert vào DOM
-    document.getElementById('alert-container').innerHTML = alertHTML;
-
-    // Tự động đóng alert sau 1 giây
-    setTimeout(() => {
-        const notifi = document.getElementById('notifi');
-        if (notifi) {
-            // Kích hoạt hiệu ứng fade out
-            notifi.classList.remove('show');
-            notifi.classList.add('hide');
-
-            // Gỡ khỏi DOM sau khi hiệu ứng kết thúc
-            setTimeout(() => {
-                notifi.remove();
-            }, 300); // Thời gian khớp với hiệu ứng fade Bootstrap (300ms)
-        }
-    }, 1000);
-}
-document.querySelectorAll('.confirm').forEach(item => item.addEventListener('click', showAlert));
-
-

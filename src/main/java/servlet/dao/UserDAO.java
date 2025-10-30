@@ -1,9 +1,11 @@
 package servlet.dao;
 
+import servlet.models.Role;
 import servlet.models.User;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 public interface UserDAO {
 
@@ -18,6 +20,8 @@ public interface UserDAO {
 
     User checkLogin(String email, String password);
 
+    User signUp(String fullname, String email, String password);
+
     //lấy tất cả
     List<User> findAllPage(int page, int pageSize, String keyWord, String status, String dir, String orderBy);
 
@@ -31,4 +35,12 @@ public interface UserDAO {
     boolean restoreById(int userId);
 
     User getLoggedInUser(HttpSession session);
+
+    Map<Integer, Integer> buildCustomerJoinChartData(String type);
+
+    Role findRoleById(int roleId);
+
+    boolean updateUserProfile(User loggedInUser);
+
+    boolean existsByEmail(String email);
 }

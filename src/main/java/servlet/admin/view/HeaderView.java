@@ -55,11 +55,7 @@ public class HeaderView extends HttpServlet {
 		out.append("  <!-- Vendor CSS Files -->");
 		out.append("  <link href=\"../admin/vendor/bootstrap/css/bootstrap.min.css\" rel=\"stylesheet\">");
 		out.append("  <link href=\"../admin/vendor/bootstrap-icons/bootstrap-icons.css\" rel=\"stylesheet\">");
-//		out.append("  <link href=\"../admin/vendor/boxicons/css/boxicons.min.css\" rel=\"stylesheet\">");
-//		out.append("  <link href=\"../admin/vendor/quill/quill.snow.css\" rel=\"stylesheet\">");
-//		out.append("  <link href=\"../admin/vendor/quill/quill.bubble.css\" rel=\"stylesheet\">");
-//		out.append("  <link href=\"../admin/vendor/remixicon/remixicon.css\" rel=\"stylesheet\">");
-//		out.append("  <link href=\"../admin/vendor/simple-datatables/style.css\" rel=\"stylesheet\">");	
+
 		
 		out.append("  <!-- Template Main CSS File -->");
 		out.append("  <link href=\"../admin/css/style.css\" rel=\"stylesheet\">");

@@ -1,11 +1,15 @@
 package servlet.utils;
 
+import servlet.models.Product;
+import servlet.response.ProductResponse;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Arrays;
 
 public class ProductUtils {
 
@@ -18,6 +22,10 @@ public class ProductUtils {
 
     public static String[] colorArray(String urlAndColors) {
         return toColorStr(urlAndColors).split("\\|\\|");
+    }
+
+    public static String [] imageUrlArray(String urlAndColors) {
+        return toUrlStr(urlAndColors).split("\\|\\|");
     }
 
     public static List<String> allColorsArray(List<String> urlAndColors) {
@@ -60,6 +68,31 @@ public class ProductUtils {
         } else {
             SimpleDateFormat fullFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             return fullFormat.format(date);
+        }
+    }
+
+    public static void copyProductToProductResponse(Product product, ProductResponse productResponse) {
+        // Sao chép các thuộc tính đơn giản
+        productResponse.setProductId(product.getProductId());
+        productResponse.setProductName(product.getProductName());
+        productResponse.setProductDescription(product.getProductDescription());
+        productResponse.setProductPrice(product.getProductPrice());
+        productResponse.setProductTotal(product.getProductTotal());
+        productResponse.setProductCode(product.getProductCode());
+        productResponse.setProductDiscountPrice(product.getProductDiscountPrice());
+        productResponse.setProductEnable(product.isProductEnable());
+        productResponse.setCreatedAt(product.getCreatedAt());
+        productResponse.setProductMaterial(product.getProductMaterial());
+        productResponse.setProductSize(product.getProductSize());
+
+        // Sao chép các đối tượng liên quan
+        productResponse.setCategory(product.getCategory());
+        productResponse.setBrand(product.getBrand());
+
+        // Xử lý chuỗi hình ảnh và màu sắc
+        if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
+            productResponse.setProductImageUrls(Arrays.asList(imageUrlArray(product.getProductImageUrl())));
+            productResponse.setProductColors(Arrays.asList(colorArray(product.getProductImageUrl())));
         }
     }
 }

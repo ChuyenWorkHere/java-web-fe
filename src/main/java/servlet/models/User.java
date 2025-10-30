@@ -21,6 +21,6 @@ public class User {
     private boolean active;
     private String address;
     private int loginCount;
-    private Roles role;
+    private Role role;
     private List<ShippingAddress> shippingAddressList;
 }

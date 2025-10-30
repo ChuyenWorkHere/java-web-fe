@@ -43,11 +43,11 @@
                                         <a href="#">Quên mật khẩu?</a>
                                     </span>
                                 </div>
-                                <div id="loginMessage" class="mb-2"></div>
+                                <div class="text-danger" id="loginMessage" class="mb-2">${errorMessage}</div>
                                 <button type="submit" class="btn theme-btn-2 w-100">Đăng Nhập</button>
                                 <div class="or-divide"><span>or</span></div>
                             </form>
-                            <button class="btn theme-btn w-100">Đăng Ký Ngay</button>
+                            <a href="/Furniture/public/signup" class="btn theme-btn w-100 text-white">Đăng Ký Ngay</a>
                         </div>
                     </div>
                 </div>

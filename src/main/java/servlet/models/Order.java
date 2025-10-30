@@ -23,5 +23,4 @@ public class Order {
     private User user;
     private ShippingAddress shippingAddress;
     private List<OrderItem> orderItems;
-
 }

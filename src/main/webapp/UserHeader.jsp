@@ -1,35 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!doctype html>
 <html class="no-js" lang="zxx">
 
 <head>
-<meta charset="utf-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>LuxeHome - Nội Thất Gia Đình Việt</title>
-<meta name="description" content="">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>LuxeHome - Nội Thất Gia Đình Việt</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<link rel="shortcut icon" type="image/x-icon"
-	href="../user/img/favicon.png">
-<!-- Place favicon.ico in the root directory -->
+    <link rel="shortcut icon" type="image/x-icon"
+        href="../user/img/favicon.png">
+    <!-- Place favicon.ico in the root directory -->
 
-<!-- CSS here -->
-<link rel="stylesheet" href="../user/css/bootstrap.min.css">
-<link rel="stylesheet" href="../user/css/owl.carousel.min.css">
-<link rel="stylesheet" href="../user/css/animate.min.css">
-<link rel="stylesheet" href="../user/css/magnific-popup.css">
-<link rel="stylesheet" href="../user/css/fontawesome-all.min.css">
-<link rel="stylesheet" href="../user/css/flaticon.css">
-<link rel="stylesheet" href="../user/css/meanmenu.css">
-<link rel="stylesheet" href="../user/css/jquery-ui.css">
-<link rel="stylesheet" href="../user/css/slick.css">
-<link rel="stylesheet" href="../user/css/default.css">
-<link rel="stylesheet" href="../user/css/style.css">
-<link rel="stylesheet" href="../user/css/responsive.css">
-<link rel="stylesheet" href="../user/css/cart.css">
+    <!-- CSS here -->
+    <link rel="stylesheet" href="../user/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../user/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../user/css/animate.min.css">
+    <link rel="stylesheet" href="../user/css/magnific-popup.css">
+    <link rel="stylesheet" href="../user/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../user/css/flaticon.css">
+    <link rel="stylesheet" href="../user/css/meanmenu.css">
+    <link rel="stylesheet" href="../user/css/jquery-ui.css">
+    <link rel="stylesheet" href="../user/css/slick.css">
+    <link rel="stylesheet" href="../user/css/default.css">
+    <link rel="stylesheet" href="../user/css/style.css">
+    <link rel="stylesheet" href="../user/css/responsive.css">
+    <link rel="stylesheet" href="../user/css/cart.css">
+    <style>
+        .fixed-alert {
+          position: fixed;
+          bottom: 20px;
+          left: 20px;
+          z-index: 1055;
+        }
+    </style>
 </head>
 <body>
 
@@ -150,98 +159,129 @@
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-6 col-md-6 col-5 col-sm-7 pl-0">
-                            <div class="header-right f-right">
+                            <div class="header-right f-right d-flex">
                                 <ul>
                                     <li class="search-btn">
                                         <a class="search-btn nav-search search-trigger" href="#"><i class="fas fa-search"></i></a>
                                     </li>
-                                    <li class="login-btn"><a href="../public/login"><i class="far fa-user"></i></a></li>
-                                    <li class="d-shop-cart"><a href="../customer/cart"><i class="flaticon-shopping-cart"></i> <span class="cart-count">3</span></a>
-                                      <!--   <ul class="minicart">
-                                            <li>
-                                                <div class="cart-img">
-                                                    <a href="product-details.html">
-                                                        <img src="../user/img/product/pro1.jpg" alt="" />
-                                                    </a>
-                                                </div>
-                                                <div class="cart-content">
-                                                    <h3>
-                                                        <a href="product-details.html">Black & White Shoes</a>
-                                                    </h3>
-                                                    <div class="cart-price">
-                                                        <span class="new">$ 229.9</span>
-                                                        <span>
-                                                            <del>$239.9</del>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="del-icon">
-                                                    <a href="#">
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="cart-img">
-                                                    <a href="product-details.html">
-                                                        <img src="../user/img/product/pro2.jpg" alt="" />
-                                                    </a>
-                                                </div>
-                                                <div class="cart-content">
-                                                    <h3>
-                                                        <a href="product-details.html">Black & White Shoes</a>
-                                                    </h3>
-                                                    <div class="cart-price">
-                                                        <span class="new">$ 229.9</span>
-                                                        <span>
-                                                            <del>$239.9</del>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="del-icon">
-                                                    <a href="#">
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="cart-img">
-                                                    <a href="product-details.html">
-                                                        <img src="../user/img/product/pro3.jpg" alt="" />
-                                                    </a>
-                                                </div>
-                                                <div class="cart-content">
-                                                    <h3>
-                                                        <a href="product-details.html">Black & White Shoes</a>
-                                                    </h3>
-                                                    <div class="cart-price">
-                                                        <span class="new">$ 229.9</span>
-                                                        <span>
-                                                            <del>$239.9</del>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="del-icon">
-                                                    <a href="#">
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="total-price">
-                                                    <span class="f-left">Tổng:</span>
-                                                    <span class="f-right">$300.0</span>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="checkout-link">
-                                                    <a href="../customer/cart">Giỏ Hàng</a>
-                                                    <a class="red-color" href="../customer/checkout">Thanh Toán</a>
-                                                </div>
-                                            </li>
-                                        </ul>
+
+                                    <li class="login-btn">
+                                        <c:choose>
+                                            <c:when test="${not empty sessionScope.user}">
+                                                <a href="${pageContext.request.contextPath}/user/profile">
+                                                    <img src="https://static.vecteezy.com/system/resources/previews/036/280/651/original/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg"
+                                                         alt="Avatar"
+                                                         class="rounded-circle"
+                                                         style="width:100%; height:100%; object-fit:cover; border:1px solid #fe4536;">
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="${pageContext.request.contextPath}/public/login">
+                                                    <i class="far fa-user fs-5"></i>
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </li>
-                                </ul>--> 
+                                    <li class="d-shop-cart">
+                                            <c:choose>
+                                                <c:when test="${not empty sessionScope.user}">
+                                                    <a href="../customer/cart">
+                                                        <i class="flaticon-shopping-cart"></i>
+                                                        <span class="cart-count">3</span>
+                                                    </a>
+                                                    <ul class="minicart">
+                                                            <li>
+                                                                <div class="cart-img">
+                                                                    <a href="product-details.html">
+                                                                        <img src="../user/img/product/pro1.jpg" alt="" />
+                                                                    </a>
+                                                                </div>
+                                                                <div class="cart-content">
+                                                                    <h3>
+                                                                        <a href="product-details.html">Black & White Shoes</a>
+                                                                    </h3>
+                                                                    <div class="cart-price">
+                                                                        <span class="new">$ 229.9</span>
+                                                                        <span>
+                                                                            <del>$239.9</del>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="del-icon">
+                                                                    <a href="#">
+                                                                        <i class="far fa-trash-alt"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="cart-img">
+                                                                    <a href="product-details.html">
+                                                                        <img src="../user/img/product/pro2.jpg" alt="" />
+                                                                    </a>
+                                                                </div>
+                                                                <div class="cart-content">
+                                                                    <h3>
+                                                                        <a href="product-details.html">Black & White Shoes</a>
+                                                                    </h3>
+                                                                    <div class="cart-price">
+                                                                        <span class="new">$ 229.9</span>
+                                                                        <span>
+                                                                            <del>$239.9</del>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="del-icon">
+                                                                    <a href="#">
+                                                                        <i class="far fa-trash-alt"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="cart-img">
+                                                                    <a href="product-details.html">
+                                                                        <img src="../user/img/product/pro3.jpg" alt="" />
+                                                                    </a>
+                                                                </div>
+                                                                <div class="cart-content">
+                                                                    <h3>
+                                                                        <a href="product-details.html">Black & White Shoes</a>
+                                                                    </h3>
+                                                                    <div class="cart-price">
+                                                                        <span class="new">$ 229.9</span>
+                                                                        <span>
+                                                                            <del>$239.9</del>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="del-icon">
+                                                                    <a href="#">
+                                                                        <i class="far fa-trash-alt"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="total-price">
+                                                                    <span class="f-left">Tổng:</span>
+                                                                    <span class="f-right">$300.0</span>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="checkout-link">
+                                                                    <a href="../customer/cart">Giỏ Hàng</a>
+                                                                    <a class="red-color" href="../customer/checkout">Thanh Toán</a>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="${pageContext.request.contextPath}/public/login">
+                                                        <i class="flaticon-shopping-cart"></i>
+                                                        <span class="cart-count">0</span>
+                                                    </a>
+                                                </c:otherwise>
+                                            </c:choose>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                         <div class="col-12 d-xl-none">

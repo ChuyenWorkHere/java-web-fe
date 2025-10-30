@@ -70,8 +70,8 @@ public class ProductDAOImpl implements ProductDAO {
 			stmt.setString(index++, product.getProductSize());
 			stmt.setInt(index++, product.isProductEnable() ? 1 : 0);
 			stmt.setString(index++, product.getProductMaterial());
-			stmt.setInt(index++, 1);
-			stmt.setInt(index++, 1);
+			stmt.setInt(index++, product.getBrand().getBrandId());
+			stmt.setInt(index++, product.getCategory().getCategoryId());
 
 			//created date
 			LocalDate now = LocalDate.now();
@@ -155,20 +155,19 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public boolean deleteProduct(int productId) {
-
-		String sql = "DELETE FROM products WHERE product_id = ?";
+	public boolean softDeleteProduct(int productId) {
+		String sql = "UPDATE products SET product_enable = 0 WHERE product_id = ?";
 
 		try (
 				Connection connection = DataSourceUtil.getConnection();
 				PreparedStatement statement = connection.prepareStatement(sql);
-				) {
+		) {
 			statement.setInt(1, productId);
 			int rows = statement.executeUpdate();
 			return rows > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		return false;
 	}
@@ -213,7 +212,7 @@ public class ProductDAOImpl implements ProductDAO {
 				stmt.setString(index++, "%"+color+"%");
 			}
 
-			if(price != null && !"".equalsIgnoreCase("price")) {
+			if(price != null && !"".equalsIgnoreCase(price)) {
 				int min = -1, max = -1;
 				switch (price) {
 					case "sm" -> { min = -1; max = 1_000_000;}
@@ -242,6 +241,55 @@ public class ProductDAOImpl implements ProductDAO {
 			e.printStackTrace();
 		}
 		return products;
+	}
+
+	@Override
+	public List<Product> findNewestProducts(Integer limit) {
+		List<Product> products = new ArrayList<>();
+		String sql = "SELECT * FROM products WHERE product_enable = 1 ORDER BY created_at DESC LIMIT ?";
+
+		try (Connection conn = DataSourceUtil.getConnection();
+			 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setInt(1, limit);
+
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				products.add(mapRowToProduct(rs));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return products;
+	}
+
+	@Override
+	public List<Product> findBestSellProducts(Integer limit) {
+		List<Product> products = new ArrayList<>();
+		String sql = "SELECT p.*, SUM(od.order_quantity) as total_sold "+
+				"FROM products p " +
+				"JOIN order_items od ON p.product_id = od.product_id " +
+				"WHERE p.product_enable = 1 " +
+				"GROUP BY p.product_id " +
+				"ORDER BY total_sold DESC " +
+				"LIMIT ?";
+
+		try (Connection conn = DataSourceUtil.getConnection();
+			 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setInt(1, limit);
+
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				products.add(mapRowToProduct(rs));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return products;
+
 	}
 
 	@Override

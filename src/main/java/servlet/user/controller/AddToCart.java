@@ -1,8 +1,7 @@
-package servlet.user;
+package servlet.user.controller;
 
 import servlet.dao.CartDAO;
 import servlet.dao.impl.CartDAOImpl;
-import servlet.models.Cart;
 import servlet.models.User;
 
 import javax.servlet.ServletException;
@@ -14,11 +13,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/customer/add-to-cart")
-public class AddToCartController extends HttpServlet {
+public class AddToCart extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    public AddToCartController() {
+    public AddToCart() {
         super();
         // TODO Auto-generated constructor stub
     }

@@ -15,13 +15,13 @@ import java.time.LocalDate;
 import java.util.Map;
 
 @WebServlet("/admin/sales-report")
-public class SalesReport extends HttpServlet {
+public class SalesReportView extends HttpServlet {
 
 	private SalesDAO salesDAO = new SalesDAOImpl();
 
 	private static final long serialVersionUID = 1L;
 
-	public SalesReport() {
+	public SalesReportView() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

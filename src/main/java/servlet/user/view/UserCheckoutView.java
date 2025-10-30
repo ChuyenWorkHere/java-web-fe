@@ -1,4 +1,4 @@
-package servlet.user;
+package servlet.user.view;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 
 @WebServlet("/customer/checkout")
-public class UserCheckout extends HttpServlet {
+public class UserCheckoutView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     
-    public UserCheckout() {
+    public UserCheckoutView() {
         super();
         // TODO Auto-generated constructor stub
     }

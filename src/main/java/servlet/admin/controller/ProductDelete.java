@@ -30,7 +30,7 @@ public class ProductDelete extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int productId = Integer.parseInt(req.getParameter("productId"));
 
-        boolean isSuccess = productDAO.deleteProduct(productId);
+        boolean isSuccess = productDAO.softDeleteProduct(productId);
 
         if(isSuccess) {
             resp.sendRedirect("../admin/products-view?title=product&action=del&noti=success");

@@ -5,7 +5,7 @@ import servlet.dao.ProductReportDAO;
 import servlet.dao.impl.ProductDAOImpl;
 import servlet.dao.impl.ProductReportDAOImpl;
 import servlet.models.Product;
-import servlet.response.ReportChartResponse;
+import servlet.response.ReportResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,13 +21,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/admin/products-report")
-public class ProductsReport extends HttpServlet {
+public class ProductsReportView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private ProductReportDAO productReportDAO = new ProductReportDAOImpl();
 	private ProductDAO productDAO = new ProductDAOImpl();
 
-	public ProductsReport() {
+	public ProductsReportView() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -63,7 +63,7 @@ public class ProductsReport extends HttpServlet {
 			monthSearch = -1;
 		}
 
-		ReportChartResponse<Integer> reportChartProduct = productReportDAO.buildChartData(monthSearch, yearSearch);
+		ReportResponse<Integer> reportChartProduct = productReportDAO.buildChartData(monthSearch, yearSearch);
 
 		String[] colors = {
 				"#2196F3", "#F44336", "#4CAF50", "#FFC107", "#9C27B0", "#FF9800", "#009688"
@@ -150,7 +150,7 @@ public class ProductsReport extends HttpServlet {
 		out.append("    </div>");
 		out.append("  </div>");
 		out.append("          <div class=\"card-body p-0 p-sm-3\">");
-		out.append("            <h5 class=\"card-title ps-3 p-sm-0\">Xu Hướng</h5>");
+		out.append("            <h5 class=\"card-title ps-3 p-sm-0\">Sản phẩm bán chạy</h5>");
 		out.append("            <canvas id=\"lineChart\"></canvas>");
 		out.append("          </div>");
 		out.append("        </div>");
@@ -176,81 +176,9 @@ public class ProductsReport extends HttpServlet {
 		out.append("                  </ul>");
 		out.append("                </div>");
 		out.append("");
-		out.append("                <div class=\"card-body pb-0\">");
-		out.append("                  <h5 class=\"card-title\">Xem Nhiều <span>| Hôm Nay</span></h5>");
-		out.append("");
-		out.append("                  <table class=\"table table-borderless\">");
-		out.append("                    <thead>");
-		out.append("                      <tr>");
-		out.append("                        <th scope=\"col\">Ảnh</th>");
-		out.append("                        <th scope=\"col\">Sản Phẩm</th>");
-		out.append("                        <th scope=\"col\">Giá</th>");
-		out.append("                        <th scope=\"col\">Đã Bán</th>");
-		out.append("                        <th scope=\"col\">Doanh Thu</th>");
-		out.append("                        <th scope=\"col\">Tình Trạng</th>");
-		out.append("                      </tr>");
-		out.append("                    </thead>");
-		out.append("                    <tbody>");
-		out.append("                      <tr>");
-		out.append("                        <th scope=\"row\"><a href=\"#\"><img src=\"../admin/img/product-1.jpg\" alt=\"\"></a></th>");
-		out.append("                        <td><a href=\"#\" class=\"text-primary fw-bold\">Ut inventore ipsa voluptas nulla</a></td>");
-		out.append("                        <td>$64</td>");
-		out.append("                        <td class=\"fw-bold\">124</td>");
-		out.append("                        <td>$5,828</td>");
-		out.append("                        <td>Còn Hàng</td>");
-		out.append("                      </tr>");
-		out.append("                      <tr>");
-		out.append("                        <th scope=\"row\"><a href=\"#\"><img src=\"../admin/img/product-2.jpg\" alt=\"\"></a></th>");
-		out.append("                        <td><a href=\"#\" class=\"text-primary fw-bold\">Exercitationem similique doloremque</a></td>");
-		out.append("                        <td>$46</td>");
-		out.append("                        <td class=\"fw-bold\">98</td>");
-		out.append("                        <td>$4,508</td>");
-		out.append("                        <td>Còn Hàng</td>");
-		out.append("                      </tr>");
-		out.append("                      <tr>");
-		out.append("                        <th scope=\"row\"><a href=\"#\"><img src=\"../admin/img/product-3.jpg\" alt=\"\"></a></th>");
-		out.append("                        <td><a href=\"#\" class=\"text-primary fw-bold\">Doloribus nisi exercitationem</a></td>");
-		out.append("                        <td>$59</td>");
-		out.append("                        <td class=\"fw-bold\">74</td>");
-		out.append("                        <td>$4,366</td>");
-		out.append("                        <td>Còn Hàng</td>");
-		out.append("                      </tr>");
-		out.append("                      <tr>");
-		out.append("                        <th scope=\"row\"><a href=\"#\"><img src=\"../admin/img/product-4.jpg\" alt=\"\"></a></th>");
-		out.append("                        <td><a href=\"#\" class=\"text-primary fw-bold\">Officiis quaerat sint rerum error</a></td>");
-		out.append("                        <td>$32</td>");
-		out.append("                        <td class=\"fw-bold\">63</td>");
-		out.append("                        <td>$2,016</td>");
-		out.append("                        <td>Còn Hàng</td>");
-		out.append("                      </tr>");
-		out.append("                      <tr>");
-		out.append("                        <th scope=\"row\"><a href=\"#\"><img src=\"../admin/img/product-5.jpg\" alt=\"\"></a></th>");
-		out.append("                        <td><a href=\"#\" class=\"text-primary fw-bold\">Sit unde debitis delectus repellendus</a></td>");
-		out.append("                        <td>$79</td>");
-		out.append("                        <td class=\"fw-bold\">41</td>");
-		out.append("                        <td>$3,239</td>");
-		out.append("                        <td>Còn Hàng</td>");
-		out.append("                      </tr>");
-		out.append("                    </tbody>");
-		out.append("                  </table>");
-		out.append("");
-		out.append("                </div>");
-		out.append("");
-		out.append("              </div>");
-		out.append("            </div><!-- End Top Selling -->");
-		out.append("");
-		out.append("      <!-- Biểu đồ vùng cực: Tỷ lệ tồn kho -->");
-		out.append("      <div class=\"col-lg-5 col-12\">");
-		out.append("        <div class=\"card\">");
-		out.append("          <div class=\"card-body\">");
-		out.append("            <h5 class=\"card-title\">Tồn Kho</h5>");
-		out.append("            <canvas id=\"polarChart\"></canvas>");
-		out.append("          </div>");
-		out.append("        </div>");
-		out.append("      </div>");
 		out.append("    </div>");
 		out.append("  </div>");
-		out.append("");
+
 		out.append("  <!-- JavaScript để tạo biểu đồ -->");
 		out.append("  <script>");
 		out.append("    // Biểu đồ đường: Xu hướng bán hàng");
@@ -304,28 +232,6 @@ public class ProductsReport extends HttpServlet {
 		out.append("    });");
 		out.append("");
 		out.append("\n");
-		out.append("    // Biểu đồ vùng cực: Tỷ lệ tồn kho");
-		out.append("\n");
-		out.append("    const ctxPolar = document.getElementById('polarChart').getContext('2d');");
-		out.append("    new Chart(ctxPolar, {");
-		out.append("      type: 'polarArea',");
-		out.append("      data: {");
-		out.append("        labels: ['Điện tử', 'Thời trang', 'Thực phẩm', 'Gia dụng'],");
-		out.append("        datasets: [{");
-		out.append("          data: [500, 300, 250, 400],");
-		out.append("          backgroundColor: ['rgba(33, 150, 243, 0.5)', 'rgba(76, 175, 80, 0.5)', 'rgba(255, 193, 7, 0.5)', 'rgba(255, 87, 34, 0.5)'],");
-		out.append("          borderColor: ['#1976D2', '#388E3C', '#FFA000', '#D81B60'],");
-		out.append("          borderWidth: 1");
-		out.append("        }]");
-		out.append("      },");
-		out.append("      options: {");
-		out.append("        plugins: {");
-		out.append("          legend: {");
-		out.append("            position: 'right'");
-		out.append("          }");
-		out.append("        }");
-		out.append("      }");
-		out.append("    });");
 		out.append("  </script>");
 		out.append("  <script src=\"../admin/js/reportProduct.js\"></script>");
 		

@@ -218,7 +218,7 @@ public class EditProductView extends HttpServlet {
 		out.append("  </main>");
 		out.append("  <!-- End #main -->");
 
-		out.append("  <script src=\"../admin/js/mainProduct.js\"></script>");
+		out.append("  <script src=\"../admin/js/UpdateProduct.js\"></script>");
 		out.append("  <script src=\"../admin/js/utils.js\"></script>");
 
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");

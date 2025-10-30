@@ -386,7 +386,7 @@ public class ProductsView extends HttpServlet {
 		out.append("        </div>");
 		out.append("    </section>");
 		out.append("  </main>");
-		out.append("  <script src=\"../admin/js/mainProduct.js\"></script>");
+		out.append("  <script src=\"../admin/js/DeleteProduct.js\"></script>");
 		out.append("  <script src=\"../admin/js/showAlert.js\"></script>");
 		out.append("  <script>");
 		out.append("	document.getElementById(\"searchForm\").addEventListener(\"submit\", function () {");

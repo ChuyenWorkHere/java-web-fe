@@ -325,8 +325,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -334,7 +332,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 @WebServlet("/admin/payment-report")
-public class PaymentReport extends HttpServlet {
+public class PaymentReportView extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

@@ -118,9 +118,7 @@ public class AddProductView extends HttpServlet {
 		out.append("                  </div>");
 		out.append("                  <div class=\"col-md-6 mb-3\">");
 		out.append("                    <label for=\"status\" class=\"form-label\">Trạng thái</label>");
-		out.append("                    <select id=\"status\" name=\"status\" class=\"form-select text-white fw-semibold bg-success\" onchange=\"");
-		out.append("                    this.classList.remove('bg-success', 'bg-danger');");
-		out.append("                    this.classList.add(this.value === 'Hoạt động' ? 'bg-success' : 'bg-danger');");
+		out.append("                    <select id=\"status\" name=\"status\" class=\"form-select\" onchange=\"");
 		out.append("                  \">");
 		out.append("                      <option value=\"1\" selected>Hoạt động</option>");
 		out.append("                      <option value=\"0\">Bảo trì</option>");
@@ -154,15 +152,7 @@ public class AddProductView extends HttpServlet {
 		out.append("                  <h5 class=\"card-title\">Ảnh minh họa</h5>");
 		out.append("                  <input type=\"file\" name=\"productImg\" class=\"form-control image-input\" multiple accept=\"image/*\">");
 		out.append("                  <div class=\"image-preview d-flex flex-wrap mt-2\">");
-		out.append("					<div class=\"image-wrapper position-relative m-2\">");
-		out.append("                      <img src=\"https://product.hstatic.net/200000065946/product/pro_mau_trang_noi_that_moho_combo_phong_khach_kline_1_3883b611ea6345c8bd7c55f840eb2698_master.png\" alt=\"\" class=\"me-2\" style=\"width: 100px; height: 100px; border: 1px solid #ccc; border-radius: 4px;\">");
-		out.append("                    </div>");
-		out.append("					<div class=\"image-wrapper position-relative m-2\">");
-		out.append("                      <img src=\"https://product.hstatic.net/200000065946/product/pro_mau_trang_noi_that_moho_combo_phong_khach_kline_1_3883b611ea6345c8bd7c55f840eb2698_master.png\" alt=\"\" class=\"me-2\" style=\"width: 100px; height: 100px; border: 1px solid #ccc; border-radius: 4px;\">");
-		out.append("                    </div>");
-		out.append("					<div class=\"image-wrapper position-relative m-2\">");
-		out.append("                      <img src=\"https://product.hstatic.net/200000065946/product/pro_mau_trang_noi_that_moho_combo_phong_khach_kline_1_3883b611ea6345c8bd7c55f840eb2698_master.png\" alt=\"\" class=\"me-2\" style=\"width: 100px; height: 100px; border: 1px solid #ccc; border-radius: 4px;\">");
-		out.append("                    </div>");
+
 		out.append("                  </div>");
 		out.append("                </div>");
 		out.append("                <div class=\"col-xl-12 col-md-12\">");
@@ -198,7 +188,7 @@ public class AddProductView extends HttpServlet {
 		out.append("    </section>");
 		out.append("  </main>");
 		out.append("  <!-- End #main -->");
-		out.append("  <script src=\"../admin/js/mainProduct.js\"></script>");
+		out.append("  <script src=\"../admin/js/UpdateProduct.js\"></script>");
 
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);

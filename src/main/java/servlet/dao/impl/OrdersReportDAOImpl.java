@@ -2,7 +2,6 @@ package servlet.dao.impl;
 
 import servlet.dao.OrdersReportDAO;
 import servlet.models.Order;
-import servlet.response.OrderReportFeedback;
 import servlet.response.OrderResponse;
 import servlet.response.UserReportResponse;
 import servlet.utils.DataSourceUtil;
@@ -11,10 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
 
 public class OrdersReportDAOImpl implements OrdersReportDAO {
 
@@ -141,7 +138,7 @@ public class OrdersReportDAOImpl implements OrdersReportDAO {
     }
 
     @Override
-    public List<OrderResponse> getDaylyOrderStatus(int year, int month) {
+    public List<OrderResponse> getDailyOrderStatus(int year, int month) {
         List<OrderResponse> orderResponses = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder();
@@ -274,6 +271,217 @@ public class OrdersReportDAOImpl implements OrdersReportDAO {
         }
 
         return result;
+    }
+
+    @Override
+    public Map<Integer, Integer> buildSalesChartData(String type) {
+
+        Map<Integer, Integer> labelWithValue = new HashMap<>();
+
+        String query = "";
+
+        if("MONTHLY".equalsIgnoreCase(type)){
+            query = buildMonthlySalesQuery();
+        } else if ("YEARLY".equalsIgnoreCase(type)) {
+            query = buildYearlySalesQuery();
+        }
+
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            try (ResultSet rs = stmt.executeQuery()) {
+                if("MONTHLY".equalsIgnoreCase(type)){
+                    while (rs.next()) {
+                        Integer label = rs.getInt("day_of_month");
+                        Integer value = rs.getInt("total_sold");
+                        labelWithValue.put(label, value);
+                    }
+                } else if ("YEARLY".equalsIgnoreCase(type)) {
+                    while (rs.next()) {
+                        Integer label = rs.getInt("month_of_year");
+                        Integer value = rs.getInt("total_sold");
+                        labelWithValue.put(label, value);
+                    }
+                }
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if("MONTHLY".equalsIgnoreCase(type)) {
+            List<Integer> dayOfMonth = new ArrayList<>();
+            for(int i = 1;  i <= LocalDate.now().getDayOfMonth(); i++) {
+                dayOfMonth.add(i);
+            }
+            Set<Integer> labels = labelWithValue.keySet();
+            for(Integer day : dayOfMonth) {
+                if(!labels.contains(day)) {
+                    labelWithValue.put(day, 0);
+                }
+            }
+
+        } else if ("YEARLY".equalsIgnoreCase(type)) {
+            List<Integer> monthOfYear = new ArrayList<>();
+            for(int i = 1;  i <= 12; i++) {
+                monthOfYear.add(i);
+            }
+            Set<Integer> labels = labelWithValue.keySet();
+            for(Integer month : monthOfYear) {
+                if(!labels.contains(month)) {
+                    labelWithValue.put(month, 0);
+                }
+            }
+        }
+        return labelWithValue;
+    }
+
+    @Override
+    public Map<Integer, Integer> buildRevenueChartData(String type) {
+
+        Map<Integer, Integer> labelWithValue = new HashMap<>();
+
+        String query = "";
+
+        if ("MONTHLY".equalsIgnoreCase(type)) {
+            query = buildMonthlyRevenueQuery();
+        } else if ("YEARLY".equalsIgnoreCase(type)) {
+            query = buildYearlyRevenueQuery();
+        }
+
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if ("MONTHLY".equalsIgnoreCase(type)) {
+                    while (rs.next()) {
+                        Integer label = rs.getInt("day_of_month");
+                        Integer value = rs.getInt("total_revenue");
+                        labelWithValue.put(label, value);
+                    }
+                } else if ("YEARLY".equalsIgnoreCase(type)) {
+                    while (rs.next()) {
+                        Integer label = rs.getInt("month_of_year");
+                        Integer value = rs.getInt("total_revenue");
+                        labelWithValue.put(label, value);
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if ("MONTHLY".equalsIgnoreCase(type)) {
+            List<Integer> dayOfMonth = new ArrayList<>();
+            for (int i = 1; i <= LocalDate.now().getDayOfMonth(); i++) {
+                dayOfMonth.add(i);
+            }
+            Set<Integer> labels = labelWithValue.keySet();
+            for (Integer day : dayOfMonth) {
+                if (!labels.contains(day)) {
+                    labelWithValue.put(day, 0);
+                }
+            }
+
+        } else if ("YEARLY".equalsIgnoreCase(type)) {
+            List<Integer> monthOfYear = new ArrayList<>();
+            for (int i = 1; i <= 12; i++) {
+                monthOfYear.add(i);
+            }
+            Set<Integer> labels = labelWithValue.keySet();
+            for (Integer month : monthOfYear) {
+                if (!labels.contains(month)) {
+                    labelWithValue.put(month, 0);
+                }
+            }
+        }
+
+        return labelWithValue;
+    }
+
+
+    private String buildMonthlySalesQuery() {
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT ");
+        sql.append("    DAY(o.created_at) AS day_of_month,");
+        sql.append("    SUM(oi.order_quantity) AS total_sold");
+        sql.append("FROM ");
+        sql.append("    orders o");
+        sql.append("JOIN ");
+        sql.append("    order_items oi ON o.order_id = oi.order_id");
+        sql.append("WHERE ");
+        sql.append("    MONTH(o.created_at) = MONTH(CURRENT_DATE())");
+        sql.append("    AND YEAR(o.created_at) = YEAR(CURRENT_DATE())");
+        sql.append("    AND o.order_status = 'DELIVERED'");
+        sql.append("GROUP BY ");
+        sql.append("    DAY(o.created_at)");
+        sql.append("ORDER BY ");
+        sql.append("    DAY(o.created_at);");
+
+        return sql.toString();
+    }
+
+    private String buildYearlySalesQuery() {
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT ");
+        sql.append("    MONTH(o.created_at) AS month_of_year,");
+        sql.append("    SUM(oi.order_quantity) AS total_sold");
+        sql.append("FROM ");
+        sql.append("    orders o");
+        sql.append("JOIN ");
+        sql.append("    order_items oi ON o.order_id = oi.order_id");
+        sql.append("WHERE ");
+        sql.append("    YEAR(o.created_at) = YEAR(CURRENT_DATE())");
+        sql.append("    AND o.order_status = 'DELIVERED'");
+        sql.append("GROUP BY ");
+        sql.append("    MONTH(o.created_at)");
+        sql.append("ORDER BY ");
+        sql.append("    MONTH(o.created_at);");
+
+        return sql.toString();
+    }
+
+    private String buildMonthlyRevenueQuery() {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT ");
+        sql.append("    DAY(o.created_at) AS day_of_month, ");
+        sql.append("    SUM(oi.order_quantity * oi.order_price) AS total_revenue ");
+        sql.append("FROM ");
+        sql.append("    orders o ");
+        sql.append("JOIN ");
+        sql.append("    order_items oi ON o.order_id = oi.order_id ");
+        sql.append("WHERE ");
+        sql.append("    MONTH(o.created_at) = MONTH(CURRENT_DATE()) ");
+        sql.append("    AND YEAR(o.created_at) = YEAR(CURRENT_DATE()) ");
+        sql.append("    AND o.order_status = 'DELIVERED' ");
+        sql.append("GROUP BY ");
+        sql.append("    DAY(o.created_at) ");
+        sql.append("ORDER BY ");
+        sql.append("    DAY(o.created_at);");
+
+        return sql.toString();
+    }
+
+    private String buildYearlyRevenueQuery() {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT ");
+        sql.append("    MONTH(o.created_at) AS month_of_year, ");
+        sql.append("    SUM(oi.order_quantity * oi.order_price) AS total_revenue ");
+        sql.append("FROM ");
+        sql.append("    orders o ");
+        sql.append("JOIN ");
+        sql.append("    order_items oi ON o.order_id = oi.order_id ");
+        sql.append("WHERE ");
+        sql.append("    YEAR(o.created_at) = YEAR(CURRENT_DATE()) ");
+        sql.append("    AND o.order_status = 'DELIVERED' ");
+        sql.append("GROUP BY ");
+        sql.append("    MONTH(o.created_at) ");
+        sql.append("ORDER BY ");
+        sql.append("    MONTH(o.created_at);");
+
+        return sql.toString();
     }
 
 }

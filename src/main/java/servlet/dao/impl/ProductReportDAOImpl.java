@@ -3,7 +3,7 @@ package servlet.dao.impl;
 import servlet.dao.ProductDAO;
 import servlet.dao.ProductReportDAO;
 import servlet.models.Product;
-import servlet.response.ReportChartResponse;
+import servlet.response.ReportResponse;
 import servlet.response.TopProductSold;
 import servlet.utils.DataSourceUtil;
 
@@ -68,8 +68,8 @@ public class ProductReportDAOImpl implements ProductReportDAO {
     }
 
     @Override
-    public ReportChartResponse<Integer> buildChartData(int month, int year) {
-        ReportChartResponse<Integer> reportChartResponse = new ReportChartResponse<>();
+    public ReportResponse<Integer> buildChartData(int month, int year) {
+        ReportResponse<Integer> reportResponse = new ReportResponse<>();
 
         List<String> labels = new ArrayList<>();
 
@@ -98,7 +98,6 @@ public class ProductReportDAOImpl implements ProductReportDAO {
                 stmt.setInt(index++, year);
             }
 
-            System.out.println(query);
             ResultSet rs = stmt.executeQuery();
 
             if (month > 0 && year > 0) {
@@ -107,9 +106,9 @@ public class ProductReportDAOImpl implements ProductReportDAO {
                 }
                 while (rs.next()) {
                     int productId = rs.getInt("product_id");
-                    reportChartResponse.getObject().computeIfAbsent(productId, k -> new ArrayList<>()).add(rs.getInt("total_quantity"));
+                    reportResponse.getObject().computeIfAbsent(productId, k -> new ArrayList<>()).add(rs.getInt("total_quantity"));
                 }
-                reportChartResponse.setLabels(labels);
+                reportResponse.setLabels(labels);
             }
             if (month <= 0 && year > 0) {
                 for (int i = 1; i <= 12; i++) {
@@ -117,16 +116,16 @@ public class ProductReportDAOImpl implements ProductReportDAO {
                 }
                 while (rs.next()) {
                     int productId = rs.getInt("product_id");
-                    reportChartResponse.getObject().computeIfAbsent(productId, k -> new ArrayList<>()).add(rs.getInt("total_quantity"));
+                    reportResponse.getObject().computeIfAbsent(productId, k -> new ArrayList<>()).add(rs.getInt("total_quantity"));
                 }
-                reportChartResponse.setLabels(labels);
+                reportResponse.setLabels(labels);
             }
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return reportChartResponse;
+        return reportResponse;
     }
 
     public StringBuilder queryMonthlyProductSoldBuilder() {

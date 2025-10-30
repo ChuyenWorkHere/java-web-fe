@@ -35,6 +35,15 @@ public class CategoryDAOImpl implements CategoryDAO {
 	public List<Category> findAllActiveCategories(int pageSize, int pageNumber, String orderBy, String sortBy) {
 		List<Category> categories = new ArrayList<>();
 
+		// --- Bắt đầu sửa lỗi: Đảm bảo giá trị phân trang hợp lệ ---
+		if (pageNumber < 1) {
+			pageNumber = 1;
+		}
+		if (pageSize < 1) {
+			pageSize = 10; // Đặt một giá trị mặc định an toàn
+		}
+		// --- Kết thúc sửa lỗi ---
+
 		List<String> allowedSortColumns = List.of("keyword", "isActive");
 		if (!allowedSortColumns.contains(orderBy)) {
 			orderBy = "category_id";
@@ -72,41 +81,50 @@ public class CategoryDAOImpl implements CategoryDAO {
 	public List<Category> findAll(int pageSize, int pageNumber, String orderBy, String sortBy, String keyWord, int isActive) {
 		List<Category> categories = new ArrayList<>();
 
+		if (pageNumber < 1) {
+			pageNumber = 1;
+		}
+		if (pageSize < 1) {
+			pageSize = 10;
+		}
+
 		List<String> allowedSortColumns = List.of("category_name", "category_id", "is_active");
 		if (!allowedSortColumns.contains(orderBy)) {
 			orderBy = "category_id";
 		}
 
 		sortBy = sortBy.equalsIgnoreCase("DESC") ? "DESC" : "ASC";
-		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT * FROM categories ");
-		if((keyWord != null && !keyWord.trim().isEmpty()) || isActive >= 0) {
-			sql.append(" WHERE ");
-		}
+		
+		StringBuilder sql = new StringBuilder("SELECT * FROM categories");
+		List<Object> params = new ArrayList<>();
+		List<String> whereClauses = new ArrayList<>();
+
 		if(keyWord != null && !keyWord.trim().isEmpty()) {
-			sql.append(" (category_name LIKE ? OR category_description LIKE ?) ");
-		}
-		if (keyWord != null && !keyWord.trim().isEmpty() && isActive >=0) {
-			sql.append(" AND ");
+			whereClauses.add("(category_name LIKE ? OR category_description LIKE ?)");
+			params.add("%" + keyWord + "%");
+			params.add("%" + keyWord + "%");
 		}
 		if(isActive >= 0) {
-			sql.append(" (is_active = ?) ");
+			whereClauses.add("is_active = ?");
+			params.add(isActive);
 		}
-		sql.append("ORDER BY " + orderBy + " "  + sortBy  + " " + "LIMIT ? OFFSET ?");
+
+		if (!whereClauses.isEmpty()) {
+			sql.append(" WHERE ").append(String.join(" AND ", whereClauses));
+		}
+
+		sql.append(" ORDER BY ").append(orderBy).append(" ").append(sortBy).append(" LIMIT ? OFFSET ?");
 
 		try (Connection conn = DataSourceUtil.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+			
 			int index = 1;
-			if(keyWord != null && !keyWord.trim().isEmpty()) {
-				stmt.setString(index++, "%"+keyWord+"%");
-				stmt.setString(index++, "%"+keyWord+"%");
-			}
-			if(isActive >= 0) {
-				stmt.setInt(index++, isActive);
+			for (Object param : params) {
+				stmt.setObject(index++, param);
 			}
 			stmt.setInt(index++, pageSize);
 			stmt.setInt(index++, (pageNumber - 1) * pageSize);
-			System.out.println(sql.toString());
+
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				Category category = new Category();
