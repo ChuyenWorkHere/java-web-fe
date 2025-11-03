@@ -32,26 +32,6 @@ input.addEventListener("change", () => {
   });
 });
 
-
-function initColorInputs() {
-  const colorContainer = document.querySelector('.color-container');
-  const addColorBtn = document.querySelector('.add-color');
-
-  if (!colorContainer || !addColorBtn) return;
-
-  addColorBtn.addEventListener('click', () => {
-    const colorWrapper = document.createElement('div');
-    colorWrapper.className = 'color-wrapper col-auto mb-2';
-    colorWrapper.innerHTML = `
-        <input type="color" name="productColors[]" class="color-box p-0">
-    `;
-    colorContainer.insertBefore(colorWrapper, addColorBtn.parentElement);
-  });
-}
-
-document.addEventListener('DOMContentLoaded', initColorInputs);
-
-
 /**
  * Kiểm tra dữ liệu trước form thêm sản phẩm
  */
@@ -89,7 +69,7 @@ if (formProduct) {
          }
 
         // Chất liệu
-        if (material === "") {
+        if (material === "Chất liệu") {
           document.getElementById("materialMessage").textContent = "Chất liệu không được để trống.";
           isValid = false;
         }

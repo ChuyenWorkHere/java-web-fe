@@ -8,8 +8,10 @@ import java.util.List;
 import lombok.Data;
 import servlet.dao.BrandDAO;
 import servlet.dao.CategoryDAO;
+import servlet.dao.MaterialDAO;
 import servlet.dao.ProductDAO;
 import servlet.models.Brand;
+import servlet.models.Material;
 import servlet.models.Category;
 import servlet.models.Product;
 import servlet.utils.DataSourceUtil;
@@ -19,12 +21,13 @@ public class ProductDAOImpl implements ProductDAO {
 
 	private BrandDAO brandDAO = new BrandDAOImpl();
 	private CategoryDAO categoryDAO = new CategoryDAOImpl();
+	private MaterialDAO materialDAO = new MaterialDAOImpl();
 	private Connection conn = null;
 	private PreparedStatement stmt = null;
 
 	@Override
 	public Product findById(int id) {
-		String sql = "SELECT * FROM products WHERE product_id = ?";
+		String sql = "SELECT * FROM products WHERE product_id = ? AND product_enable = 1 ";
         try (
             Connection conn = DataSourceUtil.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)
@@ -49,8 +52,8 @@ public class ProductDAOImpl implements ProductDAO {
 		sql.append("INSERT INTO products (");
 		sql.append("product_name, product_total, product_code, product_price, ");
 		sql.append("product_discount_price, product_description, product_visited, ");
-		sql.append("product_image_url, product_size, product_enable, product_material, ");
-		sql.append("brand_id, category_id, created_at, updated_at");
+		sql.append("product_image_url, product_size, product_enable, ");
+		sql.append("brand_id, category_id, created_at, updated_at, material_id");
 		sql.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		try {
@@ -69,7 +72,6 @@ public class ProductDAOImpl implements ProductDAO {
 			stmt.setString(index++, product.getProductImageUrl());
 			stmt.setString(index++, product.getProductSize());
 			stmt.setInt(index++, product.isProductEnable() ? 1 : 0);
-			stmt.setString(index++, product.getProductMaterial());
 			stmt.setInt(index++, product.getBrand().getBrandId());
 			stmt.setInt(index++, product.getCategory().getCategoryId());
 
@@ -79,6 +81,7 @@ public class ProductDAOImpl implements ProductDAO {
 
 			//modified date
 			stmt.setDate(index++, Date.valueOf(now));
+			stmt.setInt(index++, product.getMaterial().getMaterialId());
 
 			int rows = stmt.executeUpdate();
 
@@ -118,15 +121,14 @@ public class ProductDAOImpl implements ProductDAO {
 		sql.append("UPDATE products SET ");
 		sql.append("product_name=?, product_total=?, product_code=?, product_price=?, ");
 		sql.append("product_discount_price=?, product_description=?, product_visited=?, ");
-		sql.append("product_image_url=?, product_size=?, product_enable=?, product_material=?, ");
-		sql.append("brand_id=?, category_id=?, updated_at=?");
-		sql.append(" WHERE product_id=?");
+		sql.append("product_image_url=?, product_size=?, product_enable=?, ");
+		sql.append("brand_id=?, category_id=?, updated_at=?, material_id=? ");
+		sql.append(" WHERE product_id = ?");
 
 		try (Connection conn = DataSourceUtil.getConnection();
 			 PreparedStatement updateStmt = conn.prepareStatement(sql.toString())) {
 
 			int index = 1;
-			// 2. Gán dữ liệu mới từ `product` vào đối tượng hiện tại
 			updateStmt.setString(index++, product.getProductName());
 			updateStmt.setInt(index++, product.getProductTotal());
 			updateStmt.setString(index++, product.getProductCode());
@@ -137,13 +139,12 @@ public class ProductDAOImpl implements ProductDAO {
 			updateStmt.setString(index++, product.getProductImageUrl());
 			updateStmt.setString(index++, product.getProductSize());
 			updateStmt.setInt(index++, product.isProductEnable()? 1 : 0);
-			updateStmt.setString(index++, product.getProductMaterial());
 			updateStmt.setInt(index++, product.getBrand().getBrandId());
 			updateStmt.setInt(index++, product.getCategory().getCategoryId());
 			updateStmt.setDate(index++, java.sql.Date.valueOf(LocalDate.now()));
+			updateStmt.setInt(index++, product.getMaterial().getMaterialId());
 			updateStmt.setInt(index++, productId); // WHERE
 
-			// 3. Thực thi cập nhật
 			int rowsAffected = updateStmt.executeUpdate();
 			return rowsAffected > 0;
 
@@ -191,10 +192,10 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public List<Product> findAllBySearchConditions(int size, int page, String sortBy, String orderBy, String keyWord, int categoryId, int brandId, String color, String price) {
+	public List<Product> findAllBySearchConditions(int size, int page, String sortBy, String orderBy, String keyWord, int categoryId, int brandId, int materialId, String price) {
 		List<Product> products = new ArrayList<>();
 
-		StringBuilder sqlSearch = productQuerySearchBuilder(size, page, sortBy, orderBy, keyWord, categoryId, brandId, color, price);
+		StringBuilder sqlSearch = productQuerySearchBuilder(size, page, sortBy, orderBy, keyWord, categoryId, brandId, materialId, price);
 
 		try (Connection conn = DataSourceUtil.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sqlSearch.toString())) {
@@ -208,8 +209,8 @@ public class ProductDAOImpl implements ProductDAO {
 			if(brandId != -1) {
 				stmt.setInt(index++, brandId);
 			}
-			if(color != null && !"".equalsIgnoreCase("color")){
-				stmt.setString(index++, "%"+color+"%");
+			if(materialId != -1) {
+				stmt.setInt(index++, materialId);
 			}
 
 			if(price != null && !"".equalsIgnoreCase(price)) {
@@ -296,7 +297,7 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<Product> findAll(int pageSize, int pageNumber, String orderBy, String sortBy) {
 		List<Product> products = new ArrayList<>();
 
-		List<String> allowedSortColumns = List.of("product_name", "product_price", "product_discount_price", "product_id");
+		List<String> allowedSortColumns = List.of("product_name", "product_price", "product_discount_price", "product_id", "created_at");
 		if (!allowedSortColumns.contains(orderBy)) {
 			orderBy = "product_id";
 		}
@@ -321,7 +322,6 @@ public class ProductDAOImpl implements ProductDAO {
 				product.setProductEnable(rs.getBoolean("product_enable"));
 				product.setProductDescription(rs.getString("product_description"));
 				product.setProductSize(rs.getString("product_size"));
-				product.setProductMaterial(rs.getString("product_material"));
 				product.setProductImageUrl(rs.getString("product_image_url"));
 				product.setProductCode(rs.getString("product_code"));
 				product.setProductVisited(rs.getInt("product_visited"));
@@ -333,6 +333,9 @@ public class ProductDAOImpl implements ProductDAO {
 
 				int categoryId = rs.getInt("category_id");
 				product.setCategory(categoryDAO.findById(categoryId));
+
+				int materialId = rs.getInt("material_id");
+				product.setMaterial(materialDAO.findById(materialId));
 
 				products.add(product);
 			}
@@ -358,7 +361,6 @@ public class ProductDAOImpl implements ProductDAO {
 		product.setProductVisited(rs.getInt("product_visited"));
 		product.setProductImageUrl(rs.getString("product_image_url"));
 		product.setProductSize(rs.getString("product_size"));
-		product.setProductMaterial(rs.getString("product_material"));
 		product.setProductEnable(rs.getInt("product_enable") == 1);
 
 		LocalDate createdAt = rs.getDate("created_at").toLocalDate();
@@ -382,19 +384,27 @@ public class ProductDAOImpl implements ProductDAO {
 		} else
 			product.setCategory(categoryFromDb);
 
+		int materialId = rs.getInt("material_id");
+		Material materialFromDb = materialDAO.findById(materialId);
+		if(materialFromDb == null) {
+			Material emptyMaterial = new Material();
+			product.setMaterial(emptyMaterial);
+		} else
+			product.setMaterial(materialFromDb);
+
 		return product;
 	}
 
-	public StringBuilder productQuerySearchBuilder(int size, int page, String sortBy, String orderBy, String keyWord, int categoryId, int brandId, String color, String price){
+	public StringBuilder productQuerySearchBuilder(int size, int page, String sortBy, String orderBy, String keyWord, int categoryId, int brandId, int materialId, String price){
 		StringBuilder sqlQuerySearch = new StringBuilder();
 
-		List<String> allowedSortColumns = List.of("product_name", "product_discount_price", "product_id");
+		List<String> allowedSortColumns = List.of("product_name", "product_price", "product_discount_price", "product_id", "created_at");
 		if (!allowedSortColumns.contains(orderBy)) {
-			orderBy = "product_discount_price";
+			orderBy = "product_id";
 		}
 		sortBy = sortBy.equalsIgnoreCase("DESC") ? "DESC" : "ASC";
 
-		sqlQuerySearch.append("SELECT * FROM products WHERE (1 = 1) ");
+		sqlQuerySearch.append("SELECT * FROM products WHERE (1 = 1) AND product_enable = 1 ");
 
 		if(keyWord!= null && !"".equalsIgnoreCase(keyWord)) {
 			sqlQuerySearch.append(" AND ");
@@ -408,9 +418,9 @@ public class ProductDAOImpl implements ProductDAO {
 			sqlQuerySearch.append(" AND ");
 			sqlQuerySearch.append(" brand_id = ? ");
 		}
-		if(color!= null && !"".equalsIgnoreCase(color)){
+		if(materialId != -1 ){
 			sqlQuerySearch.append(" AND ");
-			sqlQuerySearch.append(" product_image_url LIKE ? ");
+			sqlQuerySearch.append(" material_id = ? ");
 		}
 
 		if(price != null && !"".equalsIgnoreCase(price)) {

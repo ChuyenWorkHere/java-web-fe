@@ -2,10 +2,13 @@ package servlet.admin.view;
 
 import servlet.dao.BrandDAO;
 import servlet.dao.CategoryDAO;
+import servlet.dao.MaterialDAO;
 import servlet.dao.impl.BrandDAOImpl;
 import servlet.dao.impl.CategoryDAOImpl;
+import servlet.dao.impl.MaterialDAOImpl;
 import servlet.models.Brand;
 import servlet.models.Category;
+import servlet.models.Material;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,6 +27,7 @@ public class AddProductView extends HttpServlet {
 
 	private CategoryDAO categoryDAO = new CategoryDAOImpl();
 	private BrandDAO brandDAO = new BrandDAOImpl();
+	private MaterialDAO materialDAO = new MaterialDAOImpl();
 
 	public AddProductView() {
 		super();
@@ -35,6 +39,8 @@ public class AddProductView extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 
+
+		List<Material> materials = materialDAO.findAll();
 		List<Category> categories = categoryDAO.findAllActiveCategories(100, 1, "ASC", "category_id" );
 		List<Brand> brands = brandDAO.findAll();
 
@@ -82,7 +88,13 @@ public class AddProductView extends HttpServlet {
 		out.append("                <div class=\"row\">");
 		out.append("                  <div class=\"col-md-12 mb-3\">");
 		out.append("                    <label for=\"productMaterial\" class=\"form-label\">Chất liệu</label>");
-		out.append("                    <input type=\"text\" name=\"productMaterial\" class=\"form-control\" id=\"productMaterial\" placeholder=\"Nhập chất liệu\" />");
+
+		out.append("                    <select class=\"form-select\" name=\"productMaterial\" id=\"productMaterial\">");
+		out.append("                      <option selected>Chất liệu</option>");
+		for(Material material : materials) {
+			out.append("<option value=\""+material.getMaterialId()+"\">"+material.getMaterialName()+"</option>");
+		}
+		out.append("                    </select>");
 		out.append("                    <p class=\"text-danger m-0 mt-2\" id=\"materialMessage\"></p>");
 		out.append("                  </div>");
 		out.append("                </div>");
@@ -155,17 +167,6 @@ public class AddProductView extends HttpServlet {
 
 		out.append("                  </div>");
 		out.append("                </div>");
-		out.append("                <div class=\"col-xl-12 col-md-12\">");
-		out.append("                  <h5 class=\"card-title\">Màu sắc</h5>");
-		out.append("                  <div class=\"color-container\">");
-		out.append("                    <div class=\"color-wrapper col-auto mb-2\">");
-		out.append("                      <input type=\"color\" name=\"productColors[]\" class=\"color-box p-0\" value=\"#fff\">");
-		out.append("                    </div>");
-		out.append("                    <div class=\"color-wrapper col-auto mb-2\">");
-		out.append("                      <button type=\"button\" class=\"color-box add-color\"><i class=\"bi bi-plus\"></i></button>");
-		out.append("                    </div>");
-		out.append("                  </div>");
-		out.append("                </div>");
 		out.append("              </div>");
 		out.append("            </div>");
 		out.append("            <!--Mô tả chi tiết-->");
@@ -189,6 +190,17 @@ public class AddProductView extends HttpServlet {
 		out.append("  </main>");
 		out.append("  <!-- End #main -->");
 		out.append("  <script src=\"../admin/js/UpdateProduct.js\"></script>");
+
+		out.append("<script>");
+		out.append("  document.addEventListener('DOMContentLoaded', () => {");
+		out.append("    tinymce.init({");
+		out.append("      selector: '#about',");
+		out.append("      skin: 'oxide',");
+		out.append("      content_css: 'default', ");
+		out.append("      content_style: 'body { background-color: white !important; color: black !important; }'");
+		out.append("    });");
+		out.append("  });");
+		out.append("</script>");
 
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);

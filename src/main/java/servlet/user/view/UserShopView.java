@@ -3,12 +3,15 @@ package servlet.user.view;
 import servlet.constants.SearchConstants;
 import servlet.dao.BrandDAO;
 import servlet.dao.CategoryDAO;
+import servlet.dao.MaterialDAO;
 import servlet.dao.ProductDAO;
 import servlet.dao.impl.BrandDAOImpl;
 import servlet.dao.impl.CategoryDAOImpl;
+import servlet.dao.impl.MaterialDAOImpl;
 import servlet.dao.impl.ProductDAOImpl;
 import servlet.models.Brand;
 import servlet.models.Category;
+import servlet.models.Material;
 import servlet.models.Product;
 import servlet.response.ProductResponse;
 import servlet.utils.ProductUtils;
@@ -35,12 +38,14 @@ public class UserShopView extends HttpServlet {
 	private ProductDAO productDAO;
 	private CategoryDAO categoryDAO ;
 	private BrandDAO brandDAO;
+	private MaterialDAO materialDAO;
     
     public UserShopView() {
         super();
 		productDAO = new ProductDAOImpl();
 		categoryDAO = new CategoryDAOImpl();
 		brandDAO = new BrandDAOImpl();
+		materialDAO = new MaterialDAOImpl();
     }
     
 
@@ -48,29 +53,20 @@ public class UserShopView extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 
-		// --- TẠO CÁC TÙY CHỌN SẮP XẾP ---
 		Map<String, String> sortOptions = new LinkedHashMap<>();
-		sortOptions.put("product_created_date-DESC", "Mới nhất");
+		sortOptions.put("created_at-DESC", "Mới nhất");
 		sortOptions.put("product_discount_price-ASC", "Giá: Thấp đến Cao");
 		sortOptions.put("product_discount_price-DESC", "Giá: Cao đến Thấp");
 		sortOptions.put("product_name-ASC", "Tên: A-Z");
 		sortOptions.put("product_name-DESC", "Tên: Z-A");
-		// --- KẾT THÚC ---
 
 
 		int totalProduct = productDAO.productCounter();
 
-		//Hiển thị màu có sẵn
-		List<Product> productList = productDAO.findAll(totalProduct, 1, "ASC", "product_id");
-		List<String> urlAndColors = new ArrayList<>();
-		productList.forEach(product -> urlAndColors.add(product.getProductImageUrl()));
-		List<String> colors = ProductUtils.allColorsArray(urlAndColors);
-		colors.removeIf(item -> item.length()>7);
-		if(colors.size() >= 5) colors = colors.subList(0, 4);
-
 		//Hiển thị category và brand
 		List<Category> categories = categoryDAO.findAll(1000, 1, "ASC", "category_id", null, 1);
 		List<Brand> brands = brandDAO.findAll();
+		List<Material> materials = materialDAO.findAll();
 
 		//Url search
 		int size = SearchConstants.USER_PRODUCT_SIZE; //default
@@ -81,8 +77,8 @@ public class UserShopView extends HttpServlet {
 		int categoryId = -1;
 		int brandId = -1;
 		String price = null;
-		String color = null;
-		boolean isFilterActive = false; // Biến để kiểm tra có bộ lọc nào đang được áp dụng không
+		int materialId = -1;
+		boolean isFilterActive = false;
 
 		StringBuilder urlSearch = new StringBuilder();
 		urlSearch.append("/public/shop?");
@@ -165,13 +161,18 @@ public class UserShopView extends HttpServlet {
 			urlSearch.append("&brand=-1");
 		}
 
-		if(request.getParameter("color") != null &&
-				request.getParameter("color").startsWith("-")) {
-			urlSearch.append("&");
-			urlSearch.append("color=");
-			color = "#" + request.getParameter("color").substring(1);
-			isFilterActive = true;
-			urlSearch.append(request.getParameter("color"));
+		if(request.getParameter("material") != null) {
+			urlSearch.append("&material=");
+			try {
+				materialId = Integer.parseInt(request.getParameter("material"));
+				if (materialId != -1) isFilterActive = true;
+				urlSearch.append(materialId);
+			} catch (Exception e) {
+				materialId = -1;
+				urlSearch.append(materialId);
+			}
+		} else {
+			urlSearch.append("&material=-1");
 		}
 
 		if(request.getParameter("price") != null &&
@@ -186,23 +187,23 @@ public class UserShopView extends HttpServlet {
 		}
 
 		//Danh sách product để lấy size, tạo pagination
-		List<Product> allSearchedProduct = productDAO.findAllBySearchConditions(totalProduct, 1, sortBy, orderBy, keyWord, categoryId, brandId,color, price);
+		List<Product> allSearchedProduct = productDAO.findAllBySearchConditions(totalProduct, 1, sortBy, orderBy, keyWord, categoryId, brandId,materialId, price);
 		int totalProductSearched = allSearchedProduct.size();
 		int totalPages = 1;
 		if(totalProductSearched % size != 0){
 			totalPages = totalProductSearched/size + 1;
-			if(page > totalPages) {
+			if(page > totalPages && totalPages > 0) {
 				page = totalPages;
 			}
 		} else {
 			totalPages = totalProductSearched/size;
-			if(page > totalPages) {
+			if(page > totalPages && totalPages > 0) {
 				page = totalPages;
 			}
 		}
 
 		//Danh sách product để hiển thị
-		List<Product> products = productDAO.findAllBySearchConditions(size, page, sortBy, orderBy, keyWord, categoryId, brandId,color, price);
+		List<Product> products = productDAO.findAllBySearchConditions(size, page, sortBy, orderBy, keyWord, categoryId, brandId,materialId, price);
 
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/public/header-view");
 		headerDispatcher.include(request, response);
@@ -292,14 +293,11 @@ public class UserShopView extends HttpServlet {
 
 			out.append("                                                </a>");
 			out.append("                                                <div class=\"product-action text-center\">");
-			out.append("                                                    <a href=\"#\" title=\"Shopping Cart\">");
+			out.append("                                                    <a href=\"#\" title=\"Thêm vào giỏ hàng\">");
 			out.append("                                                        <i class=\"flaticon-shopping-cart\"></i>");
 			out.append("                                                    </a>");
-			out.append("                                                    <a href=\"#\" title=\"Quick View\">");
+			out.append("                                                    <a href=\""+request.getContextPath() +"/public/product-detail?productId="+product.getProductId()+"\" title=\"Chi tiết\">");
 			out.append("                                                        <i class=\"flaticon-eye\"></i>");
-			out.append("                                                    </a>");
-			out.append("                                                    <a href=\"#\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"Compare\">");
-			out.append("                                                        <i class=\"flaticon-compare\"></i>");
 			out.append("                                                    </a>");
 			out.append("                                                </div>");
 			out.append("                                                <div class=\"sale-tag\">");
@@ -353,6 +351,9 @@ public class UserShopView extends HttpServlet {
 		if (categoryId != -1) {
 			out.append("                                    <input type=\"hidden\" name=\"category\" value=\""+ categoryId +"\">");
 		}
+		if (materialId != -1) {
+			out.append("                                    <input type=\"hidden\" name=\"material\" value=\""+ materialId +"\">");
+		}
 		if (brandId != -1) {
 			out.append("                                    <input type=\"hidden\" name=\"brand\" value=\""+ brandId +"\">");
 		}
@@ -395,11 +396,9 @@ public class UserShopView extends HttpServlet {
 		out.append("                            <div class=\"shop-widget\">");
 		out.append("                                <h3 class=\"shop-title\">Product Material</h3>");
 		out.append("                                <ul class=\"shop-link\">");
-		out.append("                                    <li><a href=\"shop.html\"><i class=\"far fa-square\"></i> L</a></li>");
-		out.append("                                    <li><a href=\"shop.html\"><i class=\"far fa-square\"></i> M</a></li>");
-		out.append("                                    <li><a href=\"shop.html\"><i class=\"far fa-square\"></i> X</a></li>");
-		out.append("                                    <li><a href=\"shop.html\"><i class=\"far fa-square\"></i> XL</a></li>");
-		out.append("                                    <li><a href=\"shop.html\"><i class=\"far fa-square\"></i> XXL</a></li>");
+		for(Material material : materials) {
+			out.append("                                    <li><a href=\""+ "/Furniture" + urlSearch.toString().replace("material="+materialId, "material="+material.getMaterialId()) +"\"><i class=\"far "+ ((materialId == material.getMaterialId()) ? " fa-check-square text-danger " : " far fa-square ") +"\"></i> "+material.getMaterialName()+"</a></li>");
+		}
 		out.append("                                </ul>");
 		out.append("                            </div>");
 		out.append("");
@@ -412,84 +411,6 @@ public class UserShopView extends HttpServlet {
 		out.append("                                </ul>");
 		out.append("                            </div>");
 
-		out.append("");
-		out.append("                            <div class=\"shop-widget\">");
-		out.append("                                <h3 class=\"shop-title\">Recent Product</h3>");
-		out.append("                                <ul class=\"shop-sidebar-product\">");
-		out.append("                                    <li>");
-		out.append("                                        <div class=\"side-pro-img\">");
-		out.append("                                            <a href=\"product-details.html\"><img src=\"../user/img/product/latest/shop-rsp1.jpg\" alt=\"\"></a>");
-		out.append("                                        </div>");
-		out.append("                                        <div class=\"side-pro-content\">");
-		out.append("                                            <div class=\"side-pro-rating\">");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                            </div>");
-		out.append("                                            <h5><a href=\"product-details.html\">Raglan Baseball-Style</a></h5>");
-		out.append("                                            <div class=\"side-pro-price\">");
-		out.append("                                                <span>$119.00 USD</span>");
-		out.append("                                            </div>");
-		out.append("                                        </div>");
-		out.append("                                    </li>");
-		out.append("                                    <li>");
-		out.append("                                        <div class=\"side-pro-img\">");
-		out.append("                                            <a href=\"product-details.html\"><img src=\"../user/img/product/latest/shop-rsp3.jpg\" alt=\"\"></a>");
-		out.append("                                        </div>");
-		out.append("                                        <div class=\"side-pro-content\">");
-		out.append("                                            <div class=\"side-pro-rating\">");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                            </div>");
-		out.append("                                            <h5><a href=\"product-details.html\">Raglan Baseball-Style</a></h5>");
-		out.append("                                            <div class=\"side-pro-price\">");
-		out.append("                                                <span>$119.00 USD</span>");
-		out.append("                                            </div>");
-		out.append("                                        </div>");
-		out.append("                                    </li>");
-		out.append("                                    <li>");
-		out.append("                                        <div class=\"side-pro-img\">");
-		out.append("                                            <a href=\"product-details.html\"><img src=\"../user/img/product/latest/shop-rsp2.jpg\" alt=\"\"></a>");
-		out.append("                                        </div>");
-		out.append("                                        <div class=\"side-pro-content\">");
-		out.append("                                            <div class=\"side-pro-rating\">");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                            </div>");
-		out.append("                                            <h5><a href=\"product-details.html\">Raglan Baseball-Style</a></h5>");
-		out.append("                                            <div class=\"side-pro-price\">");
-		out.append("                                                <span>$119.00 USD</span>");
-		out.append("                                            </div>");
-		out.append("                                        </div>");
-		out.append("                                    </li>");
-		out.append("                                    <li>");
-		out.append("                                        <div class=\"side-pro-img\">");
-		out.append("                                            <a href=\"product-details.html\"><img src=\"../user/img/product/latest/shop-rsp4.jpg\" alt=\"\"></a>");
-		out.append("                                        </div>");
-		out.append("                                        <div class=\"side-pro-content\">");
-		out.append("                                            <div class=\"side-pro-rating\">");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                                <i class=\"fas fa-star\"></i>");
-		out.append("                                            </div>");
-		out.append("                                            <h5><a href=\"product-details.html\">Raglan Baseball-Style</a></h5>");
-		out.append("                                            <div class=\"side-pro-price\">");
-		out.append("                                                <span>$119.00 USD</span>");
-		out.append("                                            </div>");
-		out.append("                                        </div>");
-		out.append("                                    </li>");
-		out.append("                                </ul>");
-		out.append("                            </div>");
 		out.append("");
 		out.append("                            <div class=\"shop-widget\">");
 		out.append("                                <div class=\"shop-sidebar-banner\">");

@@ -44,7 +44,6 @@ public class ProductDetailView extends HttpServlet {
 	    headerDispatcher.include(request, response);
 
 		List<String> urlArray = List.of(ProductUtils.urlArray(product.getProductImageUrl()));
-		List<String> colorArray = List.of(ProductUtils.colorArray(product.getProductImageUrl()));
 
 	    out.append("<main id=\"main\" class=\"main\">");
 	    out.append("");
@@ -106,16 +105,6 @@ public class ProductDetailView extends HttpServlet {
 	    out.append("                    "+ProductUtils.formatNumber(product.getProductPrice())+"đ");
 	    out.append("                  </span>");
 	    out.append("                </div>");
-	    out.append("                <div class=\"mb-4\">");
-	    out.append("                  <p class=\"text-uppercase fw-semibold text-secondary small mb-3\" style=\"letter-spacing: 0.1em;\">");
-	    out.append("                    MÀU SẮC");
-	    out.append("                  </p>");
-	    out.append("                  <div class=\"d-flex gap-3\">");
-		for (int j = 0; j < colorArray.size(); j++) {
-			out.append("                    <span style=\"background-color: "+colorArray.get(j)+"\" class=\"color-circle\">");
-			out.append("                    </span>");
-		}
-	    out.append("                  </div>");
 	    out.append("                </div>");
 	    out.append("                <div class=\"mb-4 d-flex align-items-center gap-4\">");
 	    out.append("                  <p class=\"text-uppercase fw-semibold text-secondary small mb-0\" style=\"letter-spacing: 0.1em;\">");
@@ -133,7 +122,7 @@ public class ProductDetailView extends HttpServlet {
 		out.append("                  </p>");
 		out.append("                  <div class=\"d-flex gap-3 fs-6 fw-normal\">");
 		out.append("                    <span class=\"size-option\">");
-		out.append("                      "+product.getProductMaterial()+"");
+		out.append("                      "+product.getMaterial().getMaterialName()+"");
 		out.append("                    </span>");
 		out.append("                  </div>");
 		out.append("                </div>");
@@ -175,7 +164,6 @@ public class ProductDetailView extends HttpServlet {
 	    out.append("            </div>");
 	    out.append("          </div>");
 	    out.append("        </div>");
-		out.append("      </div>");
 	    out.append("");
 	    out.append("        <div class=\"col-xl-6\">");
 	    out.append("          <div class=\"card shadow-none\">");

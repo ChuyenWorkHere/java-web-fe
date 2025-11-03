@@ -3,12 +3,15 @@ package servlet.admin.view;
 import servlet.constants.SearchConstants;
 import servlet.dao.BrandDAO;
 import servlet.dao.CategoryDAO;
+import servlet.dao.MaterialDAO;
 import servlet.dao.ProductDAO;
 import servlet.dao.impl.BrandDAOImpl;
 import servlet.dao.impl.CategoryDAOImpl;
+import servlet.dao.impl.MaterialDAOImpl;
 import servlet.dao.impl.ProductDAOImpl;
 import servlet.models.Brand;
 import servlet.models.Category;
+import servlet.models.Material;
 import servlet.models.Product;
 import servlet.utils.ProductUtils;
 
@@ -30,12 +33,14 @@ public class ProductsView extends HttpServlet {
 	private ProductDAO productDAO;
 	private CategoryDAO categoryDAO ;
 	private BrandDAO brandDAO;
+	private MaterialDAO materialDAO;
 
 	public ProductsView() {
 		super();
 		productDAO = new ProductDAOImpl();
 		categoryDAO = new CategoryDAOImpl();
 		brandDAO = new BrandDAOImpl();
+		materialDAO = new MaterialDAOImpl();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -45,29 +50,21 @@ public class ProductsView extends HttpServlet {
 
 		int totalProduct = productDAO.productCounter();
 
-		//Hiển thị màu có sẵn
-		List<Product> productList = productDAO.findAll(totalProduct, 1, "ASC", "product_id");
-		List<String> urlAndColors = new ArrayList<>();
-		productList.forEach(product -> urlAndColors.add(product.getProductImageUrl()));
-		List<String> colors = ProductUtils.allColorsArray(urlAndColors);
-		colors.removeIf(item -> item.length()>7);
-		if(colors.size() >= 5) colors = colors.subList(0, 4);
-
 		//Hiển thị category và brand
 		List<Category> categories = categoryDAO.findAll(1000, 1, "ASC", "category_id", null, 1);
 		List<Brand> brands = brandDAO.findAll();
-
+		List<Material> materials = materialDAO.findAll();
 
 		//Url search
 		int size = SearchConstants.PRODUCT_DEFAULT_SIZE; //default
 		int page = SearchConstants.DEFAULT_PAGE; //default
 		String orderBy =  "product_discount_price";//default
 		String sortBy = SearchConstants.DEFAULT_DIR;
-		String keyWord = null;
+		String keyWord = "";
 		int categoryId = -1;
 		int brandId = -1;
 		String price = null;
-		String color = null;
+		int materialId = -1;
 
 		StringBuilder urlSearch = new StringBuilder();
 		urlSearch.append("/admin/products-view?");
@@ -85,8 +82,7 @@ public class ProductsView extends HttpServlet {
 		}
 
 		if(request.getParameter("page") != null) {
-			urlSearch.append("&");
-			urlSearch.append("page=");
+			urlSearch.append("&page=");
 			try {
 				page = Integer.parseInt(request.getParameter("page"));
 			} catch (Exception e) {
@@ -94,54 +90,45 @@ public class ProductsView extends HttpServlet {
 			}
 			urlSearch.append(page);
 		} else {
-			urlSearch.append("&");
-			urlSearch.append("page=1");
+			urlSearch.append("&page=1");
 		}
 
 		if(request.getParameter("dir") != null) {
-			urlSearch.append("&");
-			urlSearch.append("dir=");
+			urlSearch.append("&dir=");
 			sortBy = request.getParameter("dir");
 			urlSearch.append(sortBy);
 		} else {
-			urlSearch.append("&");
-			urlSearch.append("dir=ASC");
+			urlSearch.append("&dir=ASC");
 		}
 
 		if(request.getParameter("orderBy") != null) {
-			urlSearch.append("&");
-			urlSearch.append("orderBy=");
+			urlSearch.append("&orderBy=");
 			orderBy = request.getParameter("orderBy");
 			urlSearch.append(orderBy);
 		} else {
-			urlSearch.append("&");
-			urlSearch.append("orderBy=product_discount_price");
+			urlSearch.append("&orderBy=product_discount_price");
 		}
 
 		if(request.getParameter("keyWord") != null &&
 				!request.getParameter("keyWord").trim().equalsIgnoreCase("")) {
-			urlSearch.append("&");
-			urlSearch.append("keyWord=");
+			urlSearch.append("&keyWord=");
 			keyWord = request.getParameter("keyWord");
 			urlSearch.append(keyWord);
 		}
 
 		if(request.getParameter("category") != null) {
-			urlSearch.append("&");
-			urlSearch.append("category=");
+			urlSearch.append("&category=");
 			try {
-				categoryId = Integer.parseInt(request.getParameter("active"));
+				categoryId = Integer.parseInt(request.getParameter("category"));
 				urlSearch.append(categoryId);
 			} catch (Exception e) {
 				categoryId = -1;
 				urlSearch.append(categoryId);
 			}
-
 		}
 
 		if(request.getParameter("brand") != null) {
-			urlSearch.append("&");
-			urlSearch.append("brand=");
+			urlSearch.append("&brand=");
 			try {
 				brandId = Integer.parseInt(request.getParameter("brand"));
 				urlSearch.append(brandId);
@@ -149,31 +136,31 @@ public class ProductsView extends HttpServlet {
 				brandId = -1;
 				urlSearch.append(brandId);
 			}
-
 		}
 
-		if(request.getParameter("color") != null &&
-				request.getParameter("color").startsWith("-")) {
-			urlSearch.append("&");
-			urlSearch.append("color=");
-			color = "#" + request.getParameter("color").substring(1);
-			urlSearch.append(request.getParameter("color"));
-
+		if(request.getParameter("material") != null) {
+			urlSearch.append("&material=");
+			try {
+				materialId = Integer.parseInt(request.getParameter("material"));
+				urlSearch.append(materialId);
+			} catch (Exception e) {
+				materialId = -1;
+				urlSearch.append(materialId);
+			}
 		}
 
 		if(request.getParameter("price") != null &&
 				!request.getParameter("price").trim().equalsIgnoreCase("")) {
-			urlSearch.append("&");
-			urlSearch.append("price=");
+			urlSearch.append("&price=");
 			price = request.getParameter("price");
 			urlSearch.append(price);
 		}
 
 		//Danh sách product để hiển thị
-		List<Product> products = productDAO.findAllBySearchConditions(size, page, sortBy, orderBy, keyWord, categoryId, brandId,color, price);
+		List<Product> products = productDAO.findAllBySearchConditions(size, page, sortBy, orderBy, keyWord, categoryId, brandId,materialId, price);
 
 		//Danh sách product để lấy size, tạo pagination
-		List<Product> allSearchedProduct = productDAO.findAllBySearchConditions(totalProduct, 1, sortBy, orderBy, keyWord, categoryId, brandId,color, price);
+		List<Product> allSearchedProduct = productDAO.findAllBySearchConditions(totalProduct, 1, sortBy, orderBy, keyWord, categoryId, brandId,materialId, price);
 		int totalProductSearched = allSearchedProduct.size();
 		int totalPages = 1;
 		if(totalProductSearched % size != 0)
@@ -269,14 +256,7 @@ public class ProductsView extends HttpServlet {
 			out.append("                  <div class=\"product__item-price_old ms-2\">"+ProductUtils.formatNumber(product.getProductPrice())+"đ</div>");
 			out.append("                </div>");
 			out.append("");
-			out.append("                <div class=\"product__item-color row align-items-start\">");
-			out.append("                  <div class=\"col-4 fw-bold pe-0\">Màu sắc:</div>");
-			out.append("					<div class=\"row col-8\">");
-			for (int j = 0; j < colorArray.length; j++) {
-				out.append("                  <button style = \" background-color: " +colorArray[j]+";\" class=\"color-img d-block col-3 me-2 mt-1\" data-color=\""+colorArray[j]+"\"></button>");
-			}
-			out.append("                	</div>");
-			out.append("                </div>");
+
 			out.append("                <div class=\"product__item-button d-flex justify-content-center mt-3\">");
 			out.append("                  <button onclick=\"window.location.href='../admin/product-detail-view?pId="+product.getProductId()+"'\" type=\"button\" class=\"btn bg-primary me-2\" data-bs-toggle=\"modal\" data-bs-target=\"\">");
 			out.append("                    <i class=\"bi bi-eye text-white\"></i>");
@@ -321,7 +301,16 @@ public class ProductsView extends HttpServlet {
 		out.append("                <i class=\"bi bi-funnel-fill\"></i>");
 		out.append("                <span>BỘ LỌC</span>");
 		out.append("              </div>");
-		out.append("              <input type=\"text\" class=\"form-control\" placeholder=\"Tên sản phẩm...\" name=\"keyWord\">");
+		out.append("              <input type=\"text\" class=\"form-control\" value=\""+keyWord+"\" placeholder=\"Tên sản phẩm...\" name=\"keyWord\">");
+
+		//Material
+		out.append("                    <select class=\"form-select\" name=\"material\" id=\"material\">");
+		out.append("                      <option value=\"-1\">CHẤT LIỆU</option>");
+		for(Material material : materials) {
+			out.append("<option "+(materialId == material.getMaterialId() ? "selected" : "")+" value=\""+material.getMaterialId()+"\">"+material.getMaterialName()+"</option>");
+		}
+		out.append("                    </select>");
+
 		//Category
 		out.append("                    <select class=\"form-select\" name=\"category\" id=\"category\">");
 		out.append("                      <option value=\"-1\">DANH MỤC</option>");
@@ -347,22 +336,6 @@ public class ProductsView extends HttpServlet {
 		out.append("                <option "+("xxl".equalsIgnoreCase(price) ? " selected " : "")+" value=\"xxl\">Trên 9 triệu</option>");
 		out.append("              </select>");
 
-		out.append("              <div class=\"color-select\">");
-		out.append("                <span>MÀU SẮC</span>");
-		out.append("                <div class=\"color-container\">");
-		for (int i =0; i < colors.size(); i++) {
-			out.append("                  <div class=\"color-box\" data-color=\""+colors.get(i)+"\" style=\"background-color: "+colors.get(i)+";\"");
-			out.append("                    onclick=\"selectColor(this)\">");
-			out.append("                    <span class=\"checkmark\">✔</span>");
-			out.append("                  </div>");
-		}
-		out.append("                    <div class=\"\"> hoặc chọn </div>");
-		out.append("                    <div class=\"color-wrapper col-auto mb-2\">");
-		out.append("                      <input type=\"color\" name=\"color\" id=\"selectedColor\" class=\"color-box p-0\" value=\""+color+"\">");
-		out.append("                    </div>");
-		out.append("                </div>");
-		out.append("              </div>");
-
 		out.append("              <select class=\"form-select\" name=\"dir\" aria-label=\"Danh mục\">");
 		out.append("                <option value=\"ASC\">SẮP XẾP THEO</option>");
 		out.append("                <option "+ ("ASC".equalsIgnoreCase(sortBy) ? "selected" : "")+" value=\"ASC\">TĂNG DẦN</option>");
@@ -380,7 +353,10 @@ public class ProductsView extends HttpServlet {
 		out.append("                <option "+("product_discount_price".equalsIgnoreCase(orderBy) ? "selected" : "")+" value=\"product_discount_price\">GIÁ</option>");
 		out.append("              </select>");
 		out.append("");
-		out.append("              <button type=\"submit\" class=\"btn-search\">TÌM KIẾM</button>");
+		out.append("				<div class=\"d-flex justify-content-between align-items-center w-100\">");
+		out.append("              		<a class=\"btn bg-danger text-white\" href=\"../admin/products-view\">XÓA BỘ LỌC</a>");
+		out.append("              		<button type=\"submit\" class=\"btn btn-search w-50\">TÌM KIẾM</button>");
+		out.append("				</div>");
 		out.append("            </form>");
 		out.append("          </div>");
 		out.append("        </div>");
@@ -390,8 +366,6 @@ public class ProductsView extends HttpServlet {
 		out.append("  <script src=\"../admin/js/showAlert.js\"></script>");
 		out.append("  <script>");
 		out.append("	document.getElementById(\"searchForm\").addEventListener(\"submit\", function () {");
-		out.append("		const input = document.getElementById(\"selectedColor\");");
-		out.append("		input.value = input.value.replace(\"#\", \"-\");");
 		out.append("	});");
 		out.append("  </script>");
 

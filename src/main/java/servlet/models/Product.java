@@ -24,4 +24,5 @@ public class Product extends BaseModel {
     private boolean productEnable;
     private Brand brand;
     private Category category;
+    private Material material;
 }

@@ -132,6 +132,8 @@ public class FooterView extends HttpServlet {
         out.append("            </div>");
         out.append("        </div>");
         out.append("    </div> <!-- end fullscreen search -->");
+        out.append("      <!-- Container để chứa alert -->");
+        out.append("      <div id=\"alert-container\" class = \"z-2 position-absolute\"></div>");
         out.append("");
         out.append("");
         out.append("		<!-- JS here -->");
@@ -151,6 +153,7 @@ public class FooterView extends HttpServlet {
         out.append("        <script src=\"../user/js/jquery.magnific-popup.min.js\"></script>");
         out.append("        <script src=\"../user/js/plugins.js\"></script>");
         out.append("        <script src=\"../user/js/main.js\"></script>");
+        out.append("        <script src=\"../user/js/showAlert.js\"></script>");
         out.append("    </body>");
         out.append("");
         out.append("</html>");

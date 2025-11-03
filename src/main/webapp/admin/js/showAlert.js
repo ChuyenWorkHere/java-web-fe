@@ -99,6 +99,21 @@ if(title && action && noti) {
                 showAlert("Chỉnh sửa profile thất bại!", false);
             }
             break;
+        case "material":
+            if (noti === "success" && action === "add") {
+                showAlert("Thêm chất liệu thành công!", true);
+            } else if (noti === "failed" && action == "add") {
+                showAlert("Thêm chất liệu thất bại!", false);
+            } else if (noti === "success" && action === "edit") {
+                showAlert("Chỉnh sửa chất liệu thành công", true);
+            } else if (noti === "failed" && action === "edit") {
+                showAlert("Chỉnh sửa chất liệu không thành công", false);
+            } else if (noti === "success" && action === "del") {
+                showAlert("Xóa chất liệu thành công", true);
+            } else if (noti === "failed" && action === "del") {
+                showAlert("Xóa chất liệu không thành công", false);
+            }
+            break;
         // Thêm các case khác nếu cần
         default:
             break;

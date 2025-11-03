@@ -88,11 +88,19 @@ public class ProductUtils {
         // Sao chép các đối tượng liên quan
         productResponse.setCategory(product.getCategory());
         productResponse.setBrand(product.getBrand());
+        productResponse.setMaterial(product.getMaterial());
 
         // Xử lý chuỗi hình ảnh và màu sắc
         if (product.getProductImageUrl() != null && !product.getProductImageUrl().isEmpty()) {
             productResponse.setProductImageUrls(Arrays.asList(imageUrlArray(product.getProductImageUrl())));
             productResponse.setProductColors(Arrays.asList(colorArray(product.getProductImageUrl())));
         }
+    }
+
+    public static String truncate(String text, int maxLength) {
+        if (text == null || text.length() <= maxLength) {
+            return text;
+        }
+        return text.substring(0, maxLength).trim() + "...";
     }
 }

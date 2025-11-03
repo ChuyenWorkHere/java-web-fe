@@ -12,7 +12,7 @@ public interface ProductDAO {
 	boolean editProduct(int productId, Product product);
 	boolean softDeleteProduct(int productId);
 	int productCounter();
-	List<Product> findAllBySearchConditions(int size, int page, String sortBy, String orderBy, String keyWord, int categoryId, int brandId, String color, String price);
+	List<Product> findAllBySearchConditions(int size, int page, String sortBy, String orderBy, String keyWord, int categoryId, int brandId, int materialId, String price);
 	List<Product> findNewestProducts(Integer limit);
 	List<Product> findBestSellProducts(Integer limit);
 }

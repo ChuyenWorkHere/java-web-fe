@@ -1,6 +1,7 @@
 package servlet.dao.impl;
 
 import servlet.dao.CartDAO;
+import servlet.dao.ProductDAO;
 import servlet.models.Cart;
 import servlet.models.Product;
 import servlet.utils.DataSourceUtil;
@@ -11,11 +12,18 @@ import java.util.List;
 
 public class CartDAOImpl implements CartDAO {
 
+    private ProductDAO productDAO;
+
+    public CartDAOImpl() {
+        productDAO = new ProductDAOImpl();
+    }
+
+
 	@Override
 	public List<Cart> getCartByUserId(int userId) {
 		List<Cart> carts = new ArrayList<Cart>();
 	    
-	    String sql = "SELECT p.product_id, p.product_name, p.product_image_url , p.product_discount_price, c.quantity " +
+	    String sql = "SELECT p.product_id, p.product_name, p.product_image_url , p.product_discount_price, c.quantity, c.cart_id " +
 	                 "FROM cart c " +
 	                 "JOIN products p ON c.product_id = p.product_id " +
 	                 "WHERE c.user_id = ?";
@@ -35,9 +43,10 @@ public class CartDAOImpl implements CartDAO {
 	                product.setProductDiscountPrice((float) rs.getDouble("product_discount_price"));
 	                
 	                Cart cart = new Cart();
-//	                cart.setQuantity(rs.getInt("quantity"));
-//	                cart.setProduct(product);
-	                
+	                cart.setQuantity(rs.getInt("quantity"));
+	                cart.setCartId(rs.getInt("cart_id"));
+                    cart.setProduct(product);
+
 	                carts.add(cart);
 	            }
 	        }
@@ -51,11 +60,7 @@ public class CartDAOImpl implements CartDAO {
 
     @Override
     public boolean addProductToCart(int userId, int productId) {
-    	
-//    	int quantity = 1;
-//    	if(isProductInCart(userId, productId)) {
-//    		 quantity += getQuantity(userId, productId);
-//    	}
+
         String sql = "INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)";
         try (Connection conn = DataSourceUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -123,7 +128,11 @@ public class CartDAOImpl implements CartDAO {
     }
 
     @Override
-    public int getQuantity(int userId, int productId) {
+    public boolean updateUserCart(int userId, int productId) {
+
+        Product originalProduct = productDAO.findById(productId);
+        int productTotal = originalProduct.getProductTotal();
+
         String sql = "SELECT quantity FROM cart WHERE user_id = ? AND product_id = ?";
         try (Connection conn = DataSourceUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -132,12 +141,20 @@ public class CartDAOImpl implements CartDAO {
             ps.setInt(2, productId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return rs.getInt("quantity");
-            }
+                int quantity = rs.getInt("quantity");
+                if(quantity >= productTotal) {
+                    updateProductToCart(userId, productId, quantity);
+                } else {
+                    updateProductToCart(userId, productId, quantity + 1);
+                }
 
+            } else {
+                addProductToCart(userId, productId);
+            }
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        return false;
     }
 }

@@ -38,7 +38,7 @@ public class UserLogin extends HttpServlet {
 
         if (user != null){
             HttpSession session = request.getSession();
-            session.setAttribute("user", user);
+            session.setAttribute("customer", user);
             session.setAttribute("role", user.getRole().getRoleName());
             response.sendRedirect("../public/home");
         } else {

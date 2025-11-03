@@ -2,12 +2,15 @@ package servlet.admin.view;
 
 import servlet.dao.BrandDAO;
 import servlet.dao.CategoryDAO;
+import servlet.dao.MaterialDAO;
 import servlet.dao.ProductDAO;
 import servlet.dao.impl.BrandDAOImpl;
 import servlet.dao.impl.CategoryDAOImpl;
+import servlet.dao.impl.MaterialDAOImpl;
 import servlet.dao.impl.ProductDAOImpl;
 import servlet.models.Brand;
 import servlet.models.Category;
+import servlet.models.Material;
 import servlet.models.Product;
 import servlet.utils.ProductUtils;
 
@@ -29,12 +32,14 @@ public class EditProductView extends HttpServlet {
 	private ProductDAO productDAO;
 	private CategoryDAO categoryDAO;
 	private BrandDAO brandDAO ;
+	private MaterialDAO materialDAO;
 
 	public EditProductView() {
 		super();
 		productDAO = new ProductDAOImpl();
 		categoryDAO = new CategoryDAOImpl();
 		brandDAO = new BrandDAOImpl();
+		materialDAO = new MaterialDAOImpl();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -53,6 +58,7 @@ public class EditProductView extends HttpServlet {
 
 		List<Category> categories = categoryDAO.findAllActiveCategories(100, 1, "ASC", "category_id" );
 		List<Brand> brands = brandDAO.findAll();
+		List<Material> materials = materialDAO.findAll();
 
 		PrintWriter out = response.getWriter();
 		request.setAttribute("view", "product");
@@ -98,7 +104,12 @@ public class EditProductView extends HttpServlet {
 		out.append("                <div class=\"row\">");
 		out.append("                  <div class=\"col-md-12 mb-3\">");
 		out.append("                    <label for=\"productMaterial\" class=\"form-label\">Chất liệu</label>");
-		out.append("                    <input type=\"text\" class=\"form-control\" name=\"productMaterial\" id=\"productMaterial\" value=\""+product.getProductMaterial()+"\" />");
+		out.append("                    <select class=\"form-select\" name=\"productMaterial\" id=\"productMaterial\">");
+		out.append("                      <option>Chất liệu</option>");
+		for (Material material : materials) {
+			out.append("<option "+(material.getMaterialId() == product.getMaterial().getMaterialId() ? "selected" : "" )+" value=\""+material.getMaterialId()+"\">"+material.getMaterialName()+"</option>");
+		}
+		out.append("                    </select>");
 		out.append("                    <p class=\"text-danger m-0 mt-2\" id=\"materialMessage\"></p>");
 		out.append("                  </div>");
 		out.append("                </div>");
@@ -133,10 +144,7 @@ public class EditProductView extends HttpServlet {
 		out.append("                  </div>");
 		out.append("                  <div class=\"col-md-6 mb-3\">");
 		out.append("                    <label for=\"status\" class=\"form-label\">Trạng thái</label>");
-		out.append("                    <select id=\"status\" name=\"status\" class=\"form-select text-white fw-semibold "+(product.isProductEnable() ? "bg-success" : "bg-danger")+" \" onchange=\"");
-		out.append("                    this.classList.remove('bg-success', 'bg-danger');");
-		out.append("                    this.classList.add(this.value === 'Hoạt động' ? 'bg-success' : 'bg-danger');");
-		out.append("                  \">");
+		out.append("                    <select id=\"status\" name=\"status\" class=\"form-select text-white fw-semibold\">");
 		out.append("                      <option value=\"1\" "+ (product.isProductEnable() ? "selected" : "")+">Hoạt động</option>");
 		out.append("                      <option value=\"0\" "+(product.isProductEnable() ? "" : "selected")+">Bảo trì</option>");
 		out.append("                    </select>");
@@ -220,6 +228,16 @@ public class EditProductView extends HttpServlet {
 
 		out.append("  <script src=\"../admin/js/UpdateProduct.js\"></script>");
 		out.append("  <script src=\"../admin/js/utils.js\"></script>");
+
+		out.append("<script>");
+		out.append("  document.addEventListener('DOMContentLoaded', () => {");
+		out.append("    tinymce.init({");
+		out.append("      selector: 'textarea.tinymce-editor',");
+		out.append("      skin: 'oxide',");
+		out.append("      content_css: 'default'");
+		out.append("    });");
+		out.append("  });");
+		out.append("</script>");
 
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/admin/footer-view");
 		footerDispatcher.include(request, response);

@@ -5,16 +5,18 @@ function getQueryParam(param) {
 }
 
 function showAlert(message, isSuccess) {
+    document.getElementById('alert-container').innerHTML = "";
+    // Tạo alert HTML
     const alertHTML = `
-      <div id="notifi" class="alert ${ isSuccess ? "alert-success" : "alert-danger"}
-           alert-dismissible fade show position-fixed bottom-0 end-0 m-3 shadow"
-           role="alert" style="min-width: 300px; z-index:1055">
-        <i class="bi ${isSuccess ? "bi-check-circle" : "bi-exclamation-circle"} me-1"></i>
+      <div id="notifi" class="alert ${ isSuccess ? "alert-success" : "alert-danger"} alert-dismissible fade show position-fixed bottom-0 end-0 m-3" role="alert">
+        <i class="bi ${isSuccess ? "bi-check-circle" : "bi-exclamation-circle"}"></i>
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     `;
-    document.body.insertAdjacentHTML('beforeend', alertHTML);
+
+    // Thêm alert vào DOM
+    document.getElementById('alert-container').innerHTML = alertHTML;
 
     setTimeout(() => {
         const notifi = document.getElementById('notifi');
@@ -33,55 +35,19 @@ const message = getQueryParam("message");
 
 if(title && action && noti) {
     switch (title) {
-        case "category":
+        case "cart":
             if (noti === "success" && action === "add") {
-                showAlert("Thêm danh mục thành công!", true);
-                console.log(1);
+                showAlert("Thêm sản phẩm vào giỏ hàng thành công!", true);
             } else if (noti === "failed" && action == "add") {
-                showAlert("Thêm danh mục thất bại!", false);
-                console.log(2);
+                showAlert("Thêm sản phẩm vào giỏ hàng thất bại!", false);
             } else if (noti === "success" && action === "edit") {
-                showAlert("Chỉnh sửa danh mục thành công", true);
-                console.log(3);
+                showAlert("Chỉnh sửa giỏ hàng thành công", true);
             } else if (noti === "failed" && action === "edit") {
-                showAlert("Chỉnh sửa danh mục không thành công", false);
-                console.log(4);
+                showAlert("Chỉnh sửa giỏ hàng thất bại", false);
             } else if (noti === "success" && action === "del") {
-                showAlert("Xóa danh mục thành công", true);
-                console.log(3);
+                showAlert("Xóa sản phẩm khỏi giỏ hàng thành công", true);
             } else if (noti === "failed" && action === "del") {
-                showAlert("Xóa danh mục không thành công", false);
-                console.log(4);
-            }
-            break;
-        case "product":
-            if (noti === "success" && action === "add") {
-                showAlert("Thêm sản phẩm thành công!", true);
-            } else if (noti === "failed" && action == "add") {
-                showAlert("Thêm sản phẩm thất bại!", false);
-            } else if (noti === "success" && action === "edit") {
-                showAlert("Chỉnh sửa sản phẩm thành công", true);
-            } else if (noti === "failed" && action === "edit") {
-                showAlert("Chỉnh sửa sản phẩm không thành công", false);
-            } else if (noti === "success" && action === "del") {
-                showAlert("Xóa sản phẩm thành công", true);
-            } else if (noti === "failed" && action === "del") {
-                showAlert("Xóa sản phẩm không thành công", false);
-            }
-            break;
-        case "order":
-            if (noti === "success" && action === "add") {
-                showAlert("Thêm sản phẩm thành công!", true);
-            } else if (noti === "failed" && action == "add") {
-                showAlert("Thêm sản phẩm thất bại!", false);
-            } else if (noti === "success" && action === "edit") {
-                showAlert("Cập nhật đơn hàng thành công", true);
-            } else if (noti === "failed" && action === "edit") {
-                showAlert("Cập nhật đơn hàng không thành công", false);
-            } else if (noti === "success" && action === "del") {
-                showAlert("Xóa đơn hàng thành công", true);
-            } else if (noti === "failed" && action === "del") {
-                showAlert("Xóa đơn hàng không thành công", false);
+                showAlert("Xóa sản phẩm khỏi giỏ hàng thất bại", false);
             }
             break;
         case "profile":
@@ -91,7 +57,6 @@ if(title && action && noti) {
                 showAlert("Chỉnh sửa profile thất bại!", false);
             }
             break;
-        // Thêm các case khác nếu cần
         default:
             break;
     }

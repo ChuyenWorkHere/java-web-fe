@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import servlet.models.Brand;
 import servlet.models.Category;
+import servlet.models.Material;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,6 +31,7 @@ public class ProductResponse {
     private boolean productEnable;
     private Brand brand;
     private Category category;
+    private Material material;
     private LocalDate createdAt;
 
 }

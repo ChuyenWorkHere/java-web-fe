@@ -8,6 +8,7 @@ import servlet.dao.ProductDAO;
 import servlet.dao.impl.ProductDAOImpl;
 import servlet.models.Brand;
 import servlet.models.Category;
+import servlet.models.Material;
 import servlet.models.Product;
 import servlet.utils.FileUtil;
 import servlet.utils.ProductUtils;
@@ -65,7 +66,7 @@ public class EditProduct extends HttpServlet {
         int productId = -1;
         String productName = null;
         String productSize = null;
-        String productMaterial = null;
+        int materialId = 0;
         int categoryId = 0;
         int brandId = 0;
         int stock = 0;
@@ -105,7 +106,7 @@ public class EditProduct extends HttpServlet {
                         }
                         case "productName" -> productName = value;
                         case "productSize" -> productSize = value;
-                        case "productMaterial" -> productMaterial = value;
+                        case "productMaterial" -> materialId = Integer.parseInt(value);
                         case "category" -> categoryId = Integer.parseInt(value);
                         case "brand" -> brandId = Integer.parseInt(value);
                         case "productStock" -> stock = Integer.parseInt(value);
@@ -145,7 +146,10 @@ public class EditProduct extends HttpServlet {
             product.setProductPrice(regular);
             product.setProductDiscountPrice(sale);
             product.setProductSize(productSize);
-            product.setProductMaterial(productMaterial);
+
+            Material material = new Material();
+            material.setMaterialId(materialId);
+            product.setMaterial(material);
 
             if(flag) {
                 // Người dùng upload file mới => bỏ file cũ

@@ -29,8 +29,7 @@ public class SidebarView extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		String view = (String) request.getAttribute("view");
-//		System.out.println(view);
-		
+
 		Map<String, String> show = new HashMap<String, String>();
 		Map<String, String> collapse = new HashMap<String, String>();
 		Map<String, String> combination = new HashMap<String, String>();
@@ -54,6 +53,11 @@ public class SidebarView extends HttpServlet {
 				collapse.put("product", "");
 				combination.put("product", "collapse show");
 				show.put("list", "active");
+				break;
+			case "material":
+				collapse.put("product", "");
+				combination.put("product", "collapse show");
+				show.put("material", "active");
 				break;
 			case "order":
 				collapse.put("order", "");
@@ -121,6 +125,11 @@ public class SidebarView extends HttpServlet {
 		out.append("          <li>");
 		out.append("            <a class = \" "+show.getOrDefault("add", "")+" \" href=\"/Furniture/admin/add-product-view\">");
 		out.append("                <i class=\"bi bi-plus-circle-fill\"></i><span>Thêm mới</span>");
+		out.append("            </a>");
+		out.append("          </li>");
+		out.append("          <li>");
+		out.append("            <a class = \" "+show.getOrDefault("material", "")+" \" href=\"/Furniture/admin/materials-view\">");
+		out.append("                <i class=\"bi bi-box\"></i><span>Chất liệu</span>");
 		out.append("            </a>");
 		out.append("          </li>");
 		out.append("        </ul>");

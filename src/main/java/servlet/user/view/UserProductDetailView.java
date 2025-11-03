@@ -33,10 +33,7 @@ public class UserProductDetailView extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 
-		PrintWriter out = response.getWriter();
-		
-		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/public/header-view");
-		headerDispatcher.include(request, response);
+
 
 		Product product = new Product();
 		ProductResponse productResponse = new ProductResponse();
@@ -49,7 +46,10 @@ public class UserProductDetailView extends HttpServlet {
 			response.sendRedirect("../public/shop");
 			return;
 		}
-		
+		PrintWriter out = response.getWriter();
+
+		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/public/header-view");
+		headerDispatcher.include(request, response);
 		out.append("<main>");
 		out.append("");
 		out.append("        <!-- breadcrumb-area-start -->");
@@ -119,19 +119,20 @@ public class UserProductDetailView extends HttpServlet {
 		out.append("                            </div>");
 		out.append("                            <div class=\"product-variant\">");
 		out.append("");
-		out.append("                                <div class=\"product-Metarial variant-item\">");
+		out.append("                                <div class=\"product-Metarial variant-item py-3\">");
 		out.append("                                    <div class=\"variant-name\">");
-		out.append("                                        <span>Material</span>");
+		out.append("                                        <span>Chất liệu</span>");
 		out.append("                                    </div>");
-		out.append("                                    <ul class=\"shop-link shop-size\">");
-		out.append("                                        <li><a href=\"shop.html\">leather</a></li>");
-		out.append("                                        <li class=\"active\"><a href=\"shop.html\">resin</a></li>");
-		out.append("                                        <li><a href=\"shop.html\">metal </a></li>");
-		out.append("                                        <li><a href=\"shop.html\">fiber </a></li>");
-		out.append("                                        <li><a href=\"shop.html\">slag </a></li>");
-		out.append("                                    </ul>");
-		out.append("                                    <div class=\"product-desc mt-4\">");
-		out.append("                                        <p>"+productResponse.getProductMaterial()+"</p>");
+		out.append("                                    <div class=\"product-desc mt-2\">");
+		out.append("                                        <p>"+productResponse.getMaterial().getDescription()+"</p>");
+		out.append("                                    </div>");
+		out.append("                                </div>");
+		out.append("                                <div class=\"product-Metarial variant-item py-3\">");
+		out.append("                                    <div class=\"variant-name\">");
+		out.append("                                        <span>Chất liệu</span>");
+		out.append("                                    </div>");
+		out.append("                                    <div class=\"product-desc mt-2\">");
+		out.append("                                        <p>"+productResponse.getProductSize()+"</p>");
 		out.append("                                    </div>");
 		out.append("                                </div>");
 		out.append("");
@@ -139,7 +140,6 @@ public class UserProductDetailView extends HttpServlet {
 		out.append("                                    <ul>");
 		out.append("                                        <li><span>Thương hiệu:</span> "+productResponse.getBrand().getBrandName()+"</li>");
 		out.append("                                        <li><span>Product Code:</span> "+productResponse.getProductCode()+"</li>");
-		out.append("                                        <li><span>Kích thước:</span> "+productResponse.getProductSize()+"</li>");
 		out.append("                                        <li><span>Tình trạng:</span> <span class=\"in-stock "+(productResponse.getProductTotal() > 0 ? "text-success" : "text-danger")+"\">"+(productResponse.getProductTotal() > 0 ? "Còn hàng" : "Hết hàng")+"</span></li>");
 		out.append("                                    </ul>");
 		out.append("                                </div>");
