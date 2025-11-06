@@ -166,7 +166,7 @@ public class OrdersView extends HttpServlet {
                     bgColor = "bg-warning bg-opacity-25";
                     idAttr = " id=\"processing-orders\"";
                     break;
-                case "SHIPPED":
+                case "SHIPPING":
                     label = "Đang giao";
                     bgColor = "bg-primary bg-opacity-25";
                     idAttr = "";
@@ -236,7 +236,7 @@ public class OrdersView extends HttpServlet {
                     className = "btn bg-secondary";
                     orderStatus = "Chờ xác nhận";
                     break;
-                case "SHIPPED":
+                case "SHIPPING":
                     className = "bg-warning text-dark";
                     orderStatus = "Đang giao";
                     break;

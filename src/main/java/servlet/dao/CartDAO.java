@@ -10,5 +10,7 @@ public interface CartDAO {
     boolean updateProductToCart(int userId, int productId, int quantity);
     boolean deleteProductToCartById(int userId, int productId);
     boolean isProductInCart(int userId, int productId);
-    boolean updateUserCart(int userId, int productId);
+    boolean updateUserCart(int userId, int productId, int quantity);
+    boolean deleteCartItem(int productId, int userId);
+    void updateCartItemQuantity(int productId, int userId, int quantity);
 }

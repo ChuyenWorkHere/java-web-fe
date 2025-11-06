@@ -72,7 +72,7 @@ public class SingleOrderView extends HttpServlet {
 				className = "btn bg-secondary";
 				orderStatus = "Chờ xác nhận";
 				break;
-			case "SHIPPED":
+			case "SHIPPING":
 				className = "bg-warning text-dark";
 				orderStatus = "Đang giao";
 				break;
@@ -201,11 +201,11 @@ public class SingleOrderView extends HttpServlet {
 		out.append("                      </li>");
 		out.append("                      <li class=\"mb-2 d-flex justify-content-between\">");
 		out.append("                        <span>Phí vận chuyển:</span>");
-		out.append("                        <span class=\"fw-semibold\">30,000₫</span>");
+		out.append("                        <span class=\"fw-semibold\">Free ship</span>");
 		out.append("                      </li>");
 		out.append("                      <li class=\"border-top pt-2 mt-2 d-flex justify-content-between\">");
 		out.append("                        <span class=\"fw-bold text-dark\">Tổng cộng:</span>");
-		out.append("                        <span class=\"fw-bold text-success fs-5\">"+ProductUtils.formatNumber((order.getTotalPrice() + 300000))+"₫</span>");
+		out.append("                        <span class=\"fw-bold text-success fs-5\">"+ProductUtils.formatNumber((order.getTotalPrice()))+"₫</span>");
 		out.append("                      </li>");
 		out.append("                    </ul>");
 		out.append("                  </div>");

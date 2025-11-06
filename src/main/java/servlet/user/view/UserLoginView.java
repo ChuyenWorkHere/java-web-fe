@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 @WebServlet("/public/login")
@@ -26,6 +27,11 @@ public class UserLoginView extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 
+		HttpSession session = request.getSession();
+		if (session.getAttribute("customer") != null) {
+			response.sendRedirect(request.getContextPath() + "/public/home");
+			return;
+		}
 
 		String errorMessage = "";
 		

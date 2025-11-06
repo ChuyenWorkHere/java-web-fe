@@ -138,11 +138,15 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> findAllPage(int page, int pageSize, String keyWord, String status, String dir, String orderBy) {
+    public List<User> findAllPage(int page, int pageSize, String keyWord, String status, String dir, String orderBy, int roleId) {
         List<User> users = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT * FROM users WHERE role_id = 2 ");
+        sql.append("SELECT * FROM users WHERE 1 = 1 ");
+
+        if(roleId != -1) {
+            sql.append("AND role_id = ? ");
+        }
 
         if (keyWord != null && !keyWord.trim().isEmpty()) {
             sql.append("AND user_fullname LIKE ? ");
@@ -171,7 +175,9 @@ public class UserDAOImpl implements UserDAO {
                 PreparedStatement ps = connection.prepareStatement(sql.toString())
         ) {
             int index = 1;
-
+            if(roleId != -1) {
+                ps.setInt(index++, roleId);
+            }
             if (keyWord != null && !keyWord.trim().isEmpty()) ps.setString(index++, "%" +keyWord.trim()+ "%");
             if (status != null && !"all".equalsIgnoreCase(status)) {
                 int statusValue = "active".equals(status) ? 1 : 0;
@@ -390,6 +396,51 @@ public class UserDAOImpl implements UserDAO {
         return false;
     }
 
+    @Override
+    public void updateAvatar(int userId, String avatar) {
+        String sql = "UPDATE users SET avatar = ? WHERE user_id = ?";
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, avatar);
+            ps.setInt(2, userId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateProfile(User currentUser) {
+        String sql = "UPDATE users SET user_fullname = ?, gender = ?, user_phone_number = ?, user_address = ?, user_modified_date = NOW() WHERE user_id = ?";
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, currentUser.getFullname());
+            ps.setString(2, currentUser.getGender());
+            ps.setString(3, currentUser.getPhoneNumber());
+            ps.setString(4, currentUser.getAddress());
+            ps.setInt(5, currentUser.getUserId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateRoleUser(int userId, int roleId) {
+        String sql = "UPDATE users SET role_id = ? WHERE user_id = ?";
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, roleId); // Gán role_id mặc định là 3 (Mega Admin)
+            ps.setInt(2, userId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private String buildMonthlyCustomerJoinQuery() {
         return "         SELECT\n" +
                 "            DAY(create_date) AS day_of_month,\n" +
@@ -425,6 +476,7 @@ public class UserDAOImpl implements UserDAO {
         user.setActive(userActive == 1 ? true : false);
         user.setAddress(rs.getString("user_address"));
         user.setLoginCount(rs.getInt("login_count"));
+        user.setAvatar(rs.getString("avatar"));
         
         int roleId = rs.getInt("role_id");
         Role role = findRoleById(roleId);

@@ -16,14 +16,14 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/customer/cart/update")
-public class UpdateCart extends HttpServlet {
+public class CartUpdate extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
     private CartDAO cartDAO;
     private ProductDAO productDAO;
 
-    public UpdateCart() {
+    public CartUpdate() {
         super();
         cartDAO = new CartDAOImpl();
         productDAO = new ProductDAOImpl();
@@ -33,6 +33,10 @@ public class UpdateCart extends HttpServlet {
         HttpSession session = request.getSession();
         try {
             int productId = Integer.parseInt(request.getParameter("productId"));
+            int quantity = 1;
+            if(request.getParameter("quantity") != null) {
+                quantity = Integer.parseInt(request.getParameter("quantity"));
+            }
             User user = (User) session.getAttribute("customer");
 
             if (user == null) {
@@ -46,12 +50,12 @@ public class UpdateCart extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/public/home");
                 return;
             }
-            if(originalProduct.isProductEnable()) {
-
+            if(!originalProduct.isProductEnable()) {
                 response.sendRedirect(redirectURL+ "?title=cart&action=edit&noti=failed");
+                return;
             }
 
-            boolean isSuccess = cartDAO.updateUserCart(user.getUserId(), productId);
+            boolean isSuccess = cartDAO.updateUserCart(user.getUserId(), productId, quantity);
 
             if (isSuccess) {
                 response.sendRedirect(redirectURL+ "?title=cart&action=edit&noti=success");

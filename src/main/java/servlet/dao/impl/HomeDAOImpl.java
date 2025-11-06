@@ -86,84 +86,88 @@ public class HomeDAOImpl implements HomeDAO {
         List<String> labels = new ArrayList<>();
         LocalDate now = LocalDate.now();
 
-        //Xử lý labels
-        if(filterInfo.containsKey("chart") && filterInfo.get("chart") != null) {
-            String byTime = filterInfo.get("chart");
-            switch (byTime.toLowerCase()) {
-                case "month" -> {
-                    for ( int i = 1; i <= now.getDayOfMonth(); i++) {
-                        labels.add(i+"");
-                    }
-                }
-                default -> {
-                    for ( int i = 1; i <= 12; i++) {
-                        labels.add(i+"");
-                    }
-                }
+        boolean isMonthView = false;
+        if(filterInfo.containsKey("chart") && "month".equalsIgnoreCase(filterInfo.get("chart"))) {
+            isMonthView = true;
+            for ( int i = 1; i <= now.getDayOfMonth(); i++) {
+                labels.add(String.valueOf(i));
+            }
+        } else {
+            for ( int i = 1; i <= 12; i++) {
+                labels.add(String.valueOf(i));
             }
         }
+        chartResponse.setLabels(labels);
 
-        StringBuilder querySearch = new StringBuilder();
-        querySearch.append(salesChartQuery(filterInfo));
-        querySearch.append(customersChartQuery(filterInfo));
-        querySearch.append(revenueChartQuery(filterInfo));
+        try (Connection connection = DataSourceUtil.getConnection()) {
 
-        try(Connection connection = DataSourceUtil.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(querySearch.toString())) {
+            Map<Integer, Integer> salesTempMap = new HashMap<>();
+            String salesQuery = salesChartQuery(filterInfo).toString();
 
-            boolean hasResults = stmt.execute();
+            try (PreparedStatement stmt = connection.prepareStatement(salesQuery);
+                 ResultSet rs = stmt.executeQuery()) {
 
-            int resultSetCount = 1;
-            do {
-                if (hasResults) {
-                    ResultSet rs = stmt.getResultSet();
-
-                    //Xử lý sales
-                    if (resultSetCount == 1) {
-                        while (rs.next()) {
-                            dataMap.computeIfAbsent("sales", k -> new ArrayList<>()).add(rs.getInt("total_sales"));
-                        }
-                    }
-                    // Xử lý customers
-                    else if (resultSetCount == 2) {
-                        while (rs.next()) {
-                            dataMap.computeIfAbsent("customers", k -> new ArrayList<>()).add(rs.getInt("total_customers"));
-                        }
-                    }
-                    // Xử lý revenue
-                    else if (resultSetCount == 3) {
-                        while (rs.next()) {
-                            dataMap.computeIfAbsent("revenue", k -> new ArrayList<>()).add(rs.getInt("total_revenue"));
-                        }
-                    }
-                    rs.close();
-                    resultSetCount++;
+                while (rs.next()) {
+                    salesTempMap.put(rs.getInt("date"), rs.getInt("total_sales"));
                 }
+            }
+            dataMap.put("sales", mapDataToLabels(salesTempMap, labels));
 
-                hasResults = stmt.getMoreResults();
-            } while (hasResults || stmt.getUpdateCount() != -1);
+
+            Map<Integer, Integer> customersTempMap = new HashMap<>();
+            String customersQuery = customersChartQuery(filterInfo).toString();
+
+            try (PreparedStatement stmt = connection.prepareStatement(customersQuery);
+                 ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+                    customersTempMap.put(rs.getInt("date"), rs.getInt("total_customers"));
+                }
+            }
+            dataMap.put("customers", mapDataToLabels(customersTempMap, labels));
+
+
+            Map<Integer, Integer> revenueTempMap = new HashMap<>();
+            String revenueQuery = revenueChartQuery(filterInfo).toString();
+
+            try (PreparedStatement stmt = connection.prepareStatement(revenueQuery);
+                 ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+                    revenueTempMap.put(rs.getInt("date"), rs.getInt("total_revenue"));
+                }
+            }
+            dataMap.put("revenue", mapDataToLabels(revenueTempMap, labels));
 
         } catch (Exception e) {
             e.printStackTrace();
+
+            dataMap.put("sales", createEmptyList(labels.size()));
+            dataMap.put("customers", createEmptyList(labels.size()));
+            dataMap.put("revenue", createEmptyList(labels.size()));
         }
 
-        for (String key : List.of("sales", "customers", "revenue")) {
-            List<Integer> values = dataMap.get(key);
-            if (values == null) {
-                values = new ArrayList<>();
-            }
-
-            // Bổ sung giá trị 0 cho những label chưa có
-            while (values.size() < labels.size()) {
-                values.add(0);
-            }
-
-            dataMap.put(key, values);
-        }
-
-        chartResponse.setLabels(labels);
         chartResponse.setObject(dataMap);
         return chartResponse;
+    }
+
+    private List<Integer> mapDataToLabels(Map<Integer, Integer> dataMap, List<String> labels) {
+        List<Integer> finalDataList = new ArrayList<>();
+        for (String label : labels) {
+            int key = Integer.parseInt(label); // Lấy ngày/tháng từ label (ví dụ: "4")
+            // Lấy giá trị từ Map, nếu không có (null) thì trả về 0
+            int value = dataMap.getOrDefault(key, 0);
+            finalDataList.add(value);
+        }
+        return finalDataList;
+    }
+
+    private List<Integer> createEmptyList(int size) {
+        List<Integer> emptyList = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            emptyList.add(0);
+        }
+        return emptyList;
     }
 
     private StringBuilder salesChartQuery(Map<String, String> filterInfo) {
@@ -206,16 +210,16 @@ public class HomeDAOImpl implements HomeDAO {
                     customersChartQuery.append(" FROM users o");
                     customersChartQuery.append(" WHERE YEAR(o.user_created_date) = YEAR(curdate())");
                     customersChartQuery.append(" AND MONTH(o.user_created_date) = MONTH(curdate())");
-                    customersChartQuery.append(" AND o.role_id = 2)");
-                    customersChartQuery.append(" GROUP BY day(o.user_created_date)");
+                    customersChartQuery.append(" AND o.role_id = 2 ");
+                    customersChartQuery.append(" GROUP BY `date`");
                     customersChartQuery.append(" order by `date`;");
                 }
                 default -> {
-                    customersChartQuery.append(" SELECT day(o.user_created_date) as `date`, count(*) as total_customers");
+                    customersChartQuery.append(" SELECT month(o.user_created_date) as `date`, count(*) as total_customers");
                     customersChartQuery.append(" FROM users o");
                     customersChartQuery.append(" WHERE YEAR(o.user_created_date) = YEAR(curdate())");
-                    customersChartQuery.append(" AND o.role_id = 2");
-                    customersChartQuery.append(" GROUP BY day(o.user_created_date)");
+                    customersChartQuery.append(" AND o.role_id = 2 ");
+                    customersChartQuery.append(" GROUP BY `date`");
                     customersChartQuery.append(" order by `date`;");
                 }
             }
@@ -233,14 +237,14 @@ public class HomeDAOImpl implements HomeDAO {
                     revenueChartQuery.append(" FROM orders o");
                     revenueChartQuery.append(" WHERE YEAR(o.created_at) = YEAR(curdate())");
                     revenueChartQuery.append(" AND MONTH(o.created_at) = MONTH(curdate())");
-                    revenueChartQuery.append(" GROUP BY day(o.created_at)");
+                    revenueChartQuery.append(" GROUP BY `date`");
                     revenueChartQuery.append(" order by `date`;");
                 }
                 default -> {
                     revenueChartQuery.append(" SELECT month(o.created_at) as `date`, sum(total_price) as total_revenue");
                     revenueChartQuery.append(" FROM orders o");
                     revenueChartQuery.append(" WHERE YEAR(o.created_at) = YEAR(curdate())");
-                    revenueChartQuery.append(" GROUP BY month(o.created_at)");
+                    revenueChartQuery.append(" GROUP BY `date`");
                     revenueChartQuery.append(" order by `date`;");
                 }
             }

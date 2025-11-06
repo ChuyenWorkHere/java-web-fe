@@ -32,7 +32,7 @@ public class SignInServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         User loggedInUser = (User) session.getAttribute("loggedInUser");
-        if(loggedInUser != null) {
+        if (loggedInUser != null) {
             response.sendRedirect("../admin/home-view");
             return;
         }
@@ -180,6 +180,8 @@ public class SignInServlet extends HttpServlet {
             session.setAttribute("role", user.getRole().getRoleName());
             if ("ADMIN".equals(user.getRole().getRoleName())) {
                 response.sendRedirect("../admin/home-view");
+            } else if ("MEGA_ADMIN".equals(user.getRole().getRoleName())) {
+                response.sendRedirect("../mega-admin/manage-account");
             } else {
                 request.setAttribute("errorMessage", "Không có quyền truy cập");
                 doGet(request, response);

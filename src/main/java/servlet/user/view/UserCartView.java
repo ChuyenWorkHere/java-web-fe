@@ -81,7 +81,7 @@ public class UserCartView extends HttpServlet {
 		out.append("            <div class=\"container\">");
 		out.append("                <div class=\"row\">");
 		out.append("                    <div class=\"col-12\">");
-		out.append("                        <form action=\""+ request.getContextPath() +"/customer/cart/update-quantities\" method=\"POST\">");
+		out.append("                        <form action=\"\" method=\"POST\">");
 		out.append("                            <div class=\"table-content table-responsive\">");
 		out.append("                                <table class=\"table\">");
 		out.append("                                    <thead>");
@@ -106,34 +106,23 @@ public class UserCartView extends HttpServlet {
 				out.append("                                            <td class=\"product-thumbnail\"><a href=\""+ request.getContextPath() +"/public/product-detail?productId="+ item.getProduct().getProductId() +"\"><img src=\""+ request.getContextPath() + productImgUrl +"\" alt=\""+ item.getProduct().getProductName() +"\"></a></td>");
 				out.append("                                            <td class=\"product-name\"><a href=\""+ request.getContextPath() +"/public/product-detail?productId="+ item.getProduct().getProductId() +"\">"+ item.getProduct().getProductName() +"</a></td>");
 				out.append("                                            <td class=\"product-price\"><span class=\"amount\">"+ ProductUtils.formatNumber(price) +"</span></td>");
-				out.append("                                            <td class=\"product-quantity\">");
-				out.append("                                                <div class=\"cart-plus-minus\"><input type=\"text\" name=\"quantity_"+ item.getCartId() +"\" value=\""+ item.getQuantity() +"\" /></div>");
-				out.append("                                            </td>");
+				out.append(" 											<td class=\"product-quantity\">");
+				out.append("   												<div class=\"cart-quantity-update\" data-product-id=\"" + item.getProduct().getProductId() + "\">");
+				out.append("     												<button type=\"button\" class=\"dec rounded-circle border-0\" style=\"background-color: #fff1f0; color: #fe4536; width: 50px; height: 50px;\">-</button>");
+				out.append("     												<input class=\"text-center\" type=\"text\" id=\"quantity_" + item.getProduct().getProductId() +
+																				"\" name=\"quantity_" + item.getProduct().getProductId() +
+																				"\" value=\"" + item.getQuantity() + "\" readonly/>");
+				out.append("     												<button type=\"button\" class=\"inc rounded-circle border-0\" style=\"background-color: #fff1f0; color: #fe4536; width: 50px; height: 50px;\">+</button>");
+				out.append("   												</div>");
+				out.append(" 											</td>");
 				out.append("                                            <td class=\"product-subtotal\"><span class=\"amount\">"+ ProductUtils.formatNumber(subtotal) +"</span></td>");
-				out.append("                                            <td class=\"product-remove\"><a href=\""+ request.getContextPath() +"/customer/cart/remove?cartId="+ item.getCartId() +"\" title=\"Xóa sản phẩm\"><i class=\"fa fa-times\"></i></a></td>");
+				out.append("                                            <td class=\"product-remove\"><a href=\""+ request.getContextPath() +"/customer/cart/delete?productId="+ item.getProduct().getProductId() +"\" title=\"Xóa sản phẩm\"><i class=\"fa fa-times\"></i></a></td>");
 				out.append("                                        </tr>");
 			}
 		}
 		out.append("                                    </tbody>");
 		out.append("                                </table>");
 		out.append("                            </div>");
-		out.append("                            <div class=\"row\">");
-		out.append("                                <div class=\"col-12\">");
-		out.append("                                    <div class=\"coupon-all\">");
-		out.append("                                        <div class=\"coupon\">");
-		out.append("                                            <a href=\""+ request.getContextPath() +"/public/shop\" class=\"btn theme-btn-2\" >");
-		out.append("                                                Tiếp tục mua sắm");
-		out.append("                                            </a>");
-		out.append("                                        </div>");
-		if (!cartItems.isEmpty()) {
-			out.append("                                        <div class=\"coupon2\">");
-			out.append("                                            <button type=\"submit\" class=\"btn theme-btn\">Cập nhật giỏ hàng</button>");
-			out.append("                                        </div>");
-		}
-		out.append("                                    </div>");
-		out.append("                                </div>");
-		out.append("                            </div>");
-		out.append("                            <div class=\"row\">");
 		out.append("                                <div class=\"col-md-5 ml-auto\">");
 		out.append("                                    <div class=\"cart-page-total\">");
 		out.append("                                        <h2>Tổng giỏ hàng</h2>");
@@ -141,7 +130,7 @@ public class UserCartView extends HttpServlet {
 		out.append("                                            <li>Tổng số sản phẩm <span>"+ cartItems.size() +"</span></li>");
 		out.append("                                            <li>Tổng tiền thanh toán <span>"+ ProductUtils.formatNumber(cartSubtotal) +"</span></li>");
 		out.append("                                        </ul>");
-		out.append("                                        <a class=\"btn theme-btn\" href=\""+ request.getContextPath() +"/customer/checkout\">Tiến hành thanh toán</a>");
+		out.append("                                        <a class=\"btn theme-btn\" href=\""+ request.getContextPath() +"/customer/checkout-view\">Tiến hành thanh toán</a>");
 		out.append("                                    </div>");
 		out.append("                                </div>");
 		out.append("                            </div>");
@@ -157,6 +146,11 @@ public class UserCartView extends HttpServlet {
 
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/public/footer-view");
 		footerDispatcher.include(request, response);
+
+		out.append("<script>");
+		out.append("    const CONTEXT_PATH = '"+ request.getContextPath() +"';");
+		out.append("</script>");
+		out.append("<script src=\"../user/js/cart.js\"></script>");
 
 	}
 

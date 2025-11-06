@@ -23,7 +23,7 @@ public interface UserDAO {
     User signUp(String fullname, String email, String password);
 
     //lấy tất cả
-    List<User> findAllPage(int page, int pageSize, String keyWord, String status, String dir, String orderBy);
+    List<User> findAllPage(int page, int pageSize, String keyWord, String status, String dir, String orderBy, int roleId);
 
     //đếm số lượng
     int countAllUsers(String keyWord, String status);
@@ -43,4 +43,10 @@ public interface UserDAO {
     boolean updateUserProfile(User loggedInUser);
 
     boolean existsByEmail(String email);
+
+    void updateAvatar(int userId, String avatar);
+
+    void updateProfile(User currentUser);
+
+    void updateRoleUser(int userId, int roleId);
 }

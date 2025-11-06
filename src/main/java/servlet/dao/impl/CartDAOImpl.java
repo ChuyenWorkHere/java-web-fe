@@ -128,7 +128,7 @@ public class CartDAOImpl implements CartDAO {
     }
 
     @Override
-    public boolean updateUserCart(int userId, int productId) {
+    public boolean updateUserCart(int userId, int productId, int quantity) {
 
         Product originalProduct = productDAO.findById(productId);
         int productTotal = originalProduct.getProductTotal();
@@ -141,11 +141,13 @@ public class CartDAOImpl implements CartDAO {
             ps.setInt(2, productId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int quantity = rs.getInt("quantity");
-                if(quantity >= productTotal) {
-                    updateProductToCart(userId, productId, quantity);
+                int quantityInCart = rs.getInt("quantity");
+                if(quantityInCart >= productTotal) {
+                    updateProductToCart(userId, productId, quantityInCart);
+                } else if (quantityInCart + quantity > productTotal) {
+                    updateProductToCart(userId, productId, productTotal);
                 } else {
-                    updateProductToCart(userId, productId, quantity + 1);
+                    updateProductToCart(userId, productId, quantityInCart + quantity);
                 }
 
             } else {
@@ -156,5 +158,33 @@ public class CartDAOImpl implements CartDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public boolean deleteCartItem(int productId, int userId) {
+        String sql = "DELETE FROM cart WHERE product_id = ? AND user_id = ?";
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            ps.setInt(2, userId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public void updateCartItemQuantity(int productId, int userId, int quantity) {
+        String sql = "UPDATE cart SET quantity = ? WHERE product_id = ? AND user_id = ?";
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, quantity);
+            ps.setInt(2, productId);
+            ps.setInt(3, userId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

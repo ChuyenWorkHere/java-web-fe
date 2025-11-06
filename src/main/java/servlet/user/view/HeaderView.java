@@ -103,6 +103,7 @@ public class HeaderView extends HttpServlet {
         out.append("        <link rel=\"stylesheet\" href=\"" + req.getContextPath() + "/user/css/default.css\">");
         out.append("        <link rel=\"stylesheet\" href=\"" + req.getContextPath() + "/user/css/style.css\">");
         out.append("        <link rel=\"stylesheet\" href=\"" + req.getContextPath() + "/user/css/responsive.css\">");
+        out.append("        <link rel=\"stylesheet\" href=\"" + req.getContextPath() + "/user/css/profile.css\">");
         out.append("    </head>");
         out.append("    <body>");
         out.append("");
@@ -230,7 +231,7 @@ public class HeaderView extends HttpServlet {
         } else {
             out.append("									<li class=\"search-btn p-0\">");
             out.append("                                        <a href=\"#\" >");
-            out.append("                                            <img class=\"rounded-circle\" style=\"border: 3px solid tomato;\" src=\"https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg\" alt=\"\">");
+            out.append("                                            <img class=\"rounded-circle\" style=\"border: 3px solid tomato;\" src=\" "+ (loggedInUser.getAvatar() == null ? "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg" : (req.getContextPath() + loggedInUser.getAvatar())) +"\" alt=\"\">");
             out.append("                                        </a>");
             out.append("                                        <ul class=\"miniuser p-0\" style=\"width: 200px;\">");
             out.append("                                            <li>");
@@ -266,7 +267,7 @@ public class HeaderView extends HttpServlet {
                 out.append("                                                    </div>");
                 out.append("                                                </div>");
                 out.append("                                                <div class=\"del-icon\">");
-                out.append("                                                    <a href=\"#\"><i class=\"far fa-trash-alt\"></i></a>");
+                out.append("                                                    <a href=\""+ (req.getContextPath() + "/customer/cart/delete?productId=" + item.getProduct().getProductId()) +"\"><i class=\"far fa-trash-alt\"></i></a>");
                 out.append("                                                </div>");
                 out.append("                                            </li>");
             }
@@ -281,7 +282,7 @@ public class HeaderView extends HttpServlet {
         out.append("                                            <li>");
         out.append("                                                <div class=\"checkout-link\">");
         out.append("                                                    <a href=\"" + req.getContextPath() + "/customer/cart\">Giỏ hàng</a>");
-        out.append("                                                    <a class=\"red-color\" href=\"" + req.getContextPath() + "/customer/checkout\">Thanh toán</a>");
+        out.append("                                                    <a class=\"red-color\" href=\"" + req.getContextPath() + "/customer/checkout-view\">Thanh toán</a>");
         out.append("                                                </div>");
         out.append("                                            </li>");
         out.append("                                        </ul>");

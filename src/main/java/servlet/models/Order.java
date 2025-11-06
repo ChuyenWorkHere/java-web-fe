@@ -19,7 +19,7 @@ public class Order {
     private String paymentMethod;
     private Date createdAt;
     private String orderNote;
-    private Date deleted_At;
+    private Date deletedAt;
     private User user;
     private ShippingAddress shippingAddress;
     private List<OrderItem> orderItems;

@@ -35,7 +35,7 @@ public class UserSignup extends HttpServlet {
         String fullname = req.getParameter("fullname");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        String confirmPassword = req.getParameter("confirmPassword");
+        String confirmPassword = req.getParameter("confirm_password");
 
         if (fullname == null || fullname.trim().isEmpty() ||
             email == null || email.trim().isEmpty() ||
@@ -58,8 +58,7 @@ public class UserSignup extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("customer", newUser);
             session.setAttribute("role", newUser.getRole().getRoleName());
-            session.setAttribute("successMessage", "Đăng ký tài khoản thành công!");
-            resp.sendRedirect(req.getContextPath() + "/");
+            resp.sendRedirect(req.getContextPath() + "/public/login");
         } else {
             req.setAttribute("errorMessage", "Email đã tồn tại hoặc có lỗi xảy ra trong quá trình đăng ký.");
             req.getRequestDispatcher("../public/signup").forward(req, resp);

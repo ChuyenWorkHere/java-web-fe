@@ -337,16 +337,15 @@ public class HomeView extends HttpServlet {
 		out.append("                          tickAmount: 6");
 		out.append("                        },");
 		out.append("                        yaxis: [{");
-		out.append("                          seriesName: 'Sales',");
 		out.append("                          opposite: false,");
 		out.append("                          title: {");
-		out.append("                            text: 'Sales & Customers'");
+		out.append("                            text: 'Sales & Customers'"); // Trục này giờ là mặc định
 		out.append("                          },");
 		out.append("                          labels: {");
 		out.append("                            formatter: function(val) { return val; }");
 		out.append("                          }");
 		out.append("                        }, {");
-		out.append("                          seriesName: 'Revenue (VND)',");
+		out.append("                          seriesName: 'Lợi Nhuận (VND)',");
 		out.append("                          opposite: true,");
 		out.append("                          title: {");
 		out.append("                            text: 'Revenue (VND)'");

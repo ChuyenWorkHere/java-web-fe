@@ -63,7 +63,7 @@ public class AccountsView extends HttpServlet {
 		}
 
 		UserDAO userDAO = new UserDAOImpl();
-		List<User> users = userDAO.findAllPage(currentPage, 12, keyword, status, dir, orderBy);
+		List<User> users = userDAO.findAllPage(currentPage, 12, keyword, status, dir, orderBy, 2);
 		pageNumbers = (int) Math.ceil((double) userDAO.countAllUsers(keyword, status) / 12);
 
 

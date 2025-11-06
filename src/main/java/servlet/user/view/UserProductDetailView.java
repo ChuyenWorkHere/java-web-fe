@@ -103,10 +103,9 @@ public class UserProductDetailView extends HttpServlet {
 		out.append("                                        <span class=\"sr-only\">Next</span>");
 		out.append("                                    </a>");
 		out.append("                                </div>");
-		// --- KẾT THÚC SỬA SLIDER ---
 		out.append("                            </div>");
 		out.append("                        </div>");
-		out.append("                    </div>"); // Đóng thẻ div class="col-xl-6 col-lg-4"
+		out.append("                    </div>");
 		out.append("                    <div class=\"col-xl-6 col-lg-8\">");
 		out.append("                        <div class=\"product-details mb-30 pl-30\">");
 		out.append("                            <div class=\"details-cat mb-20\">");
@@ -146,16 +145,17 @@ public class UserProductDetailView extends HttpServlet {
 		out.append("");
 		out.append("                                <div class=\"product-action-details variant-item\">");
 		out.append("                                    <div class=\"product-details-action\">");
-		out.append("                                        <form action=\"#\">");
+		out.append("                                        <form action=\""+request.getContextPath() + "/customer/cart/update" +"\" method=\"post\">");
 		out.append("                                            <div class=\"plus-minus\">");
-		out.append("                                                <div class=\"cart-plus-minus\"><input type=\"text\" value=\"1\" /></div>");
+		out.append("                                                <div class=\"cart-plus-minus\"><input type=\"text\" name=\"quantity\" value=\"1\" /></div>");
+		out.append("                                            	<input type=\"hidden\" name=\"productId\" value=\""+product.getProductId()+"\" />");
 		out.append("                                            </div>");
-		out.append("                                            <button class=\"details-action-icon\" type=\"submit\"><i");
+		out.append("                                            <button class=\"details-action-icon\"><i");
 		out.append("                                                    class=\"fas fa-heart\"></i></button>");
-		out.append("                                            <button class=\"details-action-icon\" type=\"submit\"><i");
+		out.append("                                            <button class=\"details-action-icon\"><i");
 		out.append("                                                    class=\"fas fa-hourglass\"></i></button>");
 		out.append("                                            <div class=\"details-cart mt-40\">");
-		out.append("                                                <button class=\"btn theme-btn\">Mua ngay</button>");
+		out.append("                                                <button type=\"submit\" class=\"btn theme-btn\">Thêm vào giỏ hàng</button>");
 		out.append("                                            </div>");
 		out.append("                                        </form>");
 		out.append("                                    </div>");

@@ -49,8 +49,16 @@ public class AuthorizationFilter implements Filter {
 		if (uri.startsWith(contextPath + "/public/") || uri.startsWith(contextPath + "/admin/signin")) {
 			chain.doFilter(request, response);
 			return;
+		} else if (uri.startsWith(contextPath + "/mega-admin/")) {
+			if ("MEGA_ADMIN".equals(role)) {
+				chain.doFilter(request, response);
+				return;
+			} else {
+				httpResponse.sendRedirect(contextPath + "/access-denied");
+				return;
+			}
 		} else if (uri.startsWith(contextPath + "/admin/")) {
-			if ("ADMIN".equals(role)) {
+			if ("ADMIN".equals(role) || "MEGA_ADMIN".equals(role)) {
 				chain.doFilter(request, response);
 				return;
 			} else {
@@ -58,7 +66,7 @@ public class AuthorizationFilter implements Filter {
 				return;
 			}
 		} else if (uri.startsWith(contextPath + "/customer/")) {
-			if ("ADMIN".equals(role) || "CUSTOMER".equals(role)) {
+			if ("ADMIN".equals(role) || "CUSTOMER".equals(role) || "MEGA_ADMIN".equals(role)) {
 				chain.doFilter(request, response);
 				return;
 			} else {

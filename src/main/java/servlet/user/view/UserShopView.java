@@ -293,7 +293,7 @@ public class UserShopView extends HttpServlet {
 
 			out.append("                                                </a>");
 			out.append("                                                <div class=\"product-action text-center\">");
-			out.append("                                                    <a href=\"#\" title=\"Thêm vào giỏ hàng\">");
+			out.append("                                                    <a href=\""+ (request.getContextPath() + "/customer/cart/update?productId="+product.getProductId()) +"\" title=\"Thêm vào giỏ hàng\">");
 			out.append("                                                        <i class=\"flaticon-shopping-cart\"></i>");
 			out.append("                                                    </a>");
 			out.append("                                                    <a href=\""+request.getContextPath() +"/public/product-detail?productId="+product.getProductId()+"\" title=\"Chi tiết\">");

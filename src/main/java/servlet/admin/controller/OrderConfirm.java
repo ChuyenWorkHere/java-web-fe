@@ -1,0 +1,64 @@
+package servlet.admin.controller;
+
+import servlet.constants.OrderStatus;
+import servlet.dao.OrderDAO;
+import servlet.dao.OrderItemsDAO;
+import servlet.dao.ProductDAO;
+import servlet.dao.impl.OrderDAOImpl;
+import servlet.dao.impl.OrderItemsDAOImpl;
+import servlet.dao.impl.ProductDAOImpl;
+import servlet.models.OrderItem;
+import servlet.models.Product;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+
+@WebServlet("/admin/order-status-update")
+public class OrderConfirm extends HttpServlet {
+
+
+    private static final long serialVersionUID = 1L;
+    private OrderDAO orderDAO;
+    private ProductDAO productDAO;
+    private OrderItemsDAO orderItemsDAO;
+
+    public OrderConfirm() {
+        super();
+        orderDAO = new OrderDAOImpl();
+        productDAO = new ProductDAOImpl();
+        orderItemsDAO = new OrderItemsDAOImpl();
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int orderId = Integer.parseInt(request.getParameter("orderId")) ;
+
+        List<OrderItem> orderItems = orderItemsDAO.getAllOrderItemsByOrderId(orderId);
+        for (OrderItem orderItem : orderItems) {
+            Product product = productDAO.findById(orderItem.getProduct().getProductId());
+
+            product.setProductTotal(product.getProductTotal() - orderItem.getOrderQuantity());
+
+            productDAO.editProduct(product.getProductId(), product);
+        }
+
+        boolean check = orderDAO.updateOrderStatus(orderId, OrderStatus.SHIPPING);
+
+        if(check){
+            response.sendRedirect("../admin/orders-view");
+        }else{
+            response.sendRedirect("../admin/single-order-view");
+        }
+    }
+
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        doGet(request, response);
+    }
+
+}

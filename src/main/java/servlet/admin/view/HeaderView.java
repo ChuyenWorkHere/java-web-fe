@@ -290,10 +290,11 @@ public class HeaderView extends HttpServlet {
 		out.append("    </nav><!-- End Icons Navigation -->");
 
 		out.append("  </header><!-- End Header -->");
-		
-		RequestDispatcher sidebarDispatcher = request.getRequestDispatcher("/admin/sidebar-view");
-	    sidebarDispatcher.include(request, response);
-		
+
+		if(!request.getAttribute("view").equals("mega-admin")) {
+			RequestDispatcher sidebarDispatcher = request.getRequestDispatcher("/admin/sidebar-view");
+			sidebarDispatcher.include(request, response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
