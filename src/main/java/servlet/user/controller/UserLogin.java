@@ -40,10 +40,10 @@ public class UserLogin extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("customer", user);
             session.setAttribute("role", user.getRole().getRoleName());
-            response.sendRedirect("../public/home");
+            response.sendRedirect(request.getContextPath() + "/public/home");
         } else {
-            request.setAttribute("errorMessage", "Tài khoản hoặc mật khẩu không hợp lệ");
-            request.getRequestDispatcher("../public/login").forward(request, response);
+            String msg = URLEncoder.encode("Tài khoản hoặc mật khẩu không hợp lệ.", StandardCharsets.UTF_8);
+            response.sendRedirect(request.getContextPath() + "/public/login?errorMessage=" + msg);
         }
     }
 }

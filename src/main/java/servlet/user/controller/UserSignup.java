@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import servlet.dao.UserDAO;
 import servlet.dao.impl.UserDAOImpl;
@@ -41,14 +43,14 @@ public class UserSignup extends HttpServlet {
             email == null || email.trim().isEmpty() ||
             password == null || password.trim().isEmpty() ||
             confirmPassword == null || confirmPassword.trim().isEmpty()) {
-            req.setAttribute("errorMessage", "Vui lòng điền đầy đủ thông tin.");
-            req.getRequestDispatcher("../public/signup").forward(req, resp);
+            String msg = URLEncoder.encode("Vui lòng điền đầy đủ thông tin.", StandardCharsets.UTF_8);
+            resp.sendRedirect(req.getContextPath() + "/public/signup?errorMessage=" + msg);
             return;
         }
 
         if (!password.equals(confirmPassword)) {
-            req.setAttribute("errorMessage", "Mật khẩu xác nhận không khớp.");
-            req.getRequestDispatcher("../public/signup").forward(req, resp);
+            String msg = URLEncoder.encode("Mật khẩu xác nhận không khớp.", StandardCharsets.UTF_8);
+            resp.sendRedirect(req.getContextPath() + "/public/signup?errorMessage=" + msg);
             return;
         }
 
@@ -60,8 +62,8 @@ public class UserSignup extends HttpServlet {
             session.setAttribute("role", newUser.getRole().getRoleName());
             resp.sendRedirect(req.getContextPath() + "/public/login");
         } else {
-            req.setAttribute("errorMessage", "Email đã tồn tại hoặc có lỗi xảy ra trong quá trình đăng ký.");
-            req.getRequestDispatcher("../public/signup").forward(req, resp);
+            String msg = URLEncoder.encode("Email đã tồn tại hoặc có lỗi xảy ra.", StandardCharsets.UTF_8);
+            resp.sendRedirect(req.getContextPath() + "/public/signup?errorMessage=" + msg);
         }
     }
 }

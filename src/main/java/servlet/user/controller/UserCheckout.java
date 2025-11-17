@@ -134,12 +134,12 @@ public class UserCheckout extends HttpServlet {
                 while (itr.hasNext()) {
                     String fieldName = (String) itr.next();
                     String fieldValue = (String) vnp_Params.get(fieldName);
-                    if ((fieldValue != null) && (fieldValue.length() > 0)) {
+                    if ((fieldValue != null) && (!fieldValue.isEmpty())) {
 
                         //Build query
-                        query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII.toString()));
+                        query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII));
                         query.append('=');
-                        query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
+                        query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
                         if (itr.hasNext()) {
                             query.append('&');
                         }

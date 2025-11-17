@@ -1,5 +1,9 @@
 package servlet.user.view;
 
+import servlet.dao.UserDAO;
+import servlet.dao.impl.UserDAOImpl;
+import servlet.models.User;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +17,11 @@ import java.io.PrintWriter;
 @WebServlet("/public/signup")
 public class UserRegisterView extends HttpServlet {
 
+    private UserDAO userDAO;
+
     public UserRegisterView() {
+        super();
+        this.userDAO = new UserDAOImpl();
     }
 
     @Override
@@ -65,7 +73,7 @@ public class UserRegisterView extends HttpServlet {
         out.append("                <div class=\"col-lg-8 offset-lg-2\">");
         out.append("                    <div class=\"basic-login\">");
         out.append("                        <h3 class=\"text-center mb-60\">ĐĂNG KÝ</h3>");
-        out.append("                        <form id=\"registerForm\" action=\"/Furniture/public/customer-signup\" method=\"post\">");
+        out.append("                        <form id=\"registerForm\" action=\" "+request.getContextPath()+"/public/customer-signup\" method=\"post\">");
         out.append("                            <label for=\"fullname\">Họ và tên <span>**</span></label>");
         out.append("                            <input id=\"fullname\" name=\"fullname\" type=\"text\" placeholder=\"Nhập họ và tên...\" required />");
         out.append("                            <label for=\"email\">Email <span>**</span></label>");
@@ -77,7 +85,7 @@ public class UserRegisterView extends HttpServlet {
         out.append("                            <div class=\"mb-2 text-center text-danger\">"+errorMessage+"</div>");
         out.append("                            <button type=\"submit\" class=\"btn theme-btn-2 w-100\">Đăng Ký</button>");
         out.append("                            <div class=\"mt-20 text-center\">");
-        out.append("                                Đã có tài khoản? <a href=\"/Furniture/public/login\">Đăng nhập ngay</a>");
+        out.append("                                Đã có tài khoản? <a href=\""+request.getContextPath()+"/public/login\">Đăng nhập ngay</a>");
         out.append("                            </div>");
         out.append("                        </form>");
         out.append("                    </div>");
@@ -93,8 +101,4 @@ public class UserRegisterView extends HttpServlet {
 
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-    }
 }

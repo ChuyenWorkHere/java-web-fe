@@ -1,5 +1,9 @@
 package servlet.user.view;
 
+import servlet.dao.UserDAO;
+import servlet.dao.impl.UserDAOImpl;
+import servlet.models.User;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -67,7 +71,7 @@ public class UserLoginView extends HttpServlet {
 		out.append("                    <div class=\"col-lg-8 offset-lg-2\">");
 		out.append("                        <div class=\"basic-login\">");
 		out.append("                            <h3 class=\"text-center mb-60\">ĐĂNG NHẬP</h3>");
-		out.append("                            <form id=\"loginForm\" action=\"../public/customer-login\" method=\"post\">");
+		out.append("                            <form id=\"loginForm\" action=\""+request.getContextPath()+"/public/customer-login\" method=\"post\">");
 		out.append("                                <label for=\"email\">Email <span>**</span></label>");
 		out.append("                                <input id=\"email\" name=\"username\" type=\"text\" placeholder=\"Nhập email...\" />");
 		out.append("                                <label for=\"password\">Mật khẩu <span>**</span></label>");
@@ -96,12 +100,6 @@ public class UserLoginView extends HttpServlet {
 
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/public/footer-view");
 		footerDispatcher.include(request, response);
-	}
-
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }
