@@ -97,7 +97,7 @@ public class OrdersView extends HttpServlet {
         out.append("                    <select class=\"form-select\" id=\"orderStatus\">");
         out.append("                      <option value=\"all\">Tất cả</option>");
         out.append("                      <option value=\"PENDING\">Chờ xác nhận</option>");
-        out.append("                      <option value=\"SHIPPED\">Đang giao</option>");
+        out.append("                      <option value=\"SHIPPING\">Đang giao</option>");
         out.append("                      <option value=\"DELIVERED\">Thành công</option>");
         out.append("                      <option value=\"CANCELLED\">Đã hủy</option>");
         out.append("                    </select>");
@@ -251,8 +251,7 @@ public class OrdersView extends HttpServlet {
             }
             out.append("                      <td class=\"align-middle\">");
             out.append("                        <span class=\"p-2 badge ");
-            out.append(className + "\">" + (order.getOrderStatus().equals("PENDING")
-                    ? "<a class=\"text-white\" href=\"../admin/single-order-view?orderId=" + order.getOrderId() + "\">" + orderStatus + "</a>" : orderStatus) + "</span>");
+            out.append(className + "\">" +  "<a class=\"text-white\" href=\"../admin/single-order-view?orderId=" + order.getOrderId() + "\">" + orderStatus + "</a>" + "</span>");
             out.append("                      </td>");
             out.append("                      <td class=\"align-middle\">");
             out.append("                           <a href=\"../admin/single-order-view?orderId=" + order.getOrderId() + "\">");

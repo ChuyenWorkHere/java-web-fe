@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/admin/order-status-update")
-public class OrderConfirm extends HttpServlet {
+public class OrderStatusUpdate extends HttpServlet {
 
 
     private static final long serialVersionUID = 1L;
@@ -27,7 +27,7 @@ public class OrderConfirm extends HttpServlet {
     private ProductDAO productDAO;
     private OrderItemsDAO orderItemsDAO;
 
-    public OrderConfirm() {
+    public OrderStatusUpdate() {
         super();
         orderDAO = new OrderDAOImpl();
         productDAO = new ProductDAOImpl();
@@ -35,18 +35,28 @@ public class OrderConfirm extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int orderId = Integer.parseInt(request.getParameter("orderId")) ;
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
+        String orderStatus = request.getParameter("orderStatus");
 
-        List<OrderItem> orderItems = orderItemsDAO.getAllOrderItemsByOrderId(orderId);
-        for (OrderItem orderItem : orderItems) {
-            Product product = productDAO.findById(orderItem.getProduct().getProductId());
+        boolean check = false;
 
-            product.setProductTotal(product.getProductTotal() - orderItem.getOrderQuantity());
+        if(String.valueOf(OrderStatus.SHIPPING).equalsIgnoreCase(orderStatus)) {
+            check = orderDAO.updateOrderStatus(orderId, OrderStatus.SHIPPING);
 
-            productDAO.editProduct(product.getProductId(), product);
+            List<OrderItem> orderItems = orderItemsDAO.getAllOrderItemsByOrderId(orderId);
+            for (OrderItem orderItem : orderItems) {
+                Product product = productDAO.findById(orderItem.getProduct().getProductId());
+
+                product.setProductTotal(product.getProductTotal() - orderItem.getOrderQuantity());
+
+                productDAO.editProduct(product.getProductId(), product);
+            }
+
+        } else if (String.valueOf(OrderStatus.DELIVERED).equalsIgnoreCase(orderStatus)) {
+            check = orderDAO.updateOrderStatus(orderId, OrderStatus.DELIVERED);
+        } else if (String.valueOf(OrderStatus.CANCELLED).equalsIgnoreCase(orderStatus)) {
+            check = orderDAO.updateOrderStatus(orderId, OrderStatus.CANCELLED);
         }
-
-        boolean check = orderDAO.updateOrderStatus(orderId, OrderStatus.SHIPPING);
 
         if(check){
             response.sendRedirect("../admin/orders-view");

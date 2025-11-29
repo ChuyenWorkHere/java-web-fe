@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.format.DateTimeFormatter;
 
+import servlet.constants.Avatar;
 import servlet.models.User;
 
 @WebServlet("/customer/profile")
@@ -63,7 +64,7 @@ public class UserProfileView extends HttpServlet {
         out.append("              <div class=\"avatar-wrapper\">");
         String avatarUrl = (user.getAvatar() != null && !user.getAvatar().isEmpty())
                 ? request.getContextPath() + user.getAvatar()
-                : "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg";
+                : Avatar.DEFAULT_AVATAR;
         out.append("                <img id=\"avatarPreview\" src=\""+ avatarUrl +"\" alt=\"Avatar\" class=\"avatar-img\">");
         out.append("              </div>");
         out.append("              <form action=\"\">");
@@ -75,19 +76,17 @@ public class UserProfileView extends HttpServlet {
         out.append("              </form>");
         out.append("");
         out.append("");
-        // 3. Hiển thị thông tin người dùng động
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String joinDate = user.getCreateDate() != null ? String.valueOf(user.getCreateDate()) : "N/A";
         out.append("              <h3 id=\"displayName\">"+ user.getFullname() +"</h3>");
         out.append("              <p class=\"text-muted\"><i class=\"far fa-calendar-alt\"></i> Thành viên từ: "+ joinDate +"</p>");
         out.append("");
         out.append("              <div class=\"profile-info mt-4\" id=\"profileView\">");
-        out.append("                <p><i class=\"fas fa-user\"></i> <strong>Họ tên:</strong> <span id=\"nameText\">"+ user.getFullname() +"</span></p>");
-        out.append("                <p><i class=\"fas fa-venus-mars\"></i> <strong>Giới tính:</strong> <span id=\"genderText\">"+ (user.getGender() != null ? user.getGender() : "Chưa cập nhật") +"</span></p>");
-        out.append("                <p><i class=\"fas fa-envelope\"></i> <strong>Email:</strong> <span id=\"emailText\">"+ user.getEmail() +"</span>");
+        out.append("                <p><i class=\"fas fa-user\"></i> Họ tên: <span id=\"nameText\">"+ user.getFullname() +"</span></p>");
+        out.append("                <p><i class=\"fas fa-venus-mars\"></i> Giới tính: <span id=\"genderText\">"+ (user.getGender() != null ? user.getGender() : "Chưa cập nhật") +"</span></p>");
+        out.append("                <p><i class=\"fas fa-envelope\"></i> Email: <span id=\"emailText\">"+ user.getEmail() +"</span>");
         out.append("                </p>");
-        out.append("                <p><i class=\"fas fa-phone\"></i> <strong>SĐT:</strong> <span id=\"phoneText\">"+ (user.getPhoneNumber() != null ? user.getPhoneNumber() : "Chưa cập nhật") +"</span></p>");
-        out.append("                <p><i class=\"fas fa-map-marker-alt\"></i> <strong>Địa chỉ:</strong> <span id=\"addressText\">"+ (user.getAddress() != null ? user.getAddress() : "Chưa cập nhật") +"</span></p>");
+        out.append("                <p><i class=\"fas fa-phone\"></i> SĐT: <span id=\"phoneText\">"+ (user.getPhoneNumber() != null ? user.getPhoneNumber() : "Chưa cập nhật") +"</span></p>");
+        out.append("                <p><i class=\"fas fa-map-marker-alt\"></i> Địa chỉ: <span id=\"addressText\">"+ (user.getAddress() != null ? user.getAddress() : "Chưa cập nhật") +"</span></p>");
         out.append("                <a href=\"#\" class=\"btn-edit\" id=\"editBtn\"><i class=\"fas fa-edit text-white\"></i> Sửa Hồ Sơ</a>");
         out.append("              </div>");
         out.append("");

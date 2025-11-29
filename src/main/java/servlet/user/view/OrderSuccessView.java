@@ -28,8 +28,8 @@ public class OrderSuccessView extends HttpServlet {
         out.append("        <div class=\"row justify-content-center\">");
         out.append("            <div class=\"col-md-8\">");
         out.append("                <div class=\"alert alert-success text-center\" role=\"alert\">");
-        out.append("                    <h4 class=\"alert-heading\">Thanh toán thành công!</h4>");
-        out.append("                    <p>Cảm ơn bạn đã hoàn tất thanh toán. Đơn hàng của bạn đã được xử lý thành công.</p>");
+        out.append("                    <h4 class=\"alert-heading\">Đặt hàng thành công!</h4>");
+        out.append("                    <p>Cảm ơn bạn đã hoàn tất đặt hàng. Đơn hàng của bạn đang chờ xác nhận.</p>");
         out.append("                    <hr>");
         out.append("                    <p class=\"mb-0\">Bạn có thể kiểm tra chi tiết đơn hàng trong lịch sử.</p>");
         out.append("                </div>");

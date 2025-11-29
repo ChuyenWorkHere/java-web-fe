@@ -291,7 +291,7 @@ public class HeaderView extends HttpServlet {
 
 		out.append("  </header><!-- End Header -->");
 
-		if(!request.getAttribute("view").equals("mega-admin")) {
+		if(!"mega-admin".equals(request.getAttribute("view"))) {
 			RequestDispatcher sidebarDispatcher = request.getRequestDispatcher("/admin/sidebar-view");
 			sidebarDispatcher.include(request, response);
 		}

@@ -105,7 +105,6 @@ public class SingleOrderView extends HttpServlet {
 				.append("data-email='" + order.getUser().getEmail() + "' ")
 				.append("data-address='" + order.getUser().getAddress() + "' ")
 				.append("data-created='" + ProductUtils.formatDate(order.getUser().getCreateDate()) + "' ")
-				.append("data-updated='" + ProductUtils.formatDate(order.getUser().getModifiedDate()) + "' ")
 				.append("data-status='" + order.getUser().isActive() + "'>")
 				.append("Xem chi tiết")
 				.append("</a>");
@@ -229,7 +228,10 @@ public class SingleOrderView extends HttpServlet {
 		out.append("");
 		out.append("          </div>");
 		if(order.getOrderStatus().equals("PENDING")){
-			out.append("          <a href=\"../admin/order-status-update?orderId="+order.getOrderId()+"\" class=\"btn btn-success float-end mb-5 py-2 mx-4\">Xác nhận đơn</a>");
+			out.append("          <a href=\"../admin/order-status-update?orderStatus=SHIPPING&&orderId="+order.getOrderId()+"\" class=\"btn btn-success float-end mb-5 py-2 mx-4\">Xác nhận đơn</a>");
+			out.append("          <a href=\"../admin/order-status-update?orderStatus=CANCELLED&&orderId="+order.getOrderId()+"\" class=\"btn btn-danger float-end mb-5 py-2 mx-4\">Hủy đơn</a>");
+		} else if (order.getOrderStatus().equals("SHIPPING")) {
+			out.append("          <a href=\"../admin/order-status-update?orderStatus=DELIVERED&&orderId="+order.getOrderId()+"\" class=\"btn btn-primary float-end mb-5 py-2 mx-4\">Đã giao</a>");
 		}
 		out.append("        </div>");
 		out.append("      </div>");

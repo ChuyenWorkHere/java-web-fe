@@ -46,8 +46,7 @@ public class UserCheckout extends HttpServlet {
         User loggedInUser = (User) session.getAttribute("customer");
 
         String paymentMethod = req.getParameter("payment");
-        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
+        String fullName = req.getParameter("fullName");
         String address = req.getParameter("address");
         String city = req.getParameter("city");
         String district = req.getParameter("district");
@@ -67,7 +66,7 @@ public class UserCheckout extends HttpServlet {
         order.setUser(loggedInUser);
 
         //Tạo shipping address
-        shippingAddress.setFullname(firstName + " " + lastName);
+        shippingAddress.setFullname(fullName);
         shippingAddress.setAddress( city + ", " + district + ", " + ward + ", " + address);
         shippingAddress.setPhoneNumber(phone);
         shippingAddress.setEmail(email);

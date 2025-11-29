@@ -58,7 +58,9 @@ public class UserCheckoutCallback extends HttpServlet {
 
                 order.setPaymentStatus(String.valueOf(PaymentStatus.PAID));
 
-                boolean isUpdated = orderDAO.updatePaymentStatus(orderId, PaymentStatus.PAID);
+                boolean isUpdated = orderDAO.updatePaymentStatus(orderId, PaymentStatus.PAID)
+                        && orderDAO.updateOrderStatus(orderId, OrderStatus.SHIPPING);
+
 
                 if (isUpdated) {
                     response.sendRedirect(request.getContextPath() + "/customer/order-success");

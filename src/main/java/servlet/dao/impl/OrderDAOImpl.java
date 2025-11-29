@@ -135,9 +135,10 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public Order getOrderDetailByOrderId(int orderId) {
-        Order order = new Order();
+        Order order = null;
+        List<OrderItem> orderItems = new ArrayList<>();
 
-       StringBuilder sql = new StringBuilder();
+        StringBuilder sql = new StringBuilder();
         sql.append("SELECT o.order_id, o.total_price, o.order_status, o.payment_status, o.payment_method, o.created_at, o.order_note, ");
         sql.append("sa.fullname, sa.phone_number, sa.address, sa.email, ");
         sql.append("u.user_id, u.user_fullname, u.user_phone_number, u.user_email, u.gender, u.user_isactive, u.user_created_date, u.user_modified_date, u.user_address, ");
@@ -145,7 +146,7 @@ public class OrderDAOImpl implements OrderDAO {
         sql.append("p.product_name, p.product_image_url ");
         sql.append("FROM orders o ");
         sql.append("LEFT JOIN users u ON o.user_id = u.user_id ");
-        sql.append("LEFT JOIN shipping_address sa ON sa.order_id = o.order_id AND sa.user_id = u.user_id ");
+        sql.append("LEFT JOIN shipping_address sa ON sa.order_id = o.order_id ");
         sql.append("LEFT JOIN order_items oi ON oi.order_id = o.order_id ");
         sql.append("LEFT JOIN products p ON p.product_id = oi.product_id ");
         sql.append("WHERE o.order_id = ?");
@@ -157,13 +158,14 @@ public class OrderDAOImpl implements OrderDAO {
 
            try(ResultSet rs = ps.executeQuery()) {
                while (rs.next()){
-                   if (order.getOrderId() == 0){
+                   if (order == null) {
+                       order = new Order();
                        order.setOrderId(rs.getInt("order_id"));
                        order.setTotalPrice(rs.getFloat("total_price"));
                        order.setOrderStatus(rs.getString("order_status"));
                        order.setPaymentStatus(rs.getString("payment_status"));
                        order.setPaymentMethod(rs.getString("payment_method"));
-                       order.setCreatedAt(rs.getDate("created_at"));
+                       order.setCreatedAt(rs.getTimestamp("created_at"));
                        order.setOrderNote(rs.getString("order_note"));
 
                        ShippingAddress shippingAddress = new ShippingAddress();
@@ -183,26 +185,26 @@ public class OrderDAOImpl implements OrderDAO {
                        user.setCreateDate(rs.getTimestamp("user_created_date"));
                        user.setModifiedDate(rs.getTimestamp("user_modified_date"));
                        int userActive = rs.getInt("user_isactive");
-                       user.setActive(userActive == 1 ? true : false);
+                       user.setActive(userActive == 1);
                        user.setAddress(rs.getString("user_address"));
                        order.setUser(user);
                    }
 
+                   if (rs.getInt("product_id") != 0) {
+                       Product product = new Product();
+                       product.setProductId(rs.getInt("product_id"));
+                       product.setProductName(rs.getString("product_name"));
+                       product.setProductImageUrl(rs.getString("product_image_url"));
 
-                   Product product = new Product();
-                   product.setProductId(rs.getInt("product_id"));
-                   product.setProductName(rs.getString("product_name"));
-                   product.setProductImageUrl(rs.getString("product_image_url"));
-
-                   OrderItem orderItem = new OrderItem();
-                   orderItem.setOrderQuantity(rs.getInt("order_quantity"));
-                   orderItem.setOrderPrice(rs.getFloat("order_price"));
-                   orderItem.setProduct(product);
-
-                   List<OrderItem> orderItems = new ArrayList<>();
-                   orderItems.add(orderItem);
+                       OrderItem orderItem = new OrderItem();
+                       orderItem.setOrderQuantity(rs.getInt("order_quantity"));
+                       orderItem.setOrderPrice(rs.getFloat("order_price"));
+                       orderItem.setProduct(product);
+                       orderItems.add(orderItem);
+                   }
+               }
+               if (order != null) {
                    order.setOrderItems(orderItems);
-
                }
            }
 

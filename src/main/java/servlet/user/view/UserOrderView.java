@@ -149,6 +149,7 @@ public class UserOrderView extends HttpServlet {
                     out.append("                                        <div class=\"flex-grow-1 d-flex flex-column ml-3\">");
                     out.append("                                            <h5 class=\"mb-1\">"+item.getProduct().getProductName()+"</h5>");
                     out.append("                                            <p class=\"text-muted\">Số lượng: "+item.getOrderQuantity()+"</p>");
+                    out.append("                                            <a style=\"max-width: 90px;\" href=\""+ (request.getContextPath() + "/public/product-detail?mode=review&&productId="+item.getProduct().getProductId()) +"\" class=\"bg-primary text-center px-3 py-2 text-white w-25\">Đánh giá</a>");
                     out.append("                                        </div>");
                     out.append("                                    </div>");
                     out.append("                                    <div class=\"text-end\">");
@@ -163,15 +164,6 @@ public class UserOrderView extends HttpServlet {
                 out.append("                                        đ</span>");
                 out.append("                                </p>");
                 out.append("                            </div>");
-    //            out.append("                            <div class=\"d-flex justify-content-end align-items-center flex-wrap gap-2\">");
-    //            out.append("                                <button class=\"btn btn-sm px-4 mt-3\" style=\"background-color: #7f8c8d; color: white;\">");
-    //            out.append("                                    Yêu cầu hoàn tiền");
-    //            out.append("                                </button>");
-    //            out.append("                                <button class=\"btn btn-sm px-4 mt-3 ml-3\"");
-    //            out.append("                                    style=\"background-color: #FE4536; color: white;\">");
-    //            out.append("                                    Đánh giá");
-    //            out.append("                                </button>");
-    //            out.append("                            </div>");
                 out.append("                        </div>");
             }
         }
