@@ -26,12 +26,12 @@ public class MaterialDelete extends HttpServlet {
             int materialId = Integer.parseInt(req.getParameter("materialId"));
 
             if (materialDAO.deleteMaterial(materialId)) {
-                resp.sendRedirect("../materials-view?title=material&action=delete&noti=success");
+                resp.sendRedirect(req.getContextPath() + "/admin/materials-view?title=material&action=delete&noti=success");
             } else {
-                resp.sendRedirect("../materials-view?title=material&action=delete&noti=failed");
+                resp.sendRedirect(req.getContextPath() + "/admin/materials-view?title=material&action=delete&noti=failed");
             }
         } catch (NumberFormatException e) {
-            resp.sendRedirect("../materials-view?title=material&action=delete&noti=failed");
+            resp.sendRedirect(req.getContextPath() + "/admin/materials-view?title=material&action=delete&noti=failed");
         }
 
     }

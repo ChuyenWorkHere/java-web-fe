@@ -30,17 +30,17 @@ public class MaterialUpdate extends HttpServlet {
             String materialDesc = req.getParameter("materialDesc");
 
             if (materialName == null || materialName.trim().isEmpty()) {
-                resp.sendRedirect("../materials-view?title=material&action=edit&noti=failed");
+                resp.sendRedirect(req.getContextPath() + "/admin/materials-view?title=material&action=edit&noti=failed");
             } else {
                 Material material = new Material(materialId, materialName.trim(), materialDesc.trim());
                 if (materialDAO.editMaterial(material)) {
-                    resp.sendRedirect("../materials-view?title=material&action=edit&noti=success");
+                    resp.sendRedirect(req.getContextPath() + "/admin/materials-view?title=material&action=edit&noti=success");
                 } else {
-                    resp.sendRedirect("../materials-view?title=material&action=edit&noti=failed");
+                    resp.sendRedirect(req.getContextPath() + "/admin/materials-view?title=material&action=edit&noti=failed");
                 }
             }
         } catch (NumberFormatException e) {
-            resp.sendRedirect("../materials-view?title=material&action=edit&noti=failed");
+            resp.sendRedirect(req.getContextPath() + "/admin/materials-view?title=material&action=edit&noti=failed");
         }
     }
 }

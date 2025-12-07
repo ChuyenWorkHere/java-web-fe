@@ -61,9 +61,9 @@ public class OrderStatusUpdate extends HttpServlet {
         }
 
         if(check){
-            response.sendRedirect("../admin/orders-view");
+            response.sendRedirect(request.getContextPath() + "/admin/orders-view");
         }else{
-            response.sendRedirect("../admin/single-order-view");
+            response.sendRedirect(request.getContextPath() +"/admin/single-order-view");
         }
     }
 

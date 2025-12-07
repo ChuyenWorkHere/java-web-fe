@@ -7,6 +7,7 @@ import servlet.dao.ProductDAO;
 import servlet.dao.impl.ProductDAOImpl;
 import servlet.models.Brand;
 import servlet.models.Category;
+import servlet.models.Material;
 import servlet.models.Product;
 import servlet.utils.FileUtil;
 
@@ -56,7 +57,7 @@ public class AddProduct extends HttpServlet {
         // Lấy các tham số từ form
         String productName = null;
         String productSize = null;
-        String productMaterial = null;
+        int productMaterial = 0;
         int categoryId = 0;
         int brandId = 0;
         int stock = 0;
@@ -79,7 +80,7 @@ public class AddProduct extends HttpServlet {
                     switch (fieldName) {
                         case "productName" -> productName = value;
                         case "productSize" -> productSize = value;
-                        case "productMaterial" -> productMaterial = value;
+                        case "productMaterial" -> productMaterial = Integer.parseInt(value);
                         case "category" -> categoryId = Integer.parseInt(value);
                         case "brand" -> brandId = Integer.parseInt(value);
                         case "productStock" -> stock = Integer.parseInt(value);
@@ -117,7 +118,6 @@ public class AddProduct extends HttpServlet {
             product.setProductPrice(regular);
             product.setProductDiscountPrice(sale);
             product.setProductSize(productSize);
-            product.setProductMaterial(productMaterial);
             product.setProductImageUrl(imgUrlsAndColors.toString());
 
             // Tạo đối tượng Category và Brand
@@ -127,17 +127,21 @@ public class AddProduct extends HttpServlet {
             Brand brand = new Brand(brandId, "");
             product.setBrand(brand);
 
+            Material material = new Material(productMaterial, "", "");
+            product.setMaterial(material);
+
             // Lưu sản phẩm vào cơ sở dữ liệu
             ProductDAO productDAO = new ProductDAOImpl();
             boolean isSuccess = productDAO.saveProduct(product);
             if(isSuccess) {
-                response.sendRedirect(request.getContextPath()+ "/products-view?title=product&action=add&noti=success");
+                response.sendRedirect(request.getContextPath()+ "/admin/products-view?title=product&action=add&noti=success");
             } else {
-                response.sendRedirect(request.getContextPath()+ "/products-view?title=product&action=add&noti=failed");
+                response.sendRedirect(request.getContextPath()+ "/admin/products-view?title=product&action=add&noti=failed");
             }
 
         } catch (Exception e) {
-            response.sendRedirect(request.getContextPath() + "/products-view?title=product&action=add&noti=failed");
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/admin/products-view?title=product&action=add&noti=failed");
         }
 
     }

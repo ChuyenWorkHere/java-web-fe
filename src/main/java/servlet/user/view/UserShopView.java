@@ -276,6 +276,16 @@ public class UserShopView extends HttpServlet {
 		out.append("                        <div class=\"tab-content\" id=\"myTabContent\">");
 		out.append("                            <div class=\"tab-pane fade show active\" id=\"home\" role=\"tabpanel\" aria-labelledby=\"home-tab\">");
 		out.append("                                <div class=\"row\">");
+		// --- Bắt đầu: Kiểm tra và hiển thị nếu không có sản phẩm ---
+		if (products.isEmpty()) {
+			out.append("                                    <div class=\"col-12\">");
+			out.append("                                        <div class=\"text-center p-5 border rounded bg-light my-5\">");
+			out.append("                                            <h4 class=\"mb-3\">Không tìm thấy sản phẩm nào</h4>");
+			out.append("                                            <p class=\"text-muted mb-4\">Vui lòng thử lại với bộ lọc khác hoặc xóa bớt điều kiện tìm kiếm.</p>");
+			out.append("                                        </div>");
+			out.append("                                    </div>");
+		} else {
+		// --- Kết thúc ---
 
 		for (int i = 0; i < products.size(); i++) {
 
@@ -327,6 +337,7 @@ public class UserShopView extends HttpServlet {
 			out.append("                                        </div>");
 			out.append("                                    </div>");
 		}
+		} // Đóng khối else
 
 		out.append("                                </div>");
 		out.append("                            </div>");

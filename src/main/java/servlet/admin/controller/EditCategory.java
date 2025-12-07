@@ -43,9 +43,9 @@ public class EditCategory extends HttpServlet {
         boolean isSuccess = categoryDAO.editCategory(categoryId, editedCategory);
 
         if(isSuccess) {
-            resp.sendRedirect("../admin/categories-view?title=category&action=edit&noti=success");
+            resp.sendRedirect(req.getContextPath() + "/admin/categories-view?title=category&action=edit&noti=success");
         } else {
-            resp.sendRedirect("../admin/categories-view?title=category&action=edit&noti=failed");
+            resp.sendRedirect(req.getContextPath() + "/admin/categories-view?title=category&action=edit&noti=failed");
         }
     }
 

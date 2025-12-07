@@ -44,9 +44,9 @@ public class MaterialAdd extends HttpServlet {
         material.setMaterialName(materialName.trim());
         material.setDescription(materialDesc.trim());
         if (materialDAO.saveMaterial(material)) {
-            resp.sendRedirect("../materials-view?title=material&action=add&noti=success");
+            resp.sendRedirect(req.getContextPath() + "/admin/materials-view?title=material&action=add&noti=success");
         } else {
-            resp.sendRedirect("../materials-view?title=material&action=add&noti=failed");
+            resp.sendRedirect(req.getContextPath() + "/admin/materials-view?title=material&action=add&noti=failed");
         }
     }
 }

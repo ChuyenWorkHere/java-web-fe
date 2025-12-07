@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -158,48 +159,66 @@ public class SalesDAOImpl implements SalesDAO {
 
     private Map<Integer, Double> foreCastSales(int month, int year, Map<Integer, Double> salesMap) {
         Map<Integer, Double> forecastMap = new TreeMap<>(salesMap);
-        if(month > 0 && year > 0){
-            LocalDate now = LocalDate.now();
-            int currentDate = now.getDayOfMonth();
-            int daysInMonth = now.lengthOfMonth();
 
-            //Gán cho những ngày trôi qua mà không có doanh thu = 0
-            for(int i = 1; i< currentDate; i++) {
-                if( !forecastMap.containsKey(i) ) {
-                    forecastMap.put(i, 0.00);
-                }
+        LocalDate today = LocalDate.now();
+
+        if (month > 0 && year > 0) {
+            YearMonth yearMonthObject = YearMonth.of(year, month);
+            int daysInMonth = yearMonthObject.lengthOfMonth();
+
+
+            int cutoffDate;
+            if (year < today.getYear() || (year == today.getYear() && month < today.getMonthValue())) {
+                cutoffDate = daysInMonth + 1; // Đã qua hết tháng
+            } else if (year == today.getYear() && month == today.getMonthValue()) {
+                cutoffDate = today.getDayOfMonth();
+            } else {
+                cutoffDate = 1;
             }
-            for (int i = 1; i < 31; i++) {
-                int averageSales = 0;
-                if(!forecastMap.containsKey(i)) {
-                    for (int j = i - 5; j < i; j++){
-                        if(forecastMap.containsKey(j)){
-                            averageSales += forecastMap.get(j);
+
+            for (int i = 1; i < cutoffDate; i++) {
+                forecastMap.putIfAbsent(i, 0.0);
+            }
+
+            for (int i = cutoffDate; i <= daysInMonth; i++) {
+                if (!forecastMap.containsKey(i)) {
+                    double sumSales = 0;
+                    int count = 0;
+                    for (int j = i - 5; j < i; j++) {
+                        if (forecastMap.containsKey(j)) {
+                            sumSales += forecastMap.get(j);
+                            count++;
                         }
                     }
-                    forecastMap.put(i, averageSales / 5.0);
+                    forecastMap.put(i, count > 0 ? sumSales / 5.0 : 0.0);
                 }
             }
+
         } else {
-            LocalDate now = LocalDate.now();
-            int currentMonth = now.getMonthValue();
-            int monthsInYear = now.lengthOfYear();
+            int currentMonth = today.getMonthValue();
 
-            //Gán cho những tháng trôi qua mà không có doanh thu = 0
-            for(int i = 1; i< currentMonth; i++) {
-                if( !forecastMap.containsKey(i) ) {
-                    forecastMap.put(i, 0.00);
-                }
+            int cutoffMonth;
+            if (year < today.getYear()) {
+                cutoffMonth = 13;
+            } else if (year == today.getYear()) {
+                cutoffMonth = currentMonth;
+            } else {
+                cutoffMonth = 1;
             }
-            for (int i = 1; i <= 12; i++) {
-                int averageSales = 0;
-                if(!forecastMap.containsKey(i)) {
-                    for (int j = i - 3; j < i; j++){
-                        if(forecastMap.containsKey(j)){
-                            averageSales += forecastMap.get(j);
+
+            for (int i = 1; i < cutoffMonth; i++) {
+                forecastMap.putIfAbsent(i, 0.0);
+            }
+
+            for (int i = cutoffMonth; i <= 12; i++) {
+                if (!forecastMap.containsKey(i)) {
+                    double sumSales = 0;
+                    for (int j = i - 3; j < i; j++) {
+                        if (forecastMap.containsKey(j)) {
+                            sumSales += forecastMap.get(j);
                         }
                     }
-                    forecastMap.put(i, averageSales / 3.0);
+                    forecastMap.put(i, sumSales / 3.0);
                 }
             }
         }

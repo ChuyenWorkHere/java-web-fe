@@ -29,9 +29,9 @@ public class OrderDelete extends HttpServlet {
         boolean isSuccess =  orderDAO.deleteOrder(orderId);
 
         if(isSuccess) {
-            response.sendRedirect("../admin/orders-view?title=order&action=del&noti=success");
+            response.sendRedirect(request.getContextPath() + "/admin/orders-view?title=order&action=del&noti=success");
         } else {
-            response.sendRedirect("../admin/orders-view?title=order&action=del&noti=failed");
+            response.sendRedirect(request.getContextPath() + "/admin/orders-view?title=order&action=del&noti=failed");
         }
     }
 

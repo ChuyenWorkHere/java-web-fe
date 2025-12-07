@@ -32,9 +32,9 @@ public class DeleteCategory extends HttpServlet {
         boolean isSuccess = categoryDAO.deleteCategory(categoryId);
 
         if(isSuccess) {
-            resp.sendRedirect("../admin/categories-view?title=category&action=del&noti=success");
+            resp.sendRedirect(req.getContextPath() + "/admin/categories-view?title=category&action=del&noti=success");
         } else {
-            resp.sendRedirect("../admin/categories-view?title=category&action=del&noti=failed");
+            resp.sendRedirect(req.getContextPath() + "/admin/categories-view?title=category&action=del&noti=failed");
         }
     }
 }

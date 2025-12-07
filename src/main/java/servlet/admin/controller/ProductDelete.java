@@ -33,9 +33,9 @@ public class ProductDelete extends HttpServlet {
         boolean isSuccess = productDAO.softDeleteProduct(productId);
 
         if(isSuccess) {
-            resp.sendRedirect("../admin/products-view?title=product&action=del&noti=success");
+            resp.sendRedirect(req.getContextPath() + "/admin/products-view?title=product&action=del&noti=success");
         } else {
-            resp.sendRedirect("../admin/products-view?title=product&action=del&noti=failed");
+            resp.sendRedirect(req.getContextPath()+ "/admin/products-view?title=product&action=del&noti=failed");
         }
     }
 }

@@ -45,9 +45,9 @@ public class AddCategory extends HttpServlet {
 
         boolean isSucess = categoryDAO.saveCategory(category);
         if(isSucess) {
-            resp.sendRedirect("../categories-view?title=category&action=add&noti=success");
+            resp.sendRedirect(req.getContextPath() + "/admin/categories-view?title=category&action=add&noti=success");
         } else {
-            resp.sendRedirect("../categories-view?title=category&action=add&noti=failed");
+            resp.sendRedirect(req.getContextPath() + "/admin/categories-view?title=category&action=add&noti=failed");
         }
 
     }

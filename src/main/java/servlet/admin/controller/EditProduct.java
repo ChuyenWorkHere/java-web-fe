@@ -176,14 +176,14 @@ public class EditProduct extends HttpServlet {
             ProductDAO productDAO = new ProductDAOImpl();
             boolean isSuccess = productDAO.editProduct(productId, product);
             if(isSuccess) {
-                response.sendRedirect("../products-view?title=product&action=edit&noti=success");
+                response.sendRedirect(request.getContextPath() + "/admin/products-view?title=product&action=edit&noti=success");
             } else {
-                response.sendRedirect("../products-view?title=product&action=edit&noti=failed");
+                response.sendRedirect(request.getContextPath() + "/admin/products-view?title=product&action=edit&noti=failed");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("../products-view?title=product&action=edit&noti=failed");
+            response.sendRedirect(request.getContextPath() + "/admin/products-view?title=product&action=edit&noti=failed");
         }
 
     }

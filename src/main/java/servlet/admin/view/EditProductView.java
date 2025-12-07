@@ -53,7 +53,6 @@ public class EditProductView extends HttpServlet {
 
 		String productImgUrl = product.getProductImageUrl();
 
-		List<String> colorArray = List.of(ProductUtils.colorArray(productImgUrl));
 		List<String> fileArray = List.of(ProductUtils.urlArray(productImgUrl));
 
 		List<Category> categories = categoryDAO.findAllActiveCategories(100, 1, "ASC", "category_id" );
@@ -144,7 +143,7 @@ public class EditProductView extends HttpServlet {
 		out.append("                  </div>");
 		out.append("                  <div class=\"col-md-6 mb-3\">");
 		out.append("                    <label for=\"status\" class=\"form-label\">Trạng thái</label>");
-		out.append("                    <select id=\"status\" name=\"status\" class=\"form-select text-white fw-semibold\">");
+		out.append("                    <select id=\"status\" name=\"status\" class=\"form-select text-black \">");
 		out.append("                      <option value=\"1\" "+ (product.isProductEnable() ? "selected" : "")+">Hoạt động</option>");
 		out.append("                      <option value=\"0\" "+(product.isProductEnable() ? "" : "selected")+">Bảo trì</option>");
 		out.append("                    </select>");
@@ -185,21 +184,6 @@ public class EditProductView extends HttpServlet {
 			out.append("                    </div>");
 		}
 
-		out.append("                  </div>");
-		out.append("                </div>");
-		out.append("                <div class=\"col-xl-12 col-md-12\">");
-		out.append("                  <h5 class=\"card-title\">Màu sắc</h5>");
-		out.append("                  <div class=\"color-container\">");
-
-		for(String color : colorArray) {
-			out.append("                    <div class=\"color-wrapper col-auto mb-2\">");
-			out.append("                      <input type=\"color\" name=\"productColors[]\" class=\"color-box p-0\" value=\""+color+"\">");
-			out.append("                    </div>");
-		}
-
-		out.append("                    <div class=\"color-wrapper col-auto mb-2\">");
-		out.append("                      <button type=\"button\" class=\"color-box add-color\"><i class=\"bi bi-plus\"></i></button>");
-		out.append("                    </div>");
 		out.append("                  </div>");
 		out.append("                </div>");
 		out.append("              </div>");
