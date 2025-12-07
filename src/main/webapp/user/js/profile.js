@@ -21,6 +21,10 @@ profileForm.addEventListener("submit", function(event) {
 
     const nameInput = document.getElementById("nameInput");
     const phoneInput = document.getElementById("phoneInput");
+    const addressInput = document.getElementById("addressInput");
+    const city = document.getElementById("city");
+    const district = document.getElementById("district");
+    const convince = document.getElementById("convince");
     const phoneRegex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
 
     let isValid = true;
@@ -35,6 +39,23 @@ profileForm.addEventListener("submit", function(event) {
 
     if (phoneInput.value.trim() !== "" && !phoneRegex.test(phoneInput.value.trim())) {
         phoneInput.classList.add("is-invalid");
+        isValid = false;
+    }
+
+    if (addressInput.value.trim() === "") {
+        addressInput.classList.add("is-invalid");
+        isValid = false;
+    }
+    if (city.value.trim() === "") {
+        city.classList.add("is-invalid");
+        isValid = false;
+    }
+    if (district.value.trim() === "") {
+        district.classList.add("is-invalid");
+        isValid = false;
+    }
+    if (convince.value.trim() === "") {
+        convince.classList.add("is-invalid");
         isValid = false;
     }
 

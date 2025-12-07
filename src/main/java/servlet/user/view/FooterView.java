@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -132,11 +133,12 @@ public class FooterView extends HttpServlet {
         out.append("            </div>");
         out.append("        </div>");
         out.append("    </div> <!-- end fullscreen search -->");
-        out.append("      <!-- Container để chứa alert -->");
-        out.append("      <div id=\"alert-container\" class = \"z-2 position-absolute\"></div>");
+
         out.append("");
-        out.append("");
-        out.append("		<!-- JS here -->");
+
+        // --- BẮT ĐẦU PHẦN SỬA LẠI ---
+
+        out.append("       ");
         out.append("        <script src=\"../user/js/vendor/jquery-1.12.4.min.js\"></script>");
         out.append("        <script src=\"../user/js/popper.min.js\"></script>");
         out.append("        <script src=\"../user/js/bootstrap.min.js\"></script>");
@@ -154,6 +156,47 @@ public class FooterView extends HttpServlet {
         out.append("        <script src=\"../user/js/plugins.js\"></script>");
         out.append("        <script src=\"../user/js/main.js\"></script>");
         out.append("        <script src=\"../user/js/showAlert.js\"></script>");
+
+        // 1. Load thư viện Toastr
+        out.append("        ");
+        out.append("        <script src=\"https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js\"></script>");
+
+        out.append("<script>\n");
+
+        out.append("    toastr.options = {\n");
+        out.append("        'closeButton': true,\n");
+        out.append("        'progressBar': true,\n");
+        out.append("        'positionClass': 'toast-bottom-right',\n");
+        out.append("        'timeOut': '3000'\n");
+        out.append("    };\n");
+
+        HttpSession session = req.getSession();
+        String message = (String) session.getAttribute("toast_message");
+        String type = (String) session.getAttribute("toast_type");
+
+        if (message != null && type != null) {
+            String safeMessage = message.replace("'", "\\'").replace("\"", "\\\"");
+
+            out.append("    window.addEventListener('load', function() {\n");
+
+            out.append("        setTimeout(function() {\n");
+
+            if ("success".equals(type)) {
+                out.append("            toastr.success('" + safeMessage + "');\n");
+            } else if ("error".equals(type)) {
+                out.append("            toastr.error('" + safeMessage + "');\n");
+            } else if ("warning".equals(type)) {
+                out.append("            toastr.warning('" + safeMessage + "');\n");
+            }
+
+            out.append("        }, 500);\n");
+            out.append("    });\n");
+
+            session.removeAttribute("toast_message");
+            session.removeAttribute("toast_type");
+        }
+
+        out.append("</script>\n");
         out.append("    </body>");
         out.append("");
         out.append("</html>");

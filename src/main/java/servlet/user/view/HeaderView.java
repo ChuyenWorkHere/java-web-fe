@@ -90,7 +90,7 @@ public class HeaderView extends HttpServlet {
         out.append("");
         out.append("		<link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"" + req.getContextPath() + "/user/img/favicon.png\">");
         out.append("        <!-- Place favicon.ico in the root directory -->");
-        out.append("");
+
         out.append("		<!-- CSS here -->");
         out.append("        <link rel=\"stylesheet\" href=\"" + req.getContextPath() + "/user/css/bootstrap.min.css\">");
         out.append("        <link rel=\"stylesheet\" href=\"" + req.getContextPath() + "/user/css/owl.carousel.min.css\">");
@@ -104,6 +104,18 @@ public class HeaderView extends HttpServlet {
         out.append("        <link rel=\"stylesheet\" href=\"" + req.getContextPath() + "/user/css/style.css\">");
         out.append("        <link rel=\"stylesheet\" href=\"" + req.getContextPath() + "/user/css/responsive.css\">");
         out.append("        <link rel=\"stylesheet\" href=\"" + req.getContextPath() + "/user/css/profile.css\">");
+        out.append("        <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css\">");
+        out.append("        <style>");
+        out.append("            #toast-container {");
+        out.append("                z-index: 9999999 !important;");
+        out.append("            }");
+        out.append("            #toast-container > div {");
+        out.append("                opacity: 1 !important;");
+        out.append("            }");
+        out.append("        </style>");
+        out.append("        <script>");
+        out.append("            const CONTEXT_PATH = '"+ req.getContextPath() +"';");
+        out.append("        </script>");
         out.append("    </head>");
         out.append("    <body>");
         out.append("");
@@ -221,9 +233,9 @@ public class HeaderView extends HttpServlet {
         out.append("                        <div class=\"col-xl-2 col-lg-6 col-md-6 col-5 col-sm-7 pl-0\">");
         out.append("                            <div class=\"header-right f-right\">");
         out.append("                                <ul>");
-        out.append("                                    <li class=\"search-btn\">");
-        out.append("                                        <a class=\"search-btn nav-search search-trigger\" href=\"#\"><i class=\"fas fa-search\"></i></a>");
-        out.append("                                    </li>");
+//        out.append("                                    <li class=\"search-btn\">");
+//        out.append("                                        <a class=\"search-btn nav-search search-trigger\" href=\"#\"><i class=\"fas fa-search\"></i></a>");
+//        out.append("                                    </li>");
         if (loggedInUser == null) {
             out.append("                                    <li class=\"login-btn\">");
             out.append("                                        <a href=\"" + req.getContextPath() + "/public/login\"><i class=\"far fa-user\"></i></a>");
@@ -231,7 +243,7 @@ public class HeaderView extends HttpServlet {
         } else {
             out.append("									<li class=\"search-btn p-0\">");
             out.append("                                        <a href=\"#\" >");
-            out.append("                                            <img class=\"rounded-circle\" style=\"border: 3px solid tomato;\" src=\" "+ (loggedInUser.getAvatar() == null ? "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg" : (req.getContextPath() + loggedInUser.getAvatar())) +"\" alt=\"\">");
+            out.append("                                            <img class=\"rounded-circle\" style=\"border: 3px solid tomato; width: 52px; height: 52px;\" src=\" "+ (loggedInUser.getAvatar() == null ? "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg" : (req.getContextPath() + loggedInUser.getAvatar())) +"\" alt=\"\">");
             out.append("                                        </a>");
             out.append("                                        <ul class=\"miniuser p-0\" style=\"width: 200px;\">");
             out.append("                                            <li>");

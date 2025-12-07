@@ -120,7 +120,6 @@ public class OrdersView extends HttpServlet {
         out.append("                      <option value=\"all\">Tất cả</option>");
         out.append("                      <option value=\"CASH_ON_DELIVERY\">COD</option>");
         out.append("                      <option value=\"BANK_TRANSFER\">Chuyển khoản</option>");
-        out.append("                      <option value=\"CREDIT_CARD\">Thẻ tín dụng</option>");
         out.append("                    </select>");
         out.append("                  </div>");
 
@@ -162,13 +161,13 @@ public class OrdersView extends HttpServlet {
                     idAttr = " id=\"successful-orders\"";
                     break;
                 case "PENDING":
-                    label = "Đang xử lý";
-                    bgColor = "bg-warning bg-opacity-25";
+                    label = "Chờ xác nhận";
+                    bgColor = "bg-secondary bg-opacity-25";
                     idAttr = " id=\"processing-orders\"";
                     break;
                 case "SHIPPING":
                     label = "Đang giao";
-                    bgColor = "bg-primary bg-opacity-25";
+                    bgColor = "bg-warning bg-opacity-25";
                     idAttr = "";
                     break;
                 case "CANCELLED":

@@ -131,15 +131,13 @@ public class AddProduct extends HttpServlet {
             ProductDAO productDAO = new ProductDAOImpl();
             boolean isSuccess = productDAO.saveProduct(product);
             if(isSuccess) {
-                response.sendRedirect("../products-view?title=product&action=add&noti=success");
+                response.sendRedirect(request.getContextPath()+ "/products-view?title=product&action=add&noti=success");
             } else {
-                response.sendRedirect("../products-view?title=product&action=add&noti=failed");
+                response.sendRedirect(request.getContextPath()+ "/products-view?title=product&action=add&noti=failed");
             }
 
-        } catch (NumberFormatException e) {
-            response.sendRedirect("/products-view?title=product&action=add&noti=failed");
         } catch (Exception e) {
-            response.sendRedirect("/products-view?title=product&action=add&noti=failed");
+            response.sendRedirect(request.getContextPath() + "/products-view?title=product&action=add&noti=failed");
         }
 
     }

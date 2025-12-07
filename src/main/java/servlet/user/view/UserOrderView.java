@@ -4,7 +4,9 @@ import servlet.constants.OrderStatus;
 import servlet.constants.PaymentMethod;
 import servlet.constants.PaymentStatus;
 import servlet.dao.OrderDAO;
+import servlet.dao.ReviewDAO;
 import servlet.dao.impl.OrderDAOImpl;
+import servlet.dao.impl.ReviewDAOImpl;
 import servlet.models.Order;
 import servlet.models.OrderItem;
 import servlet.models.ShippingAddress;
@@ -26,9 +28,11 @@ import java.util.List;
 public class UserOrderView extends HttpServlet {
 
     private OrderDAO orderDAO;
+    private ReviewDAO reviewDAO;
 
     public UserOrderView() {
         orderDAO = new OrderDAOImpl();
+        reviewDAO = new ReviewDAOImpl();
     }
 
     @Override
@@ -149,7 +153,13 @@ public class UserOrderView extends HttpServlet {
                     out.append("                                        <div class=\"flex-grow-1 d-flex flex-column ml-3\">");
                     out.append("                                            <h5 class=\"mb-1\">"+item.getProduct().getProductName()+"</h5>");
                     out.append("                                            <p class=\"text-muted\">Số lượng: "+item.getOrderQuantity()+"</p>");
-                    out.append("                                            <a style=\"max-width: 90px;\" href=\""+ (request.getContextPath() + "/public/product-detail?mode=review&&productId="+item.getProduct().getProductId()) +"\" class=\"bg-primary text-center px-3 py-2 text-white w-25\">Đánh giá</a>");
+                    if(OrderStatus.DELIVERED.toString().equals(order.getOrderStatus())){
+                        if(reviewDAO.hasUserReviewedProduct(loggedInUser.getUserId(), item.getProduct().getProductId())) {
+                            out.append("                                            <span class=\"bg-secondary text-center px-3 py-2 text-white pe-none align-self-start\">Đã đánh giá</span>");
+                        } else {
+                            out.append("                                            <a href=\""+ (request.getContextPath() + "/public/product-detail?mode=review&&productId="+item.getProduct().getProductId()) +"\" class=\"bg-primary text-center px-3 py-2 text-white align-self-start\">Đánh giá</a>");
+                        }
+                    }
                     out.append("                                        </div>");
                     out.append("                                    </div>");
                     out.append("                                    <div class=\"text-end\">");

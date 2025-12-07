@@ -33,6 +33,22 @@ public class UserProfileView extends HttpServlet {
             return;
         }
 
+        String userAddress = user.getAddress();
+        String city = "";
+        String district = "";
+        String convince = "";
+        String address = "";
+
+        if(userAddress != null) {
+            String[] addressParts = userAddress.split("##");
+            if (addressParts.length == 4) {
+                city = addressParts[0];
+                district = addressParts[1];
+                convince = addressParts[2];
+                address = addressParts[3];
+            }
+        }
+
         RequestDispatcher headerDispatcher = request.getRequestDispatcher("/public/header-view");
         headerDispatcher.include(request, response);
         PrintWriter out = response.getWriter();
@@ -86,7 +102,7 @@ public class UserProfileView extends HttpServlet {
         out.append("                <p><i class=\"fas fa-envelope\"></i> Email: <span id=\"emailText\">"+ user.getEmail() +"</span>");
         out.append("                </p>");
         out.append("                <p><i class=\"fas fa-phone\"></i> SĐT: <span id=\"phoneText\">"+ (user.getPhoneNumber() != null ? user.getPhoneNumber() : "Chưa cập nhật") +"</span></p>");
-        out.append("                <p><i class=\"fas fa-map-marker-alt\"></i> Địa chỉ: <span id=\"addressText\">"+ (user.getAddress() != null ? user.getAddress() : "Chưa cập nhật") +"</span></p>");
+        out.append("                <p><i class=\"fas fa-map-marker-alt\"></i> Địa chỉ: <span id=\"addressText\">"+ (user.getAddress() != null ? user.getAddress().replaceAll("##", ", ") : "Chưa cập nhật") +"</span></p>");
         out.append("                <a href=\"#\" class=\"btn-edit\" id=\"editBtn\"><i class=\"fas fa-edit text-white\"></i> Sửa Hồ Sơ</a>");
         out.append("              </div>");
         out.append("");
@@ -94,7 +110,7 @@ public class UserProfileView extends HttpServlet {
         out.append("                <form id=\"profileForm\" action=\"/Furniture/customer/profile/update\" method=\"post\">");
         out.append("                  <div class=\"form-group mb-2\">");
         out.append("                    <label>Họ tên:</label>");
-        out.append("                    <input type=\"text\" class=\"form-control\" id=\"nameInput\" name=\"nameInput\" value=\""+ user.getFullname() +"\">");
+        out.append("                    <input type=\"text\" class=\"form-control\" id=\"nameInput\" name=\"nameInput\" required value=\""+ user.getFullname() +"\">");
         out.append("                    <div class=\"invalid-feedback\">Họ tên không được để trống.</div>");
         out.append("                  </div>");
         out.append("                  <div class=\"form-group mb-2\">");
@@ -107,20 +123,32 @@ public class UserProfileView extends HttpServlet {
         out.append("                  </div>");
         out.append("                  <div class=\"form-group mb-2\">");
         out.append("                    <label>Email:</label>");
-        out.append("                    <input type=\"email\" class=\"form-control\" id=\"emailInput\" name=\"emailInput\" value=\""+ user.getEmail() +"\" readonly>");
+        out.append("                    <input type=\"email\" class=\"form-control\" id=\"emailInput\" name=\"emailInput\" required value=\""+ user.getEmail() +"\" readonly>");
         out.append("                  </div>");
         out.append("                  <div class=\"form-group mb-2\">");
         out.append("                    <label>SĐT:</label>");
-        out.append("                    <input type=\"text\" class=\"form-control\" id=\"phoneInput\" name=\"phoneInput\" value=\""+ (user.getPhoneNumber() != null ? user.getPhoneNumber() : "") +"\">");
+        out.append("                    <input type=\"text\" class=\"form-control\" id=\"phoneInput\" name=\"phoneInput\" required value=\""+ (user.getPhoneNumber() != null ? user.getPhoneNumber() : "") +"\">");
         out.append("                    <div class=\"invalid-feedback\">Vui lòng nhập số điện thoại hợp lệ (10 số, bắt đầu bằng 0).</div>");
         out.append("                  </div>");
         out.append("                  <div class=\"form-group mb-3\">");
-        out.append("                    <label>Địa chỉ:</label>");
-        out.append("                    <input type=\"text\" class=\"form-control\" id=\"addressInput\" name=\"addressInput\" value=\""+ (user.getAddress() != null ? user.getAddress() : "") +"\">");
+        out.append("                    <label>Địa chỉ chi tiết:</label>");
+        out.append("                    <input type=\"text\" class=\"form-control\" id=\"addressInput\" name=\"addressInput\" required value=\""+ (!"".equals(address) ? address : "") +"\">");
+        out.append("                  </div>");
+        out.append("                  <div class=\"form-group mb-3\">");
+        out.append("                    <label>Tỉnh/ Thành phố:</label>");
+        out.append("                    <input type=\"text\" class=\"form-control\" id=\"city\" name=\"city\" required value=\""+ (!"".equals(city) ? city : "") +"\">");
+        out.append("                  </div>");
+        out.append("                  <div class=\"form-group mb-3\">");
+        out.append("                    <label>Quận/Huyện:</label>");
+        out.append("                    <input type=\"text\" class=\"form-control\" id=\"district\" name=\"district\" required value=\""+ (!"".equals(district) ? district : "") +"\">");
+        out.append("                  </div>");
+        out.append("                  <div class=\"form-group mb-3\">");
+        out.append("                    <label>Xã/Phường/Thị trấn:</label>");
+        out.append("                    <input type=\"text\" class=\"form-control\" id=\"convince\" name=\"convince\" required value=\""+ (!"".equals(convince) ? convince : "") +"\">");
         out.append("                  </div>");
         out.append("");
         out.append("                  <button type=\"submit\" class=\"btn-edit\" id=\"saveBtn\"><i class=\"fas fa-save text-white\"></i> Lưu</button>");
-        out.append("                  <button class=\"btn-edit\" style=\"background:#6c757d;\" id=\"cancelBtn\">");
+        out.append("                  <button type=\"button\" class=\"btn-edit\" style=\"background: #6c757d;\" id=\"cancelBtn\">");
         out.append("                    <i class=\"fas fa-times text-white\"></i> Hủy");
         out.append("                  </button>");
         out.append("                </form>");

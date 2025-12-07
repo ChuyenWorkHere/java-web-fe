@@ -1,6 +1,7 @@
 package servlet.dao.impl;
 
 import servlet.constants.OrderStatus;
+import servlet.constants.PaymentMethod;
 import servlet.constants.PaymentStatus;
 import servlet.dao.OrderDAO;
 import servlet.dao.UserDAO;
@@ -454,6 +455,20 @@ public class OrderDAOImpl implements OrderDAO {
         try (Connection conn = DataSourceUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, status.toString());
+            ps.setInt(2, orderId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updatePaymentMethod(int orderId, PaymentMethod method) {
+        String sql = "UPDATE orders SET payment_method = ? WHERE order_id = ?";
+        try (Connection conn = DataSourceUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, method.toString());
             ps.setInt(2, orderId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {

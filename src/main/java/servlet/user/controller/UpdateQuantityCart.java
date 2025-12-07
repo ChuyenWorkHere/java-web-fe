@@ -14,6 +14,7 @@ import java.io.IOException;
 
 @WebServlet("/customer/cart/update-quantity")
 public class UpdateQuantityCart extends HttpServlet {
+    private static final long serialVersionUID = 1L;
     private CartDAO cartDAO;
 
     @Override
@@ -23,11 +24,16 @@ public class UpdateQuantityCart extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("customer");
 
+        // 1. Kiểm tra đăng nhập
         if (user == null) {
-            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            session.setAttribute("toast_message", "Vui lòng đăng nhập để thực hiện chức năng này!");
+            session.setAttribute("toast_type", "warning");
+
+            resp.setStatus(HttpServletResponse.SC_OK);
             return;
         }
 
@@ -37,13 +43,29 @@ public class UpdateQuantityCart extends HttpServlet {
 
             if (quantity > 0) {
                 cartDAO.updateCartItemQuantity(productId, user.getUserId(), quantity);
-                resp.sendRedirect(req.getContextPath() + "/customer/cart");
+
+                session.setAttribute("toast_message", "Cập nhật số lượng thành công!");
+                session.setAttribute("toast_type", "success");
             } else {
-                resp.sendRedirect(req.getContextPath() + "/customer/cart");
+                session.setAttribute("toast_message", "Số lượng sản phẩm không hợp lệ!");
+                session.setAttribute("toast_type", "warning");
             }
+
+            resp.setStatus(HttpServletResponse.SC_OK);
+
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            resp.sendRedirect(req.getContextPath() + "/customer/cart");
+            session.setAttribute("toast_message", "Dữ liệu không hợp lệ!");
+            session.setAttribute("toast_type", "error");
+
+            resp.setStatus(HttpServletResponse.SC_OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.setAttribute("toast_message", "Lỗi hệ thống: " + e.getMessage());
+            session.setAttribute("toast_type", "error");
+
+            resp.setStatus(HttpServletResponse.SC_OK);
         }
     }
 }

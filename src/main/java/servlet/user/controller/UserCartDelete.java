@@ -34,7 +34,11 @@ public class UserCartDelete extends HttpServlet {
         try {
             int productId = Integer.parseInt(req.getParameter("productId"));
             cartDAO.deleteCartItem(productId, user.getUserId());
+            session.setAttribute("toast_message", "Xóa sản phẩm khỏi giỏ hàng thành công!");
+            session.setAttribute("toast_type", "success");
         } catch (NumberFormatException e) {
+            session.setAttribute("toast_message", "Xóa sản phẩm khỏi giỏ hàng thất bại!");
+            session.setAttribute("toast_type", "error");
             resp.sendRedirect(req.getContextPath() + "/customer/cart");
         }
 

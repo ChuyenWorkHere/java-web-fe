@@ -56,11 +56,14 @@ public class ReviewAdd extends HttpServlet {
             review.setProduct(product);
 
             reviewDAO.addReview(review);
-
+            session.setAttribute("toast_message", "Gửi đánh giá thành công!");
+            session.setAttribute("toast_type", "success");
             response.sendRedirect(request.getContextPath() + "/public/product-detail?productId=" + productId + "&review_success=true");
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
+            session.setAttribute("toast_message", "Thông tin đánh giá không hợp lệ!");
+            session.setAttribute("toast_type", "error");
             response.sendRedirect(request.getContextPath() + "/public/product-detail?productId=" + productIdStr + "&error=invalid_data");
         }
     }

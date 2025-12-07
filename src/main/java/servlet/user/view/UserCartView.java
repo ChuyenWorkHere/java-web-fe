@@ -147,9 +147,6 @@ public class UserCartView extends HttpServlet {
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/public/footer-view");
 		footerDispatcher.include(request, response);
 
-		out.append("<script>");
-		out.append("    const CONTEXT_PATH = '"+ request.getContextPath() +"';");
-		out.append("</script>");
 		out.append("<script src=\"../user/js/cart.js\"></script>");
 
 	}

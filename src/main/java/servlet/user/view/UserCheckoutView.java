@@ -48,9 +48,28 @@ public class UserCheckoutView extends HttpServlet {
 			cartSubtotal += price * item.getQuantity();
 		}
 
+		String userAddress = loggedInUser.getAddress();
+		String city = "";
+		String district = "";
+		String convince = "";
+		String address = "";
+
+		if(userAddress != null) {
+			String[] addressParts = userAddress.split("##");
+			if(addressParts.length == 4) {
+				city = addressParts[0];
+				district = addressParts[1];
+				convince = addressParts[2];
+				address = addressParts[3];
+			}
+		}
+
+
+
 		PrintWriter out = response.getWriter();
 		RequestDispatcher headerDispatcher = request.getRequestDispatcher("/public/header-view");
 		headerDispatcher.include(request, response);
+
 
 		out.append("<main>");
 		out.append("");
@@ -85,43 +104,56 @@ public class UserCheckoutView extends HttpServlet {
 		out.append("                                    <div class=\"col-md-12\">");
 		out.append("                                        <div class=\"checkout-form-list\">");
 		out.append("                                            <label>Họ và tên <span class=\"required\">*</span></label>");
-		out.append("                                            <input type=\"text\" name=\"fullName\" value=\""+loggedInUser.getFullname()+"\" placeholder=\"\" />");
+		out.append("                                            <input type=\"text\" class=\"form-control\" name=\"fullName\" value=\""+loggedInUser.getFullname()+"\" placeholder=\"\" />");
+		out.append("                                            <div class=\"invalid-feedback\"></div>");
 		out.append("                                        </div>");
 		out.append("                                    </div>");
+
 		out.append("                                    <div class=\"col-md-12\">");
 		out.append("                                        <div class=\"checkout-form-list\">");
 		out.append("                                            <label>Địa chỉ <span class=\"required\">*</span></label>");
-		out.append("                                            <input type=\"text\" name=\"address\" value=\""+loggedInUser.getAddress()+"\" placeholder=\"Địa chỉ chi tiết\" />");
+		out.append("                                            <input type=\"text\" class=\"form-control\" name=\"address\" value=\""+address+"\" placeholder=\"Địa chỉ chi tiết\" />");
+		out.append("                                            <div class=\"invalid-feedback\"></div>");
 		out.append("                                        </div>");
 		out.append("                                    </div>");
+
 		out.append("                                    <div class=\"col-md-12\">");
 		out.append("                                        <div class=\"checkout-form-list\">");
 		out.append("                                            <label>Tỉnh/ Thành phố <span class=\"required\">*</span></label>");
-		out.append("                                            <input type=\"text\" name=\"city\" placeholder=\"Tỉnh/ Thành phố\" />");
+		out.append("                                            <input type=\"text\" class=\"form-control\" name=\"city\" value=\""+city+"\" placeholder=\"Tỉnh/ Thành phố\" />");
+		out.append("                                            <div class=\"invalid-feedback\"></div>");
 		out.append("                                        </div>");
 		out.append("                                    </div>");
+
 		out.append("                                    <div class=\"col-md-6\">");
 		out.append("                                        <div class=\"checkout-form-list\">");
 		out.append("                                            <label>Quận/Huyện <span class=\"required\">*</span></label>");
-		out.append("                                            <input type=\"text\" name=\"district\" placeholder=\"\" />");
+		out.append("                                            <input type=\"text\" class=\"form-control\" name=\"district\" value=\""+district+"\" placeholder=\"\" />");
+		out.append("                                            <div class=\"invalid-feedback\"></div>");
 		out.append("                                        </div>");
 		out.append("                                    </div>");
+
 		out.append("                                    <div class=\"col-md-6\">");
 		out.append("                                        <div class=\"checkout-form-list\">");
 		out.append("                                            <label>Xã/Phường/Thị trấn <span class=\"required\">*</span></label>");
-		out.append("                                            <input type=\"text\" name=\"ward\" placeholder=\"\" />");
+		out.append("                                            <input type=\"text\" class=\"form-control\" name=\"ward\" value=\""+convince+"\" placeholder=\"\" />");
+		out.append("                                            <div class=\"invalid-feedback\"></div>");
 		out.append("                                        </div>");
 		out.append("                                    </div>");
+
 		out.append("                                    <div class=\"col-md-6\">");
 		out.append("                                        <div class=\"checkout-form-list\">");
 		out.append("                                            <label>Số điện thoại <span class=\"required\">*</span></label>");
-		out.append("                                            <input type=\"text\" name=\"phone\" value=\""+loggedInUser.getPhoneNumber()+"\" placeholder=\"\" />");
+		out.append("                                            <input type=\"text\" class=\"form-control\" name=\"phone\" value=\""+ (loggedInUser.getPhoneNumber() == null ? "" : loggedInUser.getPhoneNumber())+"\" placeholder=\"\" />");
+		out.append("                                            <div class=\"invalid-feedback\"></div>");
 		out.append("                                        </div>");
 		out.append("                                    </div>");
+
 		out.append("                                    <div class=\"col-md-6\">");
 		out.append("                                        <div class=\"checkout-form-list\">");
 		out.append("                                            <label>Địa chỉ email <span class=\"required\">*</span></label>");
-		out.append("                                            <input type=\"email\" name=\"email\" value=\""+loggedInUser.getEmail()+"\" placeholder=\"\" />");
+		out.append("                                            <input type=\"email\" class=\"form-control\" name=\"email\" value=\""+loggedInUser.getEmail()+"\" placeholder=\"\" />");
+		out.append("                                            <div class=\"invalid-feedback\"></div>");
 		out.append("                                        </div>");
 		out.append("                                    </div>");
 		out.append("                                </div>");
@@ -207,7 +239,7 @@ public class UserCheckoutView extends HttpServlet {
 		out.append("");
 		out.append("");
 		out.append("</main>");
-
+		out.append("  <script src=\""+ request.getContextPath() +"/user/js/checkout.js\"></script>");
 		RequestDispatcher footerDispatcher = request.getRequestDispatcher("/public/footer-view");
 		footerDispatcher.include(request, response);
 	}

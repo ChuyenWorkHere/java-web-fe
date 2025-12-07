@@ -61,6 +61,11 @@ public class ImageProfileUpdate extends HttpServlet {
             userDAO.updateAvatar(user.getUserId(), dbPath);
             user.setAvatar(dbPath);
             session.setAttribute("customer", user);
+            session.setAttribute("toast_message", "Cập nhật ảnh đại diện thành công!");
+            session.setAttribute("toast_type", "success");
+        } else {
+            session.setAttribute("toast_message", "Không tìm thấy ảnh đại diện!");
+            session.setAttribute("toast_type", "error");
         }
     }
 }

@@ -1,6 +1,7 @@
 package servlet.admin.controller;
 
 import servlet.constants.OrderStatus;
+import servlet.constants.PaymentStatus;
 import servlet.dao.OrderDAO;
 import servlet.dao.OrderItemsDAO;
 import servlet.dao.ProductDAO;
@@ -43,18 +44,19 @@ public class OrderStatusUpdate extends HttpServlet {
         if(String.valueOf(OrderStatus.SHIPPING).equalsIgnoreCase(orderStatus)) {
             check = orderDAO.updateOrderStatus(orderId, OrderStatus.SHIPPING);
 
+        } else if (String.valueOf(OrderStatus.DELIVERED).equalsIgnoreCase(orderStatus)) {
+            check = orderDAO.updateOrderStatus(orderId, OrderStatus.DELIVERED)
+                    && orderDAO.updatePaymentStatus(orderId, PaymentStatus.PAID);
+        } else if (String.valueOf(OrderStatus.CANCELLED).equalsIgnoreCase(orderStatus)) {
+
             List<OrderItem> orderItems = orderItemsDAO.getAllOrderItemsByOrderId(orderId);
             for (OrderItem orderItem : orderItems) {
                 Product product = productDAO.findById(orderItem.getProduct().getProductId());
 
-                product.setProductTotal(product.getProductTotal() - orderItem.getOrderQuantity());
+                product.setProductTotal(product.getProductTotal() + orderItem.getOrderQuantity());
 
                 productDAO.editProduct(product.getProductId(), product);
             }
-
-        } else if (String.valueOf(OrderStatus.DELIVERED).equalsIgnoreCase(orderStatus)) {
-            check = orderDAO.updateOrderStatus(orderId, OrderStatus.DELIVERED);
-        } else if (String.valueOf(OrderStatus.CANCELLED).equalsIgnoreCase(orderStatus)) {
             check = orderDAO.updateOrderStatus(orderId, OrderStatus.CANCELLED);
         }
 

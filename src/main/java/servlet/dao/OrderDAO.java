@@ -1,6 +1,7 @@
 package servlet.dao;
 
 import servlet.constants.OrderStatus;
+import servlet.constants.PaymentMethod;
 import servlet.constants.PaymentStatus;
 import servlet.models.Order;
 import java.util.Date;
@@ -30,6 +31,9 @@ public interface OrderDAO {
 
     //Cập nhật trạng thái thanh toán
     boolean updatePaymentStatus(int orderId, PaymentStatus status);
+
+    //Cập nhật phương thức thanh toán
+    boolean updatePaymentMethod(int orderId, PaymentMethod method);
 
     List<Map<String, Integer>> orderStatusCount();
 

@@ -89,7 +89,7 @@ public class UserProductDetailView extends HttpServlet {
 		out.append("                <div class=\"row\">");
 		out.append("                    <div class=\"col-xl-12\">");
 		out.append("                        <div class=\"breadcrumb-text text-center\">");
-		out.append("                            <h1>Details</h1>");
+		out.append("                            <h1>Chi tiết sản phẩm</h1>");
 		out.append("                            <ul class=\"breadcrumb-menu\">");
 		out.append("                                <li><a href=\"../public/home\">home</a></li>");
 		out.append("                                <li><span>shop details</span></li>");
@@ -151,7 +151,7 @@ public class UserProductDetailView extends HttpServlet {
 		out.append("");
 		out.append("                                <div class=\"product-Metarial variant-item py-3\">");
 		out.append("                                    <div class=\"variant-name\">");
-		out.append("                                        <span>Chất liệu</span>");
+		out.append("                                        <span>Chất liệu: "+productResponse.getMaterial().getMaterialName()+"</span>");
 		out.append("                                    </div>");
 		out.append("                                    <div class=\"product-desc mt-2\">");
 		out.append("                                        <p>"+productResponse.getMaterial().getDescription()+"</p>");
